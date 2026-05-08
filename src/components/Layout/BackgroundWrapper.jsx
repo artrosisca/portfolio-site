@@ -1,0 +1,56 @@
+import React, { useEffect, useRef } from 'react';
+
+const BackgroundWrapper = ({ children }) => {
+  const wrapperRef = useRef(null);
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (wrapperRef.current) {
+        // Calculate relative position of mouse
+        const rect = wrapperRef.current.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        wrapperRef.current.style.setProperty('--mouse-x', `${x}px`);
+        wrapperRef.current.style.setProperty('--mouse-y', `${y}px`);
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  return (
+    <div
+      ref={wrapperRef}
+      className="relative min-h-screen w-full bg-background overflow-hidden"
+    >
+      {/* Static Base Dot Grid layer */}
+      <div
+        className="pointer-events-none absolute inset-0 z-0 opacity-40"
+        style={{
+          backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(250, 229, 0, 0.2) 1px, transparent 0)',
+          backgroundSize: '32px 32px'
+        }}
+      />
+
+      {/* Interactive Hover Dot Grid layer (lights up dots around the cursor) */}
+      <div
+        className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-300"
+        style={{
+          backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(250, 229, 0, 0.29) 1.5px, transparent 0)',
+          backgroundSize: '32px 32px',
+          WebkitMaskImage: 'radial-gradient(300px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 100%)',
+          maskImage: 'radial-gradient(300px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 100%)'
+        }}
+      />
+
+      {/* Content */}
+      <div className="relative z-10 w-full h-full">
+        {children}
+      </div>
+    </div>
+  );
+};
+
+export default BackgroundWrapper;
