@@ -21,14 +21,14 @@ export const translations = {
       proficiency: "PROFICIÊNCIA"
     },
     tech: {
-      title: "ECOSSISTEMA",
+      title: "tech stack",
       subtitle: "Sistemas e ferramentas para orquestração e análise de dados.",
       popup_title: "Aplicações & Conceitos",
       popup_cta: "Ver projetos relacionados"
     },
     projects: {
-      title: "PROJETOS DE",
-      subtitle: "IMPACTO",
+      title: "projetos",
+      subtitle: "",
       architecture: "ARQUITETURA",
       view_github: "VER GITHUB",
       p1: {
@@ -47,8 +47,8 @@ export const translations = {
       }
     },
     contact: {
-      title: "CONEXÃO",
-      subtitle: "_REQUISITAR",
+      title: "Contato",
+      subtitle: "",
       description: "INTERESSADO EM OTIMIZAR SEUS PROCESSOS DE DADOS? VAMOS CONVERSAR.",
       status: "SISTEMA: NOMINAL",
       ready: "PRONTO PARA NOVAS OPERAÇÕES",
@@ -90,14 +90,14 @@ export const translations = {
       proficiency: "PROFICIENCY"
     },
     tech: {
-      title: "CORE",
+      title: "tech stack",
       subtitle: "Systems and tools for data orchestration and analysis.",
       popup_title: "Applications & Concepts",
       popup_cta: "See related projects"
     },
     projects: {
-      title: "IMPACT",
-      subtitle: "PROJECTS",
+      title: "projects",
+      subtitle: "",
       architecture: "ARCHITECTURE",
       view_github: "VIEW GITHUB",
       p1: {
@@ -116,8 +116,8 @@ export const translations = {
       }
     },
     contact: {
-      title: "CONNECTION",
-      subtitle: "_REQUEST",
+      title: "Contact",
+      subtitle: "",
       description: "INTERESTED IN OPTIMIZING YOUR DATA PROCESSES? LET'S TALK.",
       status: "SYSTEM: NOMINAL",
       ready: "READY FOR NEW OPERATIONS",

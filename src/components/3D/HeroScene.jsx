@@ -1,61 +1,92 @@
 import React, { useRef, useLayoutEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { useGLTF, ScrollControls, useScroll, Html, useProgress } from '@react-three/drei';
+import { useGLTF, ScrollControls, useScroll, useProgress } from '@react-three/drei';
 import * as THREE from 'three';
-function LoaderOverlay({ onLoaded, forceLoaded }) {
+
+/* ─── Loading Overlay (rendered OUTSIDE Canvas so it covers everything) ─── */
+function LoaderOverlay({ forceLoaded, onFadeComplete }) {
   const { progress } = useProgress();
-  const [opacity, setOpacity] = React.useState(1);
-  const [visible, setVisible] = React.useState(true);
+  const [phase, setPhase] = React.useState('loading'); // 'loading' | 'fading' | 'done'
   const [minTimeElapsed, setMinTimeElapsed] = React.useState(false);
 
+  // Ensure the loader shows for at least 2.5 s so the animation is visible
   React.useEffect(() => {
-    const timer = setTimeout(() => setMinTimeElapsed(true), 2000);
+    const timer = setTimeout(() => setMinTimeElapsed(true), 2500);
     return () => clearTimeout(timer);
   }, []);
 
-  let displayProgress = progress;
-  if (!minTimeElapsed && progress === 100) {
-    displayProgress = 99;
-  }
-  if (minTimeElapsed && forceLoaded) {
-    displayProgress = 100;
-  }
+  const displayProgress = (!minTimeElapsed && progress === 100)
+    ? 99
+    : (minTimeElapsed && forceLoaded) ? 100 : progress;
 
+  // When progress hits 100, begin fade-out
   React.useEffect(() => {
-    if (displayProgress === 100) {
-      setOpacity(0);
-      onLoaded();
-      const timer = setTimeout(() => setVisible(false), 1000);
+    if (displayProgress === 100 && phase === 'loading') {
+      setPhase('fading');
+      const timer = setTimeout(() => {
+        setPhase('done');
+        onFadeComplete();
+      }, 1200); // matches the CSS transition duration
       return () => clearTimeout(timer);
     }
-  }, [displayProgress, onLoaded]);
+  }, [displayProgress, phase, onFadeComplete]);
 
-  if (!visible) return null;
+  if (phase === 'done') return null;
 
   return (
-    <Html center zIndexRange={[100, 0]}>
-      <div
-        className="flex flex-col items-center justify-center w-screen h-screen bg-background transition-opacity duration-1000 ease-in-out pointer-events-none"
-        style={{ opacity }}
-      >
-        <div className="relative w-64 h-[2px] bg-white/5 overflow-hidden mb-6">
-          <div
-            className="absolute top-0 left-0 h-full bg-primary-fixed transition-all duration-500 ease-out"
-            style={{ width: `${displayProgress}%` }}
+    <div
+      className="fixed inset-0 z-[60] flex flex-col items-center justify-center bg-background pointer-events-none select-none"
+      style={{
+        opacity: phase === 'fading' ? 0 : 1,
+        transition: 'opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1)',
+      }}
+    >
+      {/* Outer ring spinner */}
+      <div className="relative w-28 h-28 mb-10">
+        {/* Rotating dashed ring */}
+        <svg className="absolute inset-0 w-full h-full animate-spin" style={{ animationDuration: '4s' }} viewBox="0 0 112 112">
+          <circle cx="56" cy="56" r="52" fill="none" stroke="rgba(255,222,0,0.08)" strokeWidth="1.5" />
+          <circle
+            cx="56" cy="56" r="52"
+            fill="none"
+            stroke="var(--color-primary-fixed)"
+            strokeWidth="1.5"
+            strokeDasharray="82 245"
+            strokeLinecap="round"
           />
-          <div className="absolute top-0 left-0 h-full w-20 bg-gradient-to-r from-transparent via-primary-fixed/30 to-transparent animate-[scan_2s_linear_infinite]" />
-        </div>
-
-        <div className="flex flex-col items-center gap-2">
-          <span className="font-code-sm text-primary-fixed text-[10px] uppercase tracking-[0.3em] animate-pulse">
-            Initializing Surveillance System
-          </span>
-          <span className="font-code-sm text-primary-fixed/50 text-[9px] uppercase tracking-[0.2em]">
-            Syncing Neural Link: {Math.round(displayProgress)}%
-          </span>
-        </div>
+        </svg>
+        {/* Counter-rotating inner ring */}
+        <svg className="absolute inset-3 w-[calc(100%-24px)] h-[calc(100%-24px)]" style={{ animation: 'spin 3s linear infinite reverse' }} viewBox="0 0 88 88">
+          <circle
+            cx="44" cy="44" r="40"
+            fill="none"
+            stroke="var(--color-primary-fixed)"
+            strokeWidth="0.5"
+            strokeDasharray="25 226"
+            strokeLinecap="round"
+            opacity="0.4"
+          />
+        </svg>
+        {/* Center percentage */}
+        <span className="absolute inset-0 flex items-center justify-center font-code-sm text-primary-fixed text-lg tabular-nums">
+          {Math.round(displayProgress)}
+        </span>
       </div>
-    </Html>
+
+      {/* Progress bar */}
+      <div className="relative w-48 h-px bg-white/5 overflow-hidden mb-5">
+        <div
+          className="absolute top-0 left-0 h-full bg-primary-fixed/80 transition-all duration-500 ease-out"
+          style={{ width: `${displayProgress}%` }}
+        />
+        <div className="absolute top-0 left-0 h-full w-16 bg-gradient-to-r from-transparent via-primary-fixed/20 to-transparent animate-[scan_2s_linear_infinite]" />
+      </div>
+
+      {/* Status text */}
+      <span className="font-code-sm text-primary-fixed/40 text-[9px] uppercase tracking-[0.25em]">
+        Syncing Neural Link
+      </span>
+    </div>
   );
 }
 
@@ -124,17 +155,47 @@ function CameraRig({ onEnterMonitor }) {
 
 import { useLanguage } from '../../contexts/LanguageContext';
 
+/* ─── Animated scroll-down chevrons ─── */
+function ScrollIndicator() {
+  return (
+    <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none z-10">
+      <span className="font-code-sm text-primary-fixed/70 text-[10px] uppercase tracking-[0.3em] mb-3">
+        Scroll
+      </span>
+      {/* Three stacked chevrons that pulse downward */}
+      <div className="flex flex-col items-center gap-[2px]">
+        {[0, 1, 2].map((i) => (
+          <svg
+            key={i}
+            width="14" height="8" viewBox="0 0 14 8"
+            className="text-primary-fixed"
+            style={{
+              opacity: 0,
+              animation: `chevronPulse 2s ease-in-out ${i * 0.25}s infinite`,
+            }}
+          >
+            <polyline
+              points="1,1 7,6 13,1"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function HeroScene({ onEnterMonitor }) {
-  const [isLoaded, setIsLoaded] = React.useState(false);
+  const [overlayDone, setOverlayDone] = React.useState(false);
   const [modelLoaded, setModelLoaded] = React.useState(false);
   const { lang, toggleLang } = useLanguage();
 
-  // useCallback to prevent infinite loops in LoaderOverlay's useEffect
-  const handleOverlayFinished = React.useCallback(() => {
-    // Delay setting isLoaded by 1s to match the overlay fade out duration
-    setTimeout(() => {
-      setIsLoaded(true);
-    }, 1000);
+  const handleFadeComplete = React.useCallback(() => {
+    setOverlayDone(true);
   }, []);
 
   const handleModelLoaded = React.useCallback(() => {
@@ -153,7 +214,6 @@ export default function HeroScene({ onEnterMonitor }) {
         }}
         onCreated={({ gl }) => gl.setClearColor(0x000000)}
       >
-        <LoaderOverlay onLoaded={handleOverlayFinished} forceLoaded={modelLoaded} />
         <React.Suspense fallback={null}>
           <ScrollControls pages={2.0} damping={0.2}>
             <RoomModel onModelLoaded={handleModelLoaded} />
@@ -162,29 +222,23 @@ export default function HeroScene({ onEnterMonitor }) {
         </React.Suspense>
       </Canvas>
 
-      {/* Scroll instruction appears only after loading is complete */}
-      {isLoaded && (
-        <>
-          <div
-            className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center animate-bounce text-primary-fixed font-code-sm text-xs uppercase tracking-[0.2em] pointer-events-none z-10 transition-opacity duration-1000"
-            style={{ animationDuration: '2s' }}
-          >
-            <span className="mb-2">Scroll</span>
-            <div className="w-px h-10 bg-gradient-to-b from-primary-fixed to-transparent"></div>
-          </div>
+      {/* Loader overlay sits ABOVE canvas + UI, fading away to reveal everything at once */}
+      <LoaderOverlay forceLoaded={modelLoaded} onFadeComplete={handleFadeComplete} />
 
-          {/* Language Toggle in Bottom Left */}
-          <div className="absolute bottom-10 left-10 z-20 animate-in fade-in duration-1000">
-            <button
-              onClick={toggleLang}
-              className="flex items-center justify-center gap-2 w-[100px] border border-white/10 hover:border-primary-fixed/50 transition-all active:scale-95 rounded-xl h-10 bg-black/20 backdrop-blur-md"
-            >
-              <span className="material-symbols-outlined text-primary-fixed text-lg">translate</span>
-              <span className="font-bold text-[#d4d4d4] uppercase text-xs tracking-wide">{lang}</span>
-            </button>
-          </div>
-        </>
-      )}
+      {/* Scroll indicator + Language toggle — always present once mounted,
+          revealed naturally as the overlay fades out on top of them */}
+      <ScrollIndicator />
+
+      {/* Language Toggle — compact pill */}
+      <div className="absolute bottom-10 left-10 z-20">
+        <button
+          onClick={toggleLang}
+          className="flex items-center justify-center gap-1.5 px-3 border border-white/10 hover:border-primary-fixed/50 transition-all active:scale-95 rounded-lg h-9 bg-black/20 backdrop-blur-md"
+        >
+          <span className="material-symbols-outlined text-primary-fixed text-base">translate</span>
+          <span className="font-bold text-[#d4d4d4] uppercase text-[11px] tracking-wide">{lang}</span>
+        </button>
+      </div>
     </div>
   );
 }

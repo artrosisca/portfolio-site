@@ -1,5 +1,11 @@
 import React from 'react';
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
+
+const GithubIcon = ({ className }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.02c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A4.8 4.8 0 0 0 9 18v4"></path>
+  </svg>
+);
 import { useLanguage } from '../../contexts/LanguageContext';
 
 export default function ProjectGallery() {
@@ -79,7 +85,7 @@ export default function ProjectGallery() {
 
                   <div className="absolute bottom-6 left-6 flex gap-2 z-20">
                     <span className="bg-primary-fixed text-on-primary-fixed font-bold text-[10px] px-3 py-1 rounded-full uppercase tracking-widest">{project.category}</span>
-                    <span className="bg-surface-container text-primary-fixed font-bold text-[10px] px-3 py-1 rounded-full uppercase tracking-widest">{project.domain}</span>
+                    <span className="bg-surface-container text-text-primary font-bold text-[10px] px-3 py-1 rounded-full uppercase tracking-widest border border-white/10">{project.domain}</span>
                   </div>
                 </div>
                 
@@ -90,16 +96,16 @@ export default function ProjectGallery() {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     {project.stats.map((stat, i) => (
                       <div key={i} className="border border-primary-fixed/10 p-6 rounded-xl bg-surface-container-lowest">
-                        <span className="block text-primary-fixed font-headline-lg text-[40px]">{stat.value}</span>
+                        <span className="block text-text-primary font-headline-lg text-[40px]">{stat.value}</span>
                         <span className="text-[10px] uppercase tracking-widest text-on-surface-variant">{stat.label}</span>
                       </div>
                     ))}
                   </div>
                   
                   {/* Technical Specs Footer */}
-                  <div className="flex flex-wrap gap-4 pt-6 border-t border-primary-fixed/10 font-code-sm text-[10px] text-primary-fixed/60">
+                  <div className="flex flex-wrap gap-3 pt-6 border-t border-primary-fixed/10">
                     {project.tags.map((tag, i) => (
-                      <span key={i} className="uppercase">[{tag}]</span>
+                      <span key={i} className="font-code-sm text-xs text-primary-fixed/80 uppercase px-3 py-1.5 rounded-md border border-primary-fixed/15 bg-primary-fixed/5 tracking-wide">{tag}</span>
                     ))}
                   </div>
                 </div>
@@ -111,7 +117,7 @@ export default function ProjectGallery() {
                   <ul className="space-y-6">
                     {project.architecture.map((arch, i) => (
                       <li key={i} className="flex gap-4">
-                        <span className="w-8 h-8 rounded-full border border-primary-fixed text-primary-fixed flex items-center justify-center font-bold text-xs shrink-0">{arch.step}</span>
+                        <span className="w-8 h-8 rounded-full border border-primary-fixed text-text-primary flex items-center justify-center font-bold text-xs shrink-0">{arch.step}</span>
                         <div>
                           <h5 className="font-bold text-text-primary uppercase text-xs">{arch.title}</h5>
                           <p className="text-xs text-on-surface-variant mt-1">{arch.desc}</p>
@@ -121,7 +127,10 @@ export default function ProjectGallery() {
                   </ul>
                 </div>
                 <a href={project.link} target="_blank" rel="noopener noreferrer" className="bg-surface-container border border-primary-fixed/20 p-6 rounded-xl flex items-center justify-between hover:bg-primary-fixed/10 transition-all group active:scale-95">
-                  <span className="font-bold text-text-primary uppercase text-xs tracking-widest">{t('projects.view_github')}</span>
+                  <div className="flex items-center gap-3">
+                    <GithubIcon className="w-5 h-5 text-primary-fixed" />
+                    <span className="font-bold text-text-primary uppercase text-xs tracking-widest">{t('projects.view_github')}</span>
+                  </div>
                   <ArrowRight className="text-primary-fixed group-hover:translate-x-2 transition-transform w-5 h-5" />
                 </a>
               </div>

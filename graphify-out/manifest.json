@@ -1,0 +1,118 @@
+{
+  "C:\\GIT\\portfolio-site\\eslint.config.js": {
+    "mtime": 1778190323.7222154,
+    "hash": "3aa4b57d7f08181d86bde52a4dcb7f22"
+  },
+  "C:\\GIT\\portfolio-site\\vite.config.js": {
+    "mtime": 1778190421.2988274,
+    "hash": "5b641ab5f85eff4b0b9acec3417ca9b5"
+  },
+  "C:\\GIT\\portfolio-site\\src\\App.jsx": {
+    "mtime": 1778269383.193105,
+    "hash": "06db8dde3bf2437a253d641ffe63976a"
+  },
+  "C:\\GIT\\portfolio-site\\src\\main.jsx": {
+    "mtime": 1778190323.7877512,
+    "hash": "e13723e2574429d9a6d849727e3ff695"
+  },
+  "C:\\GIT\\portfolio-site\\src\\components\\MainLayout.jsx": {
+    "mtime": 1778267935.9568808,
+    "hash": "5f4e9fb7af258267611da329e46930ef"
+  },
+  "C:\\GIT\\portfolio-site\\src\\components\\3D\\HeroScene.jsx": {
+    "mtime": 1778267963.7002714,
+    "hash": "8e953934948c25822d2b66aec6b6e631"
+  },
+  "C:\\GIT\\portfolio-site\\src\\components\\Layout\\BackgroundWrapper.jsx": {
+    "mtime": 1778262729.982147,
+    "hash": "2b9cd28ce7f17a796545af3e14269fa3"
+  },
+  "C:\\GIT\\portfolio-site\\src\\components\\Layout\\Footer.jsx": {
+    "mtime": 1778252963.555446,
+    "hash": "9a928fa0fc992d8b7eaae09a8c1629e7"
+  },
+  "C:\\GIT\\portfolio-site\\src\\components\\Layout\\TopNavBar.jsx": {
+    "mtime": 1778267954.1667938,
+    "hash": "1ef4ce28057c12d56513c587b56e8a4c"
+  },
+  "C:\\GIT\\portfolio-site\\src\\components\\Projects\\ProjectGallery.jsx": {
+    "mtime": 1778269349.3574328,
+    "hash": "61a4854f3e3ef1c55cf27e98af2139ad"
+  },
+  "C:\\GIT\\portfolio-site\\src\\components\\Sections\\AboutSection.jsx": {
+    "mtime": 1778268004.9013772,
+    "hash": "b4366052ded1310014a87ae82f89c063"
+  },
+  "C:\\GIT\\portfolio-site\\src\\components\\Sections\\ContactSection.jsx": {
+    "mtime": 1778268122.43284,
+    "hash": "1a5063ea83562c058a2af79e26ff0bb8"
+  },
+  "C:\\GIT\\portfolio-site\\src\\components\\Sections\\ExperienceSection.jsx": {
+    "mtime": 1778190880.527212,
+    "hash": "ac06e2f21af8266f8618c02afcf95646"
+  },
+  "C:\\GIT\\portfolio-site\\src\\components\\Sections\\HeroSection.jsx": {
+    "mtime": 1778267976.110112,
+    "hash": "625629e5fefd627327d90302caefd607"
+  },
+  "C:\\GIT\\portfolio-site\\src\\components\\TechStack\\ArchitectureCards.jsx": {
+    "mtime": 1778268025.2015052,
+    "hash": "6d26d50d5b2e2b6b06ef8dc89c9e30dc"
+  },
+  "C:\\GIT\\portfolio-site\\src\\components\\Terminal\\TerminalWindow.jsx": {
+    "mtime": 1778268403.9464445,
+    "hash": "f0538d379a530ea4cebf8663bbf57746"
+  },
+  "C:\\GIT\\portfolio-site\\src\\contexts\\LanguageContext.jsx": {
+    "mtime": 1778267897.2609105,
+    "hash": "489dc4c90d4f15c51acfb05d6d64e43e"
+  },
+  "C:\\GIT\\portfolio-site\\src\\i18n\\translations.js": {
+    "mtime": 1778268115.2442138,
+    "hash": "7de21bb5e8f74cdda3bd71030d664c16"
+  },
+  "C:\\GIT\\portfolio-site\\index.html": {
+    "mtime": 1778266476.8781075,
+    "hash": "db6b282c38e04a1c8e1dcbff3fdbc04e"
+  },
+  "C:\\GIT\\portfolio-site\\README.md": {
+    "mtime": 1778190323.7929654,
+    "hash": "a28dc4cb878325f3e9e5649f3e1469ac"
+  },
+  "C:\\GIT\\portfolio-site\\stitch_design.html": {
+    "mtime": 1778190452.6044364,
+    "hash": "9524ec822e3d4ac995d39297d53bdbf9"
+  },
+  "C:\\GIT\\portfolio-site\\terminal_ui.html": {
+    "mtime": 1778190562.8072014,
+    "hash": "f6400b2175e2739ae19611dcd498fab5"
+  },
+  "C:\\GIT\\portfolio-site\\public\\arthur_resume_pt-br.pdf": {
+    "mtime": 1776695012.4136276,
+    "hash": "c2534b9e94a4a89aef3e68f56b5687f4"
+  },
+  "C:\\GIT\\portfolio-site\\public\\cv_preview_mockup.png": {
+    "mtime": 1778192774.1587808,
+    "hash": "264d1ff9b071ce34901bfad7463778af"
+  },
+  "C:\\GIT\\portfolio-site\\public\\favicon.svg": {
+    "mtime": 1778190323.849241,
+    "hash": "7e840862161341271697daa99a40d76b"
+  },
+  "C:\\GIT\\portfolio-site\\public\\icons.svg": {
+    "mtime": 1778190323.8741026,
+    "hash": "3b4fcfcf393eca4d264dca4a4663bc37"
+  },
+  "C:\\GIT\\portfolio-site\\src\\assets\\hero.png": {
+    "mtime": 1778190323.814223,
+    "hash": "aead493361b27e7510691c5d7072dfc1"
+  },
+  "C:\\GIT\\portfolio-site\\src\\assets\\react.svg": {
+    "mtime": 1778190323.8964546,
+    "hash": "f0402b67b6ce880f65666bb49e841696"
+  },
+  "C:\\GIT\\portfolio-site\\src\\assets\\vite.svg": {
+    "mtime": 1778190323.916646,
+    "hash": "9960a24288958394ac50e57ff638b036"
+  }
+}

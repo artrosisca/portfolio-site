@@ -9,7 +9,6 @@ const Footer = () => {
         <div className="flex items-center gap-6">
           <a className="text-on-surface-variant hover:text-primary-fixed transition-colors font-code-sm text-[10px] uppercase tracking-widest" href="#">LinkedIn</a>
           <a className="text-on-surface-variant hover:text-primary-fixed transition-colors font-code-sm text-[10px] uppercase tracking-widest" href="#">GitHub</a>
-          <a className="text-on-surface-variant hover:text-primary-fixed transition-colors font-code-sm text-[10px] uppercase tracking-widest" href="#">Twitter</a>
         </div>
       </footer>
     </div>

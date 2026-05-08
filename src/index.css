@@ -106,3 +106,8 @@ body {
     from { transform: translateX(-100%); }
     to { transform: translateX(300%); }
 }
+
+@keyframes chevronPulse {
+    0%, 100% { opacity: 0; transform: translateY(-4px); }
+    40%, 60% { opacity: 0.8; transform: translateY(0); }
+}

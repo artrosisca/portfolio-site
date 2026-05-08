@@ -58,7 +58,7 @@ export default function ArchitectureCards() {
         <div className="section-header">
           <div className="corner-bracket-tl"></div>
           <h2 className="font-headline-lg text-headline-lg text-text-primary uppercase tracking-tight">
-            CORE <span className="text-primary-fixed">{t('tech.title')}</span>
+            {t('tech.title')}
           </h2>
         </div>
         <p className="text-on-surface-variant max-w-md font-label-md text-label-md uppercase tracking-[0.2em]">
