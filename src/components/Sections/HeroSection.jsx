@@ -14,17 +14,12 @@ const HeroSection = () => {
           <h1 className="font-headline-xl text-[64px] md:text-[100px] leading-none mb-6 font-bold tracking-tighter text-text-primary uppercase">
             ARTHUR <br /> <span className="text-primary-fixed">ROSISCA</span>
           </h1>
-          {/* System Boot Log */}
-          <div className="bg-black/40 border-l-2 border-primary-fixed p-4 mb-8 font-code-sm text-xs text-primary-fixed/80 space-y-1 w-full max-w-lg">
-            <p className="animate-pulse">&gt; LOAD_BRAIN_MODULE... [OK]</p>
-            <p>&gt; INDEXING_PORTFOLIO... [OK]</p>
-            <p className="font-bold text-primary-fixed">&gt; ARTHUR_ROSISCA_READY</p>
-          </div>
+
           <p className="font-headline-md text-headline-md text-on-surface-variant mb-10 max-w-xl">
             Engenheiro de Dados. Transformando fluxos brutos em inteligência industrial e pipelines de alta performance.
           </p>
           <div className="flex flex-wrap gap-4">
-            <a className="bg-primary-fixed text-on-primary-fixed font-bold px-8 py-4 text-lg yellow-glow active:scale-95 transition-all uppercase tracking-widest rounded-[15px]" href="#contact">
+            <a className="bg-primary-fixed text-on-primary-fixed font-bold px-8 py-4 text-lg active:scale-95 transition-all uppercase tracking-widest rounded-[15px]" href="#contact">
               Contact
             </a>
             <a className="bg-surface-container border border-primary-fixed/30 text-on-surface font-bold px-8 py-4 text-lg hover:bg-primary-fixed/10 active:scale-95 transition-all uppercase tracking-widest rounded-[15px]" href="#projects">
@@ -48,9 +43,9 @@ const HeroSection = () => {
         </div>
         {/* Profile HUD Decoration */}
         <div className="relative flex justify-center items-center">
-          {/* Scanning HUD */}
-          <div className="absolute w-[120%] h-[120%] border border-primary-fixed/10 rounded-full scanning-hud"></div>
-          <div className="absolute w-[110%] h-[110%] border border-dashed border-primary-fixed/20 rounded-full scanning-hud" style={{ animationDirection: 'reverse' }}></div>
+          {/* Scanning HUD - Adjusting sizes to prevent clipping */}
+          <div className="absolute w-[100%] h-[100%] border border-primary-fixed/10 rounded-full scanning-hud scale-110"></div>
+          <div className="absolute w-[100%] h-[100%] border border-dashed border-primary-fixed/20 rounded-full scanning-hud scale-105" style={{ animationDirection: 'reverse' }}></div>
           {/* Crosshairs */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full bg-primary-fixed/10"></div>
           <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-px bg-primary-fixed/10"></div>

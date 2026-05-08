@@ -33,7 +33,7 @@ export default function TerminalWindow({ onComplete, isFinished }) {
   return (
     <motion.div 
       layoutId="terminal"
-      className="glass-panel rounded-[12px] border border-primary-fixed/20 overflow-hidden shadow-[inset_0_0_20px_rgba(250,229,0,0.05)] w-full max-w-lg mx-auto z-50" 
+      className="glass-panel rounded-[12px] border border-primary-fixed/20 overflow-hidden w-full max-w-lg mx-auto z-50" 
       style={{ backdropFilter: 'blur(32px)', WebkitBackdropFilter: 'blur(32px)' }}
     >
       {/* Terminal Header */}
@@ -52,11 +52,8 @@ export default function TerminalWindow({ onComplete, isFinished }) {
       <div className="p-6 font-code-sm text-sm leading-relaxed text-left min-h-[300px] flex flex-col">
         {/* Command Prompt */}
         <div className="mb-4 break-all">
-          <span className="text-[#73daca]">arthur@utfpr</span>
-          <span className="text-[#bb9af7]"> MINGW64 </span>
-          <span className="text-[#e0af68]">~/portfolio</span>
-          <span className="text-[#7aa2f7]"> (main)</span>
-          <span className="text-on-surface ml-2">$ {text}</span>
+          <span className="text-primary-fixed font-bold">&gt; </span>
+          <span className="text-on-surface">{text}</span>
           {!showJson && <span className="inline-block w-[6px] h-4 bg-primary-fixed ml-1 cursor-blink align-middle"></span>}
         </div>
         
@@ -71,11 +68,7 @@ export default function TerminalWindow({ onComplete, isFinished }) {
             <p className="text-on-surface">{"}"}</p>
             
             <div className="mt-4 break-all">
-              <span className="text-[#73daca]">arthur@utfpr</span>
-              <span className="text-[#bb9af7]"> MINGW64 </span>
-              <span className="text-[#e0af68]">~/portfolio</span>
-              <span className="text-[#7aa2f7]"> (main)</span>
-              <span className="text-on-surface ml-2">$ </span>
+              <span className="text-primary-fixed font-bold">&gt; </span>
               <span className="inline-block w-[6px] h-4 bg-primary-fixed ml-1 cursor-blink align-middle"></span>
             </div>
           </div>

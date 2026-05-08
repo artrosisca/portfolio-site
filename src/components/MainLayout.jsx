@@ -14,7 +14,7 @@ import BackgroundWrapper from './Layout/BackgroundWrapper';
 const SectionWrapper = ({ children, id, className = '' }) => (
   <motion.div
     id={id}
-    className={`w-full snap-start scroll-mt-24 ${className}`}
+    className={`w-full ${className}`}
     initial={{ opacity: 0, y: 50 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, margin: "-100px" }}
@@ -35,9 +35,9 @@ const MainLayout = () => {
             For full-page snapping, it's better to use native html/body snapping or just smooth scroll entrances. 
             We will use CSS scroll-behavior: smooth on the html tag via Tailwind if needed, 
             and keep snap on for section wrappers. */}
-        <main className="max-w-container-max mx-auto px-gutter pt-32 snap-y snap-mandatory h-screen overflow-y-auto no-scrollbar">
+        <main className="max-w-container-max mx-auto px-gutter pt-32">
           
-          <SectionWrapper id="hero" className="snap-center">
+          <SectionWrapper id="hero">
             <HeroSection />
           </SectionWrapper>
 

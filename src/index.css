@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary-fixed: #fae500;
+  --color-primary-fixed: #ffde00;
   --color-on-primary-fixed: #201c00;
-  --color-background: #111111;
+  --color-background: #050505;
   --color-surface: #1e1e1e;
   --color-on-surface: #e8e2cf;
   --color-on-surface-variant: #cdc7ab;
@@ -47,9 +47,7 @@ body {
     border: 1px solid var(--color-outline);
 }
 
-.yellow-glow:hover {
-    box-shadow: 0 0 20px rgba(250, 229, 0, 0.3);
-}
+
 
 .caution-stripes {
     background: repeating-linear-gradient(
@@ -102,4 +100,9 @@ body {
 }
 .cursor-blink {
     animation: blink 1s step-end infinite;
+}
+
+@keyframes scan {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(300%); }
 }

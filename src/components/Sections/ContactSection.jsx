@@ -44,20 +44,20 @@ const ContactSection = () => {
           <form className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">NOME_USER</label>
-                <input className="w-full bg-[#131313] border border-primary-fixed/20 rounded-full px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder="IDENTIFICAÇÃO" type="text" />
+                <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">Nome</label>
+                <input className="w-full bg-[#131313] border border-primary-fixed/20 rounded-full px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder="Seu nome" type="text" />
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">E-MAIL_ADDR</label>
-                <input className="w-full bg-[#131313] border border-primary-fixed/20 rounded-full px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder="COMM_CHANNEL" type="email" />
+                <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">E-mail</label>
+                <input className="w-full bg-[#131313] border border-primary-fixed/20 rounded-full px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder="Seu e-mail" type="email" />
               </div>
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">MENSAGEM_QUERY</label>
-              <textarea className="w-full bg-[#131313] border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder="DESCREVA O PROJETO OU DEMANDA..." rows="4"></textarea>
+              <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">Mensagem</label>
+              <textarea className="w-full bg-[#131313] border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder="Escreva sua mensagem aqui..." rows="4"></textarea>
             </div>
-            <button className="w-full bg-primary-fixed text-on-primary-fixed font-bold py-5 text-sm uppercase tracking-[0.3em] yellow-glow active:scale-95 transition-all rounded-[15px]" type="submit">
-              ENVIAR_OPERAÇÃO
+            <button className="w-full bg-primary-fixed text-on-primary-fixed font-bold py-5 text-sm uppercase tracking-[0.3em] active:scale-95 transition-all rounded-[15px]" type="submit">
+              ENVIAR MENSAGEM
             </button>
           </form>
         </div>
