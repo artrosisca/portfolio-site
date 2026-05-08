@@ -1,7 +1,8 @@
-import React from 'react';
-import TerminalWindow from '../Terminal/TerminalWindow';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const HeroSection = () => {
+  const { t } = useLanguage();
+
   return (
     <section className="min-h-[716px] flex flex-col justify-center items-start relative mb-stack-lg pt-32">
       <div className="z-10 grid lg:grid-cols-2 gap-12 items-center w-full relative">
@@ -9,21 +10,21 @@ const HeroSection = () => {
         <div>
           <div className="flex items-center gap-2 mb-4">
             <span className="w-12 h-[2px] bg-primary-fixed"></span>
-            <span className="font-label-md text-label-md text-primary-fixed uppercase tracking-[0.2em]">DATA ENGINEERING CORE</span>
+            <span className="font-label-md text-label-md text-primary-fixed uppercase tracking-[0.2em]">{t('hero.subheadline')}</span>
           </div>
           <h1 className="font-headline-xl text-[64px] md:text-[100px] leading-none mb-6 font-bold tracking-tighter text-text-primary uppercase">
             ARTHUR <br /> <span className="text-primary-fixed">ROSISCA</span>
           </h1>
 
           <p className="font-headline-md text-headline-md text-on-surface-variant mb-10 max-w-xl">
-            Engenheiro de Dados. Transformando fluxos brutos em inteligência industrial e pipelines de alta performance.
+            {t('hero.description')}
           </p>
           <div className="flex flex-wrap gap-4">
             <a className="bg-primary-fixed text-on-primary-fixed font-bold px-8 py-4 text-lg active:scale-95 transition-all uppercase tracking-widest rounded-[15px]" href="#contact">
-              Contact
+              {t('hero.cta_contact')}
             </a>
             <a className="bg-surface-container border border-primary-fixed/30 text-on-surface font-bold px-8 py-4 text-lg hover:bg-primary-fixed/10 active:scale-95 transition-all uppercase tracking-widest rounded-[15px]" href="#projects">
-              View Projects
+              {t('hero.cta_projects')}
             </a>
           </div>
           <div className="flex items-center gap-6 mt-8">
@@ -43,13 +44,13 @@ const HeroSection = () => {
         </div>
         {/* Profile HUD Decoration */}
         <div className="relative flex justify-center items-center">
-          {/* Scanning HUD - Adjusting sizes to prevent clipping */}
-          <div className="absolute w-[100%] h-[100%] border border-primary-fixed/10 rounded-full scanning-hud scale-110"></div>
-          <div className="absolute w-[100%] h-[100%] border border-dashed border-primary-fixed/20 rounded-full scanning-hud scale-105" style={{ animationDirection: 'reverse' }}></div>
+          {/* Scanning HUD - Increased border width and opacity for better visibility */}
+          <div className="absolute w-[100%] h-[100%] border-2 border-primary-fixed/30 rounded-full scanning-hud scale-110"></div>
+          <div className="absolute w-[100%] h-[100%] border-2 border-dashed border-primary-fixed/40 rounded-full scanning-hud scale-105" style={{ animationDirection: 'reverse' }}></div>
           {/* Crosshairs */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full bg-primary-fixed/10"></div>
           <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-px bg-primary-fixed/10"></div>
-          <div className="relative aspect-square w-full max-w-md overflow-hidden border-2 border-primary-fixed p-2 rounded-full">
+          <div className="relative aspect-square w-full max-w-md overflow-hidden border-4 border-primary-fixed p-2 rounded-full">
             <img className="w-full h-full object-cover rounded-full grayscale hover:grayscale-0 transition-all duration-700" alt="Arthur Rosisca portrait in a circular HUD frame." src="https://lh3.googleusercontent.com/aida/ADBb0ugmf5rvLOBWeOKcow3tb_P2oKMVg-YThulBvaFnUjYUcKg9MY0oUbCKlUvK44MuOagHIWbl31M3F2FPnZ73qLRhIJG8hhObBzpDG6OTJky3-OKnJHE8caFQizGs8tzjVjGYI9eze-hEPy7fesooKEHri245Cjbso60bfOMZAbFDHi34PHQ8uu0B98vMMzzkMpF8ofsQPEpYVSVOa1gphq5OWZ2zfqv2Mx0nseuIHa4D1PtdO-BN9sPQxvTPZdGTmFkrIWOSiPS3Lnk" />
           </div>
         </div>

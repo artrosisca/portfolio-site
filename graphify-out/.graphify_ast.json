@@ -1,0 +1,1234 @@
+{
+  "nodes": [
+    {
+      "id": "eslint_config_js",
+      "label": "eslint.config.js",
+      "file_type": "code",
+      "source_file": "eslint.config.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "vite_config_js",
+      "label": "vite.config.js",
+      "file_type": "code",
+      "source_file": "vite.config.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_jsx",
+      "label": "App.jsx",
+      "file_type": "code",
+      "source_file": "src\\App.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_app",
+      "label": "App()",
+      "file_type": "code",
+      "source_file": "src\\App.jsx",
+      "source_location": "L9"
+    },
+    {
+      "id": "src_main_jsx",
+      "label": "main.jsx",
+      "file_type": "code",
+      "source_file": "src\\main.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_mainlayout_jsx",
+      "label": "MainLayout.jsx",
+      "file_type": "code",
+      "source_file": "src\\components\\MainLayout.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "components_mainlayout_sectionwrapper",
+      "label": "SectionWrapper()",
+      "file_type": "code",
+      "source_file": "src\\components\\MainLayout.jsx",
+      "source_location": "L14"
+    },
+    {
+      "id": "components_mainlayout_mainlayout",
+      "label": "MainLayout()",
+      "file_type": "code",
+      "source_file": "src\\components\\MainLayout.jsx",
+      "source_location": "L27"
+    },
+    {
+      "id": "src_components_3d_heroscene_jsx",
+      "label": "HeroScene.jsx",
+      "file_type": "code",
+      "source_file": "src\\components\\3D\\HeroScene.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "3d_heroscene_loaderoverlay",
+      "label": "LoaderOverlay()",
+      "file_type": "code",
+      "source_file": "src\\components\\3D\\HeroScene.jsx",
+      "source_location": "L5"
+    },
+    {
+      "id": "3d_heroscene_roommodel",
+      "label": "RoomModel()",
+      "file_type": "code",
+      "source_file": "src\\components\\3D\\HeroScene.jsx",
+      "source_location": "L63"
+    },
+    {
+      "id": "3d_heroscene_camerarig",
+      "label": "CameraRig()",
+      "file_type": "code",
+      "source_file": "src\\components\\3D\\HeroScene.jsx",
+      "source_location": "L79"
+    },
+    {
+      "id": "3d_heroscene_heroscene",
+      "label": "HeroScene()",
+      "file_type": "code",
+      "source_file": "src\\components\\3D\\HeroScene.jsx",
+      "source_location": "L127"
+    },
+    {
+      "id": "src_components_layout_backgroundwrapper_jsx",
+      "label": "BackgroundWrapper.jsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Layout\\BackgroundWrapper.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "layout_backgroundwrapper_backgroundwrapper",
+      "label": "BackgroundWrapper()",
+      "file_type": "code",
+      "source_file": "src\\components\\Layout\\BackgroundWrapper.jsx",
+      "source_location": "L3"
+    },
+    {
+      "id": "src_components_layout_footer_jsx",
+      "label": "Footer.jsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Layout\\Footer.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "layout_footer_footer",
+      "label": "Footer()",
+      "file_type": "code",
+      "source_file": "src\\components\\Layout\\Footer.jsx",
+      "source_location": "L3"
+    },
+    {
+      "id": "src_components_layout_topnavbar_jsx",
+      "label": "TopNavBar.jsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Layout\\TopNavBar.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "layout_topnavbar_topnavbar",
+      "label": "TopNavBar()",
+      "file_type": "code",
+      "source_file": "src\\components\\Layout\\TopNavBar.jsx",
+      "source_location": "L5"
+    },
+    {
+      "id": "src_components_projects_projectgallery_jsx",
+      "label": "ProjectGallery.jsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Projects\\ProjectGallery.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "projects_projectgallery_projectgallery",
+      "label": "ProjectGallery()",
+      "file_type": "code",
+      "source_file": "src\\components\\Projects\\ProjectGallery.jsx",
+      "source_location": "L5"
+    },
+    {
+      "id": "src_components_sections_aboutsection_jsx",
+      "label": "AboutSection.jsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Sections\\AboutSection.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "sections_aboutsection_aboutsection",
+      "label": "AboutSection()",
+      "file_type": "code",
+      "source_file": "src\\components\\Sections\\AboutSection.jsx",
+      "source_location": "L4"
+    },
+    {
+      "id": "src_components_sections_contactsection_jsx",
+      "label": "ContactSection.jsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Sections\\ContactSection.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "sections_contactsection_contactsection",
+      "label": "ContactSection()",
+      "file_type": "code",
+      "source_file": "src\\components\\Sections\\ContactSection.jsx",
+      "source_location": "L3"
+    },
+    {
+      "id": "src_components_sections_experiencesection_jsx",
+      "label": "ExperienceSection.jsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Sections\\ExperienceSection.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "sections_experiencesection_experiencesection",
+      "label": "ExperienceSection()",
+      "file_type": "code",
+      "source_file": "src\\components\\Sections\\ExperienceSection.jsx",
+      "source_location": "L3"
+    },
+    {
+      "id": "src_components_sections_herosection_jsx",
+      "label": "HeroSection.jsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Sections\\HeroSection.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "sections_herosection_herosection",
+      "label": "HeroSection()",
+      "file_type": "code",
+      "source_file": "src\\components\\Sections\\HeroSection.jsx",
+      "source_location": "L3"
+    },
+    {
+      "id": "src_components_techstack_architecturecards_jsx",
+      "label": "ArchitectureCards.jsx",
+      "file_type": "code",
+      "source_file": "src\\components\\TechStack\\ArchitectureCards.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "techstack_architecturecards_techcategories",
+      "label": "techCategories",
+      "file_type": "code",
+      "source_file": "src\\components\\TechStack\\ArchitectureCards.jsx",
+      "source_location": "L5"
+    },
+    {
+      "id": "techstack_architecturecards_architecturecards",
+      "label": "ArchitectureCards()",
+      "file_type": "code",
+      "source_file": "src\\components\\TechStack\\ArchitectureCards.jsx",
+      "source_location": "L51"
+    },
+    {
+      "id": "src_components_terminal_terminalwindow_jsx",
+      "label": "TerminalWindow.jsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Terminal\\TerminalWindow.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "terminal_terminalwindow_terminalwindow",
+      "label": "TerminalWindow()",
+      "file_type": "code",
+      "source_file": "src\\components\\Terminal\\TerminalWindow.jsx",
+      "source_location": "L5"
+    },
+    {
+      "id": "src_contexts_languagecontext_jsx",
+      "label": "LanguageContext.jsx",
+      "file_type": "code",
+      "source_file": "src\\contexts\\LanguageContext.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "contexts_languagecontext_languagecontext",
+      "label": "LanguageContext",
+      "file_type": "code",
+      "source_file": "src\\contexts\\LanguageContext.jsx",
+      "source_location": "L4"
+    },
+    {
+      "id": "contexts_languagecontext_languageprovider",
+      "label": "LanguageProvider()",
+      "file_type": "code",
+      "source_file": "src\\contexts\\LanguageContext.jsx",
+      "source_location": "L6"
+    },
+    {
+      "id": "contexts_languagecontext_uselanguage",
+      "label": "useLanguage()",
+      "file_type": "code",
+      "source_file": "src\\contexts\\LanguageContext.jsx",
+      "source_location": "L34"
+    },
+    {
+      "id": "src_i18n_translations_js",
+      "label": "translations.js",
+      "file_type": "code",
+      "source_file": "src\\i18n\\translations.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "i18n_translations_translations",
+      "label": "translations",
+      "file_type": "code",
+      "source_file": "src\\i18n\\translations.js",
+      "source_location": "L1"
+    }
+  ],
+  "edges": [
+    {
+      "source": "eslint_config_js",
+      "target": "js",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "eslint.config.js",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "eslint_config_js",
+      "target": "globals",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "eslint.config.js",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "eslint_config_js",
+      "target": "eslint_plugin_react_hooks",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "eslint.config.js",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "eslint_config_js",
+      "target": "eslint_plugin_react_refresh",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "eslint.config.js",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "eslint_config_js",
+      "target": "config",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "eslint.config.js",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "vite_config_js",
+      "target": "vite",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "vite.config.js",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "vite_config_js",
+      "target": "plugin_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "vite.config.js",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "vite_config_js",
+      "target": "vite",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "vite.config.js",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_jsx",
+      "target": "react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\App.jsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_jsx",
+      "target": "framer_motion",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\App.jsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_jsx",
+      "target": "src_components_3d_heroscene_jsx",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\App.jsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_jsx",
+      "target": "src_components_mainlayout_jsx",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\App.jsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_jsx",
+      "target": "src_components_terminal_terminalwindow_jsx",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\App.jsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_jsx",
+      "target": "src_contexts_languagecontext_jsx",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\App.jsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_jsx",
+      "target": "contexts_languagecontext_languageprovider",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\App.jsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_jsx",
+      "target": "src_app_app",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\App.jsx",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "src_main_jsx",
+      "target": "react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\main.jsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_main_jsx",
+      "target": "client",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\main.jsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "src_main_jsx",
+      "target": "c_git_portfolio_site_src_index_css",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\main.jsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_main_jsx",
+      "target": "src_app_jsx",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\main.jsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_mainlayout_jsx",
+      "target": "react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\MainLayout.jsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_mainlayout_jsx",
+      "target": "framer_motion",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\MainLayout.jsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_mainlayout_jsx",
+      "target": "src_components_layout_topnavbar_jsx",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\MainLayout.jsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_mainlayout_jsx",
+      "target": "src_components_layout_footer_jsx",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\MainLayout.jsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_mainlayout_jsx",
+      "target": "src_components_sections_herosection_jsx",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\MainLayout.jsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_mainlayout_jsx",
+      "target": "src_components_sections_aboutsection_jsx",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\MainLayout.jsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_mainlayout_jsx",
+      "target": "src_components_techstack_architecturecards_jsx",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\MainLayout.jsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_mainlayout_jsx",
+      "target": "src_components_sections_experiencesection_jsx",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\MainLayout.jsx",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_mainlayout_jsx",
+      "target": "src_components_projects_projectgallery_jsx",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\MainLayout.jsx",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_mainlayout_jsx",
+      "target": "src_components_sections_contactsection_jsx",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\MainLayout.jsx",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_mainlayout_jsx",
+      "target": "src_components_layout_backgroundwrapper_jsx",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\MainLayout.jsx",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_mainlayout_jsx",
+      "target": "components_mainlayout_sectionwrapper",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\MainLayout.jsx",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_mainlayout_jsx",
+      "target": "components_mainlayout_mainlayout",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\MainLayout.jsx",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_3d_heroscene_jsx",
+      "target": "react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\3D\\HeroScene.jsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_3d_heroscene_jsx",
+      "target": "fiber",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\3D\\HeroScene.jsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_3d_heroscene_jsx",
+      "target": "drei",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\3D\\HeroScene.jsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_3d_heroscene_jsx",
+      "target": "three",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\3D\\HeroScene.jsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_3d_heroscene_jsx",
+      "target": "3d_heroscene_loaderoverlay",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\3D\\HeroScene.jsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_3d_heroscene_jsx",
+      "target": "3d_heroscene_roommodel",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\3D\\HeroScene.jsx",
+      "source_location": "L63",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_3d_heroscene_jsx",
+      "target": "3d_heroscene_camerarig",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\3D\\HeroScene.jsx",
+      "source_location": "L79",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_3d_heroscene_jsx",
+      "target": "src_contexts_languagecontext_jsx",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\3D\\HeroScene.jsx",
+      "source_location": "L125",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_3d_heroscene_jsx",
+      "target": "contexts_languagecontext_uselanguage",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\3D\\HeroScene.jsx",
+      "source_location": "L125",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_3d_heroscene_jsx",
+      "target": "3d_heroscene_heroscene",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\3D\\HeroScene.jsx",
+      "source_location": "L127",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_layout_backgroundwrapper_jsx",
+      "target": "react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Layout\\BackgroundWrapper.jsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_layout_backgroundwrapper_jsx",
+      "target": "layout_backgroundwrapper_backgroundwrapper",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Layout\\BackgroundWrapper.jsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_layout_footer_jsx",
+      "target": "react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Layout\\Footer.jsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_layout_footer_jsx",
+      "target": "layout_footer_footer",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Layout\\Footer.jsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_layout_topnavbar_jsx",
+      "target": "react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Layout\\TopNavBar.jsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_layout_topnavbar_jsx",
+      "target": "framer_motion",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Layout\\TopNavBar.jsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_layout_topnavbar_jsx",
+      "target": "src_contexts_languagecontext_jsx",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Layout\\TopNavBar.jsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_layout_topnavbar_jsx",
+      "target": "contexts_languagecontext_uselanguage",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Layout\\TopNavBar.jsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_layout_topnavbar_jsx",
+      "target": "layout_topnavbar_topnavbar",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Layout\\TopNavBar.jsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_projects_projectgallery_jsx",
+      "target": "react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Projects\\ProjectGallery.jsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_projects_projectgallery_jsx",
+      "target": "lucide_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Projects\\ProjectGallery.jsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_projects_projectgallery_jsx",
+      "target": "src_contexts_languagecontext_jsx",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Projects\\ProjectGallery.jsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_projects_projectgallery_jsx",
+      "target": "contexts_languagecontext_uselanguage",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Projects\\ProjectGallery.jsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_projects_projectgallery_jsx",
+      "target": "projects_projectgallery_projectgallery",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Projects\\ProjectGallery.jsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_sections_aboutsection_jsx",
+      "target": "src_contexts_languagecontext_jsx",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Sections\\AboutSection.jsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_sections_aboutsection_jsx",
+      "target": "contexts_languagecontext_uselanguage",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Sections\\AboutSection.jsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_sections_aboutsection_jsx",
+      "target": "src_components_terminal_terminalwindow_jsx",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Sections\\AboutSection.jsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_sections_aboutsection_jsx",
+      "target": "sections_aboutsection_aboutsection",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Sections\\AboutSection.jsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_sections_contactsection_jsx",
+      "target": "src_contexts_languagecontext_jsx",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Sections\\ContactSection.jsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_sections_contactsection_jsx",
+      "target": "contexts_languagecontext_uselanguage",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Sections\\ContactSection.jsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_sections_contactsection_jsx",
+      "target": "sections_contactsection_contactsection",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Sections\\ContactSection.jsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_sections_experiencesection_jsx",
+      "target": "react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Sections\\ExperienceSection.jsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_sections_experiencesection_jsx",
+      "target": "sections_experiencesection_experiencesection",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Sections\\ExperienceSection.jsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_sections_herosection_jsx",
+      "target": "src_contexts_languagecontext_jsx",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Sections\\HeroSection.jsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_sections_herosection_jsx",
+      "target": "contexts_languagecontext_uselanguage",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Sections\\HeroSection.jsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_sections_herosection_jsx",
+      "target": "sections_herosection_herosection",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Sections\\HeroSection.jsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_techstack_architecturecards_jsx",
+      "target": "react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\TechStack\\ArchitectureCards.jsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_techstack_architecturecards_jsx",
+      "target": "framer_motion",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\TechStack\\ArchitectureCards.jsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_techstack_architecturecards_jsx",
+      "target": "lucide_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\TechStack\\ArchitectureCards.jsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_techstack_architecturecards_jsx",
+      "target": "techstack_architecturecards_techcategories",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\TechStack\\ArchitectureCards.jsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_techstack_architecturecards_jsx",
+      "target": "src_contexts_languagecontext_jsx",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\TechStack\\ArchitectureCards.jsx",
+      "source_location": "L49",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_techstack_architecturecards_jsx",
+      "target": "contexts_languagecontext_uselanguage",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\TechStack\\ArchitectureCards.jsx",
+      "source_location": "L49",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_techstack_architecturecards_jsx",
+      "target": "techstack_architecturecards_architecturecards",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\TechStack\\ArchitectureCards.jsx",
+      "source_location": "L51",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_terminal_terminalwindow_jsx",
+      "target": "react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Terminal\\TerminalWindow.jsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_terminal_terminalwindow_jsx",
+      "target": "framer_motion",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Terminal\\TerminalWindow.jsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_terminal_terminalwindow_jsx",
+      "target": "src_contexts_languagecontext_jsx",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Terminal\\TerminalWindow.jsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_terminal_terminalwindow_jsx",
+      "target": "contexts_languagecontext_uselanguage",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Terminal\\TerminalWindow.jsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_terminal_terminalwindow_jsx",
+      "target": "terminal_terminalwindow_terminalwindow",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Terminal\\TerminalWindow.jsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_contexts_languagecontext_jsx",
+      "target": "react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\contexts\\LanguageContext.jsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_contexts_languagecontext_jsx",
+      "target": "src_i18n_translations_js",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\contexts\\LanguageContext.jsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "src_contexts_languagecontext_jsx",
+      "target": "i18n_translations_translations",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\contexts\\LanguageContext.jsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "src_contexts_languagecontext_jsx",
+      "target": "contexts_languagecontext_languagecontext",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\contexts\\LanguageContext.jsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_contexts_languagecontext_jsx",
+      "target": "contexts_languagecontext_languageprovider",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\contexts\\LanguageContext.jsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_contexts_languagecontext_jsx",
+      "target": "contexts_languagecontext_uselanguage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\contexts\\LanguageContext.jsx",
+      "source_location": "L34",
+      "weight": 1.0
+    },
+    {
+      "source": "src_i18n_translations_js",
+      "target": "i18n_translations_translations",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\i18n\\translations.js",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "3d_heroscene_heroscene",
+      "target": "contexts_languagecontext_uselanguage",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src\\components\\3D\\HeroScene.jsx",
+      "source_location": "L130",
+      "weight": 1.0
+    },
+    {
+      "source": "layout_topnavbar_topnavbar",
+      "target": "contexts_languagecontext_uselanguage",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src\\components\\Layout\\TopNavBar.jsx",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "projects_projectgallery_projectgallery",
+      "target": "contexts_languagecontext_uselanguage",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src\\components\\Projects\\ProjectGallery.jsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "sections_aboutsection_aboutsection",
+      "target": "contexts_languagecontext_uselanguage",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src\\components\\Sections\\AboutSection.jsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "sections_contactsection_contactsection",
+      "target": "contexts_languagecontext_uselanguage",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src\\components\\Sections\\ContactSection.jsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "sections_herosection_herosection",
+      "target": "contexts_languagecontext_uselanguage",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src\\components\\Sections\\HeroSection.jsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "techstack_architecturecards_architecturecards",
+      "target": "contexts_languagecontext_uselanguage",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src\\components\\TechStack\\ArchitectureCards.jsx",
+      "source_location": "L53",
+      "weight": 1.0
+    },
+    {
+      "source": "terminal_terminalwindow_terminalwindow",
+      "target": "contexts_languagecontext_uselanguage",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src\\components\\Terminal\\TerminalWindow.jsx",
+      "source_location": "L8",
+      "weight": 1.0
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

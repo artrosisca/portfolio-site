@@ -1,54 +1,57 @@
 import React from 'react';
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
-
-const projects = [
-  {
-    id: 1,
-    title: "SQL Data Warehouse (Medallion Architecture)",
-    category: "DATA WAREHOUSE",
-    domain: "DATA ENGINEERING",
-    description: "Implementação de um Data Warehouse completo utilizando o SQL Server, estruturado sob a Arquitetura de Medalhão (Bronze, Silver e Gold). O projeto simula um ecossistema real de engenharia de dados, integrando fontes distintas de CRM e ERP para transformar dados brutos em um modelo dimensional de alto desempenho (Star Schema).",
-    stats: [
-      { value: "3", label: "LAYERS" },
-      { value: "Star", label: "SCHEMA" },
-      { value: "T-SQL", label: "LANGUAGE" }
-    ],
-    tags: ["ETL", "SQL-SERVER", "MEDALLION-ARCHITECTURE", "STAR-SCHEMA"],
-    link: "https://github.com/artrosisca/sql-data-warehouse",
-    architecture: [
-      { step: "01", title: "Bronze Layer", desc: "Ingestão de dados brutos do CRM e ERP." },
-      { step: "02", title: "Silver Layer", desc: "Limpeza, padronização e data quality." },
-      { step: "03", title: "Gold Layer", desc: "Modelagem dimensional (Star Schema) pronta para BI." }
-    ]
-  },
-  {
-    id: 2,
-    title: "Predição de Risco de Doenças Crônicas",
-    category: "MACHINE LEARNING",
-    domain: "HEALTH TECH",
-    description: "Desenvolvido em parceria com Unimed & UTFPR para identificar precocemente beneficiários em risco.",
-    stats: [
-      { value: "84.57%", label: "RECALL RATE" },
-      { value: "R$ 65.8k", label: "ANNUAL SAVINGS" },
-      { value: "10k+", label: "BENEFICIARIES" }
-    ],
-    tags: ["ETL", "SCALABLE", "REAL-TIME", "PANDAS", "SKLEARN"],
-    link: "#",
-    architecture: [
-      { step: "01", title: "ETL Pipeline", desc: "Consolidação de 6 fontes distintas e padronização." },
-      { step: "02", title: "Model Comparison", desc: "Random Forest e Gradient Boosting." },
-      { step: "03", title: "Data Quality", desc: "Tratamento de outliers clínicos." }
-    ]
-  }
-];
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export default function ProjectGallery() {
+  const { t } = useLanguage();
+
+  const projects = [
+    {
+      id: 1,
+      title: t('projects.p1.title'),
+      category: "DATA WAREHOUSE",
+      domain: "DATA ENGINEERING",
+      description: t('projects.p1.desc'),
+      stats: [
+        { value: "3", label: "LAYERS" },
+        { value: "Star", label: "SCHEMA" },
+        { value: "T-SQL", label: "LANGUAGE" }
+      ],
+      tags: ["ETL", "SQL-SERVER", "MEDALLION-ARCHITECTURE", "STAR-SCHEMA"],
+      link: "https://github.com/artrosisca/sql-data-warehouse",
+      architecture: [
+        { step: "01", title: "Bronze Layer", desc: t('projects.p1.step1') },
+        { step: "02", title: "Silver Layer", desc: t('projects.p1.step2') },
+        { step: "03", title: "Gold Layer", desc: t('projects.p1.step3') }
+      ]
+    },
+    {
+      id: 2,
+      title: t('projects.p2.title'),
+      category: "MACHINE LEARNING",
+      domain: "HEALTH TECH",
+      description: t('projects.p2.desc'),
+      stats: [
+        { value: "84.57%", label: "RECALL RATE" },
+        { value: "R$ 65.8k", label: "ANNUAL SAVINGS" },
+        { value: "10k+", label: "BENEFICIARIES" }
+      ],
+      tags: ["ETL", "SCALABLE", "REAL-TIME", "PANDAS", "SKLEARN"],
+      link: "#",
+      architecture: [
+        { step: "01", title: "ETL Pipeline", desc: t('projects.p2.step1') },
+        { step: "02", title: "Model Comparison", desc: t('projects.p2.step2') },
+        { step: "03", title: "Data Quality", desc: t('projects.p2.step3') }
+      ]
+    }
+  ];
+
   return (
     <section className="mb-stack-lg relative" id="projects">
       <div className="flex items-center gap-4 mb-12">
         <div className="section-header">
           <div className="corner-bracket-tl"></div>
-          <h2 className="font-headline-lg text-headline-lg text-text-primary uppercase tracking-tight">IMPACT <span className="text-primary-fixed">PROJECTS</span></h2>
+          <h2 className="font-headline-lg text-headline-lg text-text-primary uppercase tracking-tight">{t('projects.title')} <span className="text-primary-fixed">{t('projects.subtitle')}</span></h2>
         </div>
         <div className="flex-grow h-px bg-primary-fixed/10 mx-4"></div>
         <div className="flex gap-2">
@@ -104,7 +107,7 @@ export default function ProjectGallery() {
               
               <div className="lg:col-span-4 flex flex-col gap-8">
                 <div className="glass-panel border border-primary-fixed/20 rounded-xl p-8 flex-grow relative">
-                  <h4 className="font-label-md text-label-md mb-8 text-text-primary uppercase tracking-[0.2em]">ARQUITETURA</h4>
+                  <h4 className="font-label-md text-label-md mb-8 text-text-primary uppercase tracking-[0.2em]">{t('projects.architecture')}</h4>
                   <ul className="space-y-6">
                     {project.architecture.map((arch, i) => (
                       <li key={i} className="flex gap-4">
@@ -118,7 +121,7 @@ export default function ProjectGallery() {
                   </ul>
                 </div>
                 <a href={project.link} target="_blank" rel="noopener noreferrer" className="bg-surface-container border border-primary-fixed/20 p-6 rounded-xl flex items-center justify-between hover:bg-primary-fixed/10 transition-all group active:scale-95">
-                  <span className="font-bold text-text-primary uppercase text-xs tracking-widest">View GitHub</span>
+                  <span className="font-bold text-text-primary uppercase text-xs tracking-widest">{t('projects.view_github')}</span>
                   <ArrowRight className="text-primary-fixed group-hover:translate-x-2 transition-transform w-5 h-5" />
                 </a>
               </div>

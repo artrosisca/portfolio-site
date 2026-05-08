@@ -6,13 +6,9 @@ const BackgroundWrapper = ({ children }) => {
   useEffect(() => {
     const handleMouseMove = (e) => {
       if (wrapperRef.current) {
-        // Calculate relative position of mouse
-        const rect = wrapperRef.current.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        wrapperRef.current.style.setProperty('--mouse-x', `${x}px`);
-        wrapperRef.current.style.setProperty('--mouse-y', `${y}px`);
+        // For fixed background, we just need viewport coordinates
+        wrapperRef.current.style.setProperty('--mouse-x', `${e.clientX}px`);
+        wrapperRef.current.style.setProperty('--mouse-y', `${e.clientY}px`);
       }
     };
 
@@ -27,7 +23,7 @@ const BackgroundWrapper = ({ children }) => {
     >
       {/* Static Base Dot Grid layer */}
       <div
-        className="pointer-events-none absolute inset-0 z-0 opacity-40"
+        className="pointer-events-none fixed inset-0 z-0 opacity-40"
         style={{
           backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(250, 229, 0, 0.2) 1px, transparent 0)',
           backgroundSize: '32px 32px'
@@ -36,7 +32,7 @@ const BackgroundWrapper = ({ children }) => {
 
       {/* Interactive Hover Dot Grid layer (lights up dots around the cursor) */}
       <div
-        className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-300"
+        className="pointer-events-none fixed inset-0 z-0 transition-opacity duration-300"
         style={{
           backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(250, 229, 0, 0.29) 1.5px, transparent 0)',
           backgroundSize: '32px 32px',

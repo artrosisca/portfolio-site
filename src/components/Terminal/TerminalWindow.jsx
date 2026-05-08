@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export default function TerminalWindow({ onComplete, isFinished }) {
   const [text, setText] = useState(isFinished ? "cat core_attributes.json" : '');
   const [showJson, setShowJson] = useState(isFinished || false);
+  const { t } = useLanguage();
   
   const command = "cat core_attributes.json";
 
@@ -21,14 +23,14 @@ export default function TerminalWindow({ onComplete, isFinished }) {
           setShowJson(true);
           // Trigger the next phase shortly after JSON is revealed
           if (onComplete) {
-            setTimeout(onComplete, 1500); // 1.5s delay before moving to 2D layout
+            setTimeout(onComplete, 800); // Reduced delay for faster feel
           }
-        }, 400); // Wait a bit before showing output
+        }, 400);
       }
-    }, 100); // typing speed
+    }, 100);
     
     return () => clearInterval(interval);
-  }, [onComplete]);
+  }, [onComplete, isFinished]);
 
   return (
     <motion.div 
@@ -62,9 +64,9 @@ export default function TerminalWindow({ onComplete, isFinished }) {
           <div className="space-y-1 animate-in fade-in duration-500">
             <p className="text-on-surface">{"{"}</p>
             <p className="ml-4"><span className="text-[#bb9af7]">"location"</span>: <span className="text-[#73daca]">"Ponta Grossa, PR"</span>,</p>
-            <p className="ml-4"><span className="text-[#bb9af7]">"specialization"</span>: <span className="text-[#73daca]">"Data Engineering"</span>,</p>
-            <p className="ml-4"><span className="text-[#bb9af7]">"focus"</span>: <span className="text-[#73daca]">"Data Modeling / Lakehouse"</span>,</p>
-            <p className="ml-4"><span className="text-[#bb9af7]">"status"</span>: <span className="text-[#73daca]">"Available_for_Operations"</span></p>
+            <p className="ml-4"><span className="text-[#bb9af7]">"specialization"</span>: <span className="text-[#73daca]">"{t('terminal.specialization')}"</span>,</p>
+            <p className="ml-4"><span className="text-[#bb9af7]">"focus"</span>: <span className="text-[#73daca]">"{t('terminal.focus')}"</span>,</p>
+            <p className="ml-4"><span className="text-[#bb9af7]">"status"</span>: <span className="text-[#73daca]">"{t('terminal.status')}"</span></p>
             <p className="text-on-surface">{"}"}</p>
             
             <div className="mt-4 break-all">

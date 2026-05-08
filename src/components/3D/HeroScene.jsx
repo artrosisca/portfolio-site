@@ -2,17 +2,47 @@ import React, { useRef, useLayoutEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useGLTF, ScrollControls, useScroll, Html, useProgress } from '@react-three/drei';
 import * as THREE from 'three';
-function Loader() {
+function LoaderOverlay({ onLoaded, forceLoaded }) {
   const { progress } = useProgress();
+  const [opacity, setOpacity] = React.useState(1);
+  const [visible, setVisible] = React.useState(true);
+  const [minTimeElapsed, setMinTimeElapsed] = React.useState(false);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => setMinTimeElapsed(true), 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  let displayProgress = progress;
+  if (!minTimeElapsed && progress === 100) {
+    displayProgress = 99;
+  }
+  if (minTimeElapsed && forceLoaded) {
+    displayProgress = 100;
+  }
+
+  React.useEffect(() => {
+    if (displayProgress === 100) {
+      setOpacity(0);
+      onLoaded();
+      const timer = setTimeout(() => setVisible(false), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [displayProgress, onLoaded]);
+
+  if (!visible) return null;
+
   return (
-    <Html center>
-      <div className="flex flex-col items-center justify-center w-screen h-screen bg-background">
+    <Html center zIndexRange={[100, 0]}>
+      <div
+        className="flex flex-col items-center justify-center w-screen h-screen bg-background transition-opacity duration-1000 ease-in-out pointer-events-none"
+        style={{ opacity }}
+      >
         <div className="relative w-64 h-[2px] bg-white/5 overflow-hidden mb-6">
           <div
             className="absolute top-0 left-0 h-full bg-primary-fixed transition-all duration-500 ease-out"
-            style={{ width: `${progress}%` }}
+            style={{ width: `${displayProgress}%` }}
           />
-          {/* Scanning effect on the progress bar */}
           <div className="absolute top-0 left-0 h-full w-20 bg-gradient-to-r from-transparent via-primary-fixed/30 to-transparent animate-[scan_2s_linear_infinite]" />
         </div>
 
@@ -21,7 +51,7 @@ function Loader() {
             Initializing Surveillance System
           </span>
           <span className="font-code-sm text-primary-fixed/50 text-[9px] uppercase tracking-[0.2em]">
-            Syncing Neural Link: {Math.round(progress)}%
+            Syncing Neural Link: {Math.round(displayProgress)}%
           </span>
         </div>
       </div>
@@ -30,7 +60,7 @@ function Loader() {
 }
 
 
-function RoomModel() {
+function RoomModel({ onModelLoaded }) {
   const { scene } = useGLTF('/surveillance_room.glb');
 
   useLayoutEffect(() => {
@@ -39,7 +69,9 @@ function RoomModel() {
     scene.position.x -= center.x;
     scene.position.y -= center.y;
     scene.position.z -= center.z;
-  }, [scene]);
+
+    if (onModelLoaded) onModelLoaded();
+  }, [scene, onModelLoaded]);
 
   return <primitive object={scene} />;
 }
@@ -90,7 +122,25 @@ function CameraRig({ onEnterMonitor }) {
   return null;
 }
 
+import { useLanguage } from '../../contexts/LanguageContext';
+
 export default function HeroScene({ onEnterMonitor }) {
+  const [isLoaded, setIsLoaded] = React.useState(false);
+  const [modelLoaded, setModelLoaded] = React.useState(false);
+  const { lang, toggleLang } = useLanguage();
+
+  // useCallback to prevent infinite loops in LoaderOverlay's useEffect
+  const handleOverlayFinished = React.useCallback(() => {
+    // Delay setting isLoaded by 1s to match the overlay fade out duration
+    setTimeout(() => {
+      setIsLoaded(true);
+    }, 1000);
+  }, []);
+
+  const handleModelLoaded = React.useCallback(() => {
+    setModelLoaded(true);
+  }, []);
+
   return (
     <div className="fixed inset-0 z-0 bg-background overflow-hidden">
       <Canvas
@@ -103,16 +153,38 @@ export default function HeroScene({ onEnterMonitor }) {
         }}
         onCreated={({ gl }) => gl.setClearColor(0x000000)}
       >
-        <ambientLight intensity={0.8} />
-        <directionalLight position={[5, 10, 5]} intensity={1.5} />
-
-        <React.Suspense fallback={<Loader />}>
+        <LoaderOverlay onLoaded={handleOverlayFinished} forceLoaded={modelLoaded} />
+        <React.Suspense fallback={null}>
           <ScrollControls pages={2.0} damping={0.2}>
-            <RoomModel />
+            <RoomModel onModelLoaded={handleModelLoaded} />
             <CameraRig onEnterMonitor={onEnterMonitor} />
           </ScrollControls>
         </React.Suspense>
       </Canvas>
+
+      {/* Scroll instruction appears only after loading is complete */}
+      {isLoaded && (
+        <>
+          <div
+            className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center animate-bounce text-primary-fixed font-code-sm text-xs uppercase tracking-[0.2em] pointer-events-none z-10 transition-opacity duration-1000"
+            style={{ animationDuration: '2s' }}
+          >
+            <span className="mb-2">Scroll</span>
+            <div className="w-px h-10 bg-gradient-to-b from-primary-fixed to-transparent"></div>
+          </div>
+
+          {/* Language Toggle in Bottom Left */}
+          <div className="absolute bottom-10 left-10 z-20 animate-in fade-in duration-1000">
+            <button
+              onClick={toggleLang}
+              className="flex items-center justify-center gap-2 w-[100px] border border-white/10 hover:border-primary-fixed/50 transition-all active:scale-95 rounded-xl h-10 bg-black/20 backdrop-blur-md"
+            >
+              <span className="material-symbols-outlined text-primary-fixed text-lg">translate</span>
+              <span className="font-bold text-[#d4d4d4] uppercase text-xs tracking-wide">{lang}</span>
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 }

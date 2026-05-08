@@ -14,8 +14,8 @@ import BackgroundWrapper from './Layout/BackgroundWrapper';
 const SectionWrapper = ({ children, id, className = '' }) => (
   <motion.div
     id={id}
-    className={`w-full ${className}`}
-    initial={{ opacity: 0, y: 50 }}
+    className={`w-full min-h-screen snap-start flex flex-col justify-center ${className}`}
+    initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, margin: "-100px" }}
     transition={{ duration: 0.6, ease: "easeOut" }}
@@ -27,15 +27,10 @@ const SectionWrapper = ({ children, id, className = '' }) => (
 const MainLayout = () => {
   return (
     <BackgroundWrapper>
-      <div className="text-on-surface font-body-md overflow-x-hidden min-h-screen">
+      <div className="text-on-surface font-body-md">
         <TopNavBar />
         
-        {/* snap-y mandatory requires the container to have a height and overflow. 
-            However, enabling overflow-y here might break the window scroll. 
-            For full-page snapping, it's better to use native html/body snapping or just smooth scroll entrances. 
-            We will use CSS scroll-behavior: smooth on the html tag via Tailwind if needed, 
-            and keep snap on for section wrappers. */}
-        <main className="max-w-container-max mx-auto px-gutter pt-32">
+        <main className="max-w-container-max mx-auto px-gutter">
           
           <SectionWrapper id="hero">
             <HeroSection />
@@ -49,17 +44,21 @@ const MainLayout = () => {
             <ArchitectureCards />
           </SectionWrapper>
 
+          {/* Commented out as requested:
           <SectionWrapper id="experience">
             <ExperienceSection />
           </SectionWrapper>
+          */}
           
           <SectionWrapper id="projects">
             <ProjectGallery />
           </SectionWrapper>
 
           <SectionWrapper id="contact">
-            <ContactSection />
-            <Footer />
+            <div className="flex flex-col justify-between min-h-screen pt-32">
+              <ContactSection />
+              <Footer />
+            </div>
           </SectionWrapper>
           
         </main>

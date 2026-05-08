@@ -46,8 +46,11 @@ const techCategories = [
   }
 ];
 
+import { useLanguage } from '../../contexts/LanguageContext';
+
 export default function ArchitectureCards() {
   const [selectedTech, setSelectedTech] = useState(null);
+  const { t } = useLanguage();
 
   return (
     <section className="mb-stack-lg" id="tech">
@@ -55,11 +58,11 @@ export default function ArchitectureCards() {
         <div className="section-header">
           <div className="corner-bracket-tl"></div>
           <h2 className="font-headline-lg text-headline-lg text-text-primary uppercase tracking-tight">
-            CORE <span className="text-primary-fixed">ECOSYSTEM</span>
+            CORE <span className="text-primary-fixed">{t('tech.title')}</span>
           </h2>
         </div>
         <p className="text-on-surface-variant max-w-md font-label-md text-label-md uppercase tracking-[0.2em]">
-          Sistemas e ferramentas para orquestração e análise de dados.
+          {t('tech.subtitle')}
         </p>
       </div>
 
@@ -120,13 +123,13 @@ export default function ArchitectureCards() {
                 <h3 className="font-headline-lg text-2xl text-primary-fixed uppercase tracking-widest">{selectedTech.name}</h3>
               </div>
               <p className="font-body-md text-on-surface mb-6">
-                <span className="font-code-sm text-[10px] uppercase tracking-widest text-on-surface-variant block mb-1">Applications & Concepts</span>
+                <span className="font-code-sm text-[10px] uppercase tracking-widest text-on-surface-variant block mb-1">{t('tech.popup_title')}</span>
                 {selectedTech.details}
               </p>
               
               <div className="border-t border-primary-fixed/20 pt-4 flex justify-end">
                 <a href="#projects" onClick={() => setSelectedTech(null)} className="font-code-sm text-xs text-primary-fixed hover:text-white uppercase tracking-widest flex items-center gap-2 group">
-                  See related projects
+                  {t('tech.popup_cta')}
                   <span className="group-hover:translate-x-1 transition-transform">→</span>
                 </a>
               </div>

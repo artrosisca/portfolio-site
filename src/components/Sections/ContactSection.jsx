@@ -1,15 +1,17 @@
-import React from 'react';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const ContactSection = () => {
+  const { t } = useLanguage();
+
   return (
     <section className="mb-stack-lg relative" id="contact">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         <div>
           <div className="section-header">
             <div className="corner-bracket-tl"></div>
-            <h2 className="font-headline-lg text-headline-lg mb-8 text-text-primary uppercase tracking-tight">CONEXÃO <span className="text-primary-fixed">_REQUISITAR</span></h2>
+            <h2 className="font-headline-lg text-headline-lg mb-8 text-text-primary uppercase tracking-tight">{t('contact.title')} <span className="text-primary-fixed">{t('contact.subtitle')}</span></h2>
           </div>
-          <p className="text-on-surface-variant mb-12 font-label-md text-label-md uppercase tracking-[0.2em] max-w-md">INTERESTED EM OTIMIZAR SEUS PROCESSOS DE DADOS? VAMOS CONVERSAR.</p>
+          <p className="text-on-surface-variant mb-12 font-label-md text-label-md uppercase tracking-[0.2em] max-w-md">{t('contact.description')}</p>
           <div className="space-y-6">
             <div className="flex items-center gap-6 group">
               <div className="w-14 h-14 rounded-full glass-panel border border-primary-fixed/20 flex items-center justify-center group-hover:border-primary-fixed transition-all">
@@ -34,9 +36,9 @@ const ContactSection = () => {
           <div className="mt-12 p-6 rounded-xl bg-surface-container-lowest border border-primary-fixed/20 relative overflow-hidden">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-2 h-2 rounded-full bg-primary-fixed animate-pulse"></div>
-              <span className="font-code-sm text-[10px] uppercase text-primary-fixed tracking-widest">SYSTEM STATUS: NOMINAL</span>
+              <span className="font-code-sm text-[10px] uppercase text-primary-fixed tracking-widest">{t('contact.status')}</span>
             </div>
-            <p className="font-code-sm text-[10px] text-on-surface-variant uppercase tracking-widest">READY TO COMMENCE NEW OPERATIONS</p>
+            <p className="font-code-sm text-[10px] text-on-surface-variant uppercase tracking-widest">{t('contact.ready')}</p>
           </div>
         </div>
         <div className="glass-panel p-10 border border-primary-fixed/20 relative rounded-tr-none rounded-tl-xl rounded-bl-xl rounded-br-xl">
@@ -44,20 +46,20 @@ const ContactSection = () => {
           <form className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">Nome</label>
-                <input className="w-full bg-[#131313] border border-primary-fixed/20 rounded-full px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder="Seu nome" type="text" />
+                <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">{t('contact.form_name')}</label>
+                <input className="w-full bg-[#131313] border border-primary-fixed/20 rounded-full px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_name_placeholder')} type="text" />
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">E-mail</label>
-                <input className="w-full bg-[#131313] border border-primary-fixed/20 rounded-full px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder="Seu e-mail" type="email" />
+                <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">{t('contact.form_email')}</label>
+                <input className="w-full bg-[#131313] border border-primary-fixed/20 rounded-full px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_email_placeholder')} type="email" />
               </div>
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">Mensagem</label>
-              <textarea className="w-full bg-[#131313] border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder="Escreva sua mensagem aqui..." rows="4"></textarea>
+              <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">{t('contact.form_message')}</label>
+              <textarea className="w-full bg-[#131313] border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_message_placeholder')} rows="4"></textarea>
             </div>
             <button className="w-full bg-primary-fixed text-on-primary-fixed font-bold py-5 text-sm uppercase tracking-[0.3em] active:scale-95 transition-all rounded-[15px]" type="submit">
-              ENVIAR MENSAGEM
+              {t('contact.form_send')}
             </button>
           </form>
         </div>
