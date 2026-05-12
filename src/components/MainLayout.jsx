@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Element } from 'react-scroll';
 import TopNavBar from './Layout/TopNavBar';
 import Footer from './Layout/Footer';
 import HeroSection from './Sections/HeroSection';
@@ -10,18 +11,20 @@ import ProjectGallery from './Projects/ProjectGallery';
 import ContactSection from './Sections/ContactSection';
 import BackgroundWrapper from './Layout/BackgroundWrapper';
 
-// Section wrapper for scroll snapping and entrance animations
+// Section wrapper using react-scroll Element for snap targeting
 const SectionWrapper = ({ children, id, className = '' }) => (
-  <motion.div
-    id={id}
-    className={`w-full min-h-screen snap-start flex flex-col justify-center ${className}`}
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: "-100px" }}
-    transition={{ duration: 0.6, ease: "easeOut" }}
-  >
-    {children}
-  </motion.div>
+  <Element name={id}>
+    <motion.div
+      id={id}
+      className={`w-full min-h-screen flex flex-col justify-center ${className}`}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
+      {children}
+    </motion.div>
+  </Element>
 );
 
 const MainLayout = () => {
@@ -55,17 +58,20 @@ const MainLayout = () => {
           </SectionWrapper>
 
           <SectionWrapper id="contact">
-            <div className="flex flex-col justify-between min-h-screen pt-32">
-              <ContactSection />
-              <Footer />
-            </div>
+            <ContactSection />
           </SectionWrapper>
           
         </main>
+
+        {/* Footer outside sections, at the bottom */}
+        <Element name="footer-section">
+          <div id="footer-section">
+            <Footer />
+          </div>
+        </Element>
       </div>
     </BackgroundWrapper>
   );
 };
 
 export default MainLayout;
-

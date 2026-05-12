@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 
 const GithubIcon = ({ className }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.02c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A4.8 4.8 0 0 0 9 18v4"></path>
+  <svg className={className} role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+    <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.43.372.805 1.102.805 2.222 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path>
   </svg>
 );
 import { useLanguage } from '../../contexts/LanguageContext';
 
 export default function ProjectGallery() {
   const { t } = useLanguage();
+  const scrollRef = useRef(null);
 
   const projects = [
     {
@@ -18,12 +19,7 @@ export default function ProjectGallery() {
       category: "DATA WAREHOUSE",
       domain: "DATA ENGINEERING",
       description: t('projects.p1.desc'),
-      stats: [
-        { value: "3", label: "LAYERS" },
-        { value: "Star", label: "SCHEMA" },
-        { value: "T-SQL", label: "LANGUAGE" }
-      ],
-      tags: ["ETL", "SQL-SERVER", "MEDALLION-ARCHITECTURE", "STAR-SCHEMA"],
+      tags: ["ETL", "SQL-SERVER", "MEDALLION-ARCHITECTURE", "STAR-SCHEMA", "T-SQL"],
       link: "https://github.com/artrosisca/sql-data-warehouse",
       architecture: [
         { step: "01", title: "Bronze Layer", desc: t('projects.p1.step1') },
@@ -37,41 +33,87 @@ export default function ProjectGallery() {
       category: "MACHINE LEARNING",
       domain: "HEALTH TECH",
       description: t('projects.p2.desc'),
-      stats: [
-        { value: "84.57%", label: "RECALL RATE" },
-        { value: "R$ 65.8k", label: "ANNUAL SAVINGS" },
-        { value: "10k+", label: "BENEFICIARIES" }
-      ],
-      tags: ["ETL", "SCALABLE", "REAL-TIME", "PANDAS", "SKLEARN"],
-      link: "#",
+      tags: ["PYTHON", "PANDAS", "SKLEARN", "RANDOM-FOREST", "ETL"],
+      link: "https://github.com/artrosisca/Predicao-Dcnt-Unimed",
       architecture: [
         { step: "01", title: "ETL Pipeline", desc: t('projects.p2.step1') },
         { step: "02", title: "Model Comparison", desc: t('projects.p2.step2') },
         { step: "03", title: "Data Quality", desc: t('projects.p2.step3') }
       ]
+    },
+    {
+      id: 3,
+      title: t('projects.p3.title'),
+      category: "WEB APPLICATION",
+      domain: "FULL STACK",
+      description: t('projects.p3.desc'),
+      tags: ["PHP", "MySQL", "HTML/CSS", "REST-API", "MVC"],
+      link: "https://github.com/artrosisca/controle-despesas",
+      architecture: [
+        { step: "01", title: "Backend", desc: t('projects.p3.step1') },
+        { step: "02", title: "Frontend", desc: t('projects.p3.step2') },
+        { step: "03", title: "Reports", desc: t('projects.p3.step3') }
+      ]
+    },
+    {
+      id: 4,
+      title: t('projects.p4.title'),
+      category: "PROCESS MINING",
+      domain: "DATA SCIENCE",
+      description: t('projects.p4.desc'),
+      tags: ["PYTHON", "PM4PY", "JUPYTER", "PROCESS-MINING", "EVENT-LOGS"],
+      link: "https://github.com/artrosisca/process-mining-Analise-Fluxo-Recebimento",
+      architecture: [
+        { step: "01", title: "ETL", desc: t('projects.p4.step1') },
+        { step: "02", title: "Discovery", desc: t('projects.p4.step2') },
+        { step: "03", title: "Conformance", desc: t('projects.p4.step3') }
+      ]
     }
   ];
+
+  const scrollTo = (direction) => {
+    if (!scrollRef.current) return;
+    const container = scrollRef.current;
+    const cardWidth = container.firstElementChild?.offsetWidth || container.offsetWidth;
+    const gap = 32;
+    const step = cardWidth + gap;
+
+    if (direction === 'next') {
+      const maxScroll = container.scrollWidth - container.clientWidth;
+      if (container.scrollLeft >= maxScroll - 10) {
+        container.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        container.scrollBy({ left: step, behavior: 'smooth' });
+      }
+    } else {
+      if (container.scrollLeft <= 10) {
+        container.scrollTo({ left: container.scrollWidth, behavior: 'smooth' });
+      } else {
+        container.scrollBy({ left: -step, behavior: 'smooth' });
+      }
+    }
+  };
 
   return (
     <section className="mb-stack-lg relative" id="projects">
       <div className="flex items-center gap-4 mb-12">
         <div className="section-header">
           <div className="corner-bracket-tl"></div>
-          <h2 className="font-headline-lg text-headline-lg text-text-primary uppercase tracking-tight">{t('projects.title')} <span className="text-primary-fixed">{t('projects.subtitle')}</span></h2>
+          <h2 className="font-headline-lg text-headline-lg text-text-primary uppercase tracking-tight">{t('projects.title')}</h2>
         </div>
         <div className="flex-grow h-px bg-primary-fixed/10 mx-4"></div>
         <div className="flex gap-2">
-          <button className="w-12 h-12 rounded-full border border-primary-fixed/20 flex items-center justify-center hover:border-primary-fixed transition-colors active:scale-90">
+          <button onClick={() => scrollTo('prev')} className="w-12 h-12 rounded-full border border-primary-fixed/20 flex items-center justify-center hover:border-primary-fixed transition-colors active:scale-90 cursor-pointer">
             <ChevronLeft className="text-primary-fixed" />
           </button>
-          <button className="w-12 h-12 rounded-full border border-primary-fixed/20 flex items-center justify-center hover:border-primary-fixed transition-colors active:scale-90">
+          <button onClick={() => scrollTo('next')} className="w-12 h-12 rounded-full border border-primary-fixed/20 flex items-center justify-center hover:border-primary-fixed transition-colors active:scale-90 cursor-pointer">
             <ChevronRight className="text-primary-fixed" />
           </button>
         </div>
       </div>
       
       <div className="relative overflow-hidden w-full">
-        <div className="flex gap-8 overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth pb-4">
+        <div ref={scrollRef} className="flex gap-8 overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth pb-4">
           {projects.map((project) => (
             <div key={project.id} className="flex-shrink-0 w-full snap-start grid grid-cols-1 lg:grid-cols-12 gap-8">
               <div className="lg:col-span-8 glass-panel border border-primary-fixed/20 rounded-xl overflow-hidden group">
@@ -93,19 +135,12 @@ export default function ProjectGallery() {
                   <h3 className="font-headline-md text-headline-md mb-4 text-text-primary uppercase">{project.title}</h3>
                   <p className="text-on-surface-variant mb-8 font-body-md">{project.description}</p>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    {project.stats.map((stat, i) => (
-                      <div key={i} className="border border-primary-fixed/10 p-6 rounded-xl bg-surface-container-lowest">
-                        <span className="block text-text-primary font-headline-lg text-[40px]">{stat.value}</span>
-                        <span className="text-[10px] uppercase tracking-widest text-on-surface-variant">{stat.label}</span>
-                      </div>
-                    ))}
-                  </div>
-                  
-                  {/* Technical Specs Footer */}
-                  <div className="flex flex-wrap gap-3 pt-6 border-t border-primary-fixed/10">
+                  {/* Technical Specs as inline tag pills — replaces the old big squares */}
+                  <div className="flex flex-wrap gap-3 pt-6 border-t border-white/5">
                     {project.tags.map((tag, i) => (
-                      <span key={i} className="font-code-sm text-xs text-primary-fixed/80 uppercase px-3 py-1.5 rounded-md border border-primary-fixed/15 bg-primary-fixed/5 tracking-wide">{tag}</span>
+                      <span key={i} className="font-code-sm text-xs text-[#a8c4e6] uppercase px-3 py-1.5 rounded-md border border-[#a8c4e6]/15 bg-[#a8c4e6]/5 tracking-wide">
+                        {tag}
+                      </span>
                     ))}
                   </div>
                 </div>
@@ -126,9 +161,9 @@ export default function ProjectGallery() {
                     ))}
                   </ul>
                 </div>
-                <a href={project.link} target="_blank" rel="noopener noreferrer" className="bg-surface-container border border-primary-fixed/20 p-6 rounded-xl flex items-center justify-between hover:bg-primary-fixed/10 transition-all group active:scale-95">
+                <a href={project.link} target="_blank" rel="noopener noreferrer" className="bg-surface-container border border-primary-fixed/20 p-6 rounded-xl flex items-center justify-between hover:bg-primary-fixed/10 transition-all group active:scale-95 cursor-pointer">
                   <div className="flex items-center gap-3">
-                    <GithubIcon className="w-5 h-5 text-primary-fixed" />
+                    <GithubIcon className="w-5 h-5 text-on-surface-variant" />
                     <span className="font-bold text-text-primary uppercase text-xs tracking-widest">{t('projects.view_github')}</span>
                   </div>
                   <ArrowRight className="text-primary-fixed group-hover:translate-x-2 transition-transform w-5 h-5" />

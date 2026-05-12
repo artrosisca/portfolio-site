@@ -1,22 +1,22 @@
 # Graph Report - portfolio-site  (2026-05-08)
 
 ## Corpus Check
-- 19 files · ~33,486 words
+- 19 files · ~33,767 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 49 nodes · 71 edges · 9 communities (7 shown, 2 thin omitted)
+- 51 nodes · 73 edges · 9 communities (7 shown, 2 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `7913db3f`
+- Built from commit: `ca395df9`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - [[_COMMUNITY_Core Application & State|Core Application & State]]
-- [[_COMMUNITY_Portfolio Sections|Portfolio Sections]]
+- [[_COMMUNITY_Global Layout & Navigation|Global Layout & Navigation]]
 - [[_COMMUNITY_Tech Stack Ecosystem|Tech Stack Ecosystem]]
 - [[_COMMUNITY_Project Showcases|Project Showcases]]
 - [[_COMMUNITY_Interactive Terminal|Interactive Terminal]]
@@ -43,8 +43,8 @@
   README.md → public/arthur_resume_pt-br.pdf
 - `HeroScene()` --calls--> `useLanguage()`  [EXTRACTED]
   src/components/3D/HeroScene.jsx → src/contexts/LanguageContext.jsx
-- `AboutSection()` --calls--> `useLanguage()`  [EXTRACTED]
-  src/components/Sections/AboutSection.jsx → src/contexts/LanguageContext.jsx
+- `ProjectGallery()` --calls--> `useLanguage()`  [EXTRACTED]
+  src/components/Projects/ProjectGallery.jsx → src/contexts/LanguageContext.jsx
 
 ## Communities (9 total, 2 thin omitted)
 
@@ -52,9 +52,9 @@
 Cohesion: 0.23
 Nodes (5): LanguageContext, LanguageProvider(), translations, AboutSection(), TerminalWindow()
 
-### Community 2 - "Portfolio Sections"
-Cohesion: 0.33
-Nodes (5): useLanguage(), TopNavBar(), ProjectGallery(), ContactSection(), HeroSection()
+### Community 1 - "Global Layout & Navigation"
+Cohesion: 0.29
+Nodes (6): useLanguage(), TopNavBar(), ContactSection(), HeroSection(), ArchitectureCards(), techCategories
 
 ### Community 4 - "Project Showcases"
 Cohesion: 0.4
@@ -72,7 +72,7 @@ Nodes (3): Expanding the ESLint configuration, React Compiler, React + Vite
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `useLanguage()` connect `Portfolio Sections` to `Core Application & State`, `Tech Stack Ecosystem`, `I18n Engine`?**
-  _High betweenness centrality (0.160) - this node is a cross-community bridge._
+- **Why does `useLanguage()` connect `Global Layout & Navigation` to `Core Application & State`, `Tech Stack Ecosystem`, `I18n Engine`?**
+  _High betweenness centrality (0.166) - this node is a cross-community bridge._
 - **What connects `techCategories`, `LanguageContext`, `React Compiler` to the rest of the system?**
   _8 weakly-connected nodes found - possible documentation gaps or missing edges._

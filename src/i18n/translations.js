@@ -5,10 +5,11 @@ export const translations = {
       tech: "TECNOLOGIAS",
       projects: "PROJETOS",
       contact: "CONTATO",
-      download_cv: "BAIXAR CV"
+      download_cv: "BAIXAR CV",
+      doc_preview: "Pré-visualização"
     },
     hero: {
-      subheadline: "DATA ENGINEERING CORE",
+      subheadline: "ESTUDANTE DE CIÊNCIA DA COMPUTAÇÃO",
       description: "Engenheiro de Dados. Transformando fluxos brutos em inteligência industrial e pipelines de alta performance.",
       cta_contact: "CONTATO",
       cta_projects: "VER PROJETOS"
@@ -22,9 +23,13 @@ export const translations = {
     },
     tech: {
       title: "tech stack",
-      subtitle: "Sistemas e ferramentas para orquestração e análise de dados.",
+      subtitle: "Linguagens e tecnologias",
       popup_title: "Aplicações & Conceitos",
-      popup_cta: "Ver projetos relacionados"
+      popup_cta: "Ver projetos relacionados",
+      cat_data_engineering: "Engenharia de Dados",
+      cat_analytics: "Análise & BI",
+      cat_devops: "DevOps & Controle de Versão",
+      cat_management: "Gestão de Projetos"
     },
     projects: {
       title: "projetos",
@@ -44,6 +49,20 @@ export const translations = {
         step1: "ETL Pipeline: Consolidação de 6 fontes distintas.",
         step2: "Model Comparison: Random Forest e Gradient Boosting.",
         step3: "Data Quality: Tratamento de outliers clínicos."
+      },
+      p3: {
+        title: "Controle de Despesas",
+        desc: "Sistema web completo para gerenciamento e controle de despesas pessoais, desenvolvido em PHP com painel de visualização e categorização de gastos.",
+        step1: "Backend: API REST em PHP com autenticação.",
+        step2: "Frontend: Interface responsiva com filtros dinâmicos.",
+        step3: "Relatórios: Dashboard com gráficos de gastos."
+      },
+      p4: {
+        title: "Process Mining — Fluxo de Recebimento",
+        desc: "Aplicação de técnicas de Process Mining no fluxo de Confirmação de Recebimento, focando na análise de gargalos temporais e conformidade com regras de negócio.",
+        step1: "ETL: Extração e transformação de event logs.",
+        step2: "Discovery: Mineração de processos com PM4Py.",
+        step3: "Conformance: Verificação de desvios do fluxo ideal."
       }
     },
     contact: {
@@ -74,10 +93,11 @@ export const translations = {
       tech: "TECH STACK",
       projects: "PROJECTS",
       contact: "CONTACT",
-      download_cv: "DOWNLOAD CV"
+      download_cv: "DOWNLOAD CV",
+      doc_preview: "Document Preview"
     },
     hero: {
-      subheadline: "DATA ENGINEERING CORE",
+      subheadline: "COMPUTER SCIENCE STUDENT",
       description: "Data Engineer. Transforming raw streams into industrial intelligence and high-performance pipelines.",
       cta_contact: "CONTACT",
       cta_projects: "VIEW PROJECTS"
@@ -91,9 +111,13 @@ export const translations = {
     },
     tech: {
       title: "tech stack",
-      subtitle: "Systems and tools for data orchestration and analysis.",
+      subtitle: "Languages and technologies",
       popup_title: "Applications & Concepts",
-      popup_cta: "See related projects"
+      popup_cta: "See related projects",
+      cat_data_engineering: "Data Engineering",
+      cat_analytics: "Analytics & BI",
+      cat_devops: "DevOps & Version Control",
+      cat_management: "Project Management"
     },
     projects: {
       title: "projects",
@@ -113,6 +137,20 @@ export const translations = {
         step1: "ETL Pipeline: Consolidation of 6 distinct sources.",
         step2: "Model Comparison: Random Forest and Gradient Boosting.",
         step3: "Data Quality: Clinical outlier treatment."
+      },
+      p3: {
+        title: "Expense Tracker",
+        desc: "Full web system for managing and tracking personal expenses, built with PHP featuring a visualization dashboard and spend categorization.",
+        step1: "Backend: REST API in PHP with authentication.",
+        step2: "Frontend: Responsive interface with dynamic filters.",
+        step3: "Reports: Dashboard with spending charts."
+      },
+      p4: {
+        title: "Process Mining — Receipt Flow",
+        desc: "Application of Process Mining techniques on the Receipt Confirmation flow, focusing on temporal bottleneck analysis and business rule compliance.",
+        step1: "ETL: Extraction and transformation of event logs.",
+        step2: "Discovery: Process mining with PM4Py.",
+        step3: "Conformance: Checking deviations from ideal flow."
       }
     },
     contact: {

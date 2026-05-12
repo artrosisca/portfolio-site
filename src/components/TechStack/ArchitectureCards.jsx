@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Code2, Database, Workflow, GitBranch, Briefcase } from 'lucide-react';
 
-const techCategories = [
+const techCategoriesData = [
   {
     id: "data-engineering",
-    title: "Data Engineering",
+    titleKey: "tech.cat_data_engineering",
     icon: <Database className="w-4 h-4 text-primary-fixed" />,
     items: [
       { name: "SQL", details: "DataWarehouse, Views, Functions" },
@@ -17,7 +17,7 @@ const techCategories = [
   },
   {
     id: "analytics",
-    title: "Analytics & BI",
+    titleKey: "tech.cat_analytics",
     icon: <Workflow className="w-4 h-4 text-primary-fixed" />,
     items: [
       { name: "Power BI", details: "DAX, Dashboards" },
@@ -26,7 +26,7 @@ const techCategories = [
   },
   {
     id: "devops",
-    title: "DevOps & Version Control",
+    titleKey: "tech.cat_devops",
     icon: <GitBranch className="w-4 h-4 text-primary-fixed" />,
     items: [
       { name: "Git", details: "Version Control" },
@@ -36,7 +36,7 @@ const techCategories = [
   },
   {
     id: "management",
-    title: "Project Management",
+    titleKey: "tech.cat_management",
     icon: <Briefcase className="w-4 h-4 text-primary-fixed" />,
     items: [
       { name: "Asana", details: "Task Tracking" },
@@ -67,14 +67,14 @@ export default function ArchitectureCards() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {techCategories.map((category) => (
+        {techCategoriesData.map((category) => (
           <div key={category.id} className="glass-panel p-6 border border-primary-fixed/20 rounded-xl relative hover:border-primary-fixed/50 transition-colors">
             <div className="flex items-center gap-4 mb-6">
               <div className="w-8 h-8 rounded-full border border-primary-fixed/30 flex items-center justify-center bg-primary-fixed/5">
                 {category.icon}
               </div>
               <h3 className="font-code-sm text-sm text-primary-fixed uppercase tracking-[0.2em]">
-                {category.title}
+                {t(category.titleKey)}
               </h3>
             </div>
             

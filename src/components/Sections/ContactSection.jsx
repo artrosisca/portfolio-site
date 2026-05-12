@@ -9,7 +9,7 @@ const ContactSection = () => {
         <div>
           <div className="section-header">
             <div className="corner-bracket-tl"></div>
-            <h2 className="font-headline-lg text-headline-lg mb-8 text-text-primary uppercase tracking-tight">{t('contact.title')} <span className="text-primary-fixed">{t('contact.subtitle')}</span></h2>
+            <h2 className="font-headline-lg text-headline-lg mb-8 text-text-primary uppercase tracking-tight">{t('contact.title')}</h2>
           </div>
           <p className="text-on-surface-variant mb-12 font-label-md text-label-md uppercase tracking-[0.2em] max-w-md">{t('contact.description')}</p>
           <div className="space-y-6">
@@ -47,18 +47,18 @@ const ContactSection = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">{t('contact.form_name')}</label>
-                <input className="w-full bg-[#131313] border border-primary-fixed/20 rounded-full px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_name_placeholder')} type="text" />
+                <input className="w-full bg-[#131313] border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_name_placeholder')} type="text" />
               </div>
               <div className="space-y-2">
                 <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">{t('contact.form_email')}</label>
-                <input className="w-full bg-[#131313] border border-primary-fixed/20 rounded-full px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_email_placeholder')} type="email" />
+                <input className="w-full bg-[#131313] border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_email_placeholder')} type="email" />
               </div>
             </div>
             <div className="space-y-2">
               <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">{t('contact.form_message')}</label>
               <textarea className="w-full bg-[#131313] border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_message_placeholder')} rows="4"></textarea>
             </div>
-            <button className="w-full bg-primary-fixed text-on-primary-fixed font-bold py-5 text-sm uppercase tracking-[0.3em] active:scale-95 transition-all rounded-[15px]" type="submit">
+            <button className="w-full bg-primary-fixed text-on-primary-fixed font-bold py-5 text-sm uppercase tracking-[0.3em] active:scale-95 transition-all rounded-[15px] cursor-pointer" type="submit">
               {t('contact.form_send')}
             </button>
           </form>

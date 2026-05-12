@@ -41,51 +41,17 @@ function LoaderOverlay({ forceLoaded, onFadeComplete }) {
         transition: 'opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1)',
       }}
     >
-      {/* Outer ring spinner */}
-      <div className="relative w-28 h-28 mb-10">
-        {/* Rotating dashed ring */}
-        <svg className="absolute inset-0 w-full h-full animate-spin" style={{ animationDuration: '4s' }} viewBox="0 0 112 112">
-          <circle cx="56" cy="56" r="52" fill="none" stroke="rgba(255,222,0,0.08)" strokeWidth="1.5" />
-          <circle
-            cx="56" cy="56" r="52"
-            fill="none"
-            stroke="var(--color-primary-fixed)"
-            strokeWidth="1.5"
-            strokeDasharray="82 245"
-            strokeLinecap="round"
-          />
-        </svg>
-        {/* Counter-rotating inner ring */}
-        <svg className="absolute inset-3 w-[calc(100%-24px)] h-[calc(100%-24px)]" style={{ animation: 'spin 3s linear infinite reverse' }} viewBox="0 0 88 88">
-          <circle
-            cx="44" cy="44" r="40"
-            fill="none"
-            stroke="var(--color-primary-fixed)"
-            strokeWidth="0.5"
-            strokeDasharray="25 226"
-            strokeLinecap="round"
-            opacity="0.4"
-          />
-        </svg>
-        {/* Center percentage */}
-        <span className="absolute inset-0 flex items-center justify-center font-code-sm text-primary-fixed text-lg tabular-nums">
-          {Math.round(displayProgress)}
-        </span>
-      </div>
-
-      {/* Progress bar */}
-      <div className="relative w-48 h-px bg-white/5 overflow-hidden mb-5">
+      {/* Elegant progress bar */}
+      <div className="w-48 h-[3px] bg-white/[0.06] overflow-hidden rounded-full relative">
         <div
-          className="absolute top-0 left-0 h-full bg-primary-fixed/80 transition-all duration-500 ease-out"
-          style={{ width: `${displayProgress}%` }}
+          className="absolute top-0 left-0 h-full rounded-full transition-all duration-700 ease-out"
+          style={{
+            width: `${displayProgress}%`,
+            background: 'linear-gradient(90deg, var(--color-primary-fixed), #ffe566)',
+            boxShadow: '0 0 12px rgba(255,222,0,0.4)',
+          }}
         />
-        <div className="absolute top-0 left-0 h-full w-16 bg-gradient-to-r from-transparent via-primary-fixed/20 to-transparent animate-[scan_2s_linear_infinite]" />
       </div>
-
-      {/* Status text */}
-      <span className="font-code-sm text-primary-fixed/40 text-[9px] uppercase tracking-[0.25em]">
-        Syncing Neural Link
-      </span>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link as ScrollLink } from 'react-scroll';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 const TopNavBar = () => {
@@ -41,10 +42,14 @@ const TopNavBar = () => {
       
       <nav className="hidden md:flex items-center gap-8">
         {navItems.map((item) => (
-          <a
+          <ScrollLink
             key={item.id}
-            href={`#${item.id}`}
-            className={`font-label-md text-label-md uppercase tracking-[0.2em] transition-colors relative ${
+            to={item.id}
+            smooth={true}
+            duration={600}
+            containerId="main-scroll-container"
+            spy={true}
+            className={`font-label-md text-label-md uppercase tracking-[0.2em] transition-colors relative cursor-pointer ${
               activeSection === item.id ? 'text-primary-fixed' : 'text-on-surface-variant hover:text-primary-fixed'
             }`}
           >
@@ -56,7 +61,7 @@ const TopNavBar = () => {
                 transition={{ type: 'spring', stiffness: 380, damping: 30 }}
               />
             )}
-          </a>
+          </ScrollLink>
         ))}
       </nav>
 
@@ -64,7 +69,7 @@ const TopNavBar = () => {
         {/* Language Toggle */}
         <button 
           onClick={toggleLang}
-          className="flex items-center justify-center gap-2 w-[100px] border border-white/10 hover:border-primary-fixed/50 transition-all active:scale-95 rounded-xl h-10 bg-black/20 backdrop-blur-md"
+          className="flex items-center justify-center gap-1.5 px-3 border border-white/10 hover:border-primary-fixed/50 transition-all active:scale-95 rounded-lg h-9 bg-black/20 backdrop-blur-md cursor-pointer"
         >
           <span className="material-symbols-outlined text-primary-fixed text-lg">translate</span>
           <span className="font-bold text-[#d4d4d4] uppercase text-xs tracking-wide">{lang}</span>
@@ -77,7 +82,7 @@ const TopNavBar = () => {
           onMouseLeave={() => setShowCV(false)}
         >
           <a 
-            className="bg-primary-fixed text-on-primary-fixed font-bold py-2 active:scale-95 transition-all duration-300 text-sm rounded-xl h-10 flex items-center justify-center w-[150px]" 
+            className="bg-primary-fixed text-on-primary-fixed font-bold py-2 active:scale-95 transition-all duration-300 text-sm rounded-xl h-10 flex items-center justify-center w-[150px] cursor-pointer" 
             href={lang === 'PT' ? '/arthur_resume_pt-br.pdf' : '/arthur_resume_en.pdf'}
             download
           >
@@ -94,7 +99,7 @@ const TopNavBar = () => {
                 className="absolute top-14 right-0 w-64 bg-surface-container rounded-xl border border-primary-fixed/20 shadow-2xl overflow-hidden z-50 pointer-events-none"
               >
                 <div className="bg-primary-fixed/10 px-3 py-2 border-b border-primary-fixed/10">
-                  <span className="text-[10px] font-bold text-primary-fixed uppercase tracking-wider">Document Preview</span>
+                  <span className="text-[10px] font-bold text-primary-fixed uppercase tracking-wider">{t('nav.doc_preview')}</span>
                 </div>
                 <div className="p-2">
                   <img src="/cv_preview_mockup.png" alt="CV Preview" className="w-full h-auto rounded-lg shadow-inner opacity-80" />
@@ -109,4 +114,3 @@ const TopNavBar = () => {
 };
 
 export default TopNavBar;
-

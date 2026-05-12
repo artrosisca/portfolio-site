@@ -54,7 +54,7 @@
       "source_file": "src/components/MainLayout.jsx",
       "source_location": "L1",
       "id": "src_components_mainlayout_jsx",
-      "community": 1,
+      "community": 2,
       "norm_label": "mainlayout.jsx"
     },
     {
@@ -63,7 +63,7 @@
       "source_file": "src/components/MainLayout.jsx",
       "source_location": "L14",
       "id": "components_mainlayout_sectionwrapper",
-      "community": 1,
+      "community": 2,
       "norm_label": "sectionwrapper()"
     },
     {
@@ -72,7 +72,7 @@
       "source_file": "src/components/MainLayout.jsx",
       "source_location": "L27",
       "id": "components_mainlayout_mainlayout",
-      "community": 1,
+      "community": 2,
       "norm_label": "mainlayout()"
     },
     {
@@ -88,7 +88,7 @@
       "label": "LoaderOverlay()",
       "file_type": "code",
       "source_file": "src/components/3D/HeroScene.jsx",
-      "source_location": "L5",
+      "source_location": "L7",
       "id": "3d_heroscene_loaderoverlay",
       "community": 3,
       "norm_label": "loaderoverlay()"
@@ -97,7 +97,7 @@
       "label": "RoomModel()",
       "file_type": "code",
       "source_file": "src/components/3D/HeroScene.jsx",
-      "source_location": "L63",
+      "source_location": "L94",
       "id": "3d_heroscene_roommodel",
       "community": 3,
       "norm_label": "roommodel()"
@@ -106,16 +106,25 @@
       "label": "CameraRig()",
       "file_type": "code",
       "source_file": "src/components/3D/HeroScene.jsx",
-      "source_location": "L79",
+      "source_location": "L110",
       "id": "3d_heroscene_camerarig",
       "community": 3,
       "norm_label": "camerarig()"
     },
     {
+      "label": "ScrollIndicator()",
+      "file_type": "code",
+      "source_file": "src/components/3D/HeroScene.jsx",
+      "source_location": "L159",
+      "id": "3d_heroscene_scrollindicator",
+      "community": 3,
+      "norm_label": "scrollindicator()"
+    },
+    {
       "label": "HeroScene()",
       "file_type": "code",
       "source_file": "src/components/3D/HeroScene.jsx",
-      "source_location": "L127",
+      "source_location": "L192",
       "id": "3d_heroscene_heroscene",
       "community": 3,
       "norm_label": "heroscene()"
@@ -126,7 +135,7 @@
       "source_file": "src/components/Layout/BackgroundWrapper.jsx",
       "source_location": "L1",
       "id": "src_components_layout_backgroundwrapper_jsx",
-      "community": 1,
+      "community": 2,
       "norm_label": "backgroundwrapper.jsx"
     },
     {
@@ -135,7 +144,7 @@
       "source_file": "src/components/Layout/BackgroundWrapper.jsx",
       "source_location": "L3",
       "id": "layout_backgroundwrapper_backgroundwrapper",
-      "community": 1,
+      "community": 2,
       "norm_label": "backgroundwrapper()"
     },
     {
@@ -144,7 +153,7 @@
       "source_file": "src/components/Layout/Footer.jsx",
       "source_location": "L1",
       "id": "src_components_layout_footer_jsx",
-      "community": 1,
+      "community": 2,
       "norm_label": "footer.jsx"
     },
     {
@@ -153,7 +162,7 @@
       "source_file": "src/components/Layout/Footer.jsx",
       "source_location": "L3",
       "id": "layout_footer_footer",
-      "community": 1,
+      "community": 2,
       "norm_label": "footer()"
     },
     {
@@ -162,7 +171,7 @@
       "source_file": "src/components/Layout/TopNavBar.jsx",
       "source_location": "L1",
       "id": "src_components_layout_topnavbar_jsx",
-      "community": 2,
+      "community": 1,
       "norm_label": "topnavbar.jsx"
     },
     {
@@ -171,7 +180,7 @@
       "source_file": "src/components/Layout/TopNavBar.jsx",
       "source_location": "L5",
       "id": "layout_topnavbar_topnavbar",
-      "community": 2,
+      "community": 1,
       "norm_label": "topnavbar()"
     },
     {
@@ -180,16 +189,25 @@
       "source_file": "src/components/Projects/ProjectGallery.jsx",
       "source_location": "L1",
       "id": "src_components_projects_projectgallery_jsx",
-      "community": 2,
+      "community": 6,
       "norm_label": "projectgallery.jsx"
+    },
+    {
+      "label": "GithubIcon()",
+      "file_type": "code",
+      "source_file": "src/components/Projects/ProjectGallery.jsx",
+      "source_location": "L4",
+      "id": "projects_projectgallery_githubicon",
+      "community": 6,
+      "norm_label": "githubicon()"
     },
     {
       "label": "ProjectGallery()",
       "file_type": "code",
       "source_file": "src/components/Projects/ProjectGallery.jsx",
-      "source_location": "L5",
+      "source_location": "L11",
       "id": "projects_projectgallery_projectgallery",
-      "community": 2,
+      "community": 6,
       "norm_label": "projectgallery()"
     },
     {
@@ -216,7 +234,7 @@
       "source_file": "src/components/Sections/ContactSection.jsx",
       "source_location": "L1",
       "id": "src_components_sections_contactsection_jsx",
-      "community": 2,
+      "community": 1,
       "norm_label": "contactsection.jsx"
     },
     {
@@ -225,7 +243,7 @@
       "source_file": "src/components/Sections/ContactSection.jsx",
       "source_location": "L3",
       "id": "sections_contactsection_contactsection",
-      "community": 2,
+      "community": 1,
       "norm_label": "contactsection()"
     },
     {
@@ -234,7 +252,7 @@
       "source_file": "src/components/Sections/ExperienceSection.jsx",
       "source_location": "L1",
       "id": "src_components_sections_experiencesection_jsx",
-      "community": 1,
+      "community": 2,
       "norm_label": "experiencesection.jsx"
     },
     {
@@ -243,7 +261,7 @@
       "source_file": "src/components/Sections/ExperienceSection.jsx",
       "source_location": "L3",
       "id": "sections_experiencesection_experiencesection",
-      "community": 1,
+      "community": 2,
       "norm_label": "experiencesection()"
     },
     {
@@ -252,7 +270,7 @@
       "source_file": "src/components/Sections/HeroSection.jsx",
       "source_location": "L1",
       "id": "src_components_sections_herosection_jsx",
-      "community": 2,
+      "community": 1,
       "norm_label": "herosection.jsx"
     },
     {
@@ -261,7 +279,7 @@
       "source_file": "src/components/Sections/HeroSection.jsx",
       "source_location": "L3",
       "id": "sections_herosection_herosection",
-      "community": 2,
+      "community": 1,
       "norm_label": "herosection()"
     },
     {
@@ -270,7 +288,7 @@
       "source_file": "src/components/TechStack/ArchitectureCards.jsx",
       "source_location": "L1",
       "id": "src_components_techstack_architecturecards_jsx",
-      "community": 6,
+      "community": 1,
       "norm_label": "architecturecards.jsx"
     },
     {
@@ -279,7 +297,7 @@
       "source_file": "src/components/TechStack/ArchitectureCards.jsx",
       "source_location": "L5",
       "id": "techstack_architecturecards_techcategories",
-      "community": 6,
+      "community": 1,
       "norm_label": "techcategories"
     },
     {
@@ -288,7 +306,7 @@
       "source_file": "src/components/TechStack/ArchitectureCards.jsx",
       "source_location": "L51",
       "id": "techstack_architecturecards_architecturecards",
-      "community": 6,
+      "community": 1,
       "norm_label": "architecturecards()"
     },
     {
@@ -342,7 +360,7 @@
       "source_file": "src/contexts/LanguageContext.jsx",
       "source_location": "L34",
       "id": "contexts_languagecontext_uselanguage",
-      "community": 2,
+      "community": 1,
       "norm_label": "uselanguage()"
     },
     {
@@ -692,6 +710,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/3D/HeroScene.jsx",
+      "source_location": "L159",
+      "weight": 1.0,
+      "source": "src_components_3d_heroscene_jsx",
+      "target": "3d_heroscene_scrollindicator",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/3D/HeroScene.jsx",
       "source_location": "L127",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -771,6 +799,16 @@
       "weight": 1.0,
       "source": "layout_topnavbar_topnavbar",
       "target": "contexts_languagecontext_uselanguage"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Projects/ProjectGallery.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "src_components_projects_projectgallery_jsx",
+      "target": "projects_projectgallery_githubicon",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -1129,9 +1167,9 @@
       "source_file": "README.md",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_md",
-      "target": "portfolio_site_readme_react_vite",
-      "confidence_score": 1.0
+      "target": "portfolio_site_readme_react_vite"
     },
     {
       "relation": "contains",
@@ -1139,9 +1177,9 @@
       "source_file": "README.md",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "portfolio_site_readme_react_vite",
-      "target": "portfolio_site_readme_react_compiler",
-      "confidence_score": 1.0
+      "target": "portfolio_site_readme_react_compiler"
     },
     {
       "relation": "contains",
@@ -1149,9 +1187,9 @@
       "source_file": "README.md",
       "source_location": "L14",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "portfolio_site_readme_react_vite",
-      "target": "portfolio_site_readme_expanding_the_eslint_configuration",
-      "confidence_score": 1.0
+      "target": "portfolio_site_readme_expanding_the_eslint_configuration"
     },
     {
       "relation": "studied_at",
@@ -1183,5 +1221,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "7913db3f3e8aeee35a680e469162614d493ec4e1"
+  "built_at_commit": "ca395df913b6c02d751e7b8d39f34c1a49adc1da"
 }
