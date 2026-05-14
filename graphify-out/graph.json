@@ -142,7 +142,7 @@
       "label": "HeroScene()",
       "file_type": "code",
       "source_file": "src/components/3D/HeroScene.jsx",
-      "source_location": "L164",
+      "source_location": "L165",
       "id": "3d_heroscene_heroscene",
       "community": 3,
       "norm_label": "heroscene()"
@@ -268,7 +268,7 @@
       "label": "ContactSection()",
       "file_type": "code",
       "source_file": "src/components/Sections/ContactSection.jsx",
-      "source_location": "L3",
+      "source_location": "L4",
       "id": "sections_contactsection_contactsection",
       "community": 4,
       "norm_label": "contactsection()"
@@ -849,6 +849,17 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/3D/HeroScene.jsx",
+      "source_location": "L132",
+      "weight": 1.0,
+      "source": "3d_heroscene_scrollindicator",
+      "target": "contexts_languagecontext_uselanguage"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/3D/HeroScene.jsx",
       "source_location": "L130",
       "weight": 1.0,
       "source": "3d_heroscene_heroscene",
@@ -1379,5 +1390,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "06ce8cddecc3817c8bfcb8238795bb5a2993cd18"
+  "built_at_commit": "f14bcc59a788e311fe536af0815b894bf7042efc"
 }

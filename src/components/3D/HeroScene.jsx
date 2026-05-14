@@ -131,9 +131,9 @@ import { useLanguage } from '../../contexts/LanguageContext';
 function ScrollIndicator() {
   const { lang } = useLanguage();
   return (
-    <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none z-10 animate-in fade-in duration-1000">
+    <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none z-10">
       <span className="font-code-sm text-primary-fixed/70 text-[10px] uppercase tracking-[0.3em] mb-3">
-        {lang === 'pt' ? 'Rolar' : 'Scroll'}
+        {lang === 'PT' ? 'Rolar' : 'Scroll'}
       </span>
       {/* Three stacked chevrons that pulse downward */}
       <div className="flex flex-col items-center gap-[2px]">
@@ -198,24 +198,20 @@ export default function HeroScene({ onEnterMonitor }) {
       {/* Loader overlay sits ABOVE canvas + UI, fading away to reveal everything at once */}
       <LoaderOverlay forceLoaded={modelLoaded} onFadeComplete={handleFadeComplete} />
 
-      {overlayDone && (
-        <>
-          {/* Scroll indicator + Language toggle — always present once mounted,
-              revealed naturally as the overlay fades out on top of them */}
-          <ScrollIndicator />
+      {/* Scroll indicator + Language toggle — always present once mounted,
+          revealed naturally as the overlay fades out on top of them */}
+      <ScrollIndicator />
 
-          {/* Language Toggle — compact pill */}
-          <div className="absolute bottom-10 left-10 z-[70] pointer-events-auto animate-in fade-in duration-1000">
-            <button
-              onClick={toggleLang}
-              className="flex items-center justify-center gap-1.5 px-3 border border-white/10 hover:border-primary-fixed/50 transition-all active:scale-95 rounded-lg h-9 bg-black/20 backdrop-blur-md cursor-pointer"
-            >
-              <span className="material-symbols-outlined text-primary-fixed text-base">translate</span>
-              <span className="font-bold text-[#d4d4d4] uppercase text-[11px] tracking-wide">{lang}</span>
-            </button>
-          </div>
-        </>
-      )}
+      {/* Language Toggle — compact pill */}
+      <div className="absolute bottom-10 left-10 z-[70] pointer-events-auto">
+        <button
+          onClick={toggleLang}
+          className="flex items-center justify-center gap-1.5 px-3 border border-white/10 hover:border-primary-fixed/50 transition-all active:scale-95 rounded-lg h-9 bg-black/20 backdrop-blur-md cursor-pointer"
+        >
+          <span className="material-symbols-outlined text-primary-fixed text-base">translate</span>
+          <span className="font-bold text-[#d4d4d4] uppercase text-[11px] tracking-wide">{lang}</span>
+        </button>
+      </div>
     </div>
   );
 }

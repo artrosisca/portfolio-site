@@ -1,16 +1,16 @@
 # Graph Report - portfolio-site  (2026-05-14)
 
 ## Corpus Check
-- 19 files · ~46,935 words
+- 19 files · ~47,092 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 57 nodes · 83 edges · 11 communities (9 shown, 2 thin omitted)
+- 57 nodes · 84 edges · 11 communities (9 shown, 2 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `06ce8cdd`
+- Built from commit: `f14bcc59`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -25,16 +25,16 @@
 - [[_COMMUNITY_Community 8|Community 8]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `useLanguage()` - 20 edges
+1. `useLanguage()` - 21 edges
 2. `Arthur Rosisca` - 4 edges
 3. `React + Vite` - 3 edges
 4. `BootScreen()` - 2 edges
 5. `App()` - 2 edges
-6. `HeroScene()` - 2 edges
-7. `TopNavBar()` - 2 edges
-8. `ProjectGallery()` - 2 edges
-9. `AboutTerminal()` - 2 edges
-10. `AboutSection()` - 2 edges
+6. `ScrollIndicator()` - 2 edges
+7. `HeroScene()` - 2 edges
+8. `TopNavBar()` - 2 edges
+9. `ProjectGallery()` - 2 edges
+10. `AboutTerminal()` - 2 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `Arthur Rosisca` --studied_at--> `UTFPR`  [EXTRACTED]
@@ -45,7 +45,7 @@
   README.md → public/arthur_resume_pt-br.pdf
 - `BootScreen()` --calls--> `useLanguage()`  [EXTRACTED]
   src/App.jsx → src/contexts/LanguageContext.jsx
-- `HeroScene()` --calls--> `useLanguage()`  [EXTRACTED]
+- `ScrollIndicator()` --calls--> `useLanguage()`  [EXTRACTED]
   src/components/3D/HeroScene.jsx → src/contexts/LanguageContext.jsx
 
 ## Communities (11 total, 2 thin omitted)
@@ -83,6 +83,6 @@ Nodes (3): Expanding the ESLint configuration, React Compiler, React + Vite
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `useLanguage()` connect `Core Application & State` to `Portfolio Sections`, `Tech Stack Ecosystem`, `Project Showcases`, `Interactive Terminal`, `Community 8`?**
-  _High betweenness centrality (0.210) - this node is a cross-community bridge._
+  _High betweenness centrality (0.223) - this node is a cross-community bridge._
 - **What connects `SECTIONS`, `techCategoriesData`, `LanguageContext` to the rest of the system?**
   _10 weakly-connected nodes found - possible documentation gaps or missing edges._

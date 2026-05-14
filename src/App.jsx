@@ -51,7 +51,7 @@ function BootScreen({ onComplete }) {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
       className="fixed inset-0 z-50 flex items-center justify-center"
-      style={{ backgroundColor: '#FFF48D' }}
+      style={{ backgroundColor: '#fff274' }}
     >
       <span className="font-code-sm text-2xl md:text-3xl text-black tracking-wide">
         {text}
