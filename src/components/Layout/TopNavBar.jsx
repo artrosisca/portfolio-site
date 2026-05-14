@@ -45,8 +45,8 @@ const TopNavBar = () => {
           <ScrollLink
             key={item.id}
             to={item.id}
-            smooth={true}
-            duration={600}
+            smooth={false}
+            duration={0}
             containerId="main-scroll-container"
             spy={true}
             className={`font-label-md text-label-md uppercase tracking-[0.2em] transition-colors relative cursor-pointer ${
@@ -102,7 +102,7 @@ const TopNavBar = () => {
                   <span className="text-[10px] font-bold text-primary-fixed uppercase tracking-wider">{t('nav.doc_preview')}</span>
                 </div>
                 <div className="p-2">
-                  <img src="/cv_preview_mockup.png" alt="CV Preview" className="w-full h-auto rounded-lg shadow-inner opacity-80" />
+                  <img src="/resume_thumb.png" alt="CV Preview" className="w-full h-auto rounded-lg shadow-inner opacity-80" />
                 </div>
               </motion.div>
             )}

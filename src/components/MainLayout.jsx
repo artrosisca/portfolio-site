@@ -13,7 +13,7 @@ import BackgroundWrapper from './Layout/BackgroundWrapper';
 
 // Section wrapper using react-scroll Element for snap targeting
 const SectionWrapper = ({ children, id, className = '' }) => (
-  <Element name={id}>
+  <Element name={id} className="snap-start">
     <motion.div
       id={id}
       className={`w-full min-h-screen flex flex-col justify-center ${className}`}
@@ -64,7 +64,7 @@ const MainLayout = () => {
         </main>
 
         {/* Footer outside sections, at the bottom */}
-        <Element name="footer-section">
+        <Element name="footer-section" className="snap-start">
           <div id="footer-section">
             <Footer />
           </div>

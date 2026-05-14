@@ -51,11 +51,29 @@ function AboutTerminal() {
       
       {/* Terminal Content */}
       <div className="p-6 font-code-sm text-sm leading-relaxed text-left min-h-[300px] flex flex-col">
-        {/* Command Prompt */}
-        <div className="mb-4 break-all">
-          <span className="text-primary-fixed font-bold">&gt; </span>
+        {/* Starship Command Prompt Line 1 */}
+        <div className="flex flex-wrap items-center text-[12px] leading-none font-mono mb-2">
+          <span className="text-[#313244] mr-1">╭─</span>
+          <span className="bg-[#313244] text-[#b4befe] px-2 py-1 font-bold flex items-center">
+            <svg viewBox="0 0 24 24" className="w-3 h-3 fill-current" xmlns="http://www.w3.org/2000/svg"><path d="M12.001 0C5.376 0 .008 5.369.004 11.992H.002v9.287h.002A2.726 2.726 0 0 0 2.73 24h9.275c6.626-.004 11.993-5.372 11.993-11.997C23.998 5.375 18.628 0 12 0zm2.431 4.94c2.015 0 3.917 1.543 3.917 3.671 0 .197.001.395-.03.619a1.002 1.002 0 0 1-1.137.893 1.002 1.002 0 0 1-.842-1.175 2.61 2.61 0 0 0 .013-.337c0-1.207-.987-1.672-1.92-1.672-.934 0-1.775.784-1.777 1.672.016 1.027 0 2.046 0 3.07l1.732-.012c1.352-.028 1.368 2.009.016 1.998l-1.748.013c-.004.826.006.677.002 1.093 0 0 .015 1.01-.016 1.776-.209 2.25-2.124 4.046-4.424 4.046-2.438 0-4.448-1.993-4.448-4.437.073-2.515 2.078-4.492 4.603-4.469l1.409-.01v1.996l-1.409.013h-.007c-1.388.04-2.577.984-2.6 2.47a2.438 2.438 0 0 0 2.452 2.439c1.356 0 2.441-.987 2.441-2.437l-.001-7.557c0-.14.005-.252.02-.407.23-1.848 1.883-3.256 3.754-3.256z"/></svg>
+          </span>
+          <span className="bg-[#b4befe] text-[#313244] px-2 py-1 font-bold">
+            arthur@portfolio
+          </span>
+          <span className="bg-[#fab387] text-[#313244] px-2 py-1 font-bold">
+            ~/portfolio-site
+          </span>
+          <span className="bg-[#a6e3a1] text-[#11111b] px-2 py-1 font-bold">
+            main
+          </span>
+        </div>
+
+        {/* Starship Command Prompt Line 2 */}
+        <div className="flex items-center break-all text-sm mb-4">
+          <span className="text-[#313244] mr-2">╰─</span>
+          <span className="text-[#a6e3a1] font-bold mr-2">❯</span>
           <span className="text-on-surface">{text}</span>
-          {!showJson && isInView && <span className="inline-block w-[6px] h-4 bg-primary-fixed ml-1 cursor-blink align-middle"></span>}
+          {!showJson && isInView && <span className="inline-block w-[6px] h-4 bg-[#a6e3a1] ml-1 cursor-blink align-middle"></span>}
         </div>
         
         {/* JSON Output */}
@@ -68,9 +86,26 @@ function AboutTerminal() {
             <p className="ml-4"><span className="text-[#bb9af7]">"status"</span>: <span className="text-[#73daca]">"{t('terminal.status')}"</span></p>
             <p className="text-on-surface">{"}"}</p>
             
-            <div className="mt-4 break-all">
-              <span className="text-primary-fixed font-bold">&gt; </span>
-              <span className="inline-block w-[6px] h-4 bg-primary-fixed ml-1 cursor-blink align-middle"></span>
+            {/* New Starship Prompt after command */}
+            <div className="mt-6 flex flex-wrap items-center text-[12px] leading-none font-mono mb-2">
+              <span className="text-[#313244] mr-1">╭─</span>
+              <span className="bg-[#313244] text-[#b4befe] px-2 py-1 font-bold flex items-center">
+                <svg viewBox="0 0 24 24" className="w-3 h-3 fill-current" xmlns="http://www.w3.org/2000/svg"><path d="M12.001 0C5.376 0 .008 5.369.004 11.992H.002v9.287h.002A2.726 2.726 0 0 0 2.73 24h9.275c6.626-.004 11.993-5.372 11.993-11.997C23.998 5.375 18.628 0 12 0zm2.431 4.94c2.015 0 3.917 1.543 3.917 3.671 0 .197.001.395-.03.619a1.002 1.002 0 0 1-1.137.893 1.002 1.002 0 0 1-.842-1.175 2.61 2.61 0 0 0 .013-.337c0-1.207-.987-1.672-1.92-1.672-.934 0-1.775.784-1.777 1.672.016 1.027 0 2.046 0 3.07l1.732-.012c1.352-.028 1.368 2.009.016 1.998l-1.748.013c-.004.826.006.677.002 1.093 0 0 .015 1.01-.016 1.776-.209 2.25-2.124 4.046-4.424 4.046-2.438 0-4.448-1.993-4.448-4.437.073-2.515 2.078-4.492 4.603-4.469l1.409-.01v1.996l-1.409.013h-.007c-1.388.04-2.577.984-2.6 2.47a2.438 2.438 0 0 0 2.452 2.439c1.356 0 2.441-.987 2.441-2.437l-.001-7.557c0-.14.005-.252.02-.407.23-1.848 1.883-3.256 3.754-3.256z"/></svg>
+              </span>
+              <span className="bg-[#b4befe] text-[#313244] px-2 py-1 font-bold">
+                arthur@portfolio
+              </span>
+              <span className="bg-[#fab387] text-[#313244] px-2 py-1 font-bold">
+                ~/portfolio-site
+              </span>
+              <span className="bg-[#a6e3a1] text-[#11111b] px-2 py-1 font-bold">
+                main
+              </span>
+            </div>
+            <div className="flex items-center break-all text-sm">
+              <span className="text-[#313244] mr-2">╰─</span>
+              <span className="text-[#a6e3a1] font-bold mr-2">❯</span>
+              <span className="inline-block w-[6px] h-4 bg-[#a6e3a1] ml-1 cursor-blink align-middle"></span>
             </div>
           </div>
         )}
@@ -97,10 +132,6 @@ const AboutSection = () => {
               <div className="glass-panel p-4 rounded-xl border border-primary-fixed/20 text-center relative">
                 <span className="block font-headline-md text-primary-fixed uppercase text-sm mb-1">UTFPR</span>
                 <span className="text-[10px] uppercase tracking-widest text-on-surface-variant">{t('about.degree')}</span>
-              </div>
-              <div className="glass-panel p-4 rounded-xl border border-primary-fixed/20 text-center">
-                <span className="block font-headline-md text-primary-fixed uppercase text-sm mb-1">ENGLISH C1</span>
-                <span className="text-[10px] uppercase tracking-widest text-on-surface-variant">{t('about.proficiency')}</span>
               </div>
             </div>
           </div>

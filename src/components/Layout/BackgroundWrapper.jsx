@@ -19,7 +19,7 @@ const BackgroundWrapper = ({ children }) => {
   return (
     <div
       ref={wrapperRef}
-      className="relative min-h-screen w-full bg-background overflow-hidden"
+      className="relative min-h-screen w-full bg-background"
     >
       {/* Static Base Dot Grid layer */}
       <div

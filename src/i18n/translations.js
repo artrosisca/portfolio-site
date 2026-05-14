@@ -9,16 +9,19 @@ export const translations = {
       doc_preview: "Pré-visualização"
     },
     hero: {
-      subheadline: "ESTUDANTE DE CIÊNCIA DA COMPUTAÇÃO",
-      description: "Engenheiro de Dados. Transformando fluxos brutos em inteligência industrial e pipelines de alta performance.",
+      subheadline: "CIENTISTA DA COMPUTAÇÃO",
+      description: "Desenvolvedor de Software & Especialista em Dados. Criando soluções escaláveis, desde pipelines de dados até integrações com IA avançada.",
       cta_contact: "CONTATO",
       cta_projects: "VER PROJETOS"
     },
+    boot: {
+      message: "> Iniciando sessão..."
+    },
     about: {
       title: "SOBRE",
-      p1: "Estudante de Ciência da Computação na <strong class='text-on-surface'>UTFPR</strong>, com foco em Engenharia de Dados e automação industrial.",
-      p2: "Meu foco reside na manipulação de dados utilizando <strong class='text-on-surface'>SQL e Pandas</strong>, buscando sempre otimizar processos através da análise técnica e arquitetura de dados eficiente.",
-      degree: "BACHARELADO",
+      p1: "Cientista da Computação pela <strong class='text-on-surface'>UTFPR</strong>, apaixonado por resolver problemas complexos unindo desenvolvimento de software e inteligência de dados.",
+      p2: "Meu foco abrange o desenvolvimento <strong class='text-on-surface'>Fullstack</strong> e a <strong class='text-on-surface'>arquitetura de dados</strong>. Possuo forte atuação na integração de IAs generativas, otimização de tokens e criação de fluxos de trabalho autônomos baseados em MCPs (Model Context Protocol).",
+      degree: "Bacharelado em Ciência da Computação",
       proficiency: "PROFICIÊNCIA"
     },
     tech: {
@@ -27,9 +30,17 @@ export const translations = {
       popup_title: "Aplicações & Conceitos",
       popup_cta: "Ver projetos relacionados",
       cat_data_engineering: "Engenharia de Dados",
+      desc_data_engineering: "SQL Avançado e construção de Pipelines ETL/ELT utilizando Medallion Architecture (Bronze, Silver, Gold), Governança em Data Lakes e Data Warehouse.",
       cat_analytics: "Análise & BI",
+      desc_analytics: "Criação de Dashboards Gerenciais, extração de insights estratégicos e implementação de algoritmos de Machine Learning (Random Forest/XGBoost).",
       cat_devops: "DevOps & Controle de Versão",
-      cat_management: "Gestão de Projetos"
+      desc_devops: "Gestão de ambiente com Containers (Docker), automação de workflows com CI/CD e administração/shell scripting em sistemas Linux.",
+      cat_management: "Gestão de Projetos",
+      desc_management: "Organização de backlogs e fluxos de trabalho utilizando metodologias ágeis para garantir entregas contínuas e alinhadas ao negócio.",
+      cat_web_dev: "Desenvolvimento Web",
+      desc_web_dev: "Desenvolvimento Fullstack: Frontend baseado em componentes e gestão de estado; Backend focado em APIs RESTful, persistência de dados e segurança.",
+      cat_ai: "IA & Agentes Autônomos",
+      desc_ai: "Implementação de modelos generativos, construção de fluxos de trabalho autônomos e otimização de inferência/tokens utilizando Model Context Protocol (MCP)."
     },
     projects: {
       title: "projetos",
@@ -68,7 +79,7 @@ export const translations = {
     contact: {
       title: "Contato",
       subtitle: "",
-      description: "INTERESSADO EM OTIMIZAR SEUS PROCESSOS DE DADOS? VAMOS CONVERSAR.",
+      description: "INTERESSADO EM CONSTRUIR SOLUÇÕES INOVADORAS? VAMOS CONVERSAR.",
       status: "SISTEMA: NOMINAL",
       ready: "PRONTO PARA NOVAS OPERAÇÕES",
       form_name: "NOME",
@@ -80,9 +91,9 @@ export const translations = {
       form_send: "ENVIAR MENSAGEM"
     },
     terminal: {
-      location: "Ponta Grossa, PR",
-      specialization: "Engenharia de Dados",
-      focus: "Modelagem de Dados / Lakehouse",
+      location: "Pederneiras, SP",
+      specialization: "Desenvolvimento de Software",
+      focus: "Sistemas Web / Backend",
       status: "Disponível_para_Operações",
       help: "Comandos disponíveis: sobre, skills, projetos, contato, clear, social"
     }
@@ -97,16 +108,19 @@ export const translations = {
       doc_preview: "Document Preview"
     },
     hero: {
-      subheadline: "COMPUTER SCIENCE STUDENT",
-      description: "Data Engineer. Transforming raw streams into industrial intelligence and high-performance pipelines.",
+      subheadline: "COMPUTER SCIENTIST",
+      description: "Software Developer & Data Specialist. Building scalable solutions, from data pipelines to advanced AI integrations.",
       cta_contact: "CONTACT",
       cta_projects: "VIEW PROJECTS"
     },
+    boot: {
+      message: "> Initializing session..."
+    },
     about: {
       title: "ABOUT",
-      p1: "Computer Science student at <strong class='text-on-surface'>UTFPR</strong>, focusing on Data Engineering and industrial automation.",
-      p2: "My focus lies in data manipulation using <strong class='text-on-surface'>SQL and Pandas</strong>, always seeking to optimize processes through technical analysis and efficient data architecture.",
-      degree: "BACHELOR'S",
+      p1: "Computer Scientist from <strong class='text-on-surface'>UTFPR</strong>, passionate about solving complex problems by uniting software development and data intelligence.",
+      p2: "My focus spans <strong class='text-on-surface'>Fullstack</strong> development and <strong class='text-on-surface'>data architecture</strong>. I have strong experience integrating generative AI, optimizing tokens, and creating autonomous workflows based on MCPs (Model Context Protocol).",
+      degree: "Bachelor's in Computer Science",
       proficiency: "PROFICIENCY"
     },
     tech: {
@@ -115,9 +129,17 @@ export const translations = {
       popup_title: "Applications & Concepts",
       popup_cta: "See related projects",
       cat_data_engineering: "Data Engineering",
+      desc_data_engineering: "Advanced SQL and building ETL/ELT Pipelines using Medallion Architecture (Bronze, Silver, Gold), Data Lake Governance, and Data Warehouse.",
       cat_analytics: "Analytics & BI",
+      desc_analytics: "Creation of Management Dashboards, extraction of strategic insights, and implementation of Machine Learning algorithms (Random Forest/XGBoost).",
       cat_devops: "DevOps & Version Control",
-      cat_management: "Project Management"
+      desc_devops: "Environment management with Containers (Docker), workflow automation with CI/CD, and administration/shell scripting in Linux systems.",
+      cat_management: "Project Management",
+      desc_management: "Organization of backlogs and workflows using agile methodologies to ensure continuous and business-aligned deliveries.",
+      cat_web_dev: "Web Development",
+      desc_web_dev: "Fullstack Development: Component-based frontend and state management; Backend focused on RESTful APIs, data persistence, and security.",
+      cat_ai: "AI & Autonomous Agents",
+      desc_ai: "Implementation of generative models, building autonomous workflows, and inference/token optimization using Model Context Protocol (MCP)."
     },
     projects: {
       title: "projects",
@@ -156,7 +178,7 @@ export const translations = {
     contact: {
       title: "Contact",
       subtitle: "",
-      description: "INTERESTED IN OPTIMIZING YOUR DATA PROCESSES? LET'S TALK.",
+      description: "INTERESTED IN BUILDING INNOVATIVE SOLUTIONS? LET'S TALK.",
       status: "SYSTEM: NOMINAL",
       ready: "READY FOR NEW OPERATIONS",
       form_name: "NAME",
@@ -168,9 +190,9 @@ export const translations = {
       form_send: "SEND MESSAGE"
     },
     terminal: {
-      location: "Ponta Grossa, PR, Brazil",
-      specialization: "Data Engineering",
-      focus: "Data Modeling / Lakehouse",
+      location: "Pederneiras, SP, Brazil",
+      specialization: "Software Development",
+      focus: "Web Systems / Backend",
       status: "Available_for_Operations",
       help: "Available commands: about, skills, projects, contact, clear, social"
     }
