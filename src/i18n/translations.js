@@ -20,7 +20,7 @@ export const translations = {
     about: {
       title: "SOBRE",
       p1: "Cientista da Computação pela <strong class='text-on-surface'>UTFPR</strong>, apaixonado por resolver problemas complexos unindo desenvolvimento de software e inteligência de dados.",
-      p2: "Meu foco abrange o desenvolvimento <strong class='text-on-surface'>Fullstack</strong> e a <strong class='text-on-surface'>arquitetura de dados</strong>. Possuo forte atuação na integração de IAs generativas, otimização de tokens e criação de fluxos de trabalho autônomos baseados em MCPs (Model Context Protocol).",
+      p2: "Meu foco abrange o desenvolvimento <strong class='text-on-surface'>Fullstack</strong> e a <strong class='text-on-surface'>Arquitetura de Dados</strong>. Possuo forte atuação na integração de IAs generativas, otimização de tokens e criação de fluxos de trabalho autônomos baseados em MCPs (Model Context Protocol).",
       degree: "Bacharelado em Ciência da Computação",
       proficiency: "PROFICIÊNCIA"
     },
@@ -80,8 +80,8 @@ export const translations = {
       title: "Contato",
       subtitle: "",
       description: "INTERESSADO EM CONSTRUIR SOLUÇÕES INOVADORAS? VAMOS CONVERSAR.",
-      status: "SISTEMA: NOMINAL",
-      ready: "PRONTO PARA NOVAS OPERAÇÕES",
+      status: "STATUS: DISPONÍVEL",
+      ready: "ABERTO A NOVAS OPORTUNIDADES",
       form_name: "NOME",
       form_email: "E-MAIL",
       form_message: "MENSAGEM",
@@ -119,7 +119,7 @@ export const translations = {
     about: {
       title: "ABOUT",
       p1: "Computer Scientist from <strong class='text-on-surface'>UTFPR</strong>, passionate about solving complex problems by uniting software development and data intelligence.",
-      p2: "My focus spans <strong class='text-on-surface'>Fullstack</strong> development and <strong class='text-on-surface'>data architecture</strong>. I have strong experience integrating generative AI, optimizing tokens, and creating autonomous workflows based on MCPs (Model Context Protocol).",
+      p2: "My focus spans <strong class='text-on-surface'>Fullstack</strong> development and <strong class='text-on-surface'>Data Architecture</strong>. I have strong experience integrating generative AI, optimizing tokens, and creating autonomous workflows based on MCPs (Model Context Protocol).",
       degree: "Bachelor's in Computer Science",
       proficiency: "PROFICIENCY"
     },
@@ -179,8 +179,8 @@ export const translations = {
       title: "Contact",
       subtitle: "",
       description: "INTERESTED IN BUILDING INNOVATIVE SOLUTIONS? LET'S TALK.",
-      status: "SYSTEM: NOMINAL",
-      ready: "READY FOR NEW OPERATIONS",
+      status: "STATUS: AVAILABLE",
+      ready: "OPEN TO NEW OPPORTUNITIES",
       form_name: "NAME",
       form_email: "E-MAIL",
       form_message: "MESSAGE",

@@ -42,7 +42,13 @@ function LoaderOverlay({ forceLoaded, onFadeComplete }) {
       }}
     >
       {/* Elegant progress bar */}
-      <div className="w-48 h-[3px] bg-white/[0.06] overflow-hidden rounded-full relative">
+      <div 
+        className="w-48 h-[3px] bg-white/[0.06] overflow-hidden rounded-full relative"
+        style={{
+          opacity: phase === 'fading' ? 0 : 1,
+          transition: 'opacity 0.2s ease-out'
+        }}
+      >
         <div
           className="absolute top-0 left-0 h-full rounded-full transition-all duration-700 ease-out"
           style={{
@@ -196,10 +202,10 @@ export default function HeroScene({ onEnterMonitor }) {
       <ScrollIndicator />
 
       {/* Language Toggle — compact pill */}
-      <div className="absolute bottom-10 left-10 z-20">
+      <div className="absolute bottom-10 left-10 z-[70] pointer-events-auto">
         <button
           onClick={toggleLang}
-          className="flex items-center justify-center gap-1.5 px-3 border border-white/10 hover:border-primary-fixed/50 transition-all active:scale-95 rounded-lg h-9 bg-black/20 backdrop-blur-md"
+          className="flex items-center justify-center gap-1.5 px-3 border border-white/10 hover:border-primary-fixed/50 transition-all active:scale-95 rounded-lg h-9 bg-black/20 backdrop-blur-md cursor-pointer"
         >
           <span className="material-symbols-outlined text-primary-fixed text-base">translate</span>
           <span className="font-bold text-[#d4d4d4] uppercase text-[11px] tracking-wide">{lang}</span>

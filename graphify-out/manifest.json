@@ -8,40 +8,40 @@
     "hash": "5b641ab5f85eff4b0b9acec3417ca9b5"
   },
   "C:\\GIT\\portfolio-site\\src\\App.jsx": {
-    "mtime": 1778612562.0847874,
-    "hash": "5f71481d2154af9051bb66dade3f4226"
+    "mtime": 1778782018.5498123,
+    "hash": "440e962b9b97f688708b5cb4195e5dbb"
   },
   "C:\\GIT\\portfolio-site\\src\\main.jsx": {
     "mtime": 1778190323.7877512,
     "hash": "e13723e2574429d9a6d849727e3ff695"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\MainLayout.jsx": {
-    "mtime": 1778612582.3508093,
-    "hash": "62bd377166ca45d41eedd6b3947df78d"
+    "mtime": 1778782075.3233511,
+    "hash": "0953eb11e6b8e454bb31de0c824b2947"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\3D\\HeroScene.jsx": {
     "mtime": 1778612603.5909348,
     "hash": "9d94d829acc3473281bcd6e1354ea8c2"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\Layout\\BackgroundWrapper.jsx": {
-    "mtime": 1778262729.982147,
-    "hash": "2b9cd28ce7f17a796545af3e14269fa3"
+    "mtime": 1778777215.7811804,
+    "hash": "e282d8e17fbbb5a42748d24d7a95a74f"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\Layout\\Footer.jsx": {
-    "mtime": 1778282288.9543808,
-    "hash": "e4902928539867cbad0af6d8a57b808e"
+    "mtime": 1778777200.2991428,
+    "hash": "3623e6e26b629b9a817ccd2f64779ce6"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\Layout\\TopNavBar.jsx": {
-    "mtime": 1778612655.605491,
-    "hash": "8f8568cdd70564459663a8ffb1301d92"
+    "mtime": 1778782086.1532161,
+    "hash": "ee7ce77f4419289206e10f96acf8edb4"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\Projects\\ProjectGallery.jsx": {
     "mtime": 1778609477.203334,
     "hash": "a430e7da097d8c70174962cf176ed509"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\Sections\\AboutSection.jsx": {
-    "mtime": 1778611072.925629,
-    "hash": "d11f8e2b2ae2d5df8cb9b3d6d4cdee51"
+    "mtime": 1778797545.6855297,
+    "hash": "1fba122e9aa13a2a025a21d90650df4e"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\Sections\\ContactSection.jsx": {
     "mtime": 1778610977.3264859,
@@ -56,8 +56,8 @@
     "hash": "8a2fad3a6d087995901aa92fd817457d"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\TechStack\\ArchitectureCards.jsx": {
-    "mtime": 1778609536.8469217,
-    "hash": "de388035e2d3996bd3d8467037eb3559"
+    "mtime": 1778796849.4414093,
+    "hash": "9f4ae2090908e9454d11690e7cc5ae96"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\Terminal\\TerminalWindow.jsx": {
     "mtime": 1778268403.9464445,
@@ -68,8 +68,8 @@
     "hash": "489dc4c90d4f15c51acfb05d6d64e43e"
   },
   "C:\\GIT\\portfolio-site\\src\\i18n\\translations.js": {
-    "mtime": 1778609499.8660274,
-    "hash": "4e41439db1fd657a8e2effc6b07ecc65"
+    "mtime": 1778797294.7200832,
+    "hash": "aa8b9c619118d68ca77dd562b7833ea7"
   },
   "C:\\GIT\\portfolio-site\\index.html": {
     "mtime": 1778266476.8781075,
@@ -102,6 +102,10 @@
   "C:\\GIT\\portfolio-site\\public\\icons.svg": {
     "mtime": 1778190323.8741026,
     "hash": "3b4fcfcf393eca4d264dca4a4663bc37"
+  },
+  "C:\\GIT\\portfolio-site\\public\\resume_thumb.png": {
+    "mtime": 1778776541.7908463,
+    "hash": "c247c202622f2d50b27be7b9534c7779"
   },
   "C:\\GIT\\portfolio-site\\src\\assets\\hero.png": {
     "mtime": 1778190323.814223,

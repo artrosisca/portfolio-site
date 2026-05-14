@@ -1,16 +1,16 @@
-# Graph Report - portfolio-site  (2026-05-12)
+# Graph Report - portfolio-site  (2026-05-14)
 
 ## Corpus Check
-- 19 files · ~34,606 words
+- 19 files · ~46,918 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 56 nodes · 80 edges · 10 communities (9 shown, 1 thin omitted)
+- 57 nodes · 83 edges · 11 communities (9 shown, 2 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `2a93b453`
+- Built from commit: `b99b83d0`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -22,12 +22,13 @@
 - [[_COMMUNITY_Interactive Terminal|Interactive Terminal]]
 - [[_COMMUNITY_I18n Engine|I18n Engine]]
 - [[_COMMUNITY_Professional Profile|Professional Profile]]
+- [[_COMMUNITY_Community 8|Community 8]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `useLanguage()` - 18 edges
+1. `useLanguage()` - 20 edges
 2. `Arthur Rosisca` - 4 edges
 3. `React + Vite` - 3 edges
-4. `useReactScrollSnap()` - 2 edges
+4. `BootScreen()` - 2 edges
 5. `App()` - 2 edges
 6. `HeroScene()` - 2 edges
 7. `TopNavBar()` - 2 edges
@@ -42,32 +43,32 @@
   README.md → public/arthur_resume_pt-br.pdf
 - `Arthur Rosisca` --developed--> `Predição de Risco de Doenças Crônicas`  [EXTRACTED]
   README.md → public/arthur_resume_pt-br.pdf
+- `BootScreen()` --calls--> `useLanguage()`  [EXTRACTED]
+  src/App.jsx → src/contexts/LanguageContext.jsx
 - `HeroScene()` --calls--> `useLanguage()`  [EXTRACTED]
   src/components/3D/HeroScene.jsx → src/contexts/LanguageContext.jsx
-- `ProjectGallery()` --calls--> `useLanguage()`  [EXTRACTED]
-  src/components/Projects/ProjectGallery.jsx → src/contexts/LanguageContext.jsx
 
-## Communities (10 total, 1 thin omitted)
+## Communities (11 total, 2 thin omitted)
 
 ### Community 0 - "Core Application & State"
-Cohesion: 0.27
-Nodes (7): useLanguage(), TopNavBar(), AboutSection(), AboutTerminal(), ContactSection(), HeroSection(), TerminalWindow()
+Cohesion: 0.33
+Nodes (6): useLanguage(), TopNavBar(), AboutSection(), AboutTerminal(), HeroSection(), TerminalWindow()
 
 ### Community 2 - "Portfolio Sections"
-Cohesion: 0.29
-Nodes (4): LanguageContext, LanguageProvider(), translations, ProjectGallery()
+Cohesion: 0.33
+Nodes (5): LanguageProvider(), App(), BootScreen(), SECTIONS, useReactScrollSnap()
 
 ### Community 4 - "Project Showcases"
 Cohesion: 0.4
-Nodes (3): App(), SECTIONS, useReactScrollSnap()
+Nodes (3): LanguageContext, translations, ContactSection()
 
 ### Community 5 - "Interactive Terminal"
 Cohesion: 0.4
-Nodes (5): Arthur Rosisca, Data Engineering, Onikode Solutions, Predição de Risco de Doenças Crônicas, UTFPR
+Nodes (3): ArchitectureCards(), techCategories, techCategoriesData
 
 ### Community 6 - "I18n Engine"
-Cohesion: 0.5
-Nodes (3): ArchitectureCards(), techCategories, techCategoriesData
+Cohesion: 0.4
+Nodes (5): Arthur Rosisca, Data Engineering, Onikode Solutions, Predição de Risco de Doenças Crônicas, UTFPR
 
 ### Community 7 - "Professional Profile"
 Cohesion: 0.5
@@ -76,12 +77,12 @@ Nodes (3): Expanding the ESLint configuration, React Compiler, React + Vite
 ## Knowledge Gaps
 - **10 isolated node(s):** `SECTIONS`, `techCategoriesData`, `LanguageContext`, `React Compiler`, `Expanding the ESLint configuration` (+5 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **1 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **2 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `useLanguage()` connect `Core Application & State` to `Portfolio Sections`, `Tech Stack Ecosystem`, `I18n Engine`?**
-  _High betweenness centrality (0.170) - this node is a cross-community bridge._
+- **Why does `useLanguage()` connect `Core Application & State` to `Portfolio Sections`, `Tech Stack Ecosystem`, `Project Showcases`, `Interactive Terminal`, `Community 8`?**
+  _High betweenness centrality (0.210) - this node is a cross-community bridge._
 - **What connects `SECTIONS`, `techCategoriesData`, `LanguageContext` to the rest of the system?**
   _10 weakly-connected nodes found - possible documentation gaps or missing edges._

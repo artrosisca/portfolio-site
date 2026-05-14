@@ -9,7 +9,7 @@
       "source_file": "eslint.config.js",
       "source_location": "L1",
       "id": "eslint_config_js",
-      "community": 8,
+      "community": 9,
       "norm_label": "eslint.config.js"
     },
     {
@@ -18,7 +18,7 @@
       "source_file": "vite.config.js",
       "source_location": "L1",
       "id": "vite_config_js",
-      "community": 9,
+      "community": 10,
       "norm_label": "vite.config.js"
     },
     {
@@ -27,43 +27,34 @@
       "source_file": "src/App.jsx",
       "source_location": "L1",
       "id": "src_app_jsx",
-      "community": 4,
+      "community": 2,
       "norm_label": "app.jsx"
     },
     {
       "label": "BootScreen()",
       "file_type": "code",
       "source_file": "src/App.jsx",
-      "source_location": "L10",
+      "source_location": "L12",
       "id": "src_app_bootscreen",
-      "community": 4,
+      "community": 2,
       "norm_label": "bootscreen()"
     },
     {
       "label": "SECTIONS",
       "file_type": "code",
       "source_file": "src/App.jsx",
-      "source_location": "L46",
+      "source_location": "L65",
       "id": "src_app_sections",
-      "community": 4,
+      "community": 2,
       "norm_label": "sections"
-    },
-    {
-      "label": "useReactScrollSnap()",
-      "file_type": "code",
-      "source_file": "src/App.jsx",
-      "source_location": "L48",
-      "id": "src_app_usereactscrollsnap",
-      "community": 4,
-      "norm_label": "usereactscrollsnap()"
     },
     {
       "label": "App()",
       "file_type": "code",
       "source_file": "src/App.jsx",
-      "source_location": "L107",
+      "source_location": "L67",
       "id": "src_app_app",
-      "community": 4,
+      "community": 2,
       "norm_label": "app()"
     },
     {
@@ -72,7 +63,7 @@
       "source_file": "src/main.jsx",
       "source_location": "L1",
       "id": "src_main_jsx",
-      "community": 4,
+      "community": 2,
       "norm_label": "main.jsx"
     },
     {
@@ -216,7 +207,7 @@
       "source_file": "src/components/Projects/ProjectGallery.jsx",
       "source_location": "L1",
       "id": "src_components_projects_projectgallery_jsx",
-      "community": 2,
+      "community": 8,
       "norm_label": "projectgallery.jsx"
     },
     {
@@ -225,7 +216,7 @@
       "source_file": "src/components/Projects/ProjectGallery.jsx",
       "source_location": "L4",
       "id": "projects_projectgallery_githubicon",
-      "community": 2,
+      "community": 8,
       "norm_label": "githubicon()"
     },
     {
@@ -234,7 +225,7 @@
       "source_file": "src/components/Projects/ProjectGallery.jsx",
       "source_location": "L11",
       "id": "projects_projectgallery_projectgallery",
-      "community": 2,
+      "community": 8,
       "norm_label": "projectgallery()"
     },
     {
@@ -259,7 +250,7 @@
       "label": "AboutSection()",
       "file_type": "code",
       "source_file": "src/components/Sections/AboutSection.jsx",
-      "source_location": "L82",
+      "source_location": "L117",
       "id": "sections_aboutsection_aboutsection",
       "community": 0,
       "norm_label": "aboutsection()"
@@ -270,7 +261,7 @@
       "source_file": "src/components/Sections/ContactSection.jsx",
       "source_location": "L1",
       "id": "src_components_sections_contactsection_jsx",
-      "community": 0,
+      "community": 4,
       "norm_label": "contactsection.jsx"
     },
     {
@@ -279,7 +270,7 @@
       "source_file": "src/components/Sections/ContactSection.jsx",
       "source_location": "L3",
       "id": "sections_contactsection_contactsection",
-      "community": 0,
+      "community": 4,
       "norm_label": "contactsection()"
     },
     {
@@ -324,7 +315,7 @@
       "source_file": "src/components/TechStack/ArchitectureCards.jsx",
       "source_location": "L1",
       "id": "src_components_techstack_architecturecards_jsx",
-      "community": 6,
+      "community": 5,
       "norm_label": "architecturecards.jsx"
     },
     {
@@ -333,16 +324,25 @@
       "source_file": "src/components/TechStack/ArchitectureCards.jsx",
       "source_location": "L5",
       "id": "techstack_architecturecards_techcategoriesdata",
-      "community": 6,
+      "community": 5,
       "norm_label": "techcategoriesdata"
+    },
+    {
+      "label": "TechCard()",
+      "file_type": "code",
+      "source_file": "src/components/TechStack/ArchitectureCards.jsx",
+      "source_location": "L52",
+      "id": "techstack_architecturecards_techcard",
+      "community": 5,
+      "norm_label": "techcard()"
     },
     {
       "label": "ArchitectureCards()",
       "file_type": "code",
       "source_file": "src/components/TechStack/ArchitectureCards.jsx",
-      "source_location": "L51",
+      "source_location": "L104",
       "id": "techstack_architecturecards_architecturecards",
-      "community": 6,
+      "community": 5,
       "norm_label": "architecturecards()"
     },
     {
@@ -369,7 +369,7 @@
       "source_file": "src/contexts/LanguageContext.jsx",
       "source_location": "L1",
       "id": "src_contexts_languagecontext_jsx",
-      "community": 2,
+      "community": 4,
       "norm_label": "languagecontext.jsx"
     },
     {
@@ -378,7 +378,7 @@
       "source_file": "src/contexts/LanguageContext.jsx",
       "source_location": "L4",
       "id": "contexts_languagecontext_languagecontext",
-      "community": 2,
+      "community": 4,
       "norm_label": "languagecontext"
     },
     {
@@ -405,7 +405,7 @@
       "source_file": "src/i18n/translations.js",
       "source_location": "L1",
       "id": "src_i18n_translations_js",
-      "community": 2,
+      "community": 4,
       "norm_label": "translations.js"
     },
     {
@@ -414,7 +414,7 @@
       "source_file": "src/i18n/translations.js",
       "source_location": "L1",
       "id": "i18n_translations_translations",
-      "community": 2,
+      "community": 4,
       "norm_label": "translations"
     },
     {
@@ -454,11 +454,20 @@
       "norm_label": "expanding the eslint configuration"
     },
     {
+      "label": "useReactScrollSnap()",
+      "file_type": "code",
+      "source_file": "src/App.jsx",
+      "source_location": "L48",
+      "community": 2,
+      "norm_label": "usereactscrollsnap()",
+      "id": "src_app_usereactscrollsnap"
+    },
+    {
       "label": "techCategories",
       "file_type": "code",
       "source_file": "src/components/TechStack/ArchitectureCards.jsx",
       "source_location": "L5",
-      "community": 6,
+      "community": 5,
       "norm_label": "techcategories",
       "id": "techstack_architecturecards_techcategories"
     },
@@ -466,7 +475,7 @@
       "label": "Arthur Rosisca",
       "file_type": "rationale",
       "source_file": "README.md",
-      "community": 5,
+      "community": 6,
       "norm_label": "arthur rosisca",
       "id": "arthur_rosisca"
     },
@@ -474,7 +483,7 @@
       "label": "UTFPR",
       "file_type": "rationale",
       "source_file": "public/arthur_resume_pt-br.pdf",
-      "community": 5,
+      "community": 6,
       "norm_label": "utfpr",
       "id": "utfpr"
     },
@@ -482,7 +491,7 @@
       "label": "Onikode Solutions",
       "file_type": "rationale",
       "source_file": "public/arthur_resume_pt-br.pdf",
-      "community": 5,
+      "community": 6,
       "norm_label": "onikode solutions",
       "id": "onikode_solutions"
     },
@@ -490,7 +499,7 @@
       "label": "Predi\u00e7\u00e3o de Risco de Doen\u00e7as Cr\u00f4nicas",
       "file_type": "rationale",
       "source_file": "public/arthur_resume_pt-br.pdf",
-      "community": 5,
+      "community": 6,
       "norm_label": "predicao de risco de doencas cronicas",
       "id": "project_disease_risk"
     },
@@ -498,7 +507,7 @@
       "label": "Data Engineering",
       "file_type": "rationale",
       "source_file": "README.md",
-      "community": 5,
+      "community": 6,
       "norm_label": "data engineering",
       "id": "data_engineering"
     }
@@ -549,14 +558,25 @@
       "target": "contexts_languagecontext_languageprovider"
     },
     {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "src_app_jsx",
+      "target": "contexts_languagecontext_uselanguage",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/App.jsx",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_jsx",
-      "target": "src_app_bootscreen",
-      "confidence_score": 1.0
+      "target": "src_app_bootscreen"
     },
     {
       "relation": "contains",
@@ -564,19 +584,9 @@
       "source_file": "src/App.jsx",
       "source_location": "L46",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_jsx",
-      "target": "src_app_sections",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/App.jsx",
-      "source_location": "L48",
-      "weight": 1.0,
-      "source": "src_app_jsx",
-      "target": "src_app_usereactscrollsnap",
-      "confidence_score": 1.0
+      "target": "src_app_sections"
     },
     {
       "relation": "contains",
@@ -600,6 +610,16 @@
       "target": "src_app_jsx"
     },
     {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L48",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_jsx",
+      "target": "src_app_usereactscrollsnap"
+    },
+    {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -614,12 +634,23 @@
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/App.jsx",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "src_app_bootscreen",
+      "target": "contexts_languagecontext_uselanguage"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
       "source_file": "src/App.jsx",
       "source_location": "L111",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_app",
-      "target": "src_app_usereactscrollsnap",
-      "confidence_score": 1.0
+      "target": "src_app_usereactscrollsnap"
     },
     {
       "relation": "imports_from",
@@ -967,9 +998,9 @@
       "source_file": "src/components/Sections/AboutSection.jsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_sections_aboutsection_jsx",
-      "target": "sections_aboutsection_aboutterminal",
-      "confidence_score": 1.0
+      "target": "sections_aboutsection_aboutterminal"
     },
     {
       "relation": "contains",
@@ -1116,9 +1147,9 @@
       "source_file": "src/components/TechStack/ArchitectureCards.jsx",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_techstack_architecturecards_jsx",
-      "target": "techstack_architecturecards_techcategoriesdata",
-      "confidence_score": 1.0
+      "target": "techstack_architecturecards_techcategoriesdata"
     },
     {
       "relation": "imports_from",
@@ -1141,6 +1172,16 @@
       "confidence_score": 1.0,
       "source": "src_components_techstack_architecturecards_jsx",
       "target": "contexts_languagecontext_uselanguage"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/TechStack/ArchitectureCards.jsx",
+      "source_location": "L52",
+      "weight": 1.0,
+      "source": "src_components_techstack_architecturecards_jsx",
+      "target": "techstack_architecturecards_techcard",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -1338,5 +1379,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "2a93b453bc8f7c80fbc0bd7d53f40147ccb2b26a"
+  "built_at_commit": "b99b83d0cf6e891b9abaf6f2bb53c6e59fdee1a9"
 }
