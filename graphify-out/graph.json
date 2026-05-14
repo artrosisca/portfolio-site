@@ -115,7 +115,7 @@
       "label": "RoomModel()",
       "file_type": "code",
       "source_file": "src/components/3D/HeroScene.jsx",
-      "source_location": "L60",
+      "source_location": "L66",
       "id": "3d_heroscene_roommodel",
       "community": 3,
       "norm_label": "roommodel()"
@@ -124,7 +124,7 @@
       "label": "CameraRig()",
       "file_type": "code",
       "source_file": "src/components/3D/HeroScene.jsx",
-      "source_location": "L76",
+      "source_location": "L82",
       "id": "3d_heroscene_camerarig",
       "community": 3,
       "norm_label": "camerarig()"
@@ -133,7 +133,7 @@
       "label": "ScrollIndicator()",
       "file_type": "code",
       "source_file": "src/components/3D/HeroScene.jsx",
-      "source_location": "L125",
+      "source_location": "L131",
       "id": "3d_heroscene_scrollindicator",
       "community": 3,
       "norm_label": "scrollindicator()"
@@ -142,7 +142,7 @@
       "label": "HeroScene()",
       "file_type": "code",
       "source_file": "src/components/3D/HeroScene.jsx",
-      "source_location": "L158",
+      "source_location": "L164",
       "id": "3d_heroscene_heroscene",
       "community": 3,
       "norm_label": "heroscene()"
@@ -564,9 +564,9 @@
       "source_file": "src/App.jsx",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_jsx",
-      "target": "contexts_languagecontext_uselanguage",
-      "confidence_score": 1.0
+      "target": "contexts_languagecontext_uselanguage"
     },
     {
       "relation": "contains",
@@ -1179,9 +1179,9 @@
       "source_file": "src/components/TechStack/ArchitectureCards.jsx",
       "source_location": "L52",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_techstack_architecturecards_jsx",
-      "target": "techstack_architecturecards_techcard",
-      "confidence_score": 1.0
+      "target": "techstack_architecturecards_techcard"
     },
     {
       "relation": "contains",
@@ -1379,5 +1379,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "b99b83d0cf6e891b9abaf6f2bb53c6e59fdee1a9"
+  "built_at_commit": "06ce8cddecc3817c8bfcb8238795bb5a2993cd18"
 }

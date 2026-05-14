@@ -1,7 +1,37 @@
+import React, { useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 const ContactSection = () => {
   const { t } = useLanguage();
+  const [status, setStatus] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const data = new FormData(form);
+    
+    setStatus('submitting');
+    try {
+      const response = await fetch('https://formspree.io/f/xnjwkzbw', {
+        method: 'POST',
+        body: data,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      if (response.ok) {
+        setStatus('success');
+        form.reset();
+        setTimeout(() => setStatus(''), 5000);
+      } else {
+        setStatus('error');
+        setTimeout(() => setStatus(''), 5000);
+      }
+    } catch (error) {
+      setStatus('error');
+      setTimeout(() => setStatus(''), 5000);
+    }
+  };
 
   return (
     <section className="mb-stack-lg relative" id="contact">
@@ -43,24 +73,34 @@ const ContactSection = () => {
         </div>
         <div className="glass-panel p-10 border border-primary-fixed/20 relative rounded-tr-none rounded-tl-xl rounded-bl-xl rounded-br-xl">
           <div className="absolute -top-1 -right-1 w-12 h-12 border-t-2 border-r-2 border-primary-fixed"></div>
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">{t('contact.form_name')}</label>
-                <input className="w-full bg-[#131313] border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_name_placeholder')} type="text" />
+                <input name="name" required className="w-full bg-[#131313] border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_name_placeholder')} type="text" />
               </div>
               <div className="space-y-2">
                 <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">{t('contact.form_email')}</label>
-                <input className="w-full bg-[#131313] border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_email_placeholder')} type="email" />
+                <input name="email" required className="w-full bg-[#131313] border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_email_placeholder')} type="email" />
               </div>
             </div>
             <div className="space-y-2">
               <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">{t('contact.form_message')}</label>
-              <textarea className="w-full bg-[#131313] border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_message_placeholder')} rows="4"></textarea>
+              <textarea name="message" required className="w-full bg-[#131313] border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_message_placeholder')} rows="4"></textarea>
             </div>
-            <button className="w-full bg-primary-fixed text-on-primary-fixed font-bold py-5 text-sm uppercase tracking-[0.3em] active:scale-95 transition-all rounded-[15px] cursor-pointer" type="submit">
-              {t('contact.form_send')}
+            <button 
+              disabled={status === 'submitting'}
+              className="w-full bg-primary-fixed text-on-primary-fixed font-bold py-5 text-sm uppercase tracking-[0.3em] active:scale-95 transition-all rounded-[15px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed" 
+              type="submit"
+            >
+              {status === 'submitting' ? '...' : t('contact.form_send')}
             </button>
+            {status === 'success' && (
+              <div className="text-primary-fixed text-center text-sm font-bold mt-4 animate-in fade-in">Mensagem enviada com sucesso!</div>
+            )}
+            {status === 'error' && (
+              <div className="text-red-500 text-center text-sm font-bold mt-4 animate-in fade-in">Ocorreu um erro. Tente novamente mais tarde.</div>
+            )}
           </form>
         </div>
       </div>
