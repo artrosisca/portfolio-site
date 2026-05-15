@@ -15,7 +15,8 @@ export const translations = {
       cta_projects: "VER PROJETOS"
     },
     boot: {
-      message: "> Iniciando sessão..."
+      msg1: "iniciando sessão...",
+      msg2: "seja bem vindo..."
     },
     about: {
       title: "SOBRE",
@@ -114,7 +115,8 @@ export const translations = {
       cta_projects: "VIEW PROJECTS"
     },
     boot: {
-      message: "> Initializing session..."
+      msg1: "initializing session...",
+      msg2: "welcome..."
     },
     about: {
       title: "ABOUT",

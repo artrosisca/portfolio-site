@@ -10,6 +10,7 @@ import { useLanguage } from './contexts/LanguageContext';
 
 /* ─── Yellow typing transition screen ─── */
 function BootScreen({ onComplete }) {
+  const { t } = useLanguage();
   const [text, setText] = useState('');
   const [showCursor, setShowCursor] = useState(true);
   const [phase, setPhase] = useState('idle'); // idle, typing1, blink, erasing, typing2
@@ -19,8 +20,8 @@ function BootScreen({ onComplete }) {
     const img = new Image();
     img.src = '/profile-hero.png';
 
-    const msg1 = 'iniciando sessão...';
-    const msg2 = 'seja bem vindo...';
+    const msg1 = t('boot.msg1');
+    const msg2 = t('boot.msg2');
     let timeoutId;
     let blinkCount = 0;
 
