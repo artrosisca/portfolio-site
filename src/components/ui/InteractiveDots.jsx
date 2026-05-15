@@ -28,14 +28,17 @@ const InteractiveDots = ({
   const getRippleInfluence = (x, y, currentTime) => {
     let totalInfluence = 0;
     ripples.current.forEach((ripple) => {
+      const currentTime = Date.now();
       const age = currentTime - ripple.time;
-      const maxAge = 3000;
+      const maxAge = ripple.duration || 3000; // Use custom duration or default 3s
       if (age < maxAge) {
         const dx = x - ripple.x;
         const dy = y - ripple.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
-        const rippleRadius = (age / maxAge) * 300;
-        const rippleWidth = 60;
+        const radiusMultiplier = ripple.radius || 400; // Custom or default radius
+        const rippleRadius = (age / maxAge) * radiusMultiplier;
+        const rippleWidth = ripple.width || 70; // Width of the "wave ring"
+        
         if (Math.abs(distance - rippleRadius) < rippleWidth) {
           const rippleStrength = (1 - age / maxAge) * ripple.intensity;
           const proximityToRipple =
@@ -44,7 +47,7 @@ const InteractiveDots = ({
         }
       }
     });
-    return Math.min(totalInfluence, 2);
+    return Math.min(totalInfluence, 4);
   };
 
   const initializeDots = useCallback(() => {
@@ -122,7 +125,7 @@ const InteractiveDots = ({
 
     const now = Date.now();
     ripples.current = ripples.current.filter(
-      (ripple) => now - ripple.time < 3000
+      (ripple) => now - ripple.time < (ripple.duration || 3000)
     );
   }, []);
 
@@ -164,10 +167,10 @@ const InteractiveDots = ({
       let maskAlpha = 1 - (distFromMouse / maxMaskRadius);
       maskAlpha = Math.max(0, Math.min(1, maskAlpha));
 
-      const baseDotSize = 1.5;
+      const baseDotSize = 2.5; 
       const dotSize =
         baseDotSize +
-        totalInfluence * 1.5 + // Decreased from 4 to 1.5
+        totalInfluence * 2.5 + 
         Math.sin(timeRef.current + dot.phase) * 0.5;
         
       const opacity = Math.max(
@@ -236,6 +239,20 @@ const InteractiveDots = ({
     window.addEventListener('mousedown', handleMouseDown);
     window.addEventListener('mouseup', handleMouseUp);
 
+    // Listen for ripples triggered by other components
+    const handleExternalRipple = (e) => {
+      const { x, y, intensity = 2 } = e.detail || {};
+      if (x !== undefined && y !== undefined) {
+        ripples.current.push({
+          x,
+          y,
+          time: Date.now(),
+          intensity,
+        });
+      }
+    };
+    window.addEventListener('portfolio-ripple', handleExternalRipple);
+
     animate();
 
     return () => {
@@ -243,6 +260,7 @@ const InteractiveDots = ({
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('portfolio-ripple', handleExternalRipple);
 
       if (animationFrameId.current) {
         cancelAnimationFrame(animationFrameId.current);

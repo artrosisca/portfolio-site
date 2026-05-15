@@ -43,7 +43,7 @@ const techCategoriesData = [
     titleKey: "tech.cat_management",
     descKey: "tech.desc_management",
     icon: <Briefcase className="w-4 h-4 text-primary-fixed" />,
-    tags: ["Asana", "Jira", "Scrum", "Kanban"]
+    tags: ["Asana", "Jira", "Scrum"]
   }
 ];
 
@@ -54,8 +54,8 @@ const TechCard = ({ category, t }) => {
 
   return (
     <div className={`relative w-full ${isHovered ? 'z-50' : 'z-10'}`}>
-      {/* Invisible placeholder to define the static grid cell size (collapsed state) */}
-      <div className="p-6 border border-transparent rounded-xl flex flex-col justify-start invisible opacity-0 pointer-events-none">
+      {/* Invisible placeholder to define the static grid cell size (collapsed state) — desktop only */}
+      <div className="hidden md:flex p-6 border border-transparent rounded-xl flex-col justify-start invisible opacity-0 pointer-events-none">
         <div className="flex items-center gap-4 mb-4">
           <div className="w-8 h-8 rounded-full border border-transparent"></div>
           <h3 className="font-code-sm text-sm uppercase tracking-[0.2em]">
@@ -73,13 +73,13 @@ const TechCard = ({ category, t }) => {
         </div>
       </div>
 
-      {/* Actual visible card that breaks out of the cell when expanding */}
+      {/* Actual visible card — relative on mobile (pushes siblings), absolute on desktop (floats over) */}
       <motion.div
         layout
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
         onClick={() => setIsHovered(!isHovered)}
-        className="absolute top-0 left-0 w-full h-auto glass-panel p-6 border border-primary-fixed/20 rounded-xl hover:border-primary-fixed/50 transition-colors cursor-pointer group flex flex-col justify-start bg-surface-container/90 backdrop-blur-xl shadow-xl"
+        className="md:absolute md:top-0 md:left-0 w-full h-auto glass-panel p-6 border border-primary-fixed/20 rounded-xl hover:border-primary-fixed/50 transition-colors cursor-pointer group flex flex-col justify-start bg-surface-container/90 backdrop-blur-xl shadow-xl"
       >
         <motion.div layout className="flex items-center gap-4 mb-4">
           <div className="w-8 h-8 rounded-full border border-primary-fixed/30 flex items-center justify-center bg-primary-fixed/5 group-hover:bg-primary-fixed/20 transition-colors">
@@ -140,7 +140,7 @@ export default function ArchitectureCards() {
         </p>
       </div>
 
-      <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-20 items-start">
+      <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 lg:gap-20 items-start">
         {techCategoriesData.map((category) => (
           <TechCard key={category.id} category={category} t={t} />
         ))}

@@ -10,39 +10,82 @@ import { useLanguage } from './contexts/LanguageContext';
 
 /* ─── Yellow typing transition screen ─── */
 function BootScreen({ onComplete }) {
-  const { t } = useLanguage();
   const [text, setText] = useState('');
-  const fullText = t('boot.message') || '> Iniciando sessão...';
+  const [showCursor, setShowCursor] = useState(true);
+  const [phase, setPhase] = useState('idle'); // idle, typing1, blink, erasing, typing2
 
   useEffect(() => {
-    let i = 0;
-    let isErasing = false;
+    const msg1 = 'iniciando sessão';
+    const msg2 = 'seja bem vindo..';
     let timeoutId;
-    
-    const type = () => {
-      if (!isErasing) {
-        if (i <= fullText.length) {
-          setText(fullText.slice(0, i));
-          i++;
-          timeoutId = setTimeout(type, 20); // very fast typing
-        } else {
-          isErasing = true;
-          timeoutId = setTimeout(type, 600); // hold for a moment
-        }
+    let blinkCount = 0;
+
+    // Phase 0: Show just ❯ with fast blinking cursor
+    const idleBlink = () => {
+      if (blinkCount < 5) {
+        setShowCursor((prev) => !prev);
+        blinkCount++;
+        timeoutId = setTimeout(idleBlink, 100);
       } else {
-        if (i >= 0) {
-          setText(fullText.slice(0, i));
-          i--;
-          timeoutId = setTimeout(type, 10); // fast erase
-        } else {
-          onComplete();
-        }
+        setShowCursor(true);
+        blinkCount = 0;
+        timeoutId = setTimeout(() => typeMsg1(0), 30);
       }
     };
-    
-    type();
+
+    // Phase 1: Type "iniciando sessão" — fast
+    const typeMsg1 = (i) => {
+      setPhase('typing1');
+      if (i <= msg1.length) {
+        setText(msg1.slice(0, i));
+        timeoutId = setTimeout(() => typeMsg1(i + 1), 6);
+      } else {
+        // Brief blink after typing
+        timeoutId = setTimeout(() => blinkPause(), 50);
+      }
+    };
+
+    // Phase 2: Quick blink pause
+    const blinkPause = () => {
+      setPhase('blink');
+      if (blinkCount < 4) {
+        setShowCursor((prev) => !prev);
+        blinkCount++;
+        timeoutId = setTimeout(blinkPause, 80);
+      } else {
+        setShowCursor(true);
+        blinkCount = 0;
+        timeoutId = setTimeout(() => eraseMsg1(msg1.length), 30);
+      }
+    };
+
+    // Phase 3: Erase — very fast
+    const eraseMsg1 = (i) => {
+      setPhase('erasing');
+      if (i >= 0) {
+        setText(msg1.slice(0, i));
+        timeoutId = setTimeout(() => eraseMsg1(i - 1), 4);
+      } else {
+        timeoutId = setTimeout(() => typeMsg2(0), 40);
+      }
+    };
+
+    // Phase 4: Type "seja bem vindo.."
+    const typeMsg2 = (i) => {
+      setPhase('typing2');
+      if (i <= msg2.length) {
+        setText(msg2.slice(0, i));
+        timeoutId = setTimeout(() => typeMsg2(i + 1), 10);
+      } else {
+        timeoutId = setTimeout(() => onComplete(), 300);
+      }
+    };
+
+    // Start with idle blink
+    setPhase('idle');
+    timeoutId = setTimeout(idleBlink, 100);
     return () => clearTimeout(timeoutId);
-  }, [fullText, onComplete]);
+  }, [onComplete]);
 
   return (
     <motion.div
@@ -54,8 +97,12 @@ function BootScreen({ onComplete }) {
       style={{ backgroundColor: '#fff274' }}
     >
       <span className="font-code-sm text-2xl md:text-3xl text-black tracking-wide">
+        <span className="text-black/60 mr-2">❯</span>
         {text}
-        <span className="inline-block w-[3px] h-7 bg-black ml-1 align-middle cursor-blink" />
+        <span 
+          className="inline-block w-[3px] h-7 bg-black ml-1 align-middle"
+          style={{ opacity: showCursor ? 1 : 0 }}
+        />
       </span>
     </motion.div>
   );

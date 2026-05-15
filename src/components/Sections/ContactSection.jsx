@@ -41,7 +41,7 @@ const ContactSection = () => {
             <div className="corner-bracket-tl"></div>
             <h2 className="font-headline-lg text-headline-lg mb-8 text-text-primary uppercase tracking-tight">{t('contact.title')}</h2>
           </div>
-          <p className="text-on-surface-variant mb-12 font-label-md text-label-md uppercase tracking-[0.2em] max-w-md">{t('contact.description')}</p>
+          <p className="text-on-surface-variant mb-6 md:mb-12 font-label-md text-label-md uppercase tracking-[0.2em] max-w-md">{t('contact.description')}</p>
           <div className="space-y-6">
             <div className="flex items-center gap-6 group">
               <div className="w-14 h-14 rounded-full glass-panel border border-primary-fixed/20 flex items-center justify-center group-hover:border-primary-fixed transition-all">
@@ -49,7 +49,7 @@ const ContactSection = () => {
               </div>
               <div>
                 <span className="block text-[10px] text-on-surface-variant uppercase tracking-[0.2em]">E-MAIL</span>
-                <span className="text-lg font-bold text-text-primary uppercase">arthur.rosisca@gmail.com</span>
+                <span className="text-base md:text-lg font-bold text-text-primary break-all">arthur.rosisca@gmail.com</span>
               </div>
             </div>
             <div className="flex items-center gap-6 group">
@@ -71,10 +71,11 @@ const ContactSection = () => {
             <p className="font-code-sm text-[10px] text-on-surface-variant uppercase tracking-widest">{t('contact.ready')}</p>
           </div>
         </div>
-        <div className="glass-panel p-10 border border-primary-fixed/20 relative rounded-tr-none rounded-tl-xl rounded-bl-xl rounded-br-xl">
+        <div className="glass-panel p-6 md:p-10 border border-primary-fixed/20 relative rounded-tr-none rounded-tl-xl rounded-bl-xl rounded-br-xl">
           <div className="absolute -top-1 -right-1 w-12 h-12 border-t-2 border-r-2 border-primary-fixed"></div>
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <form onSubmit={handleSubmit}>
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">{t('contact.form_name')}</label>
                 <input name="name" required className="w-full bg-[#131313] border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_name_placeholder')} type="text" />
@@ -88,9 +89,10 @@ const ContactSection = () => {
               <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">{t('contact.form_message')}</label>
               <textarea name="message" required className="w-full bg-[#131313] border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_message_placeholder')} rows="4"></textarea>
             </div>
+            </div>
             <button 
               disabled={status === 'submitting'}
-              className="w-full bg-primary-fixed text-on-primary-fixed font-bold py-5 text-sm uppercase tracking-[0.3em] active:scale-95 transition-all rounded-[15px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed" 
+              className="mt-6 md:mt-10 w-full bg-primary-fixed text-on-primary-fixed font-bold py-5 text-sm uppercase tracking-[0.3em] active:scale-95 transition-all rounded-[15px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed" 
               type="submit"
             >
               {status === 'submitting' ? '...' : t('contact.form_send')}

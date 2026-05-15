@@ -21,6 +21,7 @@ export default function ProjectGallery() {
       description: t('projects.p1.desc'),
       tags: ["ETL", "SQL-SERVER", "MEDALLION-ARCHITECTURE", "STAR-SCHEMA", "T-SQL"],
       link: "https://github.com/artrosisca/sql-data-warehouse",
+      image: "/dw-arquitetura.png",
       architecture: [
         { step: "01", title: "Bronze Layer", desc: t('projects.p1.step1') },
         { step: "02", title: "Silver Layer", desc: t('projects.p1.step2') },
@@ -35,6 +36,7 @@ export default function ProjectGallery() {
       description: t('projects.p2.desc'),
       tags: ["PYTHON", "PANDAS", "SKLEARN", "RANDOM-FOREST", "ETL"],
       link: "https://github.com/artrosisca/Predicao-Dcnt-Unimed",
+      image: "/ml-grafico.jpg.png",
       architecture: [
         { step: "01", title: "ETL Pipeline", desc: t('projects.p2.step1') },
         { step: "02", title: "Model Comparison", desc: t('projects.p2.step2') },
@@ -63,6 +65,7 @@ export default function ProjectGallery() {
       description: t('projects.p4.desc'),
       tags: ["PYTHON", "PM4PY", "JUPYTER", "PROCESS-MINING", "EVENT-LOGS"],
       link: "https://github.com/artrosisca/process-mining-Analise-Fluxo-Recebimento",
+      image: "/fluxo.jpg.png",
       architecture: [
         { step: "01", title: "ETL", desc: t('projects.p4.step1') },
         { step: "02", title: "Discovery", desc: t('projects.p4.step2') },
@@ -103,10 +106,10 @@ export default function ProjectGallery() {
         </div>
         <div className="flex-grow h-px bg-primary-fixed/10 mx-4"></div>
         <div className="flex gap-2">
-          <button onClick={() => scrollTo('prev')} className="w-12 h-12 rounded-full border border-primary-fixed/20 flex items-center justify-center hover:border-primary-fixed transition-colors active:scale-90 cursor-pointer">
+          <button onClick={() => scrollTo('prev')} className="w-12 h-12 rounded-full border border-primary-fixed/20 flex items-center justify-center glass-panel hover:border-primary-fixed transition-colors active:scale-90 cursor-pointer">
             <ChevronLeft className="text-primary-fixed" />
           </button>
-          <button onClick={() => scrollTo('next')} className="w-12 h-12 rounded-full border border-primary-fixed/20 flex items-center justify-center hover:border-primary-fixed transition-colors active:scale-90 cursor-pointer">
+          <button onClick={() => scrollTo('next')} className="w-12 h-12 rounded-full border border-primary-fixed/20 flex items-center justify-center glass-panel hover:border-primary-fixed transition-colors active:scale-90 cursor-pointer">
             <ChevronRight className="text-primary-fixed" />
           </button>
         </div>
@@ -117,13 +120,20 @@ export default function ProjectGallery() {
           {projects.map((project) => (
             <div key={project.id} className="flex-shrink-0 w-full snap-start grid grid-cols-1 lg:grid-cols-12 gap-8">
               <div className="lg:col-span-8 glass-panel border border-primary-fixed/20 rounded-xl overflow-hidden group">
-                <div className="h-64 relative overflow-hidden bg-surface-container-highest/30">
+                <div className="h-48 md:h-64 relative overflow-hidden bg-surface-container-highest/30">
                   <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-80 z-10"></div>
                   
-                  {/* Background decoration representing data for the project image placeholder */}
-                  <div className="absolute inset-0 opacity-20 flex items-center justify-center text-primary-fixed font-code-sm text-[8px] overflow-hidden leading-tight break-all z-0 px-4">
-                    {`SELECT * FROM ${project.domain.replace(' ', '_')} WHERE STATUS = 'ACTIVE' AND IMPACT > 9000; `.repeat(50)}
-                  </div>
+                  {project.image ? (
+                    <img 
+                      src={project.image} 
+                      alt={project.title} 
+                      className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500 z-0" 
+                    />
+                  ) : (
+                    <div className="absolute inset-0 opacity-20 flex items-center justify-center text-primary-fixed font-code-sm text-[8px] overflow-hidden leading-tight break-all z-0 px-4">
+                      {`SELECT * FROM ${project.domain.replace(' ', '_')} WHERE STATUS = 'ACTIVE' AND IMPACT > 9000; `.repeat(50)}
+                    </div>
+                  )}
 
                   <div className="absolute bottom-6 left-6 flex gap-2 z-20">
                     <span className="bg-primary-fixed text-on-primary-fixed font-bold text-[10px] px-3 py-1 rounded-full uppercase tracking-widest">{project.category}</span>
@@ -131,7 +141,7 @@ export default function ProjectGallery() {
                   </div>
                 </div>
                 
-                <div className="p-8">
+                <div className="p-4 md:p-8">
                   <h3 className="font-headline-md text-headline-md mb-4 text-text-primary uppercase">{project.title}</h3>
                   <p className="text-on-surface-variant mb-8 font-body-md">{project.description}</p>
                   
@@ -147,7 +157,7 @@ export default function ProjectGallery() {
               </div>
               
               <div className="lg:col-span-4 flex flex-col gap-8">
-                <div className="glass-panel border border-primary-fixed/20 rounded-xl p-8 flex-grow relative">
+                <div className="glass-panel border border-primary-fixed/20 rounded-xl p-4 md:p-8 flex-grow relative">
                   <h4 className="font-label-md text-label-md mb-8 text-text-primary uppercase tracking-[0.2em]">{t('projects.architecture')}</h4>
                   <ul className="space-y-6">
                     {project.architecture.map((arch, i) => (
@@ -161,7 +171,7 @@ export default function ProjectGallery() {
                     ))}
                   </ul>
                 </div>
-                <a href={project.link} target="_blank" rel="noopener noreferrer" className="bg-surface-container border border-primary-fixed/20 p-6 rounded-xl flex items-center justify-between hover:bg-primary-fixed/10 transition-all group active:scale-95 cursor-pointer">
+                <a href={project.link} target="_blank" rel="noopener noreferrer" className="glass-panel border border-primary-fixed/20 p-6 rounded-xl flex items-center justify-between hover:bg-primary-fixed/10 transition-all group active:scale-95 cursor-pointer">
                   <div className="flex items-center gap-3">
                     <GithubIcon className="w-5 h-5 text-on-surface-variant" />
                     <span className="font-bold text-text-primary uppercase text-xs tracking-widest">{t('projects.view_github')}</span>

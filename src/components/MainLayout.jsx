@@ -14,16 +14,20 @@ import BackgroundWrapper from './Layout/BackgroundWrapper';
 // Section wrapper using react-scroll Element for snap targeting
 const SectionWrapper = ({ children, id, className = '' }) => (
   <Element name={id} className="snap-start">
-    <motion.div
+    <div
       id={id}
       className={`w-full min-h-screen flex flex-col justify-center ${className}`}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
     >
-      {children}
-    </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        className="w-full h-full flex flex-col justify-center"
+      >
+        {children}
+      </motion.div>
+    </div>
   </Element>
 );
 
@@ -33,7 +37,7 @@ const MainLayout = () => {
       <div className="text-on-surface font-body-md">
         <TopNavBar />
         
-        <main className="max-w-container-max mx-auto px-gutter">
+        <main className="max-w-container-max mx-auto px-4 md:px-gutter">
           
           <SectionWrapper id="hero">
             <HeroSection />

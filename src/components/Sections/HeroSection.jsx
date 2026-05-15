@@ -1,19 +1,63 @@
 import { Link as ScrollLink } from 'react-scroll';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { useRef, useEffect } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 const HeroSection = () => {
   const { t } = useLanguage();
+  const sectionRef = useRef(null);
+  const photoRef = useRef(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+    container: { current: document.getElementById('main-scroll-container') },
+  });
+  
+  // Parallax: moves UP as we scroll down
+  const photoY = useTransform(scrollYProgress, [0, 1], [0, -250]);
+
+  // Automatic ripple effect from the photo
+  useEffect(() => {
+    const triggerRipple = () => {
+      if (photoRef.current) {
+        const rect = photoRef.current.getBoundingClientRect();
+        const x = rect.left + rect.width / 2;
+        const y = rect.top + rect.height / 2;
+        
+        const event = new CustomEvent('portfolio-ripple', {
+          detail: { 
+            x, 
+            y, 
+            intensity: 3.5, 
+            duration: 7000, // Slow wave for the photo
+            radius: 600,    // Wide reach
+            width: 80       // Thickness of the wave ring
+          }
+        });
+        window.dispatchEvent(event);
+      }
+    };
+
+    // Initial ripple after a short delay
+    const initialTimeout = setTimeout(triggerRipple, 1500);
+    const interval = setInterval(triggerRipple, 4500);
+
+    return () => {
+      clearTimeout(initialTimeout);
+      clearInterval(interval);
+    };
+  }, []);
 
   return (
-    <section className="min-h-[716px] flex flex-col justify-center items-start relative mb-stack-lg pt-32">
-      <div className="z-10 grid lg:grid-cols-2 gap-12 items-center w-full relative">
-        {/* Removed Hero Glow to prevent clipping and keep clean look */}
-        <div>
+    <section ref={sectionRef} className="min-h-[716px] flex flex-col justify-center items-start relative mb-stack-lg pt-24 md:pt-32">
+      <div className="z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center w-full relative">
+        <div className="order-2 lg:order-1 relative z-20">
           <div className="flex items-center gap-2 mb-4">
             <span className="w-12 h-[2px] bg-primary-fixed"></span>
             <span className="font-label-md text-label-md text-primary-fixed uppercase tracking-[0.2em]">{t('hero.subheadline')}</span>
           </div>
-          <h1 className="font-headline-xl text-[64px] md:text-[100px] leading-none mb-6 font-bold tracking-tighter text-text-primary uppercase">
+          <h1 className="font-headline-xl text-[48px] md:text-[64px] lg:text-[100px] leading-[0.9] mb-6 font-bold tracking-tighter text-text-primary uppercase">
             ARTHUR <br /> <span className="text-primary-fixed">ROSISCA</span>
           </h1>
 
@@ -24,7 +68,7 @@ const HeroSection = () => {
             <ScrollLink to="contact" smooth={false} duration={0} containerId="main-scroll-container" className="bg-primary-fixed text-on-primary-fixed font-bold px-6 py-3 text-sm active:scale-95 transition-all uppercase tracking-widest rounded-[12px] cursor-pointer">
               {t('hero.cta_contact')}
             </ScrollLink>
-            <ScrollLink to="projects" smooth={false} duration={0} containerId="main-scroll-container" className="bg-surface-container border border-primary-fixed/30 text-on-surface font-bold px-6 py-3 text-sm hover:bg-primary-fixed/10 active:scale-95 transition-all uppercase tracking-widest rounded-[12px] cursor-pointer">
+            <ScrollLink to="projects" smooth={false} duration={0} containerId="main-scroll-container" className="glass-panel border border-primary-fixed/30 text-on-surface font-bold px-6 py-3 text-sm hover:bg-primary-fixed/10 active:scale-95 transition-all uppercase tracking-widest rounded-[12px] cursor-pointer">
               {t('hero.cta_projects')}
             </ScrollLink>
           </div>
@@ -43,17 +87,44 @@ const HeroSection = () => {
             </a>
           </div>
         </div>
-        {/* Profile HUD Decoration */}
-        <div className="relative flex justify-center items-center">
-          {/* Scanning HUD - Increased border width and opacity for better visibility */}
-          <div className="absolute w-[100%] h-[100%] border-2 border-primary-fixed/30 rounded-full scanning-hud scale-110"></div>
-          <div className="absolute w-[100%] h-[100%] border-2 border-dashed border-primary-fixed/40 rounded-full scanning-hud scale-105" style={{ animationDirection: 'reverse' }}></div>
-          {/* Crosshairs */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full bg-primary-fixed/10"></div>
-          <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-px bg-primary-fixed/10"></div>
-          <div className="relative aspect-square w-full max-w-md overflow-hidden border-4 border-primary-fixed p-2 rounded-full">
-            <img className="w-full h-full object-cover rounded-full grayscale hover:grayscale-0 transition-all duration-700" alt="Arthur Rosisca portrait in a circular HUD frame." src="https://lh3.googleusercontent.com/aida/ADBb0ugmf5rvLOBWeOKcow3tb_P2oKMVg-YThulBvaFnUjYUcKg9MY0oUbCKlUvK44MuOagHIWbl31M3F2FPnZ73qLRhIJG8hhObBzpDG6OTJky3-OKnJHE8caFQizGs8tzjVjGYI9eze-hEPy7fesooKEHri245Cjbso60bfOMZAbFDHi34PHQ8uu0B98vMMzzkMpF8ofsQPEpYVSVOa1gphq5OWZ2zfqv2Mx0nseuIHa4D1PtdO-BN9sPQxvTPZdGTmFkrIWOSiPS3Lnk" />
-          </div>
+
+        {/* Profile Image Area — Holographic Style with Squircle HUD */}
+        <div className="relative flex justify-center items-center order-1 lg:order-2">
+          
+          {/* Squircle HUD Animes — Contained and Fully Rounded */}
+          <div className="absolute w-[100%] h-[95%] border-2 border-primary-fixed/30 rounded-full scanning-hud scale-110 pointer-events-none z-0"></div>
+          <div className="absolute w-[90%] h-[85%] border-2 border-dashed border-primary-fixed/40 rounded-full scanning-hud scale-105 pointer-events-none z-0" style={{ animationDirection: 'reverse' }}></div>
+          
+          {/* Profile Photo with Radial Fade Mask */}
+          <motion.div 
+            ref={photoRef}
+            className="relative w-full max-w-[280px] md:max-w-[320px] lg:max-w-[380px] z-10"
+            style={{ y: photoY }}
+          >
+            <div 
+              className="relative z-10"
+              style={{
+                maskImage: 'radial-gradient(ellipse at center, black 30%, transparent 80%)',
+                WebkitMaskImage: 'radial-gradient(ellipse at center, black 30%, transparent 80%)'
+              }}
+            >
+              <img 
+                className="w-full h-full object-contain grayscale hover:grayscale-0 transition-all duration-700 brightness-110" 
+                alt="Arthur Rosisca portrait" 
+                src="/profile-hero.png" 
+              />
+            </div>
+
+            {/* Subtle Crosshairs */}
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-px h-8 bg-primary-fixed/30 z-20"></div>
+            <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-px h-8 bg-primary-fixed/30 z-20"></div>
+            <div className="absolute top-1/2 -left-4 -translate-y-1/2 h-px w-8 bg-primary-fixed/30 z-20"></div>
+            <div className="absolute top-1/2 -right-4 -translate-y-1/2 h-px w-8 bg-primary-fixed/30 z-20"></div>
+          </motion.div>
+
+          {/* Decorative Back Lines */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-px bg-primary-fixed/10 rotate-45 z-0"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-px bg-primary-fixed/10 -rotate-45 z-0"></div>
         </div>
       </div>
     </section>
