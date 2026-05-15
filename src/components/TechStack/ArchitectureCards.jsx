@@ -53,51 +53,73 @@ const TechCard = ({ category, t }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <motion.div
-      layout
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
-      onClick={() => setIsHovered(!isHovered)}
-      className="glass-panel p-6 border border-primary-fixed/20 rounded-xl relative hover:border-primary-fixed/50 transition-colors cursor-pointer group flex flex-col justify-start"
-    >
-      <motion.div layout className="flex items-center gap-4 mb-4">
-        <div className="w-8 h-8 rounded-full border border-primary-fixed/30 flex items-center justify-center bg-primary-fixed/5 group-hover:bg-primary-fixed/20 transition-colors">
-          {category.icon}
+    <div className={`relative w-full ${isHovered ? 'z-50' : 'z-10'}`}>
+      {/* Invisible placeholder to define the static grid cell size (collapsed state) */}
+      <div className="p-6 border border-transparent rounded-xl flex flex-col justify-start invisible opacity-0 pointer-events-none">
+        <div className="flex items-center gap-4 mb-4">
+          <div className="w-8 h-8 rounded-full border border-transparent"></div>
+          <h3 className="font-code-sm text-sm uppercase tracking-[0.2em]">
+            {t(category.titleKey)}
+          </h3>
         </div>
-        <h3 className="font-code-sm text-sm text-primary-fixed uppercase tracking-[0.2em]">
-          {t(category.titleKey)}
-        </h3>
-      </motion.div>
+        <div className="flex flex-wrap gap-3 mt-auto">
+          {category.tags.map((tag) => (
+            <div key={tag} className="border border-transparent px-4 py-2 rounded-[4px]">
+              <span className="font-code-sm text-xs uppercase opacity-0">
+                {tag}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
 
-      <AnimatePresence initial={false}>
-        {isHovered && (
-          <motion.div
-            initial={{ opacity: 0, height: 0, marginBottom: 0 }}
-            animate={{ opacity: 1, height: 'auto', marginBottom: 24 }}
-            exit={{ opacity: 0, height: 0, marginBottom: 0 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="overflow-hidden"
-          >
-            <p className="font-body-md text-on-surface-variant text-sm">
-              {t(category.descKey)}
-            </p>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <motion.div layout className="flex flex-wrap gap-3 mt-auto">
-        {category.tags.map((tag) => (
-          <div
-            key={tag}
-            className="border border-primary-fixed/30 bg-surface/40 backdrop-blur-sm px-4 py-2 rounded-[4px]"
-          >
-            <span className="font-code-sm text-xs text-on-surface uppercase opacity-90">
-              {tag}
-            </span>
+      {/* Actual visible card that breaks out of the cell when expanding */}
+      <motion.div
+        layout
+        onHoverStart={() => setIsHovered(true)}
+        onHoverEnd={() => setIsHovered(false)}
+        onClick={() => setIsHovered(!isHovered)}
+        className="absolute top-0 left-0 w-full h-auto glass-panel p-6 border border-primary-fixed/20 rounded-xl hover:border-primary-fixed/50 transition-colors cursor-pointer group flex flex-col justify-start bg-surface-container/90 backdrop-blur-xl shadow-xl"
+      >
+        <motion.div layout className="flex items-center gap-4 mb-4">
+          <div className="w-8 h-8 rounded-full border border-primary-fixed/30 flex items-center justify-center bg-primary-fixed/5 group-hover:bg-primary-fixed/20 transition-colors">
+            {category.icon}
           </div>
-        ))}
+          <h3 className="font-code-sm text-sm text-primary-fixed uppercase tracking-[0.2em]">
+            {t(category.titleKey)}
+          </h3>
+        </motion.div>
+
+        <AnimatePresence initial={false}>
+          {isHovered && (
+            <motion.div
+              initial={{ opacity: 0, height: 0, marginBottom: 0 }}
+              animate={{ opacity: 1, height: 'auto', marginBottom: 24 }}
+              exit={{ opacity: 0, height: 0, marginBottom: 0 }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              className="overflow-hidden"
+            >
+              <p className="font-body-md text-on-surface-variant text-sm">
+                {t(category.descKey)}
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <motion.div layout className="flex flex-wrap gap-3 mt-auto">
+          {category.tags.map((tag) => (
+            <div
+              key={tag}
+              className="border border-primary-fixed/30 bg-surface/40 backdrop-blur-sm px-4 py-2 rounded-[4px]"
+            >
+              <span className="font-code-sm text-xs text-on-surface uppercase opacity-90">
+                {tag}
+              </span>
+            </div>
+          ))}
+        </motion.div>
       </motion.div>
-    </motion.div>
+    </div>
   );
 };
 
@@ -118,7 +140,7 @@ export default function ArchitectureCards() {
         </p>
       </div>
 
-      <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+      <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-20 items-start">
         {techCategoriesData.map((category) => (
           <TechCard key={category.id} category={category} t={t} />
         ))}

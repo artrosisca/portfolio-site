@@ -21,10 +21,10 @@ const HeroSection = () => {
             {t('hero.description')}
           </p>
           <div className="flex flex-wrap gap-4">
-            <ScrollLink to="contact" smooth={true} duration={600} containerId="main-scroll-container" className="bg-primary-fixed text-on-primary-fixed font-bold px-6 py-3 text-sm active:scale-95 transition-all uppercase tracking-widest rounded-[12px] cursor-pointer">
+            <ScrollLink to="contact" smooth={false} duration={0} containerId="main-scroll-container" className="bg-primary-fixed text-on-primary-fixed font-bold px-6 py-3 text-sm active:scale-95 transition-all uppercase tracking-widest rounded-[12px] cursor-pointer">
               {t('hero.cta_contact')}
             </ScrollLink>
-            <ScrollLink to="projects" smooth={true} duration={600} containerId="main-scroll-container" className="bg-surface-container border border-primary-fixed/30 text-on-surface font-bold px-6 py-3 text-sm hover:bg-primary-fixed/10 active:scale-95 transition-all uppercase tracking-widest rounded-[12px] cursor-pointer">
+            <ScrollLink to="projects" smooth={false} duration={0} containerId="main-scroll-container" className="bg-surface-container border border-primary-fixed/30 text-on-surface font-bold px-6 py-3 text-sm hover:bg-primary-fixed/10 active:scale-95 transition-all uppercase tracking-widest rounded-[12px] cursor-pointer">
               {t('hero.cta_projects')}
             </ScrollLink>
           </div>

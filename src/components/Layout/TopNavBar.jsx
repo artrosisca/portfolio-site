@@ -38,7 +38,23 @@ const TopNavBar = () => {
 
   return (
     <header className="fixed top-0 left-1/2 -translate-x-1/2 w-[95%] max-w-container-max z-50 flex justify-between items-center px-gutter py-3 bg-surface/60 backdrop-blur-xl border border-primary-fixed/10 border-t-0 shadow-2xl rounded-b-2xl transition-all duration-300">
-      <div className="font-headline-lg text-headline-lg font-bold text-primary-fixed tracking-tighter uppercase">ARTHUR ROSISCA</div>
+      <ScrollLink
+        to="hero"
+        smooth={false}
+        duration={0}
+        containerId="main-scroll-container"
+        spy={true}
+        className="relative font-headline-lg text-headline-lg font-bold text-primary-fixed tracking-tighter uppercase cursor-pointer"
+      >
+        ARTHUR ROSISCA
+        {activeSection === 'hero' && (
+          <motion.div
+            layoutId="activeNav"
+            className="absolute -bottom-1 left-0 w-full h-[2px] bg-primary-fixed"
+            transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+          />
+        )}
+      </ScrollLink>
       
       <nav className="hidden md:flex items-center gap-8">
         {navItems.map((item) => (
