@@ -115,6 +115,43 @@ const HeroSection = () => {
               />
             </div>
 
+            {/* Stylized Eye Data Strip (Cyber Censor) */}
+            <motion.div
+              className="absolute top-[38%] left-1/2 -translate-x-1/2 w-[65%] h-[11%] bg-[#FFF274] z-30 flex items-center justify-center overflow-hidden border-y border-black/10"
+              initial={{ opacity: 0, scaleX: 0 }}
+              animate={{ opacity: 1, scaleX: 1 }}
+              transition={{ delay: 1.2, duration: 0.6, ease: "circOut" }}
+              style={{
+                boxShadow: '0 0 20px rgba(255, 242, 116, 0.4)',
+              }}
+            >
+              {/* Technical Text Scrolling Layer */}
+              <div className="absolute inset-0 flex items-center opacity-90 pointer-events-none">
+                <motion.div 
+                  className="flex gap-4 whitespace-nowrap text-[8px] font-mono text-black font-black tracking-[0.2em]"
+                  animate={{ x: [0, -150] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                >
+                  <span>0x41 0x52 0x54 0x48 0x55 0x52 0x5F 0x52 0x4F 0x53 0x49 0x53 0x43 0x41</span>
+                  <span>0x41 0x52 0x54 0x48 0x55 0x52 0x5F 0x52 0x4F 0x53 0x49 0x53 0x43 0x41</span>
+                </motion.div>
+              </div>
+
+              {/* Scanning Bar Animation */}
+              <motion.div 
+                className="absolute inset-0 w-full h-[3px] bg-black/15 shadow-[0_0_5px_rgba(0,0,0,0.2)]"
+                animate={{ top: ['-10%', '110%'] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              />
+              
+              {/* Glitch Overlay Effect */}
+              <motion.div 
+                className="absolute inset-0 bg-white/20 mix-blend-overlay"
+                animate={{ opacity: [0, 0.3, 0] }}
+                transition={{ duration: 0.1, repeat: Infinity, repeatDelay: 1.5 }}
+              />
+            </motion.div>
+
             {/* Subtle Crosshairs */}
             <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-px h-8 bg-primary-fixed/30 z-20"></div>
             <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-px h-8 bg-primary-fixed/30 z-20"></div>

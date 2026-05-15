@@ -8,8 +8,8 @@
     "hash": "5b641ab5f85eff4b0b9acec3417ca9b5"
   },
   "C:\\GIT\\portfolio-site\\src\\App.jsx": {
-    "mtime": 1778802243.0224705,
-    "hash": "a36c91b0554ae085edfae074dd50d193"
+    "mtime": 1778868582.1859715,
+    "hash": "a4efc0554c59a354490d637431701e5c"
   },
   "C:\\GIT\\portfolio-site\\src\\main.jsx": {
     "mtime": 1778190323.7877512,
@@ -20,8 +20,8 @@
     "hash": "575fcc5822d626fbe3226e3112181b6c"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\MainLayout.jsx": {
-    "mtime": 1778782075.3233511,
-    "hash": "0953eb11e6b8e454bb31de0c824b2947"
+    "mtime": 1778869742.5947616,
+    "hash": "3079d5b2d0ab014b0ab7c6d4d2895b78"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\3D\\HeroScene.jsx": {
     "mtime": 1778802347.4556522,
@@ -32,44 +32,44 @@
     "hash": "cc79a7a3c7f6f5afc1aa7291534c8810"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\Layout\\Footer.jsx": {
-    "mtime": 1778777200.2991428,
-    "hash": "3623e6e26b629b9a817ccd2f64779ce6"
+    "mtime": 1778861725.1875906,
+    "hash": "36cb3f93a755b914cc37a8a5fbf9ba5a"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\Layout\\TopNavBar.jsx": {
-    "mtime": 1778823484.1412325,
-    "hash": "0e542fd1830545d612530ebf2fea4e54"
+    "mtime": 1778861573.429221,
+    "hash": "68e7393d5bf4b448e43583c86accdcf6"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\Projects\\ProjectGallery.jsx": {
-    "mtime": 1778609477.203334,
-    "hash": "a430e7da097d8c70174962cf176ed509"
+    "mtime": 1778861662.329985,
+    "hash": "8fd21c7b17538fa2daaf047adc9371a0"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\Sections\\AboutSection.jsx": {
     "mtime": 1778797545.6855297,
     "hash": "1fba122e9aa13a2a025a21d90650df4e"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\Sections\\ContactSection.jsx": {
-    "mtime": 1778798940.5013518,
-    "hash": "c1550ddeb2d026a455f57ba9919a139c"
+    "mtime": 1778868158.42584,
+    "hash": "016f4996b3bb360363a43149f3479058"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\Sections\\ExperienceSection.jsx": {
     "mtime": 1778190880.527212,
     "hash": "ac06e2f21af8266f8618c02afcf95646"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\Sections\\HeroSection.jsx": {
-    "mtime": 1778822391.8124883,
-    "hash": "383acb253ab0c481f3b051574d9ec3a7"
+    "mtime": 1778873742.985824,
+    "hash": "4c191ed4d0b9af3d7eec29975ab06c7b"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\TechStack\\ArchitectureCards.jsx": {
-    "mtime": 1778823086.223416,
-    "hash": "f450767b4d7e05d690884db4fbd2ee97"
+    "mtime": 1778862300.1883888,
+    "hash": "f188c11df290534b57531abc44290d2d"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\Terminal\\TerminalWindow.jsx": {
     "mtime": 1778268403.9464445,
     "hash": "f0538d379a530ea4cebf8663bbf57746"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\ui\\InteractiveDots.jsx": {
-    "mtime": 1778826521.9425538,
-    "hash": "77e7df0099da9d772d9ba596d5a23519"
+    "mtime": 1778873731.2922332,
+    "hash": "3d36cac882fb40f327c7b603a864fd09"
   },
   "C:\\GIT\\portfolio-site\\src\\contexts\\LanguageContext.jsx": {
     "mtime": 1778267897.2609105,
@@ -92,8 +92,8 @@
     "hash": "a28dc4cb878325f3e9e5649f3e1469ac"
   },
   "C:\\GIT\\portfolio-site\\stitch_design.html": {
-    "mtime": 1778190452.6044364,
-    "hash": "9524ec822e3d4ac995d39297d53bdbf9"
+    "mtime": 1778868067.0412896,
+    "hash": "58b4a1fd7f7eeddb2c7ba94ca4c17fee"
   },
   "C:\\GIT\\portfolio-site\\terminal_ui.html": {
     "mtime": 1778190562.8072014,
@@ -103,17 +103,29 @@
     "mtime": 1776695012.4136276,
     "hash": "c2534b9e94a4a89aef3e68f56b5687f4"
   },
-  "C:\\GIT\\portfolio-site\\public\\cv_preview_mockup.png": {
-    "mtime": 1778192774.1587808,
-    "hash": "264d1ff9b071ce34901bfad7463778af"
+  "C:\\GIT\\portfolio-site\\public\\dw-arquitetura.png": {
+    "mtime": 1778856915.0584104,
+    "hash": "7ae487b91566437f6882ccf30da1224c"
   },
   "C:\\GIT\\portfolio-site\\public\\favicon.svg": {
     "mtime": 1778190323.849241,
     "hash": "7e840862161341271697daa99a40d76b"
   },
+  "C:\\GIT\\portfolio-site\\public\\fluxo.jpg.png": {
+    "mtime": 1778860442.2343774,
+    "hash": "d60c96ea859f2023539011af96df8c9d"
+  },
   "C:\\GIT\\portfolio-site\\public\\icons.svg": {
     "mtime": 1778190323.8741026,
     "hash": "3b4fcfcf393eca4d264dca4a4663bc37"
+  },
+  "C:\\GIT\\portfolio-site\\public\\ml-grafico.jpg.png": {
+    "mtime": 1778870929.3035357,
+    "hash": "15c47c4c404737808886c7ebc6437760"
+  },
+  "C:\\GIT\\portfolio-site\\public\\profile-hero.png": {
+    "mtime": 1778868985.8016932,
+    "hash": "3d80f1edbbe12f7edec9aa70c5bb778e"
   },
   "C:\\GIT\\portfolio-site\\public\\resume_thumb.png": {
     "mtime": 1778776541.7908463,

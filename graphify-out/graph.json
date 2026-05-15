@@ -43,7 +43,7 @@
       "label": "SECTIONS",
       "file_type": "code",
       "source_file": "src/App.jsx",
-      "source_location": "L65",
+      "source_location": "L112",
       "id": "src_app_sections",
       "community": 2,
       "norm_label": "sections"
@@ -52,7 +52,7 @@
       "label": "App()",
       "file_type": "code",
       "source_file": "src/App.jsx",
-      "source_location": "L67",
+      "source_location": "L114",
       "id": "src_app_app",
       "community": 2,
       "norm_label": "app()"
@@ -106,7 +106,7 @@
       "label": "MainLayout()",
       "file_type": "code",
       "source_file": "src/components/MainLayout.jsx",
-      "source_location": "L30",
+      "source_location": "L34",
       "id": "components_mainlayout_mainlayout",
       "community": 0,
       "norm_label": "mainlayout()"
@@ -322,7 +322,7 @@
       "label": "HeroSection()",
       "file_type": "code",
       "source_file": "src/components/Sections/HeroSection.jsx",
-      "source_location": "L4",
+      "source_location": "L6",
       "id": "sections_herosection_herosection",
       "community": 4,
       "norm_label": "herosection()"
@@ -1485,5 +1485,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "8cb03d619c3a1a216fbe068517d39ca590aa0208"
+  "built_at_commit": "892ab138f83f5217eac44c08ca276b67d1bb42cd"
 }
