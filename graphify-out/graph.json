@@ -340,7 +340,7 @@
       "label": "ArchitectureCards()",
       "file_type": "code",
       "source_file": "src/components/TechStack/ArchitectureCards.jsx",
-      "source_location": "L104",
+      "source_location": "L126",
       "id": "techstack_architecturecards_architecturecards",
       "community": 5,
       "norm_label": "architecturecards()"
@@ -1390,5 +1390,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "2ea073093a604c8d5b6fad9f6146a9c866e10cc6"
+  "built_at_commit": "74404976c11e7c2e8cf20e2ece72b73bb593f8bf"
 }
