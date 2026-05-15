@@ -43,7 +43,7 @@
       "label": "SECTIONS",
       "file_type": "code",
       "source_file": "src/App.jsx",
-      "source_location": "L112",
+      "source_location": "L116",
       "id": "src_app_sections",
       "community": 2,
       "norm_label": "sections"
@@ -52,7 +52,7 @@
       "label": "App()",
       "file_type": "code",
       "source_file": "src/App.jsx",
-      "source_location": "L114",
+      "source_location": "L118",
       "id": "src_app_app",
       "community": 2,
       "norm_label": "app()"
@@ -1485,5 +1485,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "a247c26e33c853488a008a24b0321f283ce392e7"
+  "built_at_commit": "6f1a5ab14735cc5cf12564ced1888189f4b611a0"
 }
