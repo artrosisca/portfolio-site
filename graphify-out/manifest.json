@@ -15,6 +15,10 @@
     "mtime": 1778190323.7877512,
     "hash": "e13723e2574429d9a6d849727e3ff695"
   },
+  "C:\\GIT\\portfolio-site\\src\\utils.js": {
+    "mtime": 1778825381.7039814,
+    "hash": "575fcc5822d626fbe3226e3112181b6c"
+  },
   "C:\\GIT\\portfolio-site\\src\\components\\MainLayout.jsx": {
     "mtime": 1778782075.3233511,
     "hash": "0953eb11e6b8e454bb31de0c824b2947"
@@ -24,8 +28,8 @@
     "hash": "81b8c09767d6912d5629cbe16d306517"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\Layout\\BackgroundWrapper.jsx": {
-    "mtime": 1778824860.9572499,
-    "hash": "e282d8e17fbbb5a42748d24d7a95a74f"
+    "mtime": 1778825425.9007204,
+    "hash": "cc79a7a3c7f6f5afc1aa7291534c8810"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\Layout\\Footer.jsx": {
     "mtime": 1778777200.2991428,
@@ -63,9 +67,17 @@
     "mtime": 1778268403.9464445,
     "hash": "f0538d379a530ea4cebf8663bbf57746"
   },
+  "C:\\GIT\\portfolio-site\\src\\components\\ui\\InteractiveDots.jsx": {
+    "mtime": 1778826369.1665654,
+    "hash": "bad5c82a36931b996bda6255dc85c3c5"
+  },
   "C:\\GIT\\portfolio-site\\src\\contexts\\LanguageContext.jsx": {
     "mtime": 1778267897.2609105,
     "hash": "489dc4c90d4f15c51acfb05d6d64e43e"
+  },
+  "C:\\GIT\\portfolio-site\\src\\hooks\\useMouse.js": {
+    "mtime": 1778825391.6028786,
+    "hash": "00af3c86fd2b8b76769195c6ba199591"
   },
   "C:\\GIT\\portfolio-site\\src\\i18n\\translations.js": {
     "mtime": 1778798480.9307647,
