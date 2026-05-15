@@ -12,7 +12,7 @@ const InteractiveDots = ({
   const canvasRef = useRef(null);
   const timeRef = useRef(0);
   const animationFrameId = useRef(null);
-  const mouseRef = useRef({ x: 0, y: 0, isDown: false });
+  const mouseRef = useRef({ x: -1000, y: -1000, isDown: false });
   const ripples = useRef([]);
   const dotsRef = useRef([]);
   const dprRef = useRef(1);
@@ -99,6 +99,7 @@ const InteractiveDots = ({
   }, [initializeDots]);
 
   const handleMouseMove = useCallback((e) => {
+    if (window.innerWidth <= 768) return; // Disable cursor effect on mobile
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -108,6 +109,7 @@ const InteractiveDots = ({
   }, []);
 
   const handleMouseDown = useCallback((e) => {
+    if (window.innerWidth <= 768) return; // Disable click ripples on mobile
     mouseRef.current.isDown = true;
     const canvas = canvasRef.current;
     if (!canvas) return;

@@ -93,7 +93,7 @@ export const translations = {
     terminal: {
       location: "Pederneiras, SP",
       specialization: "Desenvolvimento de Software",
-      focus: "Sistemas Web / Backend",
+      focus: "Sistemas Web / Dados",
       status: "Disponível_para_Operações",
       help: "Comandos disponíveis: sobre, skills, projetos, contato, clear, social"
     }
@@ -192,7 +192,7 @@ export const translations = {
     terminal: {
       location: "Pederneiras, SP, Brazil",
       specialization: "Software Development",
-      focus: "Web Systems / Backend",
+      focus: "Web Systems / Data",
       status: "Available_for_Operations",
       help: "Available commands: about, skills, projects, contact, clear, social"
     }

@@ -15,6 +15,10 @@ function BootScreen({ onComplete }) {
   const [phase, setPhase] = useState('idle'); // idle, typing1, blink, erasing, typing2
 
   useEffect(() => {
+    // Preload hero image for seamless transition
+    const img = new Image();
+    img.src = '/profile-hero.png';
+
     const msg1 = 'iniciando sessão...';
     const msg2 = 'seja bem vindo...';
     let timeoutId;
@@ -146,7 +150,7 @@ function App() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1 }}
-              className="relative z-10 w-full h-screen overflow-y-auto snap-y snap-mandatory scroll-smooth"
+              className="relative z-10 w-full h-screen overflow-y-auto overflow-x-hidden md:snap-y md:snap-mandatory scroll-smooth"
             >
               <MainLayout />
             </motion.div>

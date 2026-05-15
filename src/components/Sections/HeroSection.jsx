@@ -143,9 +143,11 @@ const HeroSection = () => {
             <div className="absolute top-1/2 -right-4 -translate-y-1/2 h-px w-8 bg-primary-fixed/30 z-20"></div>
           </div>
 
-          {/* Decorative Back Lines */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-px bg-primary-fixed/10 rotate-45 z-0"></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-px bg-primary-fixed/10 -rotate-45 z-0"></div>
+          {/* Decorative Back Lines - contained */}
+          <div className="absolute inset-0 overflow-hidden rounded-full pointer-events-none z-0">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-px bg-primary-fixed/10 rotate-45"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-px bg-primary-fixed/10 -rotate-45"></div>
+          </div>
         </div>
       </div>
     </section>
