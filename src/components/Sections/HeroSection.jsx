@@ -1,21 +1,12 @@
 import { Link as ScrollLink } from 'react-scroll';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useRef, useEffect } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const HeroSection = () => {
   const { t } = useLanguage();
   const sectionRef = useRef(null);
   const photoRef = useRef(null);
-  
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end start"],
-    container: { current: document.getElementById('main-scroll-container') },
-  });
-  
-  // Parallax: moves UP as we scroll down
-  const photoY = useTransform(scrollYProgress, [0, 1], [0, -250]);
 
   // Automatic ripple effect from the photo
   useEffect(() => {
@@ -24,12 +15,12 @@ const HeroSection = () => {
         const rect = photoRef.current.getBoundingClientRect();
         const x = rect.left + rect.width / 2;
         const y = rect.top + rect.height / 2;
-        
+
         const event = new CustomEvent('portfolio-ripple', {
-          detail: { 
-            x, 
-            y, 
-            intensity: 3.5, 
+          detail: {
+            x,
+            y,
+            intensity: 3.5,
             duration: 7000, // Slow wave for the photo
             radius: 600,    // Wide reach
             width: 80       // Thickness of the wave ring
@@ -41,7 +32,7 @@ const HeroSection = () => {
 
     // Initial ripple after a short delay
     const initialTimeout = setTimeout(triggerRipple, 1500);
-    const interval = setInterval(triggerRipple, 4500);
+    const interval = setInterval(triggerRipple, 3500);
 
     return () => {
       clearTimeout(initialTimeout);
@@ -53,6 +44,7 @@ const HeroSection = () => {
     <section ref={sectionRef} className="min-h-[716px] flex flex-col justify-center items-start relative mb-stack-lg pt-24 md:pt-32">
       <div className="z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center w-full relative">
         <div className="order-2 lg:order-1 relative z-20">
+          {/* Content remains unchanged */}
           <div className="flex items-center gap-2 mb-4">
             <span className="w-12 h-[2px] bg-primary-fixed"></span>
             <span className="font-label-md text-label-md text-primary-fixed uppercase tracking-[0.2em]">{t('hero.subheadline')}</span>
@@ -89,48 +81,40 @@ const HeroSection = () => {
         </div>
 
         {/* Profile Image Area — Holographic Style with Squircle HUD */}
-        <div className="relative flex justify-center items-center order-1 lg:order-2">
-          
+        <div
+          ref={photoRef}
+          className="relative flex justify-center items-center order-1 lg:order-2"
+        >
           {/* Squircle HUD Animes — Contained and Fully Rounded */}
           <div className="absolute w-[100%] h-[95%] border-2 border-primary-fixed/30 rounded-full scanning-hud scale-110 pointer-events-none z-0"></div>
           <div className="absolute w-[90%] h-[85%] border-2 border-dashed border-primary-fixed/40 rounded-full scanning-hud scale-105 pointer-events-none z-0" style={{ animationDirection: 'reverse' }}></div>
-          
-          {/* Profile Photo with Radial Fade Mask */}
-          <motion.div 
-            ref={photoRef}
-            className="relative w-full max-w-[280px] md:max-w-[320px] lg:max-w-[380px] z-10"
-            style={{ y: photoY }}
-          >
-            <div 
+
+          {/* Profile Photo Container */}
+          <div className="relative w-full max-w-[280px] md:max-w-[320px] lg:max-w-[380px] z-10">
+            <div
               className="relative z-10"
               style={{
                 maskImage: 'radial-gradient(ellipse at center, black 30%, transparent 80%)',
                 WebkitMaskImage: 'radial-gradient(ellipse at center, black 30%, transparent 80%)'
               }}
             >
-              <img 
-                className="w-full h-full object-contain grayscale hover:grayscale-0 transition-all duration-700 brightness-110" 
-                alt="Arthur Rosisca portrait" 
-                src="/profile-hero.png" 
+              <img
+                className="w-full h-full object-contain grayscale hover:grayscale-0 transition-all duration-700 brightness-110"
+                alt="Arthur Rosisca portrait"
+                src="/profile-hero.png"
               />
             </div>
 
-            {/* Stylized Eye Data Strip (Cyber Censor) */}
-            <motion.div
-              className="absolute top-[38%] left-1/2 -translate-x-1/2 w-[65%] h-[11%] bg-[#FFF274] z-30 flex items-center justify-center overflow-hidden border-y border-black/10"
-              initial={{ opacity: 0, scaleX: 0 }}
-              animate={{ opacity: 1, scaleX: 1 }}
-              transition={{ delay: 1.2, duration: 0.6, ease: "circOut" }}
-              style={{
-                boxShadow: '0 0 20px rgba(255, 242, 116, 0.4)',
-              }}
+            {/* Stylized Eye Data Strip (Cyber Censor) — Now Instant */}
+            <div
+              className="absolute top-[38%] left-1/2 -translate-x-1/2 w-[65%] h-[11%] bg-[#FFF274] z-30 flex items-center justify-center overflow-hidden border-y border-black/10 shadow-[0_0_20px_rgba(255,242,116,0.4)]"
             >
               {/* Technical Text Scrolling Layer */}
               <div className="absolute inset-0 flex items-center opacity-90 pointer-events-none">
-                <motion.div 
-                  className="flex gap-4 whitespace-nowrap text-[8px] font-mono text-black font-black tracking-[0.2em]"
-                  animate={{ x: [0, -150] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                <motion.div
+                  className="flex gap-4 whitespace-nowrap text-[11px] font-mono text-black font-black tracking-[0.15em]"
+                  animate={{ x: [0, -200] }}
+                  transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
                 >
                   <span>0x41 0x52 0x54 0x48 0x55 0x52 0x5F 0x52 0x4F 0x53 0x49 0x53 0x43 0x41</span>
                   <span>0x41 0x52 0x54 0x48 0x55 0x52 0x5F 0x52 0x4F 0x53 0x49 0x53 0x43 0x41</span>
@@ -138,26 +122,26 @@ const HeroSection = () => {
               </div>
 
               {/* Scanning Bar Animation */}
-              <motion.div 
+              <motion.div
                 className="absolute inset-0 w-full h-[3px] bg-black/15 shadow-[0_0_5px_rgba(0,0,0,0.2)]"
                 animate={{ top: ['-10%', '110%'] }}
                 transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
               />
-              
+
               {/* Glitch Overlay Effect */}
-              <motion.div 
+              <motion.div
                 className="absolute inset-0 bg-white/20 mix-blend-overlay"
                 animate={{ opacity: [0, 0.3, 0] }}
                 transition={{ duration: 0.1, repeat: Infinity, repeatDelay: 1.5 }}
               />
-            </motion.div>
+            </div>
 
             {/* Subtle Crosshairs */}
             <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-px h-8 bg-primary-fixed/30 z-20"></div>
             <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-px h-8 bg-primary-fixed/30 z-20"></div>
             <div className="absolute top-1/2 -left-4 -translate-y-1/2 h-px w-8 bg-primary-fixed/30 z-20"></div>
             <div className="absolute top-1/2 -right-4 -translate-y-1/2 h-px w-8 bg-primary-fixed/30 z-20"></div>
-          </motion.div>
+          </div>
 
           {/* Decorative Back Lines */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-px bg-primary-fixed/10 rotate-45 z-0"></div>

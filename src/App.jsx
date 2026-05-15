@@ -15,8 +15,8 @@ function BootScreen({ onComplete }) {
   const [phase, setPhase] = useState('idle'); // idle, typing1, blink, erasing, typing2
 
   useEffect(() => {
-    const msg1 = 'iniciando sessão';
-    const msg2 = 'seja bem vindo..';
+    const msg1 = 'iniciando sessão...';
+    const msg2 = 'seja bem vindo...';
     let timeoutId;
     let blinkCount = 0;
 
@@ -38,10 +38,10 @@ function BootScreen({ onComplete }) {
       setPhase('typing1');
       if (i <= msg1.length) {
         setText(msg1.slice(0, i));
-        timeoutId = setTimeout(() => typeMsg1(i + 1), 6);
+        timeoutId = setTimeout(() => typeMsg1(i + 1), 25); // Slower typing
       } else {
         // Brief blink after typing
-        timeoutId = setTimeout(() => blinkPause(), 50);
+        timeoutId = setTimeout(() => blinkPause(), 200);
       }
     };
 
@@ -51,11 +51,11 @@ function BootScreen({ onComplete }) {
       if (blinkCount < 4) {
         setShowCursor((prev) => !prev);
         blinkCount++;
-        timeoutId = setTimeout(blinkPause, 80);
+        timeoutId = setTimeout(blinkPause, 150); // Slower blink
       } else {
         setShowCursor(true);
         blinkCount = 0;
-        timeoutId = setTimeout(() => eraseMsg1(msg1.length), 30);
+        timeoutId = setTimeout(() => eraseMsg1(msg1.length), 100);
       }
     };
 
@@ -64,9 +64,9 @@ function BootScreen({ onComplete }) {
       setPhase('erasing');
       if (i >= 0) {
         setText(msg1.slice(0, i));
-        timeoutId = setTimeout(() => eraseMsg1(i - 1), 4);
+        timeoutId = setTimeout(() => eraseMsg1(i - 1), 15); // Slower erasing
       } else {
-        timeoutId = setTimeout(() => typeMsg2(0), 40);
+        timeoutId = setTimeout(() => typeMsg2(0), 150);
       }
     };
 
@@ -75,9 +75,9 @@ function BootScreen({ onComplete }) {
       setPhase('typing2');
       if (i <= msg2.length) {
         setText(msg2.slice(0, i));
-        timeoutId = setTimeout(() => typeMsg2(i + 1), 10);
+        timeoutId = setTimeout(() => typeMsg2(i + 1), 35); // Slower typing
       } else {
-        timeoutId = setTimeout(() => onComplete(), 300);
+        timeoutId = setTimeout(() => onComplete(), 500);
       }
     };
 
