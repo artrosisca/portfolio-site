@@ -34,7 +34,7 @@ const ContactSection = () => {
   };
 
   return (
-    <section className="mb-stack-lg relative" id="contact">
+    <section className="relative" id="contact">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         <div>
           <div className="section-header">

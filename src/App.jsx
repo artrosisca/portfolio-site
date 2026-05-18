@@ -118,7 +118,7 @@ const SECTIONS = ['hero', 'about', 'tech', 'projects', 'contact', 'footer-sectio
 
 function App() {
   // viewState can be '3d', 'boot', or '2d'
-  const [viewState, setViewState] = useState('3d');
+  const [viewState, setViewState] = useState('2d');
 
   const handleEnterMonitor = useCallback(() => {
     setViewState('boot');
@@ -151,7 +151,7 @@ function App() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1 }}
-              className="relative z-10 w-full h-screen overflow-y-auto overflow-x-hidden md:snap-y md:snap-mandatory scroll-smooth"
+              className="relative z-10 w-full h-screen overflow-y-auto overflow-x-hidden md:snap-y md:snap-proximity scroll-smooth"
             >
               <MainLayout />
             </motion.div>

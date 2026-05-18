@@ -9,72 +9,90 @@ import ArchitectureCards from './TechStack/ArchitectureCards';
 import ExperienceSection from './Sections/ExperienceSection';
 import ProjectGallery from './Projects/ProjectGallery';
 import ContactSection from './Sections/ContactSection';
-import BackgroundWrapper from './Layout/BackgroundWrapper';
+import InteractiveDots from './ui/InteractiveDots';
 
-// Section wrapper using react-scroll Element for snap targeting
-const SectionWrapper = ({ children, id, className = '' }) => (
+// Section color constants
+const DARK_BG = '#050505';
+const GRAY_BG = '#2a2a2a';
+
+// Full-bleed section wrapper with alternating backgrounds
+const SectionWrapper = ({ children, id, theme = 'dark', className = '', customFooter }) => (
   <Element name={id} className="snap-start">
     <div
       id={id}
-      className={`w-full min-h-screen flex flex-col justify-center ${className}`}
+      data-section-theme={theme}
+      className={`w-full min-h-screen flex flex-col justify-center relative ${className}`}
     >
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
-        className="w-full h-full flex flex-col justify-center"
-      >
-        {children}
-      </motion.div>
+      {/* Background layer behind the dots (z-[-2]) */}
+      <div 
+        className="absolute inset-0 z-[-2] pointer-events-none" 
+        style={{ backgroundColor: theme === 'gray' ? GRAY_BG : DARK_BG }}
+      />
+      {/* Content layer in front of the dots (z-20) */}
+      <div className="relative z-20 max-w-container-max mx-auto px-4 md:px-gutter w-full">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+          className="w-full h-full flex flex-col justify-center"
+        >
+          {children}
+        </motion.div>
+      </div>
+      {/* Custom footer glued to the absolute bottom of the min-h-screen wrapper */}
+      {customFooter && (
+        <div className="absolute bottom-0 left-0 right-0 z-30 w-full pointer-events-auto">
+          {customFooter}
+        </div>
+      )}
     </div>
   </Element>
 );
 
 const MainLayout = () => {
   return (
-    <BackgroundWrapper>
-      <div className="text-on-surface font-body-md">
+    <div className="relative min-h-screen w-full">
+      {/* Content layer wrapper - no stacking context to let descendants stack globally relative to dots */}
+      <div className="relative text-on-surface font-body-md">
         <TopNavBar />
         
-        <main className="max-w-container-max mx-auto px-4 md:px-gutter">
+        <main>
           
-          <SectionWrapper id="hero">
+          <SectionWrapper id="hero" theme="dark">
             <HeroSection />
           </SectionWrapper>
 
-          <SectionWrapper id="about">
+          <SectionWrapper id="about" theme="gray">
             <AboutSection />
           </SectionWrapper>
           
-          <SectionWrapper id="tech">
+          <SectionWrapper id="tech" theme="dark">
             <ArchitectureCards />
           </SectionWrapper>
 
           {/* Commented out as requested:
-          <SectionWrapper id="experience">
+          <SectionWrapper id="experience" theme="gray">
             <ExperienceSection />
           </SectionWrapper>
           */}
           
-          <SectionWrapper id="projects">
+          <SectionWrapper id="projects" theme="gray">
             <ProjectGallery />
           </SectionWrapper>
 
-          <SectionWrapper id="contact">
-            <ContactSection />
+          <SectionWrapper id="contact" theme="dark" customFooter={<Footer />}>
+            <div className="pb-16 md:pb-24">
+              <ContactSection />
+            </div>
           </SectionWrapper>
           
         </main>
-
-        {/* Footer outside sections, at the bottom */}
-        <Element name="footer-section" className="snap-start">
-          <div id="footer-section">
-            <Footer />
-          </div>
-        </Element>
       </div>
-    </BackgroundWrapper>
+
+      {/* Interactive dots overlay — above backgrounds (z-0), but behind contents (z-20) */}
+      <InteractiveDots gridSpacing={32} />
+    </div>
   );
 };
 

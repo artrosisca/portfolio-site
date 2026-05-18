@@ -2,9 +2,17 @@
 
 import React, { useEffect, useRef, useCallback } from 'react';
 
+/**
+ * InteractiveDots — Section-Aware Difference Masking
+ * 
+ * Draws dots on a transparent fixed canvas. Uses canvas clipping to draw
+ * different dot colors per section theme:
+ *   - Dark sections (#050505): light gray dots, yellow near cursor
+ *   - Gray sections (#2a2a2a): black dots, stays black near cursor
+ * 
+ * Dots at section boundaries are pixel-perfectly split by the clip regions.
+ */
 const InteractiveDots = ({
-  backgroundColor = '#0C0D05',
-  dotColor = '#fae500',
   gridSpacing = 30,
   animationSpeed = 0.005,
   removeWaveLine = true
@@ -17,6 +25,8 @@ const InteractiveDots = ({
   const dotsRef = useRef([]);
   const dprRef = useRef(1);
 
+  // --- Influence helpers (unchanged logic) ---
+
   const getMouseInfluence = (x, y) => {
     const dx = x - mouseRef.current.x;
     const dy = y - mouseRef.current.y;
@@ -25,20 +35,20 @@ const InteractiveDots = ({
     return Math.max(0, 1 - distance / maxDistance);
   };
 
-  const getRippleInfluence = (x, y, currentTime) => {
+  const getRippleInfluence = (x, y) => {
     let totalInfluence = 0;
+    const currentTime = Date.now();
     ripples.current.forEach((ripple) => {
-      const currentTime = Date.now();
       const age = currentTime - ripple.time;
-      const maxAge = ripple.duration || 3000; // Use custom duration or default 3s
+      const maxAge = ripple.duration || 3000;
       if (age < maxAge) {
         const dx = x - ripple.x;
         const dy = y - ripple.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
-        const radiusMultiplier = ripple.radius || 400; // Custom or default radius
+        const radiusMultiplier = ripple.radius || 400;
         const rippleRadius = (age / maxAge) * radiusMultiplier;
-        const rippleWidth = ripple.width || 70; // Width of the "wave ring"
-        
+        const rippleWidth = ripple.width || 70;
+
         if (Math.abs(distance - rippleRadius) < rippleWidth) {
           const rippleStrength = (1 - age / maxAge) * ripple.intensity;
           const proximityToRipple =
@@ -50,13 +60,14 @@ const InteractiveDots = ({
     return Math.min(totalInfluence, 4);
   };
 
+  // --- Dot initialization ---
+
   const initializeDots = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     const canvasWidth = canvas.clientWidth;
     const canvasHeight = canvas.clientHeight;
-
     const dots = [];
 
     for (let x = gridSpacing / 2; x < canvasWidth; x += gridSpacing) {
@@ -73,6 +84,8 @@ const InteractiveDots = ({
 
     dotsRef.current = dots;
   }, [gridSpacing]);
+
+  // --- Canvas resize ---
 
   const resizeCanvas = useCallback(() => {
     const canvas = canvasRef.current;
@@ -98,29 +111,21 @@ const InteractiveDots = ({
     initializeDots();
   }, [initializeDots]);
 
-  const handleMouseMove = useCallback((e) => {
-    if (window.innerWidth <= 768) return; // Disable cursor effect on mobile
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+  // --- Mouse handlers ---
 
-    const rect = canvas.getBoundingClientRect();
-    mouseRef.current.x = e.clientX - rect.left;
-    mouseRef.current.y = e.clientY - rect.top;
+  const handleMouseMove = useCallback((e) => {
+    if (window.innerWidth <= 768) return;
+    mouseRef.current.x = e.clientX;
+    mouseRef.current.y = e.clientY;
   }, []);
 
   const handleMouseDown = useCallback((e) => {
-    if (window.innerWidth <= 768) return; // Disable click ripples on mobile
+    if (window.innerWidth <= 768) return;
     mouseRef.current.isDown = true;
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
 
     ripples.current.push({
-      x,
-      y,
+      x: e.clientX,
+      y: e.clientY,
       time: Date.now(),
       intensity: 2,
     });
@@ -135,6 +140,82 @@ const InteractiveDots = ({
     mouseRef.current.isDown = false;
   }, []);
 
+  // --- Draw dots within clipped regions ---
+
+  const drawDotsInRegions = (ctx, regions, colorConfig, canvasWidth, canvasHeight, isGraySection = false) => {
+    if (regions.length === 0) return;
+
+    const { baseR, baseG, baseB, highlightR, highlightG, highlightB } = colorConfig;
+    const time = timeRef.current;
+
+    ctx.save();
+
+    // Create clip path from all regions
+    ctx.beginPath();
+    regions.forEach((r) => {
+      // Clamp to canvas bounds
+      const top = Math.max(0, r.top);
+      const bottom = Math.min(canvasHeight, r.bottom);
+      const left = 0;
+      const right = canvasWidth;
+      if (bottom > top) {
+        ctx.rect(left, top, right - left, bottom - top);
+      }
+    });
+    ctx.clip();
+
+    // Draw all dots within clip
+    dotsRef.current.forEach((dot) => {
+      const mouseInfluence = getMouseInfluence(dot.originalX, dot.originalY);
+      const rippleInfluence = getRippleInfluence(dot.originalX, dot.originalY);
+      const totalInfluence = mouseInfluence + rippleInfluence;
+
+      // Mask alpha for cursor proximity color shift
+      const dx = dot.originalX - mouseRef.current.x;
+      const dy = dot.originalY - mouseRef.current.y;
+      const distFromMouse = Math.sqrt(dx * dx + dy * dy);
+      const maxMaskRadius = 300;
+
+      let maskAlpha = 1 - distFromMouse / maxMaskRadius;
+      maskAlpha = Math.max(0, Math.min(1, maskAlpha));
+
+      const baseDotSize = 2.5;
+      const dotSize =
+        baseDotSize +
+        totalInfluence * 2.5 +
+        Math.sin(time + dot.phase) * 0.5;
+
+      let opacity = Math.max(
+        0.12,
+        0.12 +
+          maskAlpha * 0.5 +
+          Math.abs(Math.sin(time * 0.5 + dot.phase)) * 0.05
+      );
+
+      if (isGraySection) {
+        // Significantly higher base opacity and visual strength for black dots on gray background
+        opacity = Math.max(
+          0.38,
+          0.38 + Math.abs(Math.sin(time * 0.5 + dot.phase)) * 0.1
+        );
+      }
+
+      // Interpolate from base color to highlight color based on cursor proximity
+      const r = Math.round(baseR + (highlightR - baseR) * maskAlpha);
+      const g = Math.round(baseG + (highlightG - baseG) * maskAlpha);
+      const b = Math.round(baseB + (highlightB - baseB) * maskAlpha);
+
+      ctx.beginPath();
+      ctx.arc(dot.x, dot.y, dotSize, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${opacity})`;
+      ctx.fill();
+    });
+
+    ctx.restore();
+  };
+
+  // --- Animation loop ---
+
   const animate = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -143,63 +224,44 @@ const InteractiveDots = ({
     if (!ctx) return;
 
     timeRef.current += animationSpeed;
-    const currentTime = Date.now();
 
     const canvasWidth = canvas.clientWidth;
     const canvasHeight = canvas.clientHeight;
 
-    ctx.fillStyle = backgroundColor;
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    // Clear canvas (transparent background)
+    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-    dotsRef.current.forEach((dot) => {
-      const mouseInfluence = getMouseInfluence(dot.originalX, dot.originalY);
-      const rippleInfluence = getRippleInfluence(
-        dot.originalX,
-        dot.originalY,
-        currentTime
-      );
-      const totalInfluence = mouseInfluence + rippleInfluence;
+    // Query section boundaries from DOM
+    const darkRects = [];
+    const grayRects = [];
 
-      // Emulate the CSS radial mask effect for color and opacity
-      const dx = dot.originalX - mouseRef.current.x;
-      const dy = dot.originalY - mouseRef.current.y;
-      const distFromMouse = Math.sqrt(dx * dx + dy * dy);
-      const maxMaskRadius = 300;
-      
-      let maskAlpha = 1 - (distFromMouse / maxMaskRadius);
-      maskAlpha = Math.max(0, Math.min(1, maskAlpha));
+    document.querySelectorAll('[data-section-theme]').forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      const theme = el.dataset.sectionTheme;
+      const entry = { top: rect.top, bottom: rect.bottom };
 
-      const baseDotSize = 2.5; 
-      const dotSize =
-        baseDotSize +
-        totalInfluence * 2.5 + 
-        Math.sin(timeRef.current + dot.phase) * 0.5;
-        
-      const opacity = Math.max(
-        0.08,
-        0.08 +
-          (maskAlpha * 0.5) + // opacity increases where the mask is
-          Math.abs(Math.sin(timeRef.current * 0.5 + dot.phase)) * 0.05
-      );
-
-      ctx.beginPath();
-      ctx.arc(dot.x, dot.y, dotSize, 0, Math.PI * 2);
-
-      // Interpolate from gray to yellow based on maskAlpha
-      const targetRed = parseInt(dotColor.slice(1, 3), 16);
-      const targetGreen = parseInt(dotColor.slice(3, 5), 16);
-      const targetBlue = parseInt(dotColor.slice(5, 7), 16);
-      
-      const grayValue = 150; // base gray color
-      const r = Math.round(grayValue + (targetRed - grayValue) * maskAlpha);
-      const g = Math.round(grayValue + (targetGreen - grayValue) * maskAlpha);
-      const b = Math.round(grayValue + (targetBlue - grayValue) * maskAlpha);
-
-      ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${opacity})`;
-      ctx.fill();
+      if (theme === 'dark') {
+        darkRects.push(entry);
+      } else if (theme === 'gray') {
+        grayRects.push(entry);
+      }
     });
 
+    // Pass 1: Light dots on dark sections (light gray base → yellow near cursor)
+    drawDotsInRegions(ctx, darkRects, {
+      baseR: 220, baseG: 220, baseB: 220,       // lighter silver
+      highlightR: 250, highlightG: 229, highlightB: 0,  // yellow
+    }, canvasWidth, canvasHeight, false);
+
+    // Pass 2: Dark dots on gray sections (black, stays black near cursor)
+    drawDotsInRegions(ctx, grayRects, {
+      baseR: 10, baseG: 10, baseB: 10,           // near black
+      highlightR: 10, highlightG: 10, highlightB: 10,   // stays black
+    }, canvasWidth, canvasHeight, true);
+
+    // Draw ripple rings (optional visual)
     if (!removeWaveLine) {
+      const currentTime = Date.now();
       ripples.current.forEach((ripple) => {
         const age = currentTime - ripple.time;
         const maxAge = 3000;
@@ -213,20 +275,20 @@ const InteractiveDots = ({
           ctx.lineWidth = 2;
           ctx.arc(ripple.x, ripple.y, radius, 0, 2 * Math.PI);
           ctx.stroke();
-
-          const innerRadius = progress * 150;
-          const innerAlpha = (1 - progress) * 0.2 * ripple.intensity;
-          ctx.beginPath();
-          ctx.strokeStyle = `rgba(120, 120, 120, ${innerAlpha})`;
-          ctx.lineWidth = 1;
-          ctx.arc(ripple.x, ripple.y, innerRadius, 0, 2 * Math.PI);
-          ctx.stroke();
         }
       });
     }
 
+    // Clean up old ripples
+    const now = Date.now();
+    ripples.current = ripples.current.filter(
+      (r) => now - r.time < (r.duration || 3000)
+    );
+
     animationFrameId.current = requestAnimationFrame(animate);
-  }, [backgroundColor, dotColor, removeWaveLine, animationSpeed]);
+  }, [animationSpeed, removeWaveLine]);
+
+  // --- Lifecycle ---
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -243,13 +305,16 @@ const InteractiveDots = ({
 
     // Listen for ripples triggered by other components
     const handleExternalRipple = (e) => {
-      const { x, y, intensity = 2 } = e.detail || {};
+      const { x, y, intensity = 2, duration, radius, width } = e.detail || {};
       if (x !== undefined && y !== undefined) {
         ripples.current.push({
           x,
           y,
           time: Date.now(),
           intensity,
+          duration,
+          radius,
+          width,
         });
       }
     };
@@ -276,10 +341,10 @@ const InteractiveDots = ({
 
   return (
     <div
-      className='fixed inset-0 w-full h-full overflow-hidden'
-      style={{ backgroundColor }}
+      className="fixed inset-0 w-full h-full overflow-hidden pointer-events-none"
+      style={{ zIndex: -1 }}
     >
-      <canvas ref={canvasRef} className='block w-full h-full' />
+      <canvas ref={canvasRef} className="block w-full h-full" />
     </div>
   );
 };
