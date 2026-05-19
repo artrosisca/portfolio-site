@@ -189,7 +189,7 @@ const InteractiveDots = ({
         0.12,
         0.12 +
         maskAlpha * 0.5 +
-        Math.abs(Math.sin(time * 0.5 + dot.phase)) * 0.05
+        Math.abs(Math.sin(time * 0.8 + dot.phase)) * 0.05
       );
 
       if (isGraySection) {
@@ -255,8 +255,8 @@ const InteractiveDots = ({
 
     // Pass 2: Dark dots on gray sections SECOND SECTION
     drawDotsInRegions(ctx, grayRects, {
-      baseR: 26, baseG: 26, baseB: 26,           // near black
-      highlightR: 26, highlightG: 26, highlightB: 26,   // stays black
+      baseR: 26, baseG: 28, baseB: 39,           // near black
+      highlightR: 26, highlightG: 28, highlightB: 39,   // stays black
     }, canvasWidth, canvasHeight, true);
 
     // Draw ripple rings (optional visual)

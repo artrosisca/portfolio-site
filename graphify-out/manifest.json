@@ -8,8 +8,8 @@
     "hash": "5b641ab5f85eff4b0b9acec3417ca9b5"
   },
   "C:\\GIT\\portfolio-site\\src\\App.jsx": {
-    "mtime": 1778879430.2671614,
-    "hash": "197e09caa610cea1d19694da007c20a9"
+    "mtime": 1779124250.6149406,
+    "hash": "c02c2e640839b916e408ce1631750a92"
   },
   "C:\\GIT\\portfolio-site\\src\\main.jsx": {
     "mtime": 1778190323.7877512,
@@ -20,56 +20,56 @@
     "hash": "575fcc5822d626fbe3226e3112181b6c"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\MainLayout.jsx": {
-    "mtime": 1778869742.5947616,
-    "hash": "3079d5b2d0ab014b0ab7c6d4d2895b78"
+    "mtime": 1779151916.1804645,
+    "hash": "00c2ce79f5dcb3ad22dface15a730b61"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\3D\\HeroScene.jsx": {
-    "mtime": 1778802347.4556522,
-    "hash": "81b8c09767d6912d5629cbe16d306517"
+    "mtime": 1779124250.617596,
+    "hash": "83adc20ec329ec2d34c567e1c78de5bc"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\Layout\\BackgroundWrapper.jsx": {
-    "mtime": 1778825425.9007204,
-    "hash": "cc79a7a3c7f6f5afc1aa7291534c8810"
+    "mtime": 1779124250.6191769,
+    "hash": "90d61ef98ed9ab6855c64eed4e6e8115"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\Layout\\Footer.jsx": {
-    "mtime": 1778861725.1875906,
-    "hash": "36cb3f93a755b914cc37a8a5fbf9ba5a"
+    "mtime": 1779119713.479961,
+    "hash": "a57228943f57058da9f4d9ca92f3437a"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\Layout\\TopNavBar.jsx": {
-    "mtime": 1778861573.429221,
-    "hash": "68e7393d5bf4b448e43583c86accdcf6"
+    "mtime": 1779146372.3941195,
+    "hash": "4c5ce426f311eb8bbe06ed90d84800b4"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\Projects\\ProjectGallery.jsx": {
-    "mtime": 1778861662.329985,
-    "hash": "8fd21c7b17538fa2daaf047adc9371a0"
+    "mtime": 1779152554.3599741,
+    "hash": "a926a37e98496f1fe3bb7adab2c710e8"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\Sections\\AboutSection.jsx": {
-    "mtime": 1778878167.4267247,
-    "hash": "b60bd6cb259e213a91d341f6827c38fd"
+    "mtime": 1779146351.8190405,
+    "hash": "3b907f71f95e0fc9053b9e4d4fbb7e47"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\Sections\\ContactSection.jsx": {
-    "mtime": 1778868158.42584,
-    "hash": "016f4996b3bb360363a43149f3479058"
+    "mtime": 1779146359.9688513,
+    "hash": "faac489e5063c5b4165c4498c6e83c53"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\Sections\\ExperienceSection.jsx": {
-    "mtime": 1778190880.527212,
-    "hash": "ac06e2f21af8266f8618c02afcf95646"
+    "mtime": 1779124250.6256833,
+    "hash": "a1128a2deb1f1531fe783fd970fa7d37"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\Sections\\HeroSection.jsx": {
-    "mtime": 1778878595.1076245,
-    "hash": "c4afd471b1491304d8394f9cfde9cac0"
+    "mtime": 1779146330.7446105,
+    "hash": "b2b1aaf94f5cf5eb624bffd3f469327c"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\TechStack\\ArchitectureCards.jsx": {
-    "mtime": 1778862300.1883888,
-    "hash": "f188c11df290534b57531abc44290d2d"
+    "mtime": 1779147820.359552,
+    "hash": "66797f3da5dc7e9a09fb610794bfb1cf"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\Terminal\\TerminalWindow.jsx": {
-    "mtime": 1778268403.9464445,
-    "hash": "f0538d379a530ea4cebf8663bbf57746"
+    "mtime": 1779124250.6338608,
+    "hash": "5d1801934a3f65f117197dadea03f0fa"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\ui\\InteractiveDots.jsx": {
-    "mtime": 1778878156.6934493,
-    "hash": "d2ef9114ec014ab24bb5d00dae6cf0c7"
+    "mtime": 1779151582.3413243,
+    "hash": "07d402d8ebafb7afa267780d60e52ef9"
   },
   "C:\\GIT\\portfolio-site\\src\\contexts\\LanguageContext.jsx": {
     "mtime": 1778267897.2609105,
@@ -80,8 +80,12 @@
     "hash": "00af3c86fd2b8b76769195c6ba199591"
   },
   "C:\\GIT\\portfolio-site\\src\\i18n\\translations.js": {
-    "mtime": 1778879501.652909,
-    "hash": "dc7e0baa6520693aaa57742eb9eb5a74"
+    "mtime": 1779080549.152071,
+    "hash": "c20c066c00e21958dd59d943bb5d1307"
+  },
+  "C:\\GIT\\portfolio-site\\DESIGN.md": {
+    "mtime": 1779074049.6731563,
+    "hash": "96975bcf1f6cd3ec63d1a5d363cb625c"
   },
   "C:\\GIT\\portfolio-site\\index.html": {
     "mtime": 1778266476.8781075,
@@ -102,6 +106,10 @@
   "C:\\GIT\\portfolio-site\\public\\arthur_resume_pt-br.pdf": {
     "mtime": 1776695012.4136276,
     "hash": "c2534b9e94a4a89aef3e68f56b5687f4"
+  },
+  "C:\\GIT\\portfolio-site\\ideia nova cor por site\\exemplo na paleta.jpg": {
+    "mtime": 1779080207.2615662,
+    "hash": "6f7abcaf7963271ecc223ca2ad12b2f4"
   },
   "C:\\GIT\\portfolio-site\\public\\dw-arquitetura.png": {
     "mtime": 1778856915.0584104,

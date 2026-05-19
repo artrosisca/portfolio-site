@@ -63,7 +63,7 @@ const ContactSection = () => {
             </div>
           </div>
           {/* Terminal Indicator */}
-          <div className="mt-12 p-6 rounded-xl bg-surface-container-lowest border border-primary-fixed/20 relative overflow-hidden">
+          <div className="mt-12 p-6 rounded-xl glass-panel border border-primary-fixed/20 relative overflow-hidden">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-2 h-2 rounded-full bg-primary-fixed animate-pulse"></div>
               <span className="font-code-sm text-[10px] uppercase text-primary-fixed tracking-widest">{t('contact.status')}</span>

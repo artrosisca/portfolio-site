@@ -115,10 +115,10 @@ export default function ProjectGallery() {
         </div>
       </div>
       
-      <div className="relative overflow-hidden w-full -mt-6 pt-6 px-8 -mx-8">
-        <div ref={scrollRef} className="w-full -mx-8 px-8 flex gap-8 overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth pt-6 pb-8 -mt-6">
+      <div className="relative overflow-hidden w-full -mt-6 pt-6">
+        <div ref={scrollRef} className="w-full flex gap-8 overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth pt-6 pb-8 -mt-6">
           {projects.map((project) => (
-            <div key={project.id} className="flex-shrink-0 w-full snap-start grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div key={project.id} className="flex-shrink-0 w-full snap-center px-4 md:px-6 grid grid-cols-1 lg:grid-cols-12 gap-8">
               <div className="lg:col-span-8 glass-panel rounded-xl overflow-hidden group">
                 <div className="h-48 md:h-64 relative overflow-hidden bg-surface-container-highest/30">
                   <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-80 z-10"></div>

@@ -1,40 +1,43 @@
-# Graph Report - portfolio-site  (2026-05-15)
+# Graph Report - portfolio-site  (2026-05-18)
 
 ## Corpus Check
-- 22 files · ~187,084 words
+- 23 files · ~195,909 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 63 nodes · 88 edges · 13 communities (11 shown, 2 thin omitted)
+- 74 nodes · 99 edges · 16 communities (12 shown, 4 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `cd522b91`
+- Built from commit: `c1cdbf6e`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
-- [[_COMMUNITY_Core Application & State|Core Application & State]]
 - [[_COMMUNITY_Global Layout & Navigation|Global Layout & Navigation]]
 - [[_COMMUNITY_Portfolio Sections|Portfolio Sections]]
 - [[_COMMUNITY_Tech Stack Ecosystem|Tech Stack Ecosystem]]
 - [[_COMMUNITY_Project Showcases|Project Showcases]]
 - [[_COMMUNITY_Interactive Terminal|Interactive Terminal]]
 - [[_COMMUNITY_I18n Engine|I18n Engine]]
+- [[_COMMUNITY_Professional Profile|Professional Profile]]
 - [[_COMMUNITY_Community 8|Community 8]]
+- [[_COMMUNITY_Community 9|Community 9]]
+- [[_COMMUNITY_Community 11|Community 11]]
+- [[_COMMUNITY_Community 12|Community 12]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `useLanguage()` - 21 edges
-2. `Arthur Rosisca` - 4 edges
-3. `React + Vite` - 3 edges
-4. `BootScreen()` - 2 edges
-5. `App()` - 2 edges
-6. `ScrollIndicator()` - 2 edges
-7. `HeroScene()` - 2 edges
-8. `TopNavBar()` - 2 edges
-9. `ProjectGallery()` - 2 edges
-10. `AboutTerminal()` - 2 edges
+2. `Component Specifications` - 5 edges
+3. `Cyber-Noir & Neon Electric Design System` - 4 edges
+4. `Arthur Rosisca` - 4 edges
+5. `Design Tokens` - 3 edges
+6. `React + Vite` - 3 edges
+7. `BootScreen()` - 2 edges
+8. `App()` - 2 edges
+9. `ScrollIndicator()` - 2 edges
+10. `HeroScene()` - 2 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `Arthur Rosisca` --studied_at--> `UTFPR`  [EXTRACTED]
@@ -48,25 +51,29 @@
 - `ScrollIndicator()` --calls--> `useLanguage()`  [EXTRACTED]
   src/components/3D/HeroScene.jsx → src/contexts/LanguageContext.jsx
 
-## Communities (13 total, 2 thin omitted)
+## Communities (16 total, 4 thin omitted)
 
 ### Community 1 - "Global Layout & Navigation"
-Cohesion: 0.33
-Nodes (6): useLanguage(), TopNavBar(), AboutSection(), AboutTerminal(), ContactSection(), TerminalWindow()
+Cohesion: 0.18
+Nodes (10): 1. Navigation Bar & Footer, 2. Main Hero & 3D Interactive Canvas, 3. Tech Stack & Project Cards, 4. Interactive Forms, Colors, Component Specifications, Cyber-Noir & Neon Electric Design System, Design Tokens (+2 more)
 
 ### Community 2 - "Portfolio Sections"
 Cohesion: 0.33
 Nodes (5): LanguageProvider(), App(), BootScreen(), SECTIONS, useReactScrollSnap()
 
 ### Community 4 - "Project Showcases"
-Cohesion: 0.4
-Nodes (3): LanguageContext, translations, HeroSection()
+Cohesion: 0.6
+Nodes (4): useLanguage(), AboutSection(), AboutTerminal(), TerminalWindow()
 
 ### Community 5 - "Interactive Terminal"
 Cohesion: 0.4
-Nodes (3): ArchitectureCards(), techCategories, techCategoriesData
+Nodes (3): LanguageContext, translations, HeroSection()
 
 ### Community 6 - "I18n Engine"
+Cohesion: 0.4
+Nodes (3): ArchitectureCards(), techCategories, techCategoriesData
+
+### Community 7 - "Professional Profile"
 Cohesion: 0.4
 Nodes (5): Arthur Rosisca, Data Engineering, Onikode Solutions, Predição de Risco de Doenças Crônicas, UTFPR
 
@@ -75,14 +82,14 @@ Cohesion: 0.5
 Nodes (3): Expanding the ESLint configuration, React Compiler, React + Vite
 
 ## Knowledge Gaps
-- **10 isolated node(s):** `SECTIONS`, `techCategoriesData`, `LanguageContext`, `React Compiler`, `Expanding the ESLint configuration` (+5 more)
+- **17 isolated node(s):** `SECTIONS`, `techCategoriesData`, `LanguageContext`, `Goal`, `Colors` (+12 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **2 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `useLanguage()` connect `Global Layout & Navigation` to `Core Application & State`, `Portfolio Sections`, `Tech Stack Ecosystem`, `Project Showcases`, `Interactive Terminal`?**
-  _High betweenness centrality (0.184) - this node is a cross-community bridge._
+- **Why does `useLanguage()` connect `Project Showcases` to `Portfolio Sections`, `Tech Stack Ecosystem`, `Interactive Terminal`, `I18n Engine`, `Community 9`, `Community 11`, `Community 12`?**
+  _High betweenness centrality (0.133) - this node is a cross-community bridge._
 - **What connects `SECTIONS`, `techCategoriesData`, `LanguageContext` to the rest of the system?**
-  _10 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _17 weakly-connected nodes found - possible documentation gaps or missing edges._

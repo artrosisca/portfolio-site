@@ -55,17 +55,28 @@ input, textarea {
     -ms-user-select: text;
 }
 
+/* Glassmorphism Background Variables */
+:root {
+  --glass-bg-default: rgba(10, 10, 10, 0.75);       /* Used in About and Projects sections (classic dark glass) */
+  --glass-bg-dark-section: rgba(22, 22, 26, 0.75);  /* Used in Tech Stack and Contact sections (Less black, neutral charcoal gray) */
+}
+
 .glass-panel {
-    background: rgba(10, 10, 10, 0.75) !important;
+    background: var(--glass-bg-default) !important;
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 
       0 4px 12px rgba(0, 0, 0, 0.15),
       0 8px 24px -4px rgba(0, 0, 0, 0.12),
       0 0 20px rgba(0, 0, 0, 0.08),
       inset 0 1px 1px rgba(255, 255, 255, 0.05);
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Override for cards in dark theme sections (Tech Stack & Contact) to be less black */
+[data-section-theme="dark"] .glass-panel {
+    background: var(--glass-bg-dark-section) !important;
 }
 
 /* Depth Hover Utility for elevating cards above the background dot-grid */

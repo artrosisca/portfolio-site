@@ -12,7 +12,7 @@ import ContactSection from './Sections/ContactSection';
 import InteractiveDots from './ui/InteractiveDots';
 
 // Section color constants
-const DARK_BG = '#1a1c27a4';
+const DARK_BG = '#1a1c2721';
 const GRAY_BG = '#a898077e';
 
 // Full-bleed section wrapper with alternating backgrounds
