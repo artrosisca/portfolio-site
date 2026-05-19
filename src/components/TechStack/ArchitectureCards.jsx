@@ -84,7 +84,7 @@ const TechCard = ({ category, t }) => {
           <div className="w-8 h-8 rounded-full border border-primary-fixed/30 flex items-center justify-center bg-primary-fixed/5 group-hover:bg-primary-fixed/20 transition-colors">
             {category.icon}
           </div>
-          <h3 className="font-code-sm text-sm text-primary-fixed uppercase tracking-[0.2em]">
+          <h3 className="font-code-sm text-sm text-text-primary uppercase tracking-[0.2em]">
             {t(category.titleKey)}
           </h3>
         </motion.div>

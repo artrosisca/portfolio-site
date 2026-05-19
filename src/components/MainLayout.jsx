@@ -13,7 +13,7 @@ import InteractiveDots from './ui/InteractiveDots';
 
 // Section color constants
 const DARK_BG = '#1a1c2721';
-const GRAY_BG = '#a898077e';
+const GRAY_BG = '#e1cd1788';
 
 // Full-bleed section wrapper with alternating backgrounds
 const SectionWrapper = ({ children, id, theme = 'dark', className = '', customFooter }) => (
@@ -91,7 +91,7 @@ const MainLayout = () => {
       </div>
 
       {/* Interactive dots overlay — above backgrounds (z-0), but behind contents (z-20) */}
-      <InteractiveDots gridSpacing={32} />
+      <InteractiveDots gridSpacing={35} />
     </div>
   );
 };

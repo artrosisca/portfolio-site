@@ -9,7 +9,7 @@
       "source_file": "eslint.config.js",
       "source_location": "L1",
       "id": "eslint_config_js",
-      "community": 14,
+      "community": 15,
       "norm_label": "eslint.config.js"
     },
     {
@@ -18,7 +18,7 @@
       "source_file": "vite.config.js",
       "source_location": "L1",
       "id": "vite_config_js",
-      "community": 15,
+      "community": 16,
       "norm_label": "vite.config.js"
     },
     {
@@ -207,7 +207,7 @@
       "source_file": "src/components/Layout/TopNavBar.jsx",
       "source_location": "L1",
       "id": "src_components_layout_topnavbar_jsx",
-      "community": 11,
+      "community": 12,
       "norm_label": "topnavbar.jsx"
     },
     {
@@ -216,7 +216,7 @@
       "source_file": "src/components/Layout/TopNavBar.jsx",
       "source_location": "L6",
       "id": "layout_topnavbar_topnavbar",
-      "community": 11,
+      "community": 12,
       "norm_label": "topnavbar()"
     },
     {
@@ -279,7 +279,7 @@
       "source_file": "src/components/Sections/ContactSection.jsx",
       "source_location": "L1",
       "id": "src_components_sections_contactsection_jsx",
-      "community": 12,
+      "community": 13,
       "norm_label": "contactsection.jsx"
     },
     {
@@ -288,7 +288,7 @@
       "source_file": "src/components/Sections/ContactSection.jsx",
       "source_location": "L4",
       "id": "sections_contactsection_contactsection",
-      "community": 12,
+      "community": 13,
       "norm_label": "contactsection()"
     },
     {
@@ -315,7 +315,7 @@
       "source_file": "src/components/Sections/HeroSection.jsx",
       "source_location": "L1",
       "id": "src_components_sections_herosection_jsx",
-      "community": 5,
+      "community": 11,
       "norm_label": "herosection.jsx"
     },
     {
@@ -324,7 +324,7 @@
       "source_file": "src/components/Sections/HeroSection.jsx",
       "source_location": "L6",
       "id": "sections_herosection_herosection",
-      "community": 5,
+      "community": 11,
       "norm_label": "herosection()"
     },
     {
@@ -333,7 +333,7 @@
       "source_file": "src/components/TechStack/ArchitectureCards.jsx",
       "source_location": "L1",
       "id": "src_components_techstack_architecturecards_jsx",
-      "community": 6,
+      "community": 5,
       "norm_label": "architecturecards.jsx"
     },
     {
@@ -342,7 +342,7 @@
       "source_file": "src/components/TechStack/ArchitectureCards.jsx",
       "source_location": "L5",
       "id": "techstack_architecturecards_techcategoriesdata",
-      "community": 6,
+      "community": 5,
       "norm_label": "techcategoriesdata"
     },
     {
@@ -351,7 +351,7 @@
       "source_file": "src/components/TechStack/ArchitectureCards.jsx",
       "source_location": "L52",
       "id": "techstack_architecturecards_techcard",
-      "community": 6,
+      "community": 5,
       "norm_label": "techcard()"
     },
     {
@@ -360,7 +360,7 @@
       "source_file": "src/components/TechStack/ArchitectureCards.jsx",
       "source_location": "L125",
       "id": "techstack_architecturecards_architecturecards",
-      "community": 6,
+      "community": 5,
       "norm_label": "architecturecards()"
     },
     {
@@ -405,7 +405,7 @@
       "source_file": "src/contexts/LanguageContext.jsx",
       "source_location": "L1",
       "id": "src_contexts_languagecontext_jsx",
-      "community": 5,
+      "community": 7,
       "norm_label": "languagecontext.jsx"
     },
     {
@@ -414,7 +414,7 @@
       "source_file": "src/contexts/LanguageContext.jsx",
       "source_location": "L4",
       "id": "contexts_languagecontext_languagecontext",
-      "community": 5,
+      "community": 7,
       "norm_label": "languagecontext"
     },
     {
@@ -441,7 +441,7 @@
       "source_file": "src/hooks/useMouse.js",
       "source_location": "L1",
       "id": "src_hooks_usemouse_js",
-      "community": 13,
+      "community": 14,
       "norm_label": "usemouse.js"
     },
     {
@@ -450,7 +450,7 @@
       "source_file": "src/hooks/useMouse.js",
       "source_location": "L4",
       "id": "hooks_usemouse_usemouse",
-      "community": 13,
+      "community": 14,
       "norm_label": "usemouse()"
     },
     {
@@ -459,7 +459,7 @@
       "source_file": "src/i18n/translations.js",
       "source_location": "L1",
       "id": "src_i18n_translations_js",
-      "community": 5,
+      "community": 7,
       "norm_label": "translations.js"
     },
     {
@@ -468,7 +468,7 @@
       "source_file": "src/i18n/translations.js",
       "source_location": "L1",
       "id": "i18n_translations_translations",
-      "community": 5,
+      "community": 7,
       "norm_label": "translations"
     },
     {
@@ -620,7 +620,7 @@
       "file_type": "code",
       "source_file": "src/components/TechStack/ArchitectureCards.jsx",
       "source_location": "L5",
-      "community": 6,
+      "community": 5,
       "norm_label": "techcategories",
       "id": "techstack_architecturecards_techcategories"
     },
@@ -628,7 +628,7 @@
       "label": "Arthur Rosisca",
       "file_type": "rationale",
       "source_file": "README.md",
-      "community": 7,
+      "community": 6,
       "norm_label": "arthur rosisca",
       "id": "arthur_rosisca"
     },
@@ -636,7 +636,7 @@
       "label": "UTFPR",
       "file_type": "rationale",
       "source_file": "public/arthur_resume_pt-br.pdf",
-      "community": 7,
+      "community": 6,
       "norm_label": "utfpr",
       "id": "utfpr"
     },
@@ -644,7 +644,7 @@
       "label": "Onikode Solutions",
       "file_type": "rationale",
       "source_file": "public/arthur_resume_pt-br.pdf",
-      "community": 7,
+      "community": 6,
       "norm_label": "onikode solutions",
       "id": "onikode_solutions"
     },
@@ -652,7 +652,7 @@
       "label": "Predi\u00e7\u00e3o de Risco de Doen\u00e7as Cr\u00f4nicas",
       "file_type": "rationale",
       "source_file": "public/arthur_resume_pt-br.pdf",
-      "community": 7,
+      "community": 6,
       "norm_label": "predicao de risco de doencas cronicas",
       "id": "project_disease_risk"
     },
@@ -660,7 +660,7 @@
       "label": "Data Engineering",
       "file_type": "rationale",
       "source_file": "README.md",
-      "community": 7,
+      "community": 6,
       "norm_label": "data engineering",
       "id": "data_engineering"
     }
@@ -910,9 +910,9 @@
       "source_file": "src/components/MainLayout.jsx",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_mainlayout_jsx",
-      "target": "src_components_ui_interactivedots_jsx",
-      "confidence_score": 1.0
+      "target": "src_components_ui_interactivedots_jsx"
     },
     {
       "relation": "contains",
@@ -1541,9 +1541,9 @@
       "source_file": "DESIGN.md",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "design_md",
-      "target": "portfolio_site_design_cyber_noir_neon_electric_design_system",
-      "confidence_score": 1.0
+      "target": "portfolio_site_design_cyber_noir_neon_electric_design_system"
     },
     {
       "relation": "contains",
@@ -1551,9 +1551,9 @@
       "source_file": "DESIGN.md",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "portfolio_site_design_cyber_noir_neon_electric_design_system",
-      "target": "portfolio_site_design_goal",
-      "confidence_score": 1.0
+      "target": "portfolio_site_design_goal"
     },
     {
       "relation": "contains",
@@ -1561,9 +1561,9 @@
       "source_file": "DESIGN.md",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "portfolio_site_design_cyber_noir_neon_electric_design_system",
-      "target": "portfolio_site_design_design_tokens",
-      "confidence_score": 1.0
+      "target": "portfolio_site_design_design_tokens"
     },
     {
       "relation": "contains",
@@ -1571,9 +1571,9 @@
       "source_file": "DESIGN.md",
       "source_location": "L29",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "portfolio_site_design_cyber_noir_neon_electric_design_system",
-      "target": "portfolio_site_design_component_specifications",
-      "confidence_score": 1.0
+      "target": "portfolio_site_design_component_specifications"
     },
     {
       "relation": "contains",
@@ -1581,9 +1581,9 @@
       "source_file": "DESIGN.md",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "portfolio_site_design_design_tokens",
-      "target": "portfolio_site_design_colors",
-      "confidence_score": 1.0
+      "target": "portfolio_site_design_colors"
     },
     {
       "relation": "contains",
@@ -1591,9 +1591,9 @@
       "source_file": "DESIGN.md",
       "source_location": "L19",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "portfolio_site_design_design_tokens",
-      "target": "portfolio_site_design_typography",
-      "confidence_score": 1.0
+      "target": "portfolio_site_design_typography"
     },
     {
       "relation": "contains",
@@ -1601,9 +1601,9 @@
       "source_file": "DESIGN.md",
       "source_location": "L31",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "portfolio_site_design_component_specifications",
-      "target": "portfolio_site_design_1_navigation_bar_footer",
-      "confidence_score": 1.0
+      "target": "portfolio_site_design_1_navigation_bar_footer"
     },
     {
       "relation": "contains",
@@ -1611,9 +1611,9 @@
       "source_file": "DESIGN.md",
       "source_location": "L36",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "portfolio_site_design_component_specifications",
-      "target": "portfolio_site_design_2_main_hero_3d_interactive_canvas",
-      "confidence_score": 1.0
+      "target": "portfolio_site_design_2_main_hero_3d_interactive_canvas"
     },
     {
       "relation": "contains",
@@ -1621,9 +1621,9 @@
       "source_file": "DESIGN.md",
       "source_location": "L41",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "portfolio_site_design_component_specifications",
-      "target": "portfolio_site_design_3_tech_stack_project_cards",
-      "confidence_score": 1.0
+      "target": "portfolio_site_design_3_tech_stack_project_cards"
     },
     {
       "relation": "contains",
@@ -1631,9 +1631,9 @@
       "source_file": "DESIGN.md",
       "source_location": "L46",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "portfolio_site_design_component_specifications",
-      "target": "portfolio_site_design_4_interactive_forms",
-      "confidence_score": 1.0
+      "target": "portfolio_site_design_4_interactive_forms"
     },
     {
       "relation": "contains",
@@ -1695,5 +1695,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "c1cdbf6ee86a9e497f4b2e66c365f080dd0b1270"
+  "built_at_commit": "35440045d16183710f4a54f30154b9db2dfd1621"
 }
