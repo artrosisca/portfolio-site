@@ -59,9 +59,9 @@ textarea {
 
 /* Glassmorphism Background Variables */
 :root {
-    --glass-bg-default: rgba(10, 10, 10, 0.62);
+    --glass-bg-default: rgba(10, 10, 10, 0.75);
     /* Used in About and Projects sections (classic dark glass) */
-    --glass-bg-dark-section: rgba(70, 63, 28, 0.24);
+    --glass-bg-dark-section: rgba(70, 63, 28, 0.308);
     /* Used in Tech Stack and Contact sections (Less black, neutral charcoal gray) */
 }
 

@@ -5,12 +5,12 @@
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 74 nodes · 99 edges · 17 communities (11 shown, 6 thin omitted)
+- 74 nodes · 99 edges · 16 communities (12 shown, 4 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `35440045`
+- Built from commit: `939c9317`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -26,7 +26,6 @@
 - [[_COMMUNITY_Community 9|Community 9]]
 - [[_COMMUNITY_Community 11|Community 11]]
 - [[_COMMUNITY_Community 12|Community 12]]
-- [[_COMMUNITY_Community 13|Community 13]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `useLanguage()` - 21 edges
@@ -52,7 +51,7 @@
 - `ScrollIndicator()` --calls--> `useLanguage()`  [EXTRACTED]
   src/components/3D/HeroScene.jsx → src/contexts/LanguageContext.jsx
 
-## Communities (17 total, 6 thin omitted)
+## Communities (16 total, 4 thin omitted)
 
 ### Community 1 - "Global Layout & Navigation"
 Cohesion: 0.18
@@ -68,9 +67,13 @@ Nodes (4): useLanguage(), AboutSection(), AboutTerminal(), TerminalWindow()
 
 ### Community 5 - "Interactive Terminal"
 Cohesion: 0.4
-Nodes (3): ArchitectureCards(), techCategories, techCategoriesData
+Nodes (3): LanguageContext, translations, TopNavBar()
 
 ### Community 6 - "I18n Engine"
+Cohesion: 0.4
+Nodes (3): ArchitectureCards(), techCategories, techCategoriesData
+
+### Community 7 - "Professional Profile"
 Cohesion: 0.4
 Nodes (5): Arthur Rosisca, Data Engineering, Onikode Solutions, Predição de Risco de Doenças Crônicas, UTFPR
 
@@ -81,12 +84,12 @@ Nodes (3): Expanding the ESLint configuration, React Compiler, React + Vite
 ## Knowledge Gaps
 - **17 isolated node(s):** `SECTIONS`, `techCategoriesData`, `LanguageContext`, `Goal`, `Colors` (+12 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **6 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `useLanguage()` connect `Project Showcases` to `Portfolio Sections`, `Tech Stack Ecosystem`, `Interactive Terminal`, `Professional Profile`, `Community 9`, `Community 11`, `Community 12`, `Community 13`?**
+- **Why does `useLanguage()` connect `Project Showcases` to `Portfolio Sections`, `Tech Stack Ecosystem`, `Interactive Terminal`, `I18n Engine`, `Community 9`, `Community 11`, `Community 12`?**
   _High betweenness centrality (0.133) - this node is a cross-community bridge._
 - **What connects `SECTIONS`, `techCategoriesData`, `LanguageContext` to the rest of the system?**
   _17 weakly-connected nodes found - possible documentation gaps or missing edges._
