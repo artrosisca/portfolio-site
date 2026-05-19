@@ -97,7 +97,7 @@ const TopNavBar = () => {
           {/* Language Toggle */}
           <button 
             onClick={toggleLang}
-            className="flex items-center justify-center gap-1.5 px-2 md:px-3 border border-white/10 hover:border-primary-fixed/50 transition-all active:scale-95 rounded-lg h-9 bg-black/20 backdrop-blur-md cursor-pointer"
+            className="flex items-center justify-center gap-1.5 px-2 md:px-3 border border-white/10 depth-btn-secondary rounded-lg h-9 bg-black/20 backdrop-blur-md cursor-pointer"
           >
             <span className="material-symbols-outlined text-primary-fixed text-lg">translate</span>
             <span className="font-bold text-[#d4d4d4] uppercase text-xs tracking-wide">{lang}</span>
@@ -110,7 +110,7 @@ const TopNavBar = () => {
             onMouseLeave={() => setShowCV(false)}
           >
             <a 
-              className="bg-primary-fixed text-on-primary-fixed font-bold py-2 active:scale-95 transition-all duration-300 text-sm rounded-xl h-10 flex items-center justify-center w-[150px] cursor-pointer" 
+              className="bg-primary-fixed text-on-primary-fixed depth-btn-primary font-bold py-2 text-sm rounded-xl h-10 flex items-center justify-center w-[150px] cursor-pointer" 
               href={lang === 'PT' ? '/arthur_resume_pt-br.pdf' : '/arthur_resume_en.pdf'}
               download
             >
@@ -140,7 +140,7 @@ const TopNavBar = () => {
           {/* Mobile Hamburger Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg border border-white/10 bg-black/20 backdrop-blur-md cursor-pointer active:scale-90 transition-all"
+            className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg border border-white/10 depth-btn-secondary bg-black/20 backdrop-blur-md cursor-pointer"
             aria-label="Toggle menu"
           >
             <span className="material-symbols-outlined text-primary-fixed text-xl">
@@ -168,7 +168,7 @@ const TopNavBar = () => {
               {/* Close button */}
               <button 
                 onClick={() => setMobileMenuOpen(false)}
-                className="absolute top-4 right-4 w-12 h-12 flex items-center justify-center rounded-full border border-primary-fixed/20 bg-surface/40 backdrop-blur-md cursor-pointer active:scale-90 transition-all"
+                className="absolute top-4 right-4 w-12 h-12 flex items-center justify-center rounded-full border border-primary-fixed/20 depth-btn-secondary bg-surface/40 backdrop-blur-md cursor-pointer"
               >
                 <span className="material-symbols-outlined text-primary-fixed text-2xl">close</span>
               </button>
@@ -198,7 +198,7 @@ const TopNavBar = () => {
 
               {/* Download CV */}
               <a
-                className="bg-primary-fixed text-on-primary-fixed font-bold py-3 px-8 active:scale-95 transition-all text-sm rounded-xl cursor-pointer uppercase tracking-widest"
+                className="bg-primary-fixed text-on-primary-fixed depth-btn-primary font-bold py-3 px-8 text-sm rounded-xl cursor-pointer uppercase tracking-widest"
                 href={lang === 'PT' ? '/arthur_resume_pt-br.pdf' : '/arthur_resume_en.pdf'}
                 download
                 onClick={() => setMobileMenuOpen(false)}

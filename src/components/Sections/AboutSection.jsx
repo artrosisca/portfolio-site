@@ -34,8 +34,7 @@ function AboutTerminal() {
   return (
     <div
       ref={ref}
-      className="glass-panel rounded-[12px] border border-primary-fixed/20 overflow-hidden w-full"
-      style={{ backdropFilter: 'blur(32px)', WebkitBackdropFilter: 'blur(32px)', backgroundColor: '#0a0a0a' }}
+      className="glass-panel rounded-[12px] overflow-hidden w-full"
     >
       {/* Terminal Header */}
       <div className="bg-white/5 px-4 py-3 flex items-center gap-2 border-b border-primary-fixed/10">
@@ -129,7 +128,7 @@ const AboutSection = () => {
             <p dangerouslySetInnerHTML={{ __html: t('about.p1') }} />
             <p dangerouslySetInnerHTML={{ __html: t('about.p2') }} />
             <div className="pt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="glass-panel p-4 rounded-xl border border-primary-fixed/20 text-center relative" style={{ backgroundColor: '#0a0a0a' }}>
+              <div className="glass-panel depth-card-hover p-4 rounded-xl text-center relative">
                 <span className="block font-headline-md text-primary-fixed uppercase text-sm mb-1">UTFPR</span>
                 <span className="text-[10px] uppercase tracking-widest text-on-surface-variant">{t('about.degree')}</span>
               </div>

@@ -75,11 +75,10 @@ const TechCard = ({ category, t }) => {
 
       {/* Actual visible card — relative on mobile (pushes siblings), absolute on desktop (floats over) */}
       <motion.div
-        layout
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
         onClick={() => setIsHovered(!isHovered)}
-        className="md:absolute md:top-0 md:left-0 w-full h-auto glass-panel p-6 border border-primary-fixed/20 rounded-xl hover:border-primary-fixed/50 transition-colors cursor-pointer group flex flex-col justify-start bg-surface-container/90 backdrop-blur-xl shadow-xl"
+        className="md:absolute md:top-0 md:left-0 w-full h-auto glass-panel depth-card-hover p-6 rounded-xl cursor-pointer group flex flex-col justify-start"
       >
         <motion.div layout className="flex items-center gap-4 mb-4">
           <div className="w-8 h-8 rounded-full border border-primary-fixed/30 flex items-center justify-center bg-primary-fixed/5 group-hover:bg-primary-fixed/20 transition-colors">

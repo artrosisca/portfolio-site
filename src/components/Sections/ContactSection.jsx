@@ -92,7 +92,7 @@ const ContactSection = () => {
             </div>
             <button 
               disabled={status === 'submitting'}
-              className="mt-6 md:mt-10 w-full bg-primary-fixed text-on-primary-fixed font-bold py-5 text-sm uppercase tracking-[0.3em] active:scale-95 transition-all rounded-[15px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed" 
+              className="mt-6 md:mt-10 w-full bg-primary-fixed text-on-primary-fixed depth-btn-primary font-bold py-5 text-sm uppercase tracking-[0.3em] rounded-[15px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed" 
               type="submit"
             >
               {status === 'submitting' ? '...' : t('contact.form_send')}

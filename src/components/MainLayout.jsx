@@ -12,8 +12,8 @@ import ContactSection from './Sections/ContactSection';
 import InteractiveDots from './ui/InteractiveDots';
 
 // Section color constants
-const DARK_BG = '#050505';
-const GRAY_BG = '#2a2a2a';
+const DARK_BG = '#1a1c27a4';
+const GRAY_BG = '#a898077e';
 
 // Full-bleed section wrapper with alternating backgrounds
 const SectionWrapper = ({ children, id, theme = 'dark', className = '', customFooter }) => (
@@ -24,8 +24,8 @@ const SectionWrapper = ({ children, id, theme = 'dark', className = '', customFo
       className={`w-full min-h-screen flex flex-col justify-center relative ${className}`}
     >
       {/* Background layer behind the dots (z-[-2]) */}
-      <div 
-        className="absolute inset-0 z-[-2] pointer-events-none" 
+      <div
+        className="absolute inset-0 z-[-2] pointer-events-none"
         style={{ backgroundColor: theme === 'gray' ? GRAY_BG : DARK_BG }}
       />
       {/* Content layer in front of the dots (z-20) */}
@@ -56,9 +56,9 @@ const MainLayout = () => {
       {/* Content layer wrapper - no stacking context to let descendants stack globally relative to dots */}
       <div className="relative text-on-surface font-body-md">
         <TopNavBar />
-        
+
         <main>
-          
+
           <SectionWrapper id="hero" theme="dark">
             <HeroSection />
           </SectionWrapper>
@@ -66,7 +66,7 @@ const MainLayout = () => {
           <SectionWrapper id="about" theme="gray">
             <AboutSection />
           </SectionWrapper>
-          
+
           <SectionWrapper id="tech" theme="dark">
             <ArchitectureCards />
           </SectionWrapper>
@@ -76,7 +76,7 @@ const MainLayout = () => {
             <ExperienceSection />
           </SectionWrapper>
           */}
-          
+
           <SectionWrapper id="projects" theme="gray">
             <ProjectGallery />
           </SectionWrapper>
@@ -86,7 +86,7 @@ const MainLayout = () => {
               <ContactSection />
             </div>
           </SectionWrapper>
-          
+
         </main>
       </div>
 

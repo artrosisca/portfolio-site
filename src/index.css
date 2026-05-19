@@ -56,8 +56,84 @@ input, textarea {
 }
 
 .glass-panel {
-    background: var(--color-surface);
-    border: 1px solid var(--color-outline);
+    background: rgba(10, 10, 10, 0.75) !important;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 
+      0 4px 12px rgba(0, 0, 0, 0.15),
+      0 8px 24px -4px rgba(0, 0, 0, 0.12),
+      0 0 20px rgba(0, 0, 0, 0.08),
+      inset 0 1px 1px rgba(255, 255, 255, 0.05);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Depth Hover Utility for elevating cards above the background dot-grid */
+.depth-card-hover {
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.depth-card-hover:hover {
+    transform: translateY(-6px) !important; /* Only translateY to prevent snap-scroll horizontal shifts */
+    border-color: rgba(255, 222, 0, 0.2) !important; /* Glow utilizing --color-primary-fixed */
+    box-shadow: 
+      0 0 40px rgba(0, 0, 0, 0.35), /* Soft, highly diffuse, symmetrical ambient shadow (X=0, Y=0) */
+      0 8px 25px rgba(0, 0, 0, 0.2), /* Subtle vertical lift weighting */
+      0 0 20px rgba(255, 222, 0, 0.02), /* Faint glowing ambient border color sync */
+      inset 0 1px 1px rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Primary Button depth styles */
+.depth-btn-primary {
+    box-shadow: 
+      0 3px 8px rgba(255, 222, 0, 0.06),
+      0 0 12px rgba(255, 222, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.depth-btn-primary:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 
+      0 0 20px rgba(255, 222, 0, 0.12), /* Softer symmetrical button hover glow */
+      0 4px 12px rgba(255, 222, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+    background-color: #ffeb3b !important;
+}
+
+.depth-btn-primary:active {
+    transform: translateY(-1px) scale(0.97) !important;
+    box-shadow: 
+      0 2px 6px rgba(255, 222, 0, 0.08),
+      0 0 8px rgba(255, 222, 0, 0.08) !important;
+}
+
+/* Secondary Button / Outline Button depth styles */
+.depth-btn-secondary {
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 
+      0 2px 4px rgba(0, 0, 0, 0.12),
+      0 0 8px rgba(0, 0, 0, 0.08),
+      inset 0 1px 1px rgba(255, 255, 255, 0.05);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.depth-btn-secondary:hover {
+    transform: translateY(-3px) !important;
+    border-color: rgba(255, 222, 0, 0.2) !important;
+    background-color: rgba(255, 222, 0, 0.06) !important;
+    box-shadow: 
+      0 0 25px rgba(0, 0, 0, 0.18), /* Softer secondary symmetrical glow */
+      0 4px 12px rgba(0, 0, 0, 0.12),
+      0 0 15px rgba(255, 222, 0, 0.02),
+      inset 0 1px 1px rgba(255, 255, 255, 0.1) !important;
+}
+
+.depth-btn-secondary:active {
+    transform: translateY(-1px) scale(0.97) !important;
+    box-shadow: 
+      0 1px 2px rgba(0, 0, 0, 0.12),
+      0 0 6px rgba(0, 0, 0, 0.1) !important;
 }
 
 .caution-stripes {
