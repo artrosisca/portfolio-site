@@ -43,7 +43,7 @@
       "label": "SECTIONS",
       "file_type": "code",
       "source_file": "src/App.jsx",
-      "source_location": "L117",
+      "source_location": "L128",
       "id": "src_app_sections",
       "community": 2,
       "norm_label": "sections"
@@ -52,7 +52,7 @@
       "label": "App()",
       "file_type": "code",
       "source_file": "src/App.jsx",
-      "source_location": "L119",
+      "source_location": "L130",
       "id": "src_app_app",
       "community": 2,
       "norm_label": "app()"
@@ -232,7 +232,7 @@
       "label": "GithubIcon()",
       "file_type": "code",
       "source_file": "src/components/Projects/ProjectGallery.jsx",
-      "source_location": "L4",
+      "source_location": "L5",
       "id": "projects_projectgallery_githubicon",
       "community": 9,
       "norm_label": "githubicon()"
@@ -241,7 +241,7 @@
       "label": "ProjectGallery()",
       "file_type": "code",
       "source_file": "src/components/Projects/ProjectGallery.jsx",
-      "source_location": "L11",
+      "source_location": "L12",
       "id": "projects_projectgallery_projectgallery",
       "community": 9,
       "norm_label": "projectgallery()"
@@ -268,7 +268,7 @@
       "label": "AboutSection()",
       "file_type": "code",
       "source_file": "src/components/Sections/AboutSection.jsx",
-      "source_location": "L116",
+      "source_location": "L120",
       "id": "sections_aboutsection_aboutsection",
       "community": 4,
       "norm_label": "aboutsection()"
@@ -286,7 +286,7 @@
       "label": "ContactSection()",
       "file_type": "code",
       "source_file": "src/components/Sections/ContactSection.jsx",
-      "source_location": "L4",
+      "source_location": "L5",
       "id": "sections_contactsection_contactsection",
       "community": 11,
       "norm_label": "contactsection()"
@@ -358,7 +358,7 @@
       "label": "ArchitectureCards()",
       "file_type": "code",
       "source_file": "src/components/TechStack/ArchitectureCards.jsx",
-      "source_location": "L125",
+      "source_location": "L135",
       "id": "techstack_architecturecards_architecturecards",
       "community": 5,
       "norm_label": "architecturecards()"
@@ -1695,5 +1695,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "0fdd2f0131609b4ad2014fea3741319680a6b23f"
+  "built_at_commit": "5cd6fe9e8288012235f690a3ce0e56f50063bd80"
 }

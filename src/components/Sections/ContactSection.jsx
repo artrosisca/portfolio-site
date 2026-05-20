@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Link as ScrollLink } from 'react-scroll';
+import Magnetic from '../ui/Magnetic';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 const ContactSection = () => {
   const { t, lang } = useLanguage();
   const [status, setStatus] = useState('');
   const [copiedText, setCopiedText] = useState('');
+  const [messageValue, setMessageValue] = useState('');
 
   const handleCopy = (text, type) => {
     navigator.clipboard.writeText(text);
@@ -96,11 +99,32 @@ const ContactSection = () => {
             transition={{ type: "spring", stiffness: 90, damping: 14, mass: 1, delay: 0 }}
             className="mt-12 p-6 rounded-xl glass-panel border border-primary-fixed/20 relative overflow-hidden"
           >
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-2 h-2 rounded-full bg-primary-light animate-pulse"></div>
-              <span className="font-code-sm text-[10px] uppercase text-primary-light tracking-widest">{t('contact.status')}</span>
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-2 h-2 rounded-full bg-primary-light animate-pulse"></div>
+                  <span className="font-code-sm text-[10px] uppercase text-primary-light tracking-widest">{t('contact.status')}</span>
+                </div>
+                <p className="font-code-sm text-[10px] text-text-primary uppercase tracking-widest">{t('contact.ready')}</p>
+              </div>
+              <Magnetic magneticDistance={120} strength={0.5} stiffness={90} damping={12}>
+                {(hovering) => (
+                  <button
+                    onClick={() => {
+                      const nameInput = document.querySelector('#contact-form-name');
+                      if (nameInput) nameInput.focus();
+                      setMessageValue(t('contact.hire_message'));
+                    }}
+                    className={[
+                      'glass-panel depth-btn-secondary border border-primary-fixed/30 text-on-surface font-bold px-6 py-3 text-sm uppercase tracking-widest rounded-[12px] cursor-pointer inline-block transition-all duration-300 whitespace-nowrap',
+                      hovering ? 'border-primary-light/60 bg-white/5 text-primary-light' : ''
+                    ].join(' ')}
+                  >
+                    {t('contact.hire_me')}
+                  </button>
+                )}
+              </Magnetic>
             </div>
-            <p className="font-code-sm text-[10px] text-text-primary uppercase tracking-widest">{t('contact.ready')}</p>
           </motion.div>
         </div>
         <motion.div 
@@ -116,7 +140,7 @@ const ContactSection = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">{t('contact.form_name')}</label>
-                <input name="name" required className="w-full bg-surface-container border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_name_placeholder')} type="text" />
+                <input id="contact-form-name" name="name" required className="w-full bg-surface-container border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_name_placeholder')} type="text" />
               </div>
               <div className="space-y-2">
                 <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">{t('contact.form_email')}</label>
@@ -125,7 +149,7 @@ const ContactSection = () => {
             </div>
             <div className="space-y-2">
               <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">{t('contact.form_message')}</label>
-              <textarea name="message" required className="w-full bg-surface-container border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_message_placeholder')} rows="4"></textarea>
+              <textarea name="message" required value={messageValue} onChange={(e) => setMessageValue(e.target.value)} className="w-full bg-surface-container border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_message_placeholder')} rows="4"></textarea>
             </div>
             </div>
             <button 
