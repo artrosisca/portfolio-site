@@ -129,7 +129,7 @@ const AboutSection = () => {
               <div className="corner-bracket-tl"></div>
               <h2 className="font-headline-lg text-headline-lg mb-6 text-text-primary uppercase tracking-tight">{t('about.title')}</h2>
             </div>
-            <div className="space-y-6 text-on-surface-variant font-body-lg">
+            <div className="space-y-6 text-on-surface-variant font-body-lg text-[17px] md:text-lg">
               <p dangerouslySetInnerHTML={{ __html: t('about.p1') }} />
               <p dangerouslySetInnerHTML={{ __html: t('about.p2') }} />
             </div>

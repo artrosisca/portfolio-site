@@ -216,6 +216,17 @@ footer {
         0 0 6px rgba(0, 0, 0, 0.1) !important;
 }
 
+/* Custom hover state for the hire me button to have a slightly yellowish background */
+.contact-hire-btn:hover,
+.contact-hire-btn-hover {
+    background: rgba(250, 229, 0, 0.15) !important;
+    border-color: rgba(250, 229, 0, 0.5) !important;
+    color: #ffffff !important;
+    box-shadow:
+        0 8px 20px rgba(250, 229, 0, 0.1),
+        inset 0 1px 1px rgba(255, 255, 255, 0.1) !important;
+}
+
 .caution-stripes {
     background: repeating-linear-gradient(-45deg,
             var(--color-primary-fixed),

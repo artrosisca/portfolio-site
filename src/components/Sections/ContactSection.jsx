@@ -116,8 +116,8 @@ const ContactSection = () => {
                       setMessageValue(t('contact.hire_message'));
                     }}
                     className={[
-                      'glass-panel depth-btn-secondary border border-primary-fixed/30 text-on-surface font-bold px-6 py-3 text-sm uppercase tracking-widest rounded-[12px] cursor-pointer inline-block transition-all duration-300 whitespace-nowrap',
-                      hovering ? 'border-primary-light/60 bg-primary-light/80 text-text-muted' : ''
+                      'glass-panel depth-btn-secondary contact-hire-btn border border-primary-fixed/30 text-on-surface font-bold px-6 py-3 text-sm uppercase tracking-widest rounded-[12px] cursor-pointer inline-block transition-all duration-300 whitespace-nowrap',
+                      hovering ? 'contact-hire-btn-hover' : ''
                     ].join(' ')}
                   >
                     {t('contact.hire_me')}

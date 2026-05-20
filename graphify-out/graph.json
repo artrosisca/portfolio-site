@@ -1266,9 +1266,9 @@
       "source_file": "src/components/Sections/ContactSection.jsx",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_sections_contactsection_jsx",
-      "target": "src_components_ui_magnetic_jsx",
-      "confidence_score": 1.0
+      "target": "src_components_ui_magnetic_jsx"
     },
     {
       "relation": "imports_from",
@@ -1498,9 +1498,9 @@
       "source_file": "src/components/ui/Magnetic.jsx",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_ui_magnetic_jsx",
-      "target": "ui_magnetic_magnetic",
-      "confidence_score": 1.0
+      "target": "ui_magnetic_magnetic"
     },
     {
       "relation": "imports_from",
@@ -1734,5 +1734,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "a508de0e13c7b31f45600592ec10f280ddba8f51"
+  "built_at_commit": "38dd7d043d3a0b635d654f275d32db15a4090042"
 }
