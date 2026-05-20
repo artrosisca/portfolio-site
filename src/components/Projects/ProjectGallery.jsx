@@ -140,7 +140,7 @@ export default function ProjectGallery() {
                     <img 
                       src={project.image} 
                       alt={project.title} 
-                      className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500 z-0" 
+                      className="absolute inset-0 w-full h-full object-cover opacity-100 lg:opacity-60 lg:group-hover:opacity-100 transition-opacity duration-500 z-0" 
                     />
                   ) : (
                     <div className="absolute inset-0 opacity-20 flex items-center justify-center text-primary-fixed font-code-sm text-[8px] overflow-hidden leading-tight break-all z-0 px-4">
