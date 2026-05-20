@@ -99,18 +99,17 @@ export default function ProjectGallery() {
 
   return (
     <section className="mb-stack-lg relative" id="projects">
-      <div className="flex items-center gap-4 mb-12">
+      <div className="flex items-center justify-between mb-12">
         <div className="section-header">
           <div className="corner-bracket-tl"></div>
           <h2 className="font-headline-lg text-headline-lg text-text-primary uppercase tracking-tight">{t('projects.title')}</h2>
         </div>
-        <div className="flex-grow h-px bg-primary-fixed/10 mx-4"></div>
         <div className="flex gap-2">
           <button onClick={() => scrollTo('prev')} className="w-12 h-12 rounded-full flex items-center justify-center glass-panel depth-btn-secondary cursor-pointer">
-            <ChevronLeft className="text-primary-fixed" />
+            <ChevronLeft className="text-primary-dark" />
           </button>
           <button onClick={() => scrollTo('next')} className="w-12 h-12 rounded-full flex items-center justify-center glass-panel depth-btn-secondary cursor-pointer">
-            <ChevronRight className="text-primary-fixed" />
+            <ChevronRight className="text-primary-dark" />
           </button>
         </div>
       </div>
@@ -135,9 +134,13 @@ export default function ProjectGallery() {
                     </div>
                   )}
 
-                  <div className="absolute bottom-6 left-6 flex gap-2 z-20">
-                    <span className="bg-primary-fixed text-on-primary-fixed font-bold text-[10px] px-3 py-1 rounded-full uppercase tracking-widest">{project.category}</span>
-                    <span className="bg-surface-container text-text-primary font-bold text-[10px] px-3 py-1 rounded-full uppercase tracking-widest border border-white/10">{project.domain}</span>
+                  <div className="absolute bottom-6 left-6 flex gap-2.5 z-20">
+                    <span className="bg-[#202023]/65 text-text-primary border-2 border-primary-light/35 backdrop-blur-md font-bold text-[10px] px-3 py-1.5 rounded-md uppercase tracking-wider">
+                      {project.category}
+                    </span>
+                    <span className="bg-[#202023]/65 text-text-primary border-2 border-white/25 backdrop-blur-md font-bold text-[10px] px-3 py-1.5 rounded-md uppercase tracking-wider">
+                      {project.domain}
+                    </span>
                   </div>
                 </div>
                 
@@ -148,7 +151,7 @@ export default function ProjectGallery() {
                   {/* Technical Specs as inline tag pills — replaces the old big squares */}
                   <div className="flex flex-wrap gap-3 pt-6 border-t border-white/5">
                     {project.tags.map((tag, i) => (
-                      <span key={i} className="font-code-sm text-xs text-[#a8c4e6] uppercase px-3 py-1.5 rounded-md border border-[#a8c4e6]/15 bg-[#a8c4e6]/5 tracking-wide">
+                      <span key={i} className="font-code-sm text-sm text-text-primary uppercase px-4 py-2 rounded-md border border-white/15 bg-[#202023]/65 backdrop-blur-sm tracking-wide">
                         {tag}
                       </span>
                     ))}
@@ -176,7 +179,7 @@ export default function ProjectGallery() {
                     <GithubIcon className="w-5 h-5 text-on-surface-variant" />
                     <span className="font-bold text-text-primary uppercase text-xs tracking-widest">{t('projects.view_github')}</span>
                   </div>
-                  <ArrowRight className="text-primary-fixed group-hover:translate-x-2 transition-transform w-5 h-5" />
+                  <ArrowRight className="text-primary-dark group-hover:translate-x-2 transition-transform w-5 h-5" />
                 </a>
               </div>
             </div>

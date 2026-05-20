@@ -99,7 +99,7 @@ function BootScreen({ onComplete }) {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
       className="fixed inset-0 z-50 flex items-center justify-center"
-      style={{ backgroundColor: '#fff274' }}
+      style={{ backgroundColor: '#7a6f05' }}
     >
       <span className="font-code-sm text-2xl md:text-3xl text-black tracking-wide">
         <span className="text-black/60 mr-2">❯</span>
@@ -118,7 +118,7 @@ const SECTIONS = ['hero', 'about', 'tech', 'projects', 'contact', 'footer-sectio
 
 function App() {
   // viewState can be '3d', 'boot', or '2d'
-  const [viewState, setViewState] = useState('2d');
+  const [viewState, setViewState] = useState('3d');
 
   const handleEnterMonitor = useCallback(() => {
     setViewState('boot');

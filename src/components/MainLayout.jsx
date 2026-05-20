@@ -12,8 +12,8 @@ import ContactSection from './Sections/ContactSection';
 import InteractiveDots from './ui/InteractiveDots';
 
 // Section color constants
-const DARK_BG = '#1a1c2721';
-const GRAY_BG = '#e1cd1788';
+const DARK_BG = '#000000';
+const GRAY_BG = '#7a6f05';
 
 // Full-bleed section wrapper with alternating backgrounds
 const SectionWrapper = ({ children, id, theme = 'dark', className = '', customFooter }) => (

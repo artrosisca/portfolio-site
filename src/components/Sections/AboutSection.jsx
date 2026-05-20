@@ -118,20 +118,23 @@ const AboutSection = () => {
 
   return (
     <section className="mb-stack-lg relative" id="about">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        <div className="space-y-6">
-          <div className="section-header">
-            <div className="corner-bracket-tl"></div>
-            <h2 className="font-headline-lg text-headline-lg mb-8 text-text-primary uppercase tracking-tight">{t('about.title')}</h2>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
+        <div className="flex flex-col justify-between h-full py-1">
+          <div className="space-y-6">
+            <div className="section-header">
+              <div className="corner-bracket-tl"></div>
+              <h2 className="font-headline-lg text-headline-lg mb-6 text-text-primary uppercase tracking-tight">{t('about.title')}</h2>
+            </div>
+            <div className="space-y-6 text-on-surface-variant font-body-lg">
+              <p dangerouslySetInnerHTML={{ __html: t('about.p1') }} />
+              <p dangerouslySetInnerHTML={{ __html: t('about.p2') }} />
+            </div>
           </div>
-          <div className="space-y-6 text-on-surface-variant font-body-lg">
-            <p dangerouslySetInnerHTML={{ __html: t('about.p1') }} />
-            <p dangerouslySetInnerHTML={{ __html: t('about.p2') }} />
-            <div className="pt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="glass-panel depth-card-hover p-4 rounded-xl text-center relative">
-                <span className="block font-headline-md text-primary-fixed uppercase text-sm mb-1">UTFPR</span>
-                <span className="text-[10px] uppercase tracking-widest text-on-surface-variant">{t('about.degree')}</span>
-              </div>
+          
+          <div className="pt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="glass-panel depth-card-hover p-4 rounded-xl text-center relative">
+              <span className="block font-headline-md text-primary-fixed font-bold uppercase text-sm mb-1">UTFPR</span>
+              <span className="text-[10px] uppercase tracking-widest text-on-surface-variant">{t('about.degree')}</span>
             </div>
           </div>
         </div>

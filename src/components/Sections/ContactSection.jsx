@@ -2,8 +2,15 @@ import React, { useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 const ContactSection = () => {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [status, setStatus] = useState('');
+  const [copiedText, setCopiedText] = useState('');
+
+  const handleCopy = (text, type) => {
+    navigator.clipboard.writeText(text);
+    setCopiedText(type);
+    setTimeout(() => setCopiedText(''), 2000);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,24 +50,42 @@ const ContactSection = () => {
           </div>
           <p className="text-on-surface-variant mb-6 md:mb-12 font-label-md text-label-md uppercase tracking-[0.2em] max-w-md">{t('contact.description')}</p>
           <div className="space-y-6">
-            <div className="flex items-center gap-6 group">
-              <div className="w-14 h-14 rounded-full glass-panel border border-primary-fixed/20 flex items-center justify-center group-hover:border-primary-fixed transition-all">
+            <button 
+              onClick={() => handleCopy('arthur.rosisca@gmail.com', 'email')}
+              className="flex items-center gap-6 group cursor-pointer text-left w-full focus:outline-none"
+              title={lang === 'PT' ? "Clique para copiar e-mail" : "Click to copy email"}
+            >
+              <div className="w-14 h-14 rounded-full glass-panel border border-primary-fixed/20 flex items-center justify-center group-hover:border-primary-light transition-[border-color,transform] group-hover:scale-105 duration-100">
                 <span className="material-symbols-outlined text-primary-fixed">mail</span>
               </div>
               <div>
-                <span className="block text-[10px] text-on-surface-variant uppercase tracking-[0.2em]">E-MAIL</span>
+                <span 
+                  key={copiedText === 'email' ? 'copied' : 'label'}
+                  className={`block text-[10px] uppercase tracking-[0.2em] animate-subtle-fade-up ${copiedText === 'email' ? 'text-primary-light font-bold' : 'text-on-surface-variant'}`}
+                >
+                  {copiedText === 'email' ? t('contact.copied') : 'E-MAIL'}
+                </span>
                 <span className="text-base md:text-lg font-bold text-text-primary break-all">arthur.rosisca@gmail.com</span>
               </div>
-            </div>
-            <div className="flex items-center gap-6 group">
-              <div className="w-14 h-14 rounded-full glass-panel border border-primary-fixed/20 flex items-center justify-center group-hover:border-primary-fixed transition-all">
+            </button>
+            <button 
+              onClick={() => handleCopy('+55 14 99745-0052', 'phone')}
+              className="flex items-center gap-6 group cursor-pointer text-left w-full focus:outline-none"
+              title={lang === 'PT' ? "Clique para copiar WhatsApp" : "Click to copy WhatsApp"}
+            >
+              <div className="w-14 h-14 rounded-full glass-panel border border-primary-fixed/20 flex items-center justify-center group-hover:border-primary-light transition-[border-color,transform] group-hover:scale-105 duration-100">
                 <span className="material-symbols-outlined text-primary-fixed">phone</span>
               </div>
               <div>
-                <span className="block text-[10px] text-on-surface-variant uppercase tracking-[0.2em]">WHATSAPP</span>
+                <span 
+                  key={copiedText === 'phone' ? 'copied' : 'label'}
+                  className={`block text-[10px] uppercase tracking-[0.2em] animate-subtle-fade-up ${copiedText === 'phone' ? 'text-primary-light font-bold' : 'text-on-surface-variant'}`}
+                >
+                  {copiedText === 'phone' ? t('contact.copied') : 'WHATSAPP'}
+                </span>
                 <span className="text-lg font-bold text-text-primary uppercase">+55 14 99745-0052</span>
               </div>
-            </div>
+            </button>
           </div>
           {/* Terminal Indicator */}
           <div className="mt-12 p-6 rounded-xl glass-panel border border-primary-fixed/20 relative overflow-hidden">
@@ -78,16 +103,16 @@ const ContactSection = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">{t('contact.form_name')}</label>
-                <input name="name" required className="w-full bg-[#131313] border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_name_placeholder')} type="text" />
+                <input name="name" required className="w-full bg-surface-container border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_name_placeholder')} type="text" />
               </div>
               <div className="space-y-2">
                 <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">{t('contact.form_email')}</label>
-                <input name="email" required className="w-full bg-[#131313] border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_email_placeholder')} type="email" />
+                <input name="email" required className="w-full bg-surface-container border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_email_placeholder')} type="email" />
               </div>
             </div>
             <div className="space-y-2">
               <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">{t('contact.form_message')}</label>
-              <textarea name="message" required className="w-full bg-[#131313] border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_message_placeholder')} rows="4"></textarea>
+              <textarea name="message" required className="w-full bg-surface-container border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_message_placeholder')} rows="4"></textarea>
             </div>
             </div>
             <button 

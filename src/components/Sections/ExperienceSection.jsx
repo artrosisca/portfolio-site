@@ -11,8 +11,8 @@ const ExperienceSection = () => {
         <div className="absolute left-0 top-0 w-px h-full bg-primary-fixed/10 ml-6 hidden md:block"></div>
         {/* Card Experience */}
         <div className="md:pl-20 relative mb-12 group">
-          <div className="hidden md:block absolute left-4 top-2 w-4 h-4 rounded-full bg-primary-fixed shadow-[0_0_10px_#fae500]"></div>
-          <div className="glass-panel p-8 rounded-xl border border-primary-fixed/20 group-hover:border-primary-fixed transition-all relative">
+          <div className="hidden md:block absolute left-4 top-2 w-4 h-4 rounded-full bg-primary-fixed shadow-[0_0_10px_#b4ad07]"></div>
+          <div className="glass-panel p-8 rounded-xl border border-primary-fixed/20 group-hover:border-primary-light transition-all relative">
             <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-2">
               <div>
                 <h3 className="font-headline-md text-headline-md text-text-primary uppercase">Front-end Developer</h3>

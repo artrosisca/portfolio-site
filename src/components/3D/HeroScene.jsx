@@ -206,10 +206,10 @@ export default function HeroScene({ onEnterMonitor }) {
       <div className="absolute bottom-10 left-10 z-[70] pointer-events-auto">
         <button
           onClick={toggleLang}
-          className="flex items-center justify-center gap-1.5 px-3 border border-white/10 hover:border-primary-fixed/50 transition-all active:scale-95 rounded-lg h-9 bg-black/20 backdrop-blur-md cursor-pointer"
+          className="flex items-center justify-center gap-1.5 px-3 border border-primary-fixed/30 hover:border-primary-light/50 transition-all active:scale-95 rounded-lg h-9 bg-black/20 backdrop-blur-md cursor-pointer"
         >
           <span className="material-symbols-outlined text-primary-fixed text-base">translate</span>
-          <span className="font-bold text-[#d4d4d4] uppercase text-[11px] tracking-wide">{lang}</span>
+          <span className="font-bold text-on-surface uppercase text-[11px] tracking-wide">{lang}</span>
         </button>
       </div>
     </div>

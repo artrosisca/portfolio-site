@@ -186,9 +186,9 @@ const InteractiveDots = ({
         Math.sin(time + dot.phase) * 0.5;
 
       let opacity = Math.max(
-        0.12,
-        0.12 +
-        maskAlpha * 0.5 +
+        0.30,
+        0.30 +
+        maskAlpha * 0.4 +
         Math.abs(Math.sin(time * 0.8 + dot.phase)) * 0.05
       );
 
@@ -249,14 +249,14 @@ const InteractiveDots = ({
 
     // Pass 1: Light dots on dark sections FIRST SECTION
     drawDotsInRegions(ctx, darkRects, {
-      baseR: 168, baseG: 153, baseB: 7,       // lighter silver
-      highlightR: 168, highlightG: 153, highlightB: 7,  // yellow
+      baseR: 78, baseG: 71, baseB: 3,       // #4e4703 (lighter base color)
+      highlightR: 122, highlightG: 111, highlightB: 5,  // #7a6f05 (glows to primary mustard yellow on hover)
     }, canvasWidth, canvasHeight, false);
 
     // Pass 2: Dark dots on gray sections SECOND SECTION
     drawDotsInRegions(ctx, grayRects, {
-      baseR: 26, baseG: 28, baseB: 39,           // near black
-      highlightR: 26, highlightG: 28, highlightB: 39,   // stays black
+      baseR: 48, baseG: 44, baseB: 2,           // #302c02 (darker base color)
+      highlightR: 38, highlightG: 36, highlightB: 2,   // #262402 (darker hover highlight)
     }, canvasWidth, canvasHeight, true);
 
     // Draw ripple rings (optional visual)

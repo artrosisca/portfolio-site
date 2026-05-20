@@ -1,18 +1,20 @@
 @import "tailwindcss";
 
 @theme {
-    --color-primary-fixed: #decf00;
-    --color-on-primary-fixed: #201c00;
-    --color-background: #050505;
-    --color-surface: #1e1e1e;
-    --color-on-surface: #e8e2cf;
-    --color-on-surface-variant: #cdc7ab;
+    --color-primary-fixed: #b4ad07;
+    --color-primary-dark: #7a6f05;
+    --color-primary-light: #fae500;
+    --color-on-primary-fixed: #1a1500;
+    --color-background: #000000;
+    --color-surface: #0e0e0e;
+    --color-on-surface: #f3f4f6;
+    --color-on-surface-variant: #d4d4d8;
     --color-outline: rgba(250, 229, 0, 0.2);
     --color-text-primary: #ffffff;
-    --color-text-muted: #cdc7aa;
-    --color-surface-container: #181818;
-    --color-surface-container-highest: #2a2a2a;
-    --color-surface-container-lowest: #0a0a0a;
+    --color-text-muted: #d4d4d8;
+    --color-surface-container: #080808;
+    --color-surface-container-highest: #1a1a1a;
+    --color-surface-container-lowest: #020202;
 
     --radius-DEFAULT: 4px;
 
@@ -59,17 +61,17 @@ textarea {
 
 /* Glassmorphism Background Variables */
 :root {
-    --glass-bg-default: rgba(10, 10, 10, 0.75);
+    --glass-bg-default: rgba(0, 0, 0, 0.65);
     /* Used in About and Projects sections (classic dark glass) */
-    --glass-bg-dark-section: rgba(70, 63, 28, 0.308);
+    --glass-bg-dark-section: rgba(32, 32, 35, 0.65);
     /* Used in Tech Stack and Contact sections (Less black, neutral charcoal gray) */
 }
 
 .glass-panel {
+    position: relative;
     background: var(--glass-bg-default) !important;
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow:
         0 4px 12px rgba(0, 0, 0, 0.18),
         0 8px 24px -4px rgba(0, 0, 0, 0.15),
@@ -78,9 +80,52 @@ textarea {
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
+/* Ensure Tailwind positioning utilities override glass-panel's default relative position */
+.glass-panel.absolute {
+    position: absolute !important;
+}
+
+.glass-panel.fixed {
+    position: fixed !important;
+}
+
+@media (min-width: 768px) {
+    .glass-panel.md\:absolute {
+        position: absolute !important;
+    }
+}
+
+.glass-panel::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    pointer-events: none;
+    z-index: 10;
+    transition: box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
 /* Override for cards in dark theme sections (Tech Stack & Contact) to be less black */
 [data-section-theme="dark"] .glass-panel {
     background: var(--glass-bg-dark-section) !important;
+}
+
+/* Override for cards in gray theme sections (About & Projects) to have a light yellow border */
+[data-section-theme="gray"] .glass-panel::after {
+    box-shadow: inset 0 0 0 1px rgba(250, 229, 0, 0.30) !important;
+}
+
+/* Override text color variables inside gray (yellow) sections to ensure maximum contrast and readability */
+[data-section-theme="gray"] {
+    --color-on-surface-variant: #ffffff;
+    --color-text-muted: #ffffff;
+}
+
+/* Override text color variables inside header and footer to make fonts whiter */
+header,
+footer {
+    --color-on-surface-variant: #f3f4f6;
 }
 
 /* Depth Hover Utility for elevating cards above the background dot-grid */
@@ -91,23 +136,25 @@ textarea {
 .depth-card-hover:hover {
     transform: translateY(-6px) !important;
     /* Only translateY to prevent snap-scroll horizontal shifts */
-    border-color: rgba(222, 207, 0, 0.25) !important;
-    /* Glow utilizing --color-primary-fixed */
     box-shadow:
         0 0 40px rgba(0, 0, 0, 0.4),
         /* Soft, highly diffuse, symmetrical ambient shadow (X=0, Y=0) */
         0 8px 25px rgba(0, 0, 0, 0.24),
         /* Subtle vertical lift weighting */
-        0 0 20px rgba(222, 207, 0, 0.02),
+        0 0 20px rgba(250, 229, 0, 0.05),
         /* Faint glowing ambient border color sync */
         inset 0 1px 1px rgba(255, 255, 255, 0.06) !important;
+}
+
+.depth-card-hover:hover::after {
+    box-shadow: inset 0 0 0 1px rgba(250, 229, 0, 0.35) !important;
 }
 
 /* Primary Button depth styles */
 .depth-btn-primary {
     box-shadow:
-        0 3px 8px rgba(222, 207, 0, 0.06),
-        0 0 12px rgba(222, 207, 0, 0.08),
+        0 3px 8px rgba(250, 229, 0, 0.1),
+        0 0 12px rgba(250, 229, 0, 0.15),
         inset 0 1px 0 rgba(255, 255, 255, 0.3);
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
@@ -115,18 +162,18 @@ textarea {
 .depth-btn-primary:hover {
     transform: translateY(-3px) !important;
     box-shadow:
-        0 0 20px rgba(222, 207, 0, 0.12),
+        0 0 20px rgba(250, 229, 0, 0.35),
         /* Softer symmetrical button hover glow */
-        0 4px 12px rgba(222, 207, 0, 0.08),
+        0 4px 12px rgba(250, 229, 0, 0.25),
         inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
-    background-color: #ffeb3b !important;
+    background-color: #fae500 !important;
 }
 
 .depth-btn-primary:active {
     transform: translateY(-1px) scale(0.97) !important;
     box-shadow:
-        0 2px 6px rgba(222, 207, 0, 0.08),
-        0 0 8px rgba(222, 207, 0, 0.08) !important;
+        0 2px 6px rgba(250, 229, 0, 0.15),
+        0 0 8px rgba(250, 229, 0, 0.15) !important;
 }
 
 /* Secondary Button / Outline Button depth styles */
@@ -141,13 +188,11 @@ textarea {
 
 .depth-btn-secondary:hover {
     transform: translateY(-3px) !important;
-    border-color: rgba(222, 207, 0, 0.25) !important;
-    background-color: rgba(222, 207, 0, 0.06) !important;
+    border-color: rgba(255, 255, 255, 0.22) !important;
+    background: rgba(0, 0, 0, 0.28) !important;
+    /* USER FINE TUNING: Adjust hover background color here */
     box-shadow:
-        0 0 25px rgba(0, 0, 0, 0.22),
-        /* Softer secondary symmetrical glow */
-        0 4px 12px rgba(0, 0, 0, 0.15),
-        0 0 15px rgba(222, 207, 0, 0.02),
+        0 8px 20px rgba(0, 0, 0, 0.3),
         inset 0 1px 1px rgba(255, 255, 255, 0.1) !important;
 }
 
@@ -188,6 +233,10 @@ textarea {
     position: relative;
 }
 
+.section-header h2 {
+    font-weight: 700 !important;
+}
+
 .corner-bracket-tl {
     position: absolute;
     top: -10px;
@@ -197,6 +246,8 @@ textarea {
     width: 15px;
     height: 15px;
 }
+
+
 
 .corner-bracket-tr {
     position: absolute;
@@ -301,4 +352,19 @@ textarea {
 
 .animate-fadeIn {
     animation: fadeIn 1.5s ease-out forwards;
+}
+
+@keyframes subtle-fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(2px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-subtle-fade-up {
+    animation: subtle-fade-up 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }

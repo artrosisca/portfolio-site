@@ -89,7 +89,8 @@ export const translations = {
       form_name_placeholder: "Seu nome",
       form_email_placeholder: "Seu e-mail",
       form_message_placeholder: "Escreva sua mensagem aqui...",
-      form_send: "ENVIAR MENSAGEM"
+      form_send: "ENVIAR MENSAGEM",
+      copied: "COPIADO!"
     },
     terminal: {
       location: "Pederneiras, SP",
@@ -189,7 +190,8 @@ export const translations = {
       form_name_placeholder: "Your name",
       form_email_placeholder: "Your e-mail",
       form_message_placeholder: "Write your message here...",
-      form_send: "SEND MESSAGE"
+      form_send: "SEND MESSAGE",
+      copied: "COPIED!"
     },
     terminal: {
       location: "Pederneiras, SP, Brazil",

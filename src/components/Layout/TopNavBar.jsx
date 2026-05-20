@@ -49,7 +49,7 @@ const TopNavBar = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-1/2 -translate-x-1/2 w-[95%] max-w-container-max z-50 flex justify-between items-center px-4 md:px-gutter py-3 bg-surface/60 backdrop-blur-xl border border-primary-fixed/10 border-t-0 shadow-2xl rounded-b-2xl transition-all duration-300">
+      <header className="fixed top-0 left-1/2 -translate-x-1/2 w-[95%] max-w-container-max z-50 flex justify-between items-center px-4 md:px-gutter py-3 bg-[var(--glass-bg-dark-section)] backdrop-blur-xl border border-primary-fixed/20 border-t-0 shadow-2xl rounded-b-2xl transition-all duration-300">
         <ScrollLink
           to="hero"
           smooth={false}
@@ -97,10 +97,10 @@ const TopNavBar = () => {
           {/* Language Toggle */}
           <button 
             onClick={toggleLang}
-            className="flex items-center justify-center gap-1.5 px-2 md:px-3 border border-white/10 depth-btn-secondary rounded-lg h-9 bg-black/20 backdrop-blur-md cursor-pointer"
+            className="flex items-center justify-center gap-1.5 px-2 md:px-3 border border-primary-fixed/30 depth-btn-secondary rounded-lg h-9 bg-black/20 backdrop-blur-md cursor-pointer"
           >
             <span className="material-symbols-outlined text-primary-fixed text-lg">translate</span>
-            <span className="font-bold text-[#d4d4d4] uppercase text-xs tracking-wide">{lang}</span>
+            <span className="font-bold text-on-surface uppercase text-xs tracking-wide">{lang}</span>
           </button>
 
           {/* Download CV with Teaser */}
@@ -140,7 +140,7 @@ const TopNavBar = () => {
           {/* Mobile Hamburger Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg border border-white/10 depth-btn-secondary bg-black/20 backdrop-blur-md cursor-pointer"
+            className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg border border-primary-fixed/30 depth-btn-secondary bg-black/20 backdrop-blur-md cursor-pointer"
             aria-label="Toggle menu"
           >
             <span className="material-symbols-outlined text-primary-fixed text-xl">
@@ -168,7 +168,7 @@ const TopNavBar = () => {
               {/* Close button */}
               <button 
                 onClick={() => setMobileMenuOpen(false)}
-                className="absolute top-4 right-4 w-12 h-12 flex items-center justify-center rounded-full border border-primary-fixed/20 depth-btn-secondary bg-surface/40 backdrop-blur-md cursor-pointer"
+                className="absolute top-4 right-4 w-12 h-12 flex items-center justify-center rounded-full border border-primary-fixed/30 depth-btn-secondary bg-surface/40 backdrop-blur-md cursor-pointer"
               >
                 <span className="material-symbols-outlined text-primary-fixed text-2xl">close</span>
               </button>
@@ -194,7 +194,7 @@ const TopNavBar = () => {
               </nav>
 
               {/* Divider */}
-              <div className="w-16 h-px bg-primary-fixed/30" />
+              <div className="w-16 h-px bg-primary-dark/30" />
 
               {/* Download CV */}
               <a

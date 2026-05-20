@@ -86,8 +86,8 @@ const HeroSection = () => {
           className="relative flex justify-center items-center order-1 lg:order-2"
         >
           {/* Squircle HUD Animes — Contained and Fully Rounded */}
-          <div className="absolute w-[100%] h-[95%] border-2 border-primary-fixed/30 rounded-full scanning-hud scale-110 pointer-events-none z-0"></div>
-          <div className="absolute w-[90%] h-[85%] border-2 border-dashed border-primary-fixed/40 rounded-full scanning-hud scale-105 pointer-events-none z-0" style={{ animationDirection: 'reverse' }}></div>
+          <div className="absolute w-[100%] h-[95%] border-2 border-primary-light/35 rounded-full scanning-hud scale-110 pointer-events-none z-0"></div>
+          <div className="absolute w-[90%] h-[85%] border-2 border-dashed border-primary-light/45 rounded-full scanning-hud scale-105 pointer-events-none z-0" style={{ animationDirection: 'reverse' }}></div>
 
           {/* Profile Photo Container */}
           <div className="relative w-full max-w-[280px] md:max-w-[320px] lg:max-w-[380px] z-10">
@@ -107,7 +107,7 @@ const HeroSection = () => {
 
             {/* Stylized Eye Data Strip (Cyber Censor) — Now Instant */}
             <div
-              className="absolute top-[38%] left-1/2 -translate-x-1/2 w-[65%] h-[11%] bg-[#FFF274] z-30 flex items-center justify-center overflow-hidden border-y border-black/10 shadow-[0_0_20px_rgba(255,242,116,0.4)]"
+              className="absolute top-[38%] left-1/2 -translate-x-1/2 w-[65%] h-[11%] bg-primary-fixed z-30 flex items-center justify-center overflow-hidden border-y border-black/10 shadow-[0_0_20px_rgba(250,229,0,0.5)]"
             >
               {/* Technical Text Scrolling Layer */}
               <div className="absolute inset-0 flex items-center opacity-90 pointer-events-none">
@@ -137,16 +137,16 @@ const HeroSection = () => {
             </div>
 
             {/* Subtle Crosshairs */}
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-px h-8 bg-primary-fixed/30 z-20"></div>
-            <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-px h-8 bg-primary-fixed/30 z-20"></div>
-            <div className="absolute top-1/2 -left-4 -translate-y-1/2 h-px w-8 bg-primary-fixed/30 z-20"></div>
-            <div className="absolute top-1/2 -right-4 -translate-y-1/2 h-px w-8 bg-primary-fixed/30 z-20"></div>
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-px h-8 bg-primary-light/35 z-20"></div>
+            <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-px h-8 bg-primary-light/35 z-20"></div>
+            <div className="absolute top-1/2 -left-4 -translate-y-1/2 h-px w-8 bg-primary-light/35 z-20"></div>
+            <div className="absolute top-1/2 -right-4 -translate-y-1/2 h-px w-8 bg-primary-light/35 z-20"></div>
           </div>
 
           {/* Decorative Back Lines - contained */}
           <div className="absolute inset-0 overflow-hidden rounded-full pointer-events-none z-0">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-px bg-primary-fixed/10 rotate-45"></div>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-px bg-primary-fixed/10 -rotate-45"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-px bg-primary-light/15 rotate-45"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-px bg-primary-light/15 -rotate-45"></div>
           </div>
         </div>
       </div>
