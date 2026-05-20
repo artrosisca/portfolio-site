@@ -9,7 +9,7 @@
       "source_file": "eslint.config.js",
       "source_location": "L1",
       "id": "eslint_config_js",
-      "community": 15,
+      "community": 11,
       "norm_label": "eslint.config.js"
     },
     {
@@ -18,7 +18,7 @@
       "source_file": "vite.config.js",
       "source_location": "L1",
       "id": "vite_config_js",
-      "community": 16,
+      "community": 12,
       "norm_label": "vite.config.js"
     },
     {
@@ -27,7 +27,7 @@
       "source_file": "src/App.jsx",
       "source_location": "L1",
       "id": "src_app_jsx",
-      "community": 2,
+      "community": 3,
       "norm_label": "app.jsx"
     },
     {
@@ -36,7 +36,7 @@
       "source_file": "src/App.jsx",
       "source_location": "L12",
       "id": "src_app_bootscreen",
-      "community": 2,
+      "community": 3,
       "norm_label": "bootscreen()"
     },
     {
@@ -45,7 +45,7 @@
       "source_file": "src/App.jsx",
       "source_location": "L128",
       "id": "src_app_sections",
-      "community": 2,
+      "community": 3,
       "norm_label": "sections"
     },
     {
@@ -54,7 +54,7 @@
       "source_file": "src/App.jsx",
       "source_location": "L130",
       "id": "src_app_app",
-      "community": 2,
+      "community": 3,
       "norm_label": "app()"
     },
     {
@@ -63,7 +63,7 @@
       "source_file": "src/main.jsx",
       "source_location": "L1",
       "id": "src_main_jsx",
-      "community": 2,
+      "community": 3,
       "norm_label": "main.jsx"
     },
     {
@@ -72,7 +72,7 @@
       "source_file": "src/utils.js",
       "source_location": "L1",
       "id": "src_utils_js",
-      "community": 10,
+      "community": 9,
       "norm_label": "utils.js"
     },
     {
@@ -81,7 +81,7 @@
       "source_file": "src/utils.js",
       "source_location": "L4",
       "id": "src_utils_cn",
-      "community": 10,
+      "community": 9,
       "norm_label": "cn()"
     },
     {
@@ -90,7 +90,7 @@
       "source_file": "src/components/MainLayout.jsx",
       "source_location": "L1",
       "id": "src_components_mainlayout_jsx",
-      "community": 0,
+      "community": 1,
       "norm_label": "mainlayout.jsx"
     },
     {
@@ -99,7 +99,7 @@
       "source_file": "src/components/MainLayout.jsx",
       "source_location": "L19",
       "id": "components_mainlayout_sectionwrapper",
-      "community": 0,
+      "community": 1,
       "norm_label": "sectionwrapper()"
     },
     {
@@ -108,7 +108,7 @@
       "source_file": "src/components/MainLayout.jsx",
       "source_location": "L53",
       "id": "components_mainlayout_mainlayout",
-      "community": 0,
+      "community": 1,
       "norm_label": "mainlayout()"
     },
     {
@@ -117,7 +117,7 @@
       "source_file": "src/components/3D/HeroScene.jsx",
       "source_location": "L1",
       "id": "src_components_3d_heroscene_jsx",
-      "community": 3,
+      "community": 4,
       "norm_label": "heroscene.jsx"
     },
     {
@@ -126,7 +126,7 @@
       "source_file": "src/components/3D/HeroScene.jsx",
       "source_location": "L7",
       "id": "3d_heroscene_loaderoverlay",
-      "community": 3,
+      "community": 4,
       "norm_label": "loaderoverlay()"
     },
     {
@@ -135,7 +135,7 @@
       "source_file": "src/components/3D/HeroScene.jsx",
       "source_location": "L66",
       "id": "3d_heroscene_roommodel",
-      "community": 3,
+      "community": 4,
       "norm_label": "roommodel()"
     },
     {
@@ -144,7 +144,7 @@
       "source_file": "src/components/3D/HeroScene.jsx",
       "source_location": "L82",
       "id": "3d_heroscene_camerarig",
-      "community": 3,
+      "community": 4,
       "norm_label": "camerarig()"
     },
     {
@@ -153,7 +153,7 @@
       "source_file": "src/components/3D/HeroScene.jsx",
       "source_location": "L131",
       "id": "3d_heroscene_scrollindicator",
-      "community": 3,
+      "community": 4,
       "norm_label": "scrollindicator()"
     },
     {
@@ -162,7 +162,7 @@
       "source_file": "src/components/3D/HeroScene.jsx",
       "source_location": "L165",
       "id": "3d_heroscene_heroscene",
-      "community": 3,
+      "community": 4,
       "norm_label": "heroscene()"
     },
     {
@@ -171,7 +171,7 @@
       "source_file": "src/components/Layout/BackgroundWrapper.jsx",
       "source_location": "L1",
       "id": "src_components_layout_backgroundwrapper_jsx",
-      "community": 0,
+      "community": 1,
       "norm_label": "backgroundwrapper.jsx"
     },
     {
@@ -180,7 +180,7 @@
       "source_file": "src/components/Layout/BackgroundWrapper.jsx",
       "source_location": "L4",
       "id": "layout_backgroundwrapper_backgroundwrapper",
-      "community": 0,
+      "community": 1,
       "norm_label": "backgroundwrapper()"
     },
     {
@@ -189,7 +189,7 @@
       "source_file": "src/components/Layout/Footer.jsx",
       "source_location": "L1",
       "id": "src_components_layout_footer_jsx",
-      "community": 0,
+      "community": 1,
       "norm_label": "footer.jsx"
     },
     {
@@ -198,7 +198,7 @@
       "source_file": "src/components/Layout/Footer.jsx",
       "source_location": "L3",
       "id": "layout_footer_footer",
-      "community": 0,
+      "community": 1,
       "norm_label": "footer()"
     },
     {
@@ -207,7 +207,7 @@
       "source_file": "src/components/Layout/TopNavBar.jsx",
       "source_location": "L1",
       "id": "src_components_layout_topnavbar_jsx",
-      "community": 13,
+      "community": 0,
       "norm_label": "topnavbar.jsx"
     },
     {
@@ -216,7 +216,7 @@
       "source_file": "src/components/Layout/TopNavBar.jsx",
       "source_location": "L6",
       "id": "layout_topnavbar_topnavbar",
-      "community": 13,
+      "community": 0,
       "norm_label": "topnavbar()"
     },
     {
@@ -225,7 +225,7 @@
       "source_file": "src/components/Projects/ProjectGallery.jsx",
       "source_location": "L1",
       "id": "src_components_projects_projectgallery_jsx",
-      "community": 9,
+      "community": 0,
       "norm_label": "projectgallery.jsx"
     },
     {
@@ -234,7 +234,7 @@
       "source_file": "src/components/Projects/ProjectGallery.jsx",
       "source_location": "L5",
       "id": "projects_projectgallery_githubicon",
-      "community": 9,
+      "community": 0,
       "norm_label": "githubicon()"
     },
     {
@@ -243,7 +243,7 @@
       "source_file": "src/components/Projects/ProjectGallery.jsx",
       "source_location": "L12",
       "id": "projects_projectgallery_projectgallery",
-      "community": 9,
+      "community": 0,
       "norm_label": "projectgallery()"
     },
     {
@@ -252,7 +252,7 @@
       "source_file": "src/components/Sections/AboutSection.jsx",
       "source_location": "L1",
       "id": "src_components_sections_aboutsection_jsx",
-      "community": 4,
+      "community": 0,
       "norm_label": "aboutsection.jsx"
     },
     {
@@ -261,7 +261,7 @@
       "source_file": "src/components/Sections/AboutSection.jsx",
       "source_location": "L6",
       "id": "sections_aboutsection_aboutterminal",
-      "community": 4,
+      "community": 0,
       "norm_label": "aboutterminal()"
     },
     {
@@ -270,7 +270,7 @@
       "source_file": "src/components/Sections/AboutSection.jsx",
       "source_location": "L120",
       "id": "sections_aboutsection_aboutsection",
-      "community": 4,
+      "community": 0,
       "norm_label": "aboutsection()"
     },
     {
@@ -279,16 +279,16 @@
       "source_file": "src/components/Sections/ContactSection.jsx",
       "source_location": "L1",
       "id": "src_components_sections_contactsection_jsx",
-      "community": 11,
+      "community": 7,
       "norm_label": "contactsection.jsx"
     },
     {
       "label": "ContactSection()",
       "file_type": "code",
       "source_file": "src/components/Sections/ContactSection.jsx",
-      "source_location": "L5",
+      "source_location": "L7",
       "id": "sections_contactsection_contactsection",
-      "community": 11,
+      "community": 7,
       "norm_label": "contactsection()"
     },
     {
@@ -297,7 +297,7 @@
       "source_file": "src/components/Sections/ExperienceSection.jsx",
       "source_location": "L1",
       "id": "src_components_sections_experiencesection_jsx",
-      "community": 0,
+      "community": 1,
       "norm_label": "experiencesection.jsx"
     },
     {
@@ -306,7 +306,7 @@
       "source_file": "src/components/Sections/ExperienceSection.jsx",
       "source_location": "L3",
       "id": "sections_experiencesection_experiencesection",
-      "community": 0,
+      "community": 1,
       "norm_label": "experiencesection()"
     },
     {
@@ -315,7 +315,7 @@
       "source_file": "src/components/Sections/HeroSection.jsx",
       "source_location": "L1",
       "id": "src_components_sections_herosection_jsx",
-      "community": 12,
+      "community": 0,
       "norm_label": "herosection.jsx"
     },
     {
@@ -324,7 +324,7 @@
       "source_file": "src/components/Sections/HeroSection.jsx",
       "source_location": "L6",
       "id": "sections_herosection_herosection",
-      "community": 12,
+      "community": 0,
       "norm_label": "herosection()"
     },
     {
@@ -369,7 +369,7 @@
       "source_file": "src/components/Terminal/TerminalWindow.jsx",
       "source_location": "L1",
       "id": "src_components_terminal_terminalwindow_jsx",
-      "community": 4,
+      "community": 0,
       "norm_label": "terminalwindow.jsx"
     },
     {
@@ -378,7 +378,7 @@
       "source_file": "src/components/Terminal/TerminalWindow.jsx",
       "source_location": "L5",
       "id": "terminal_terminalwindow_terminalwindow",
-      "community": 4,
+      "community": 0,
       "norm_label": "terminalwindow()"
     },
     {
@@ -387,7 +387,7 @@
       "source_file": "src/components/ui/InteractiveDots.jsx",
       "source_location": "L1",
       "id": "src_components_ui_interactivedots_jsx",
-      "community": 0,
+      "community": 1,
       "norm_label": "interactivedots.jsx"
     },
     {
@@ -396,8 +396,26 @@
       "source_file": "src/components/ui/InteractiveDots.jsx",
       "source_location": "L15",
       "id": "ui_interactivedots_interactivedots",
-      "community": 0,
+      "community": 1,
       "norm_label": "interactivedots()"
+    },
+    {
+      "label": "Magnetic.jsx",
+      "file_type": "code",
+      "source_file": "src/components/ui/Magnetic.jsx",
+      "source_location": "L1",
+      "id": "src_components_ui_magnetic_jsx",
+      "community": 7,
+      "norm_label": "magnetic.jsx"
+    },
+    {
+      "label": "Magnetic()",
+      "file_type": "code",
+      "source_file": "src/components/ui/Magnetic.jsx",
+      "source_location": "L4",
+      "id": "ui_magnetic_magnetic",
+      "community": 7,
+      "norm_label": "magnetic()"
     },
     {
       "label": "LanguageContext.jsx",
@@ -405,7 +423,7 @@
       "source_file": "src/contexts/LanguageContext.jsx",
       "source_location": "L1",
       "id": "src_contexts_languagecontext_jsx",
-      "community": 7,
+      "community": 0,
       "norm_label": "languagecontext.jsx"
     },
     {
@@ -414,7 +432,7 @@
       "source_file": "src/contexts/LanguageContext.jsx",
       "source_location": "L4",
       "id": "contexts_languagecontext_languagecontext",
-      "community": 7,
+      "community": 0,
       "norm_label": "languagecontext"
     },
     {
@@ -423,7 +441,7 @@
       "source_file": "src/contexts/LanguageContext.jsx",
       "source_location": "L6",
       "id": "contexts_languagecontext_languageprovider",
-      "community": 2,
+      "community": 3,
       "norm_label": "languageprovider()"
     },
     {
@@ -432,7 +450,7 @@
       "source_file": "src/contexts/LanguageContext.jsx",
       "source_location": "L34",
       "id": "contexts_languagecontext_uselanguage",
-      "community": 4,
+      "community": 0,
       "norm_label": "uselanguage()"
     },
     {
@@ -441,7 +459,7 @@
       "source_file": "src/hooks/useMouse.js",
       "source_location": "L1",
       "id": "src_hooks_usemouse_js",
-      "community": 14,
+      "community": 10,
       "norm_label": "usemouse.js"
     },
     {
@@ -450,7 +468,7 @@
       "source_file": "src/hooks/useMouse.js",
       "source_location": "L4",
       "id": "hooks_usemouse_usemouse",
-      "community": 14,
+      "community": 10,
       "norm_label": "usemouse()"
     },
     {
@@ -459,7 +477,7 @@
       "source_file": "src/i18n/translations.js",
       "source_location": "L1",
       "id": "src_i18n_translations_js",
-      "community": 7,
+      "community": 0,
       "norm_label": "translations.js"
     },
     {
@@ -468,7 +486,7 @@
       "source_file": "src/i18n/translations.js",
       "source_location": "L1",
       "id": "i18n_translations_translations",
-      "community": 7,
+      "community": 0,
       "norm_label": "translations"
     },
     {
@@ -477,7 +495,7 @@
       "source_file": "DESIGN.md",
       "source_location": "L1",
       "id": "design_md",
-      "community": 1,
+      "community": 2,
       "norm_label": "design.md"
     },
     {
@@ -486,7 +504,7 @@
       "source_file": "DESIGN.md",
       "source_location": "L1",
       "id": "portfolio_site_design_cyber_noir_neon_electric_design_system",
-      "community": 1,
+      "community": 2,
       "norm_label": "cyber-noir & neon electric design system"
     },
     {
@@ -495,7 +513,7 @@
       "source_file": "DESIGN.md",
       "source_location": "L3",
       "id": "portfolio_site_design_goal",
-      "community": 1,
+      "community": 2,
       "norm_label": "goal"
     },
     {
@@ -504,7 +522,7 @@
       "source_file": "DESIGN.md",
       "source_location": "L6",
       "id": "portfolio_site_design_design_tokens",
-      "community": 1,
+      "community": 2,
       "norm_label": "design tokens"
     },
     {
@@ -513,7 +531,7 @@
       "source_file": "DESIGN.md",
       "source_location": "L8",
       "id": "portfolio_site_design_colors",
-      "community": 1,
+      "community": 2,
       "norm_label": "colors"
     },
     {
@@ -522,7 +540,7 @@
       "source_file": "DESIGN.md",
       "source_location": "L19",
       "id": "portfolio_site_design_typography",
-      "community": 1,
+      "community": 2,
       "norm_label": "typography"
     },
     {
@@ -531,7 +549,7 @@
       "source_file": "DESIGN.md",
       "source_location": "L29",
       "id": "portfolio_site_design_component_specifications",
-      "community": 1,
+      "community": 2,
       "norm_label": "component specifications"
     },
     {
@@ -540,7 +558,7 @@
       "source_file": "DESIGN.md",
       "source_location": "L31",
       "id": "portfolio_site_design_1_navigation_bar_footer",
-      "community": 1,
+      "community": 2,
       "norm_label": "1. navigation bar & footer"
     },
     {
@@ -549,7 +567,7 @@
       "source_file": "DESIGN.md",
       "source_location": "L36",
       "id": "portfolio_site_design_2_main_hero_3d_interactive_canvas",
-      "community": 1,
+      "community": 2,
       "norm_label": "2. main hero & 3d interactive canvas"
     },
     {
@@ -558,7 +576,7 @@
       "source_file": "DESIGN.md",
       "source_location": "L41",
       "id": "portfolio_site_design_3_tech_stack_project_cards",
-      "community": 1,
+      "community": 2,
       "norm_label": "3. tech stack & project cards"
     },
     {
@@ -567,7 +585,7 @@
       "source_file": "DESIGN.md",
       "source_location": "L46",
       "id": "portfolio_site_design_4_interactive_forms",
-      "community": 1,
+      "community": 2,
       "norm_label": "4. interactive forms"
     },
     {
@@ -611,7 +629,7 @@
       "file_type": "code",
       "source_file": "src/App.jsx",
       "source_location": "L48",
-      "community": 2,
+      "community": 3,
       "norm_label": "usereactscrollsnap()",
       "id": "src_app_usereactscrollsnap"
     },
@@ -1246,6 +1264,17 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/Sections/ContactSection.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "src_components_sections_contactsection_jsx",
+      "target": "src_components_ui_magnetic_jsx",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Sections/ContactSection.jsx",
       "source_location": "L1",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -1462,6 +1491,16 @@
       "confidence_score": 1.0,
       "source": "src_components_ui_interactivedots_jsx",
       "target": "ui_interactivedots_interactivedots"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ui/Magnetic.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "src_components_ui_magnetic_jsx",
+      "target": "ui_magnetic_magnetic",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -1695,5 +1734,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "5cd6fe9e8288012235f690a3ce0e56f50063bd80"
+  "built_at_commit": "a508de0e13c7b31f45600592ec10f280ddba8f51"
 }

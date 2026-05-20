@@ -20,7 +20,7 @@ const ContactSection = () => {
     e.preventDefault();
     const form = e.target;
     const data = new FormData(form);
-    
+
     setStatus('submitting');
     try {
       const response = await fetch('https://formspree.io/f/xnjwkzbw', {
@@ -54,7 +54,7 @@ const ContactSection = () => {
           </div>
           <p className="text-on-surface-variant mb-6 md:mb-12 font-label-md text-label-md uppercase tracking-[0.2em] max-w-md">{t('contact.description')}</p>
           <div className="space-y-6">
-            <button 
+            <button
               onClick={() => handleCopy('arthur.rosisca@gmail.com', 'email')}
               className="flex items-center gap-6 group cursor-pointer text-left w-full focus:outline-none"
               title={lang === 'PT' ? "Clique para copiar e-mail" : "Click to copy email"}
@@ -63,7 +63,7 @@ const ContactSection = () => {
                 <span className="material-symbols-outlined text-primary-fixed">mail</span>
               </div>
               <div>
-                <span 
+                <span
                   key={copiedText === 'email' ? 'copied' : 'label'}
                   className={`block text-[10px] uppercase tracking-[0.2em] animate-subtle-fade-up ${copiedText === 'email' ? 'text-primary-light font-bold' : 'text-on-surface-variant'}`}
                 >
@@ -72,7 +72,7 @@ const ContactSection = () => {
                 <span className="text-base md:text-lg font-bold text-text-primary break-all">arthur.rosisca@gmail.com</span>
               </div>
             </button>
-            <button 
+            <button
               onClick={() => handleCopy('+55 14 99745-0052', 'phone')}
               className="flex items-center gap-6 group cursor-pointer text-left w-full focus:outline-none"
               title={lang === 'PT' ? "Clique para copiar WhatsApp" : "Click to copy WhatsApp"}
@@ -81,7 +81,7 @@ const ContactSection = () => {
                 <span className="material-symbols-outlined text-primary-fixed">phone</span>
               </div>
               <div>
-                <span 
+                <span
                   key={copiedText === 'phone' ? 'copied' : 'label'}
                   className={`block text-[10px] uppercase tracking-[0.2em] animate-subtle-fade-up ${copiedText === 'phone' ? 'text-primary-light font-bold' : 'text-on-surface-variant'}`}
                 >
@@ -92,7 +92,7 @@ const ContactSection = () => {
             </button>
           </div>
           {/* Terminal Indicator */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, rotateX: -12, y: 40, scale: 0.96 }}
             whileInView={{ opacity: 1, rotateX: 0, y: 0, scale: 1 }}
             viewport={{ once: true, margin: "-50px" }}
@@ -117,7 +117,7 @@ const ContactSection = () => {
                     }}
                     className={[
                       'glass-panel depth-btn-secondary border border-primary-fixed/30 text-on-surface font-bold px-6 py-3 text-sm uppercase tracking-widest rounded-[12px] cursor-pointer inline-block transition-all duration-300 whitespace-nowrap',
-                      hovering ? 'border-primary-light/60 bg-white/5 text-primary-light' : ''
+                      hovering ? 'border-primary-light/60 bg-primary-light/80 text-text-muted' : ''
                     ].join(' ')}
                   >
                     {t('contact.hire_me')}
@@ -127,7 +127,7 @@ const ContactSection = () => {
             </div>
           </motion.div>
         </div>
-        <motion.div 
+        <motion.div
           className="glass-panel p-6 md:p-10 border border-primary-fixed/20 relative rounded-tr-none rounded-tl-xl rounded-bl-xl rounded-br-xl"
           initial={{ opacity: 0, rotateX: -12, y: 40, scale: 0.96 }}
           whileInView={{ opacity: 1, rotateX: 0, y: 0, scale: 1 }}
@@ -138,23 +138,23 @@ const ContactSection = () => {
           <form onSubmit={handleSubmit}>
             <div className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">{t('contact.form_name')}</label>
-                <input id="contact-form-name" name="name" required className="w-full bg-surface-container border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_name_placeholder')} type="text" />
+                <div className="space-y-2">
+                  <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">{t('contact.form_name')}</label>
+                  <input id="contact-form-name" name="name" required className="w-full bg-surface-container border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_name_placeholder')} type="text" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">{t('contact.form_email')}</label>
+                  <input name="email" required className="w-full bg-surface-container border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_email_placeholder')} type="email" />
+                </div>
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">{t('contact.form_email')}</label>
-                <input name="email" required className="w-full bg-surface-container border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_email_placeholder')} type="email" />
+                <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">{t('contact.form_message')}</label>
+                <textarea name="message" required value={messageValue} onChange={(e) => setMessageValue(e.target.value)} className="w-full bg-surface-container border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_message_placeholder')} rows="4"></textarea>
               </div>
             </div>
-            <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-widest text-on-surface-variant ml-4">{t('contact.form_message')}</label>
-              <textarea name="message" required value={messageValue} onChange={(e) => setMessageValue(e.target.value)} className="w-full bg-surface-container border border-primary-fixed/20 rounded-xl px-6 py-4 focus:ring-1 focus:ring-primary-fixed focus:border-primary-fixed outline-none text-sm transition-all" placeholder={t('contact.form_message_placeholder')} rows="4"></textarea>
-            </div>
-            </div>
-            <button 
+            <button
               disabled={status === 'submitting'}
-              className="mt-6 md:mt-10 w-full bg-primary-fixed text-on-primary-fixed depth-btn-primary font-bold py-5 text-sm uppercase tracking-[0.3em] rounded-[15px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed" 
+              className="mt-6 md:mt-10 w-full bg-primary-fixed text-on-primary-fixed depth-btn-primary font-bold py-5 text-sm uppercase tracking-[0.3em] rounded-[15px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               type="submit"
             >
               {status === 'submitting' ? '...' : t('contact.form_send')}

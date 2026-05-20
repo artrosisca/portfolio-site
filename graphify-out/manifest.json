@@ -48,8 +48,8 @@
     "hash": "05419cb451602f34bb80eff7ea631b4b"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\Sections\\ContactSection.jsx": {
-    "mtime": 1779293637.7382467,
-    "hash": "e8cbf23da1141328e07a19ce1c0764c8"
+    "mtime": 1779295380.409491,
+    "hash": "89c3c244e78d01cd1267fc8e7792e684"
   },
   "C:\\GIT\\portfolio-site\\src\\components\\Sections\\ExperienceSection.jsx": {
     "mtime": 1779247343.9009347,
@@ -71,6 +71,10 @@
     "mtime": 1779246834.7584207,
     "hash": "78536100e0b706aa81d32b87e0849081"
   },
+  "C:\\GIT\\portfolio-site\\src\\components\\ui\\Magnetic.jsx": {
+    "mtime": 1779294878.2828002,
+    "hash": "69a0d6e3a1bfc8c382449b0f9ecd255c"
+  },
   "C:\\GIT\\portfolio-site\\src\\contexts\\LanguageContext.jsx": {
     "mtime": 1778267897.2609105,
     "hash": "489dc4c90d4f15c51acfb05d6d64e43e"
@@ -80,8 +84,8 @@
     "hash": "00af3c86fd2b8b76769195c6ba199591"
   },
   "C:\\GIT\\portfolio-site\\src\\i18n\\translations.js": {
-    "mtime": 1779257025.4805193,
-    "hash": "d7dd418e2db2159493ce203098bf6f22"
+    "mtime": 1779296257.3589044,
+    "hash": "ea24d2425fc71400c55d26c76e042ca6"
   },
   "C:\\GIT\\portfolio-site\\DESIGN.md": {
     "mtime": 1779074049.6731563,
