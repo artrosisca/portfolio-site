@@ -342,7 +342,11 @@ const InteractiveDots = ({
   return (
     <div
       className="fixed inset-0 w-full h-full overflow-hidden pointer-events-none"
-      style={{ zIndex: -1 }}
+      style={{
+        zIndex: 10,
+        transform: 'translate3d(0, 0, 0)',
+        WebkitTransform: 'translate3d(0, 0, 0)',
+      }}
     >
       <canvas ref={canvasRef} className="block w-full h-full" />
     </div>

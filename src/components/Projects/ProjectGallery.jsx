@@ -174,7 +174,7 @@ export default function ProjectGallery() {
               </div>
               
               <div className="lg:col-span-4 flex flex-col gap-8">
-                <div className="glass-panel rounded-xl p-4 md:p-8 flex-grow relative">
+                <div className="hidden lg:block glass-panel rounded-xl p-4 md:p-8 flex-grow relative">
                   <h4 className="font-label-md text-label-md mb-8 text-text-primary uppercase tracking-[0.2em]">{t('projects.architecture')}</h4>
                   <ul className="space-y-6">
                     {project.architecture.map((arch, i) => (

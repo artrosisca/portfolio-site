@@ -16,20 +16,20 @@ const DARK_BG = '#000000';
 const GRAY_BG = '#7a6f05';
 
 // Full-bleed section wrapper with alternating backgrounds
-const SectionWrapper = ({ children, id, theme = 'dark', className = '', customFooter }) => (
+const SectionWrapper = ({ children, id, theme = 'dark', className = '', customFooter, pyClass = 'py-20 md:py-32' }) => (
   <Element name={id} className="snap-start">
     <div
       id={id}
       data-section-theme={theme}
       className={`w-full min-h-screen flex flex-col justify-center relative ${className}`}
     >
-      {/* Background layer behind the dots (z-[-2]) */}
+      {/* Background layer behind the dots (z-0) */}
       <div
-        className="absolute inset-0 z-[-2] pointer-events-none"
+        className="absolute inset-0 z-0 pointer-events-none"
         style={{ backgroundColor: theme === 'gray' ? GRAY_BG : DARK_BG }}
       />
       {/* Content layer in front of the dots (z-20) */}
-      <div className="relative z-20 max-w-container-max mx-auto px-4 md:px-gutter w-full">
+      <div className={`relative z-20 max-w-container-max mx-auto px-4 md:px-gutter w-full ${pyClass}`}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -59,7 +59,7 @@ const MainLayout = () => {
 
         <main>
 
-          <SectionWrapper id="hero" theme="dark">
+          <SectionWrapper id="hero" theme="dark" pyClass="pt-12 pb-20 md:py-0">
             <HeroSection />
           </SectionWrapper>
 
