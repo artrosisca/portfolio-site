@@ -99,7 +99,7 @@ function BootScreen({ onComplete }) {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
       className="fixed inset-0 z-50 flex items-center justify-center"
-      style={{ backgroundColor: '#7a6f05' }}
+      style={{ backgroundColor: '#fff274' }}
     >
       <span className="font-code-sm text-2xl md:text-3xl text-black tracking-wide">
         <span className="text-black/60 mr-2">❯</span>
@@ -109,6 +109,17 @@ function BootScreen({ onComplete }) {
           style={{ opacity: showCursor ? 1 : 0 }}
         />
       </span>
+
+      {/* Skip Button */}
+      <div className="absolute bottom-10 left-10 pointer-events-auto">
+        <button
+          onClick={onComplete}
+          className="flex items-center justify-center w-[72px] border border-black/15 hover:border-black/40 transition-all active:scale-95 rounded-lg h-9 bg-black/5 cursor-pointer group focus:outline-none"
+          title="Skip"
+        >
+          <span className="group-hover:translate-x-0.5 transition-transform inline-block font-extrabold text-[#7a6f05] text-sm tracking-normal">❯❯❯</span>
+        </button>
+      </div>
     </motion.div>
   );
 }

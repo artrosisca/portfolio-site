@@ -49,7 +49,7 @@ const techCategoriesData = [
 
 import { useLanguage } from '../../contexts/LanguageContext';
 
-const TechCard = ({ category, t }) => {
+const TechCard = ({ category, t, index }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -78,16 +78,26 @@ const TechCard = ({ category, t }) => {
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
         onClick={() => setIsHovered(!isHovered)}
+        initial={{ opacity: 0, rotateX: -12, y: 40, scale: 0.96 }}
+        whileInView={{ opacity: 1, rotateX: 0, y: 0, scale: 1 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ 
+          type: "spring", 
+          stiffness: 90, 
+          damping: 14, 
+          mass: 1,
+          delay: index * 0.12 
+        }}
         className="md:absolute md:top-0 md:left-0 w-full h-auto glass-panel depth-card-hover p-6 rounded-xl cursor-pointer group flex flex-col justify-start"
       >
-        <motion.div layout className="flex items-center gap-4 mb-4">
+        <div className="flex items-center gap-4 mb-4">
           <div className="w-8 h-8 rounded-full border border-primary-light/50 flex items-center justify-center bg-white/5">
             {category.icon}
           </div>
           <h3 className="font-code-sm text-sm text-text-primary uppercase tracking-[0.2em]">
             {t(category.titleKey)}
           </h3>
-        </motion.div>
+        </div>
 
         <AnimatePresence initial={false}>
           {isHovered && (
@@ -105,7 +115,7 @@ const TechCard = ({ category, t }) => {
           )}
         </AnimatePresence>
 
-        <motion.div layout className="flex flex-wrap gap-3 mt-auto">
+        <div className="flex flex-wrap gap-3 mt-auto">
           {category.tags.map((tag) => (
             <div
               key={tag}
@@ -116,7 +126,7 @@ const TechCard = ({ category, t }) => {
               </span>
             </div>
           ))}
-        </motion.div>
+        </div>
       </motion.div>
     </div>
   );
@@ -139,11 +149,14 @@ export default function ArchitectureCards() {
         </p>
       </div>
 
-      <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 lg:gap-20 items-start">
-        {techCategoriesData.map((category) => (
-          <TechCard key={category.id} category={category} t={t} />
+      <div 
+        className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 lg:gap-20 items-start"
+        style={{ perspective: 1200 }}
+      >
+        {techCategoriesData.map((category, index) => (
+          <TechCard key={category.id} category={category} t={t} index={index} />
         ))}
-      </motion.div>
+      </div>
     </section>
   );
 }

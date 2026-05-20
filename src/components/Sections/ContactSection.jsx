@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 const ContactSection = () => {
@@ -42,7 +43,7 @@ const ContactSection = () => {
 
   return (
     <section className="relative" id="contact">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12" style={{ perspective: 1200 }}>
         <div>
           <div className="section-header">
             <div className="corner-bracket-tl"></div>
@@ -88,15 +89,27 @@ const ContactSection = () => {
             </button>
           </div>
           {/* Terminal Indicator */}
-          <div className="mt-12 p-6 rounded-xl glass-panel border border-primary-fixed/20 relative overflow-hidden">
+          <motion.div 
+            initial={{ opacity: 0, rotateX: -12, y: 40, scale: 0.96 }}
+            whileInView={{ opacity: 1, rotateX: 0, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ type: "spring", stiffness: 90, damping: 14, mass: 1, delay: 0 }}
+            className="mt-12 p-6 rounded-xl glass-panel border border-primary-fixed/20 relative overflow-hidden"
+          >
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-2 h-2 rounded-full bg-primary-fixed animate-pulse"></div>
-              <span className="font-code-sm text-[10px] uppercase text-primary-fixed tracking-widest">{t('contact.status')}</span>
+              <div className="w-2 h-2 rounded-full bg-primary-light animate-pulse"></div>
+              <span className="font-code-sm text-[10px] uppercase text-primary-light tracking-widest">{t('contact.status')}</span>
             </div>
-            <p className="font-code-sm text-[10px] text-on-surface-variant uppercase tracking-widest">{t('contact.ready')}</p>
-          </div>
+            <p className="font-code-sm text-[10px] text-text-primary uppercase tracking-widest">{t('contact.ready')}</p>
+          </motion.div>
         </div>
-        <div className="glass-panel p-6 md:p-10 border border-primary-fixed/20 relative rounded-tr-none rounded-tl-xl rounded-bl-xl rounded-br-xl">
+        <motion.div 
+          className="glass-panel p-6 md:p-10 border border-primary-fixed/20 relative rounded-tr-none rounded-tl-xl rounded-bl-xl rounded-br-xl"
+          initial={{ opacity: 0, rotateX: -12, y: 40, scale: 0.96 }}
+          whileInView={{ opacity: 1, rotateX: 0, y: 0, scale: 1 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ type: "spring", stiffness: 90, damping: 14, mass: 1, delay: 0.15 }}
+        >
           <div className="absolute -top-1 -right-1 w-12 h-12 border-t-2 border-r-2 border-primary-fixed"></div>
           <form onSubmit={handleSubmit}>
             <div className="space-y-6">
@@ -129,7 +142,7 @@ const ContactSection = () => {
               <div className="text-red-500 text-center text-sm font-bold mt-4 animate-in fade-in">Ocorreu um erro. Tente novamente mais tarde.</div>
             )}
           </form>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

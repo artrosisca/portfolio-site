@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { useInView } from 'framer-motion';
+import { useInView, motion } from 'framer-motion';
 
 /* ─── Terminal that types when the About section scrolls into view ─── */
 function AboutTerminal() {
@@ -32,8 +32,12 @@ function AboutTerminal() {
   }, [isInView]);
 
   return (
-    <div
+    <motion.div
       ref={ref}
+      initial={{ opacity: 0, rotateX: -10, y: 40, scale: 0.97 }}
+      whileInView={{ opacity: 1, rotateX: 0, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ type: "spring", stiffness: 85, damping: 14, mass: 1 }}
       className="glass-panel rounded-[12px] overflow-hidden w-full"
     >
       {/* Terminal Header */}
@@ -49,7 +53,7 @@ function AboutTerminal() {
       </div>
       
       {/* Terminal Content */}
-      <div className="p-6 font-code-sm text-sm leading-relaxed text-left min-h-[300px] flex flex-col">
+      <div className="p-6 font-code-sm text-sm leading-relaxed text-left min-h-[350px] flex flex-col">
         {/* Starship Command Prompt Line 1 */}
         <div className="flex flex-wrap items-center text-[12px] leading-none font-mono mb-2">
           <span className="text-[#313244] mr-1">╭─</span>
@@ -109,7 +113,7 @@ function AboutTerminal() {
           </div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -118,7 +122,7 @@ const AboutSection = () => {
 
   return (
     <section className="mb-stack-lg relative" id="about">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch" style={{ perspective: 1200 }}>
         <div className="flex flex-col justify-between h-full py-1">
           <div className="space-y-6">
             <div className="section-header">
@@ -131,11 +135,17 @@ const AboutSection = () => {
             </div>
           </div>
           
-          <div className="pt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="glass-panel depth-card-hover p-4 rounded-xl text-center relative">
+          <div className="pt-6 grid grid-cols-1 md:grid-cols-2 gap-4" style={{ perspective: 1200 }}>
+            <motion.div 
+              initial={{ opacity: 0, rotateX: -10, y: 40, scale: 0.97 }}
+              whileInView={{ opacity: 1, rotateX: 0, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ type: "spring", stiffness: 85, damping: 14, mass: 1, delay: 0.1 }}
+              className="glass-panel depth-card-hover p-4 rounded-xl text-center relative"
+            >
               <span className="block font-headline-md text-primary-fixed font-bold uppercase text-sm mb-1">UTFPR</span>
               <span className="text-[10px] uppercase tracking-widest text-on-surface-variant">{t('about.degree')}</span>
-            </div>
+            </motion.div>
           </div>
         </div>
         <div className="hidden lg:block">

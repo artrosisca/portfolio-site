@@ -207,7 +207,7 @@
       "source_file": "src/components/Layout/TopNavBar.jsx",
       "source_location": "L1",
       "id": "src_components_layout_topnavbar_jsx",
-      "community": 12,
+      "community": 13,
       "norm_label": "topnavbar.jsx"
     },
     {
@@ -216,7 +216,7 @@
       "source_file": "src/components/Layout/TopNavBar.jsx",
       "source_location": "L6",
       "id": "layout_topnavbar_topnavbar",
-      "community": 12,
+      "community": 13,
       "norm_label": "topnavbar()"
     },
     {
@@ -315,7 +315,7 @@
       "source_file": "src/components/Sections/HeroSection.jsx",
       "source_location": "L1",
       "id": "src_components_sections_herosection_jsx",
-      "community": 13,
+      "community": 12,
       "norm_label": "herosection.jsx"
     },
     {
@@ -324,7 +324,7 @@
       "source_file": "src/components/Sections/HeroSection.jsx",
       "source_location": "L6",
       "id": "sections_herosection_herosection",
-      "community": 13,
+      "community": 12,
       "norm_label": "herosection()"
     },
     {
@@ -1695,5 +1695,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "9f696d04eaf18a9f391a0e46d1d9b23cda267925"
+  "built_at_commit": "0fdd2f0131609b4ad2014fea3741319680a6b23f"
 }

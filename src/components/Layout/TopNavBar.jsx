@@ -110,7 +110,7 @@ const TopNavBar = () => {
             onMouseLeave={() => setShowCV(false)}
           >
             <a 
-              className="bg-primary-fixed text-on-primary-fixed depth-btn-primary font-bold py-2 text-sm rounded-xl h-10 flex items-center justify-center w-[150px] cursor-pointer" 
+              className="bg-primary-fixed text-on-primary-fixed depth-btn-primary no-default-glow font-bold py-2 text-sm rounded-xl h-10 flex items-center justify-center w-[150px] cursor-pointer" 
               href={lang === 'PT' ? '/arthur_resume_pt-br.pdf' : '/arthur_resume_en.pdf'}
               download
             >
@@ -198,7 +198,7 @@ const TopNavBar = () => {
 
               {/* Download CV */}
               <a
-                className="bg-primary-fixed text-on-primary-fixed depth-btn-primary font-bold py-3 px-8 text-sm rounded-xl cursor-pointer uppercase tracking-widest"
+                className="bg-primary-fixed text-on-primary-fixed depth-btn-primary no-default-glow font-bold py-3 px-8 text-sm rounded-xl cursor-pointer uppercase tracking-widest"
                 href={lang === 'PT' ? '/arthur_resume_pt-br.pdf' : '/arthur_resume_en.pdf'}
                 download
                 onClick={() => setMobileMenuOpen(false)}
