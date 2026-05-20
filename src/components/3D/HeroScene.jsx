@@ -8,6 +8,7 @@ function LoaderOverlay({ forceLoaded, onFadeComplete }) {
   const { progress } = useProgress();
   const [phase, setPhase] = React.useState('loading'); // 'loading' | 'fading' | 'done'
   const [minTimeElapsed, setMinTimeElapsed] = React.useState(false);
+  const [smoothProgress, setSmoothProgress] = React.useState(0);
 
   // Ensure the loader shows for at least 2.5 s so the animation is visible
   React.useEffect(() => {
@@ -19,9 +20,31 @@ function LoaderOverlay({ forceLoaded, onFadeComplete }) {
     ? 99
     : (minTimeElapsed && forceLoaded) ? 100 : progress;
 
-  // When progress hits 100, begin fade-out
+  // Smoothly interpolate the progress bar width using requestAnimationFrame
   React.useEffect(() => {
-    if (displayProgress === 100 && phase === 'loading') {
+    let animationFrameId;
+
+    const updateProgress = () => {
+      setSmoothProgress((prev) => {
+        if (prev >= displayProgress) {
+          return displayProgress;
+        }
+        const diff = displayProgress - prev;
+        // Smooth deceleration step with a guaranteed minimum step so it moves continuously
+        const step = Math.max(diff * 0.05, 0.15);
+        const next = prev + step;
+        return next >= displayProgress ? displayProgress : next;
+      });
+      animationFrameId = requestAnimationFrame(updateProgress);
+    };
+
+    animationFrameId = requestAnimationFrame(updateProgress);
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [displayProgress]);
+
+  // When smoothProgress hits 100, begin fade-out
+  React.useEffect(() => {
+    if (smoothProgress === 100 && phase === 'loading') {
       setPhase('fading');
       const timer = setTimeout(() => {
         setPhase('done');
@@ -29,7 +52,7 @@ function LoaderOverlay({ forceLoaded, onFadeComplete }) {
       }, 1200); // matches the CSS transition duration
       return () => clearTimeout(timer);
     }
-  }, [displayProgress, phase, onFadeComplete]);
+  }, [smoothProgress, phase, onFadeComplete]);
 
   if (phase === 'done') return null;
 
@@ -41,20 +64,19 @@ function LoaderOverlay({ forceLoaded, onFadeComplete }) {
         transition: 'opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1)',
       }}
     >
-      {/* Elegant progress bar */}
+      {/* Loading Bar Container */}
       <div 
-        className="w-48 h-[3px] bg-white/[0.06] overflow-hidden rounded-full relative"
+        className="w-64 md:w-80 h-6 bg-black/60 border border-primary-light/35 rounded-md overflow-hidden relative p-[2px] loader-bar-container"
         style={{
           opacity: phase === 'fading' ? 0 : 1,
           transition: 'opacity 0.2s ease-out'
         }}
       >
+        {/* Fills up */}
         <div
-          className="absolute top-0 left-0 h-full rounded-full transition-all duration-700 ease-out"
+          className="h-full rounded-[3px] loader-bar-fill"
           style={{
-            width: `${displayProgress}%`,
-            background: 'linear-gradient(90deg, var(--color-primary-fixed), #ffe566)',
-            boxShadow: '0 0 12px rgba(255,222,0,0.4)',
+            width: `${smoothProgress}%`,
           }}
         />
       </div>

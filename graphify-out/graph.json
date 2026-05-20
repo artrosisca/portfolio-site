@@ -133,7 +133,7 @@
       "label": "RoomModel()",
       "file_type": "code",
       "source_file": "src/components/3D/HeroScene.jsx",
-      "source_location": "L66",
+      "source_location": "L88",
       "id": "3d_heroscene_roommodel",
       "community": 4,
       "norm_label": "roommodel()"
@@ -142,7 +142,7 @@
       "label": "CameraRig()",
       "file_type": "code",
       "source_file": "src/components/3D/HeroScene.jsx",
-      "source_location": "L82",
+      "source_location": "L104",
       "id": "3d_heroscene_camerarig",
       "community": 4,
       "norm_label": "camerarig()"
@@ -151,7 +151,7 @@
       "label": "ScrollIndicator()",
       "file_type": "code",
       "source_file": "src/components/3D/HeroScene.jsx",
-      "source_location": "L131",
+      "source_location": "L153",
       "id": "3d_heroscene_scrollindicator",
       "community": 4,
       "norm_label": "scrollindicator()"
@@ -160,7 +160,7 @@
       "label": "HeroScene()",
       "file_type": "code",
       "source_file": "src/components/3D/HeroScene.jsx",
-      "source_location": "L165",
+      "source_location": "L187",
       "id": "3d_heroscene_heroscene",
       "community": 4,
       "norm_label": "heroscene()"
@@ -1734,5 +1734,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "b51cc90d747498a0d9008b25ac89683e77cb7f50"
+  "built_at_commit": "95739f0ff93f5091985dd44c6b6d39555d6a1405"
 }
