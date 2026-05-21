@@ -134,7 +134,7 @@ export default function ProjectGallery() {
             >
               <div className="lg:col-span-8 glass-panel rounded-xl overflow-hidden group">
                 <div className="h-48 md:h-64 relative overflow-hidden bg-surface-container-highest/30">
-                  <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-50 z-10"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-30 z-10"></div>
 
                   {project.image ? (
                     <img

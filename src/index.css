@@ -79,6 +79,11 @@ textarea {
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
+.no-transition,
+.no-transition::after {
+    transition: none !important;
+}
+
 /* Ensure Tailwind positioning utilities override glass-panel's default relative position */
 .glass-panel.absolute {
     position: absolute !important;
@@ -132,21 +137,23 @@ footer {
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-.depth-card-hover:hover {
-    transform: translateY(-6px) !important;
-    /* Only translateY to prevent snap-scroll horizontal shifts */
-    box-shadow:
-        0 0 40px rgba(0, 0, 0, 0.4),
-        /* Soft, highly diffuse, symmetrical ambient shadow (X=0, Y=0) */
-        0 8px 25px rgba(0, 0, 0, 0.24),
-        /* Subtle vertical lift weighting */
-        0 0 20px rgba(250, 229, 0, 0.05),
-        /* Faint glowing ambient border color sync */
-        inset 0 1px 1px rgba(255, 255, 255, 0.06) !important;
-}
+@media (min-width: 768px) {
+    .depth-card-hover:hover {
+        transform: translateY(-6px) !important;
+        /* Only translateY to prevent snap-scroll horizontal shifts */
+        box-shadow:
+            0 0 40px rgba(0, 0, 0, 0.4),
+            /* Soft, highly diffuse, symmetrical ambient shadow (X=0, Y=0) */
+            0 8px 25px rgba(0, 0, 0, 0.24),
+            /* Subtle vertical lift weighting */
+            0 0 20px rgba(250, 229, 0, 0.05),
+            /* Faint glowing ambient border color sync */
+            inset 0 1px 1px rgba(255, 255, 255, 0.06) !important;
+    }
 
-.depth-card-hover:hover::after {
-    box-shadow: inset 0 0 0 1px rgba(250, 229, 0, 0.35) !important;
+    .depth-card-hover:hover::after {
+        box-shadow: inset 0 0 0 1px rgba(250, 229, 0, 0.35) !important;
+    }
 }
 
 /* Primary Button depth styles */
