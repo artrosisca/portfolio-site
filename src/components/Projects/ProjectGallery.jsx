@@ -114,19 +114,19 @@ export default function ProjectGallery() {
           </button>
         </div>
       </div>
-      
+
       <div className="relative overflow-hidden w-full -mt-6 pt-6">
         <div ref={scrollRef} className="w-full flex gap-8 overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth pt-6 pb-8 -mt-6" style={{ perspective: 1200 }}>
           {projects.map((project, index) => (
-            <motion.div 
-              key={project.id} 
+            <motion.div
+              key={project.id}
               initial={{ opacity: 0, rotateX: -8, y: 30, scale: 0.97 }}
               whileInView={{ opacity: 1, rotateX: 0, y: 0, scale: 1 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ 
-                type: "spring", 
-                stiffness: 85, 
-                damping: 14, 
+              transition={{
+                type: "spring",
+                stiffness: 85,
+                damping: 14,
                 mass: 1,
                 delay: index * 0.05
               }}
@@ -134,13 +134,13 @@ export default function ProjectGallery() {
             >
               <div className="lg:col-span-8 glass-panel rounded-xl overflow-hidden group">
                 <div className="h-48 md:h-64 relative overflow-hidden bg-surface-container-highest/30">
-                  <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-80 z-10"></div>
-                  
+                  <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-50 z-10"></div>
+
                   {project.image ? (
-                    <img 
-                      src={project.image} 
-                      alt={project.title} 
-                      className="absolute inset-0 w-full h-full object-cover opacity-100 lg:opacity-60 lg:group-hover:opacity-100 transition-opacity duration-500 z-0" 
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="absolute inset-0 w-full h-full object-cover opacity-100 lg:opacity-60 lg:group-hover:opacity-100 transition-opacity duration-500 z-0"
                     />
                   ) : (
                     <div className="absolute inset-0 opacity-20 flex items-center justify-center text-primary-fixed font-code-sm text-[8px] overflow-hidden leading-tight break-all z-0 px-4">
@@ -157,11 +157,11 @@ export default function ProjectGallery() {
                     </span>
                   </div>
                 </div>
-                
+
                 <div className="p-4 md:p-8">
                   <h3 className="font-headline-md text-headline-md mb-4 text-text-primary uppercase">{project.title}</h3>
                   <p className="text-on-surface-variant mb-8 font-body-md">{project.description}</p>
-                  
+
                   {/* Technical Specs as inline tag pills — replaces the old big squares */}
                   <div className="flex flex-wrap gap-3 pt-6 border-t border-white/5">
                     {project.tags.map((tag, i) => (
@@ -172,7 +172,7 @@ export default function ProjectGallery() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="lg:col-span-4 flex flex-col gap-8">
                 <div className="hidden lg:block glass-panel rounded-xl p-4 md:p-8 flex-grow relative">
                   <h4 className="font-label-md text-label-md mb-8 text-text-primary uppercase tracking-[0.2em]">{t('projects.architecture')}</h4>
