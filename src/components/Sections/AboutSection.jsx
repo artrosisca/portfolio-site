@@ -141,7 +141,7 @@ const AboutSection = () => {
               whileInView={{ opacity: 1, rotateX: 0, y: 0, scale: 1 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ type: "spring", stiffness: 85, damping: 14, mass: 1, delay: 0.1 }}
-              className="glass-panel depth-card-hover p-4 rounded-xl text-center relative"
+              className="glass-panel depth-card-hover p-4 rounded-xl text-center relative w-fit mx-auto md:w-full"
             >
               <span className="block font-headline-md text-primary-fixed font-bold uppercase text-sm mb-1">UTFPR</span>
               <span className="text-[10px] uppercase tracking-widest text-on-surface-variant">{t('about.degree')}</span>

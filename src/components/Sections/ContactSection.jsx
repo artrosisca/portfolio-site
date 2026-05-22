@@ -97,7 +97,7 @@ const ContactSection = () => {
             whileInView={{ opacity: 1, rotateX: 0, y: 0, scale: 1 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ type: "spring", stiffness: 90, damping: 14, mass: 1, delay: 0 }}
-            className="mt-12 p-6 rounded-xl glass-panel border border-primary-fixed/20 relative overflow-hidden"
+            className="hidden lg:block mt-12 p-6 rounded-xl glass-panel border border-primary-fixed/20 relative overflow-hidden"
           >
             <div className="flex items-center justify-between gap-4">
               <div>
@@ -166,6 +166,42 @@ const ContactSection = () => {
               <div className="text-red-500 text-center text-sm font-bold mt-4 animate-in fade-in">Ocorreu um erro. Tente novamente mais tarde.</div>
             )}
           </form>
+        </motion.div>
+
+        {/* Mobile Terminal Indicator / Hire Me Card */}
+        <motion.div
+          initial={{ opacity: 0, rotateX: -12, y: 40, scale: 0.96 }}
+          whileInView={{ opacity: 1, rotateX: 0, y: 0, scale: 1 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ type: "spring", stiffness: 90, damping: 14, mass: 1, delay: 0.2 }}
+          className="lg:hidden mt-6 p-6 rounded-xl glass-panel border border-primary-fixed/20 relative overflow-hidden"
+        >
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-2 h-2 rounded-full bg-primary-light animate-pulse"></div>
+                <span className="font-code-sm text-[10px] uppercase text-primary-light tracking-widest">{t('contact.status')}</span>
+              </div>
+              <p className="font-code-sm text-[10px] text-text-primary uppercase tracking-widest">{t('contact.ready')}</p>
+            </div>
+            <Magnetic magneticDistance={120} strength={0.5} stiffness={90} damping={12}>
+              {(hovering) => (
+                <button
+                  onClick={() => {
+                    const nameInput = document.querySelector('#contact-form-name');
+                    if (nameInput) nameInput.focus();
+                    setMessageValue(t('contact.hire_message'));
+                  }}
+                  className={[
+                    'glass-panel depth-btn-secondary contact-hire-btn border border-primary-fixed/30 text-on-surface font-bold px-6 py-3 text-sm uppercase tracking-widest rounded-[12px] cursor-pointer inline-block transition-all duration-300 whitespace-nowrap',
+                    hovering ? 'contact-hire-btn-hover' : ''
+                  ].join(' ')}
+                >
+                  {t('contact.hire_me')}
+                </button>
+              )}
+            </Magnetic>
+          </div>
         </motion.div>
       </div>
     </section>

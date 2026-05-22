@@ -165,13 +165,15 @@ footer {
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-.depth-btn-primary:hover {
-    transform: translateY(-3px) !important;
-    box-shadow:
-        0 0 12px rgba(250, 229, 0, 0.2),
-        0 4px 10px rgba(250, 229, 0, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
-    background-color: #fae500 !important;
+@media (hover: hover) {
+    .depth-btn-primary:hover {
+        transform: translateY(-3px) !important;
+        box-shadow:
+            0 0 12px rgba(250, 229, 0, 0.2),
+            0 4px 10px rgba(250, 229, 0, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+        background-color: #fae500 !important;
+    }
 }
 
 .depth-btn-primary:active {
@@ -189,10 +191,12 @@ footer {
     transition: all 0.3s ease;
 }
 
-.social-glow-hover:hover {
-    color: #fae500 !important;
-    text-shadow: 0 0 4px rgba(250, 229, 0, 0.35);
-    filter: drop-shadow(0 0 3px rgba(250, 229, 0, 0.35)) !important;
+@media (hover: hover) {
+    .social-glow-hover:hover {
+        color: #fae500 !important;
+        text-shadow: 0 0 4px rgba(250, 229, 0, 0.35);
+        filter: drop-shadow(0 0 3px rgba(250, 229, 0, 0.35)) !important;
+    }
 }
 
 /* Secondary Button / Outline Button depth styles */
@@ -205,14 +209,16 @@ footer {
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-.depth-btn-secondary:hover {
-    transform: translateY(-3px) !important;
-    border-color: rgba(255, 255, 255, 0.22) !important;
-    background: rgba(0, 0, 0, 0.28) !important;
-    /* USER FINE TUNING: Adjust hover background color here */
-    box-shadow:
-        0 8px 20px rgba(0, 0, 0, 0.3),
-        inset 0 1px 1px rgba(255, 255, 255, 0.1) !important;
+@media (hover: hover) {
+    .depth-btn-secondary:hover {
+        transform: translateY(-3px) !important;
+        border-color: rgba(255, 255, 255, 0.22) !important;
+        background: rgba(0, 0, 0, 0.28) !important;
+        /* USER FINE TUNING: Adjust hover background color here */
+        box-shadow:
+            0 8px 20px rgba(0, 0, 0, 0.3),
+            inset 0 1px 1px rgba(255, 255, 255, 0.1) !important;
+    }
 }
 
 .depth-btn-secondary:active {
@@ -222,15 +228,16 @@ footer {
         0 0 6px rgba(0, 0, 0, 0.1) !important;
 }
 
-/* Custom hover state for the hire me button to have a slightly yellowish background */
-.contact-hire-btn:hover,
-.contact-hire-btn-hover {
-    background: rgba(250, 229, 0, 0.15) !important;
-    border-color: rgba(250, 229, 0, 0.5) !important;
-    color: #ffffff !important;
-    box-shadow:
-        0 8px 20px rgba(250, 229, 0, 0.1),
-        inset 0 1px 1px rgba(255, 255, 255, 0.1) !important;
+@media (hover: hover) {
+    .contact-hire-btn:hover,
+    .contact-hire-btn-hover {
+        background: rgba(250, 229, 0, 0.15) !important;
+        border-color: rgba(250, 229, 0, 0.5) !important;
+        color: #ffffff !important;
+        box-shadow:
+            0 8px 20px rgba(250, 229, 0, 0.1),
+            inset 0 1px 1px rgba(255, 255, 255, 0.1) !important;
+    }
 }
 
 .caution-stripes {

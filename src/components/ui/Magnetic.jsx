@@ -40,6 +40,9 @@ function Magnetic({
   );
 
   useEffect(() => {
+    const isTouch = window.matchMedia('(hover: none)').matches;
+    if (isTouch) return;
+
     window.addEventListener('mousemove', onMouseMove);
     return () => window.removeEventListener('mousemove', onMouseMove);
   }, [onMouseMove]);
