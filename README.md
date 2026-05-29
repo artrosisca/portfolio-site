@@ -1,16 +1,25 @@
-# React + Vite
+# 🚀 Arthur Rosisca | Interactive 3D Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Bem-vindo ao repositório do meu portfólio pessoal! 
 
-Currently, two official plugins are available:
+Este projeto foi construído para ir além de um currículo tradicional. Ele une o desenvolvimento web moderno com experiências imersivas em 3D, servindo como uma vitrine viva para as minhas habilidades como **Desenvolvedor de Software e Especialista em Dados**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+🔗 **Acesse o projeto online:** [Coloque o link do seu site aqui]
 
-## React Compiler
+## ✨ Principais Funcionalidades
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Experiência 3D Interativa:** Seção Hero imersiva renderizada no navegador utilizando Three.js e React Three Fiber.
+- **Terminal UI:** Uma interface que simula um terminal real para navegação, refletindo meu background técnico.
+- **Internacionalização (i18n):** Suporte nativo para Português e Inglês, permitindo alcance global.
+- **Animações Fluidas:** Transições de tela e componentes animados para uma UX moderna.
+- **Design Responsivo:** Totalmente otimizado para mobile, tablets e desktops.
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+O projeto foi desenvolvido com as tecnologias mais recentes do ecossistema JavaScript:
+
+- **Core:** [React 19](https://react.dev/) + [Vite](https://vitejs.dev/)
+- **Estilização:** [Tailwind CSS v4](https://tailwindcss.com/)
+- **Animações & UI:** [Framer Motion](https://www.framer.com/motion/)
+- **Renderização 3D:** [Three.js](https://threejs.org/) + [@react-three/fiber](https://docs.pmnd.rs/react-three-fiber/) + [@react-three/drei](https://github.com/pmndrs/drei)
+- **Utilitários:** `lucide-react` (ícones), `react-scroll` (navegação suave), `clsx` e `tailwind-merge`.
