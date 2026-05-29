@@ -1,12 +1,10 @@
-# 🚀 Arthur Rosisca | Interactive 3D Portfolio
+# Arthur Rosisca | Portfolio
 
 Bem-vindo ao repositório do meu portfólio pessoal! 
 
 Este projeto foi construído para ir além de um currículo tradicional. Ele une o desenvolvimento web moderno com experiências imersivas em 3D, servindo como uma vitrine viva para as minhas habilidades como **Desenvolvedor de Software e Especialista em Dados**.
 
-🔗 **Acesse o projeto online:** [Coloque o link do seu site aqui]
-
-## ✨ Principais Funcionalidades
+🔗 **Acesse o projeto online:** https://arthur-rosisca.vercel.app/
 
 - **Experiência 3D Interativa:** Seção Hero imersiva renderizada no navegador utilizando Three.js e React Three Fiber.
 - **Terminal UI:** Uma interface que simula um terminal real para navegação, refletindo meu background técnico.
@@ -14,7 +12,7 @@ Este projeto foi construído para ir além de um currículo tradicional. Ele une
 - **Animações Fluidas:** Transições de tela e componentes animados para uma UX moderna.
 - **Design Responsivo:** Totalmente otimizado para mobile, tablets e desktops.
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 O projeto foi desenvolvido com as tecnologias mais recentes do ecossistema JavaScript:
 
