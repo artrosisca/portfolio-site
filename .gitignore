@@ -26,3 +26,7 @@ dist-ssr
 # Graphify
 graphify/
 graphfy/
+graphify-out/
+
+# Local design references and mockups
+design/
