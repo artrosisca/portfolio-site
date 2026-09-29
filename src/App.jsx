@@ -125,7 +125,7 @@ function BootScreen({ onComplete }) {
 }
 
 /* ─── Scroll-snap using react-scroll ─── */
-const SECTIONS = ['hero', 'about', 'tech', 'projects', 'contact', 'footer-section'];
+const SECTIONS = ['hero', 'about', 'tech', 'experience', 'projects', 'contact', 'footer-section'];
 
 function App() {
   // viewState can be '3d', 'boot', or '2d'

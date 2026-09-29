@@ -3,14 +3,15 @@ export const translations = {
     nav: {
       about: "SOBRE",
       tech: "TECNOLOGIAS",
+      experience: "EXPERIÊNCIA",
       projects: "PROJETOS",
       contact: "CONTATO",
       download_cv: "BAIXAR CV",
       doc_preview: "Pré-visualização"
     },
     hero: {
-      subheadline: "CIENTISTA DA COMPUTAÇÃO",
-      description: "Desenvolvedor de Software & Especialista em Dados. Criando soluções escaláveis, desde pipelines de dados até integrações com IA avançada.",
+      subheadline: "DESENVOLVEDOR FULL-STACK",
+      description: "Desenvolvedor Full-Stack & Soluções em Dados. Concepção de sistemas web escaláveis, arquiteturas resilientes e pipelines analíticos com tecnologia moderna.",
       cta_contact: "CONTATO",
       cta_projects: "VER PROJETOS"
     },
@@ -20,9 +21,14 @@ export const translations = {
     },
     about: {
       title: "SOBRE",
-      p1: "Cientista da Computação pela <strong class='text-on-surface'>UTFPR</strong>, apaixonado por resolver problemas complexos unindo desenvolvimento de software e inteligência de dados.",
-      p2: "Meu foco abrange o desenvolvimento <strong class='text-on-surface'>Fullstack</strong> e a <strong class='text-on-surface'>Arquitetura de Dados</strong>. Possuo forte atuação na integração de IAs generativas, otimização de tokens e criação de fluxos de trabalho autônomos baseados em MCPs (Model Context Protocol).",
+      p1: "Estudante de Ciência da Computação pela <strong class='text-on-surface'>UTFPR</strong> com experiência prática no desenvolvimento de sistemas web <strong class='text-on-surface'>Full-Stack</strong> e modelagem de bancos de dados relacionais.",
+      p2: "Atuação diária em ambiente <strong class='text-on-surface'>Linux</strong>, combinando arquiteturas modernas de backend (Laravel, APIs REST, Webhooks) e interfaces reativas (Vue 3, React), além de sólida bagagem em modelagem dimensional e Process Mining.",
       degree: "Bacharelado em Ciência da Computação",
+      education_title: "FORMAÇÃO & CERTIFICAÇÃO",
+      utfpr_period: "Jan 2022 – Dez 2026",
+      cert_de_title: "Associate Data Engineer",
+      cert_de_issuer: "DataCamp",
+      cert_de_date: "Dezembro 2025",
       proficiency: "PROFICIÊNCIA"
     },
     tech: {
@@ -30,18 +36,36 @@ export const translations = {
       subtitle: "Linguagens e tecnologias",
       popup_title: "Aplicações & Conceitos",
       popup_cta: "Ver projetos relacionados",
-      cat_data_engineering: "Engenharia de Dados",
-      desc_data_engineering: "SQL Avançado e construção de Pipelines ETL/ELT utilizando Medallion Architecture (Bronze, Silver, Gold), Governança em Data Lakes e Data Warehouse.",
+      cat_data_engineering: "Engenharia de Dados & Bancos",
+      desc_data_engineering: "Modelagem relacional e dimensional, SQL Avançado, PostgreSQL, MySQL e construção de Pipelines ETL sob a Arquitetura Medalhão.",
       cat_analytics: "Análise & BI",
-      desc_analytics: "Criação de Dashboards Gerenciais, extração de insights estratégicos e implementação de algoritmos de Machine Learning (Random Forest/XGBoost).",
-      cat_devops: "DevOps & Controle de Versão",
-      desc_devops: "Gestão de ambiente com Containers (Docker), automação de workflows com CI/CD e administração/shell scripting em sistemas Linux.",
-      cat_management: "Gestão de Projetos",
-      desc_management: "Organização de backlogs e fluxos de trabalho utilizando metodologias ágeis para garantir entregas contínuas e alinhadas ao negócio.",
+      desc_analytics: "Criação de Dashboards, Process Mining (PM4Py) para fluxos operacionais e modelos preditivos em Machine Learning (Random Forest, K-Means).",
+      cat_devops: "DevOps & Sistemas",
+      desc_devops: "Ambiente Linux no dia a dia, containers com Docker, controle de versão via Git/GitHub/Bitbucket e pipelines de automação CI/CD.",
+      cat_management: "Práticas & Gestão",
+      desc_management: "Metodologias ágeis (Kanban/Scrum via Jira), documentação técnica, Git Flow e resolução proativa de anomalias em produção.",
       cat_web_dev: "Desenvolvimento Web",
-      desc_web_dev: "Desenvolvimento Fullstack: Frontend baseado em componentes e gestão de estado; Backend focado em APIs RESTful, persistência de dados e segurança.",
+      desc_web_dev: "Desenvolvimento Full-Stack: Backend escalável com PHP (Laravel, Inertia.js), Python (FastAPI), Java e arquitetura Service-Repository; Frontend com Vue, React e TailwindCSS.",
       cat_ai: "IA & Agentes Autônomos",
-      desc_ai: "Implementação de modelos generativos, construção de fluxos de trabalho autônomos e otimização de inferência/tokens utilizando Model Context Protocol (MCP)."
+      desc_ai: "Integração de modelos generativos, automação de fluxos autônomos e otimização de contexto com Model Context Protocol (MCP)."
+    },
+    experience: {
+      title: "HISTÓRICO",
+      title_highlight: "PROFISSIONAL",
+      current_badge: "ATUAL",
+      job1_role: "Desenvolvedor Full-Stack (Estágio)",
+      job1_company: "Soma Tecnologia",
+      job1_period: "Junho 2026 – Presente",
+      job1_b1: "Desenvolvimento e evolução de módulos da plataforma SaaS voltados a CRM (gestão de pipeline e clientes) e esteiras operacionais de onboarding/implantação, utilizando arquitetura Service-Repository.",
+      job1_b2: "Modelagem e manutenção de bancos de dados relacionais (MySQL e PostgreSQL), otimizando consultas SQL e gerenciando conexões multi-database.",
+      job1_b3: "Construção e consumo de APIs REST com integração de webhooks de serviços externos (gateways financeiros e assinaturas digitais).",
+      job1_b4: "Identificação e correção proativa de anomalias e bugs em produção, assegurando a estabilidade da aplicação e documentação técnica atualizada.",
+      job2_role: "Desenvolvedor Front-End (Estágio)",
+      job2_company: "Onikode Solutions",
+      job2_period: "Março 2025 – Julho 2025",
+      job2_b1: "Desenvolvimento e manutenção de interfaces de usuário modulares e responsivas em Angular, integrando componentes ao back-end via APIs e exibição dinâmica de dados.",
+      job2_b2: "Colaboração direta no alinhamento de contratos de APIs e mapeamento de fluxos de dados ponta a ponta (E2E), alinhando consistência técnica entre front e back.",
+      job2_b3: "Atuação remota em equipe ágil utilizando Jira para acompanhamento de demandas, controle de versão colaborativo via Git e Bitbucket e refatorações preventivas."
     },
     projects: {
       title: "projetos",
@@ -96,7 +120,7 @@ export const translations = {
     },
     terminal: {
       location: "Pederneiras, SP",
-      specialization: "Desenvolvimento de Software",
+      specialization: "Desenvolvimento Full-Stack",
       focus: "Sistemas Web / Dados",
       status: "Disponível_para_Operações",
       help: "Comandos disponíveis: sobre, skills, projetos, contato, clear, social"
@@ -106,14 +130,15 @@ export const translations = {
     nav: {
       about: "ABOUT",
       tech: "TECH STACK",
+      experience: "EXPERIENCE",
       projects: "PROJECTS",
       contact: "CONTACT",
       download_cv: "DOWNLOAD CV",
       doc_preview: "Document Preview"
     },
     hero: {
-      subheadline: "COMPUTER SCIENTIST",
-      description: "Software Developer & Data Specialist. Building scalable solutions, from data pipelines to advanced AI integrations.",
+      subheadline: "FULL-STACK DEVELOPER",
+      description: "Full-Stack Developer & Data Solutions. Building scalable web systems, resilient architectures, and analytical pipelines with modern technology.",
       cta_contact: "CONTACT",
       cta_projects: "VIEW PROJECTS"
     },
@@ -123,9 +148,14 @@ export const translations = {
     },
     about: {
       title: "ABOUT",
-      p1: "Computer Scientist from <strong class='text-on-surface'>UTFPR</strong>, passionate about solving complex problems by uniting software development and data intelligence.",
-      p2: "My focus spans <strong class='text-on-surface'>Fullstack</strong> development and <strong class='text-on-surface'>Data Architecture</strong>. I have strong experience integrating generative AI, optimizing tokens, and creating autonomous workflows based on MCPs (Model Context Protocol).",
+      p1: "Computer Science student at <strong class='text-on-surface'>UTFPR</strong> with hands-on experience in <strong class='text-on-surface'>Full-Stack</strong> web application development and relational database modeling.",
+      p2: "Working daily in a <strong class='text-on-surface'>Linux</strong> environment, combining modern backend architectures (Laravel, REST APIs, Webhooks) and reactive interfaces (Vue 3, React), alongside a solid foundation in dimensional modeling and Process Mining.",
       degree: "Bachelor's in Computer Science",
+      education_title: "EDUCATION & CERTIFICATION",
+      utfpr_period: "Jan 2022 – Dec 2026",
+      cert_de_title: "Associate Data Engineer",
+      cert_de_issuer: "DataCamp",
+      cert_de_date: "December 2025",
       proficiency: "PROFICIENCY"
     },
     tech: {
@@ -133,18 +163,36 @@ export const translations = {
       subtitle: "Languages and technologies",
       popup_title: "Applications & Concepts",
       popup_cta: "See related projects",
-      cat_data_engineering: "Data Engineering",
-      desc_data_engineering: "Advanced SQL and building ETL/ELT Pipelines using Medallion Architecture (Bronze, Silver, Gold), Data Lake Governance, and Data Warehouse.",
+      cat_data_engineering: "Data Engineering & Databases",
+      desc_data_engineering: "Relational and dimensional modeling, advanced SQL, PostgreSQL, MySQL, and building ETL pipelines under Medallion Architecture.",
       cat_analytics: "Analytics & BI",
-      desc_analytics: "Creation of Management Dashboards, extraction of strategic insights, and implementation of Machine Learning algorithms (Random Forest/XGBoost).",
-      cat_devops: "DevOps & Version Control",
-      desc_devops: "Environment management with Containers (Docker), workflow automation with CI/CD, and administration/shell scripting in Linux systems.",
-      cat_management: "Project Management",
-      desc_management: "Organization of backlogs and workflows using agile methodologies to ensure continuous and business-aligned deliveries.",
+      desc_analytics: "Interactive Dashboards, Process Mining (PM4Py) for operational flows, and predictive Machine Learning models (Random Forest, K-Means).",
+      cat_devops: "DevOps & Systems",
+      desc_devops: "Daily Linux workflow, Docker containerization, version control with Git/GitHub/Bitbucket, and CI/CD automation pipelines.",
+      cat_management: "Practices & Agile",
+      desc_management: "Agile methodologies (Kanban/Scrum via Jira), technical documentation, Git Flow, and proactive production bug resolution.",
       cat_web_dev: "Web Development",
-      desc_web_dev: "Fullstack Development: Component-based frontend and state management; Backend focused on RESTful APIs, data persistence, and security.",
+      desc_web_dev: "Full-Stack Development: Scalable backends with PHP (Laravel, Inertia.js), Python (FastAPI), Java, and Service-Repository architecture; Frontend with Vue, React, and TailwindCSS.",
       cat_ai: "AI & Autonomous Agents",
-      desc_ai: "Implementation of generative models, building autonomous workflows, and inference/token optimization using Model Context Protocol (MCP)."
+      desc_ai: "Generative AI integration, autonomous agent workflows, and context optimization with Model Context Protocol (MCP)."
+    },
+    experience: {
+      title: "WORK",
+      title_highlight: "EXPERIENCE",
+      current_badge: "CURRENT",
+      job1_role: "Full-Stack Developer (Internship)",
+      job1_company: "Soma Tecnologia",
+      job1_period: "June 2026 – Present",
+      job1_b1: "Development and evolution of SaaS platform modules for CRM (pipeline and client management) and operational onboarding/implementation pipelines, utilizing Service-Repository architecture.",
+      job1_b2: "Modeling and maintenance of relational databases (MySQL and PostgreSQL), optimizing SQL queries and managing multi-database connections.",
+      job1_b3: "Building and consuming REST APIs with webhook integration from external services (financial gateways and digital signatures).",
+      job1_b4: "Proactive identification and resolution of production anomalies and bugs, ensuring application stability and up-to-date technical documentation.",
+      job2_role: "Front-End Developer (Internship)",
+      job2_company: "Onikode Solutions",
+      job2_period: "March 2025 – July 2025",
+      job2_b1: "Development and maintenance of responsive, modular user interfaces in Angular, integrating components with the backend via REST APIs and dynamic data rendering.",
+      job2_b2: "Direct collaboration on API contracts and end-to-end (E2E) data flow mapping, ensuring architectural consistency between frontend and backend.",
+      job2_b3: "Remote work in an agile team using Jira for demand tracking, collaborative version control via Git and Bitbucket, and preventive code refactoring."
     },
     projects: {
       title: "projects",
@@ -161,7 +209,7 @@ export const translations = {
       p2: {
         title: "Chronic Disease Risk Prediction",
         desc: "Developed in partnership with Unimed & UTFPR to identify high-risk beneficiaries early.",
-        step1: "ETL Pipeline: Consolidation of 6 distinct sources.",
+        step1: "ETL Pipeline: Consolidação de 6 distinct sources.",
         step2: "Model Comparison: Random Forest and Gradient Boosting.",
         step3: "Data Quality: Clinical outlier treatment."
       },
@@ -185,7 +233,7 @@ export const translations = {
       subtitle: "",
       description: "INTERESTED IN BUILDING INNOVATIVE SOLUTIONS? LET'S TALK.",
       status: "STATUS: AVAILABLE",
-      ready: "OPEN TO NEW OPPORTUNITIES",
+      ready: "OPEN TO NEW OPPORTUNIDADES",
       form_name: "NAME",
       form_email: "E-MAIL",
       form_message: "MESSAGE",
@@ -199,7 +247,7 @@ export const translations = {
     },
     terminal: {
       location: "Pederneiras, SP, Brazil",
-      specialization: "Software Development",
+      specialization: "Full-Stack Development",
       focus: "Web Systems / Data",
       status: "Available_for_Operations",
       help: "Available commands: about, skills, projects, contact, clear, social"

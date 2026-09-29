@@ -21,7 +21,7 @@ const TopNavBar = () => {
       { threshold: 0.5 }
     );
 
-    const sections = ['hero', 'about', 'tech', 'projects', 'contact'];
+    const sections = ['hero', 'about', 'tech', 'experience', 'projects', 'contact'];
     sections.forEach((id) => {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
@@ -43,6 +43,7 @@ const TopNavBar = () => {
   const navItems = [
     { id: 'about', label: t('nav.about') },
     { id: 'tech', label: t('nav.tech') },
+    { id: 'experience', label: t('nav.experience') },
     { id: 'projects', label: t('nav.projects') },
     { id: 'contact', label: t('nav.contact') },
   ];
@@ -111,7 +112,7 @@ const TopNavBar = () => {
           >
             <a 
               className="bg-primary-fixed text-on-primary-fixed depth-btn-primary no-default-glow font-bold py-2 text-sm rounded-xl h-10 flex items-center justify-center w-[150px] cursor-pointer" 
-              href={lang === 'PT' ? '/arthur_resume_pt-br.pdf' : '/arthur_resume_en.pdf'}
+              href="/arthur_resume_pt-br.pdf"
               download
             >
               {t('nav.download_cv')}
@@ -199,7 +200,7 @@ const TopNavBar = () => {
               {/* Download CV */}
               <a
                 className="bg-primary-fixed text-on-primary-fixed depth-btn-primary no-default-glow font-bold py-3 px-8 text-sm rounded-xl cursor-pointer uppercase tracking-widest"
-                href={lang === 'PT' ? '/arthur_resume_pt-br.pdf' : '/arthur_resume_en.pdf'}
+                href="/arthur_resume_pt-br.pdf"
                 download
                 onClick={() => setMobileMenuOpen(false)}
               >
