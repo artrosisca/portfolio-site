@@ -71,13 +71,11 @@ const MainLayout = () => {
             <ArchitectureCards />
           </SectionWrapper>
 
-          {/* Commented out as requested:
           <SectionWrapper id="experience" theme="gray">
             <ExperienceSection />
           </SectionWrapper>
-          */}
 
-          <SectionWrapper id="projects" theme="gray">
+          <SectionWrapper id="projects" theme="dark">
             <ProjectGallery />
           </SectionWrapper>
 

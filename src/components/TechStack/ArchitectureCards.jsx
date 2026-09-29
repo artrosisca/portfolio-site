@@ -4,32 +4,32 @@ import { Code2, Database, Workflow, GitBranch, Briefcase, Bot, X } from 'lucide-
 
 const techCategoriesData = [
   {
+    id: "web-dev",
+    titleKey: "tech.cat_web_dev",
+    descKey: "tech.desc_web_dev",
+    icon: <Code2 className="w-4 h-4 text-primary-dark group-hover:text-primary-light group-hover:drop-shadow-[0_0_8px_rgba(250,229,0,0.6)] transition-all duration-300" />,
+    tags: ["Laravel", "Vue.js", "React", "TypeScript", "FastAPI", "PHP", "Java"]
+  },
+  {
     id: "data-engineering",
     titleKey: "tech.cat_data_engineering",
     descKey: "tech.desc_data_engineering",
     icon: <Database className="w-4 h-4 text-primary-dark group-hover:text-primary-light group-hover:drop-shadow-[0_0_8px_rgba(250,229,0,0.6)] transition-all duration-300" />,
-    tags: ["SQL", "Python", "Databricks", "Data Modeling", "Lakehouse"]
+    tags: ["PostgreSQL", "MySQL", "SQL Server", "SQL", "Modelagem Relacional", "ETL"]
   },
   {
     id: "analytics",
     titleKey: "tech.cat_analytics",
     descKey: "tech.desc_analytics",
     icon: <Workflow className="w-4 h-4 text-primary-dark group-hover:text-primary-light group-hover:drop-shadow-[0_0_8px_rgba(250,229,0,0.6)] transition-all duration-300" />,
-    tags: ["Power BI", "Metabase", "Scikit-learn", "XGBoost"]
-  },
-  {
-    id: "web-dev",
-    titleKey: "tech.cat_web_dev",
-    descKey: "tech.desc_web_dev",
-    icon: <Code2 className="w-4 h-4 text-primary-dark group-hover:text-primary-light group-hover:drop-shadow-[0_0_8px_rgba(250,229,0,0.6)] transition-all duration-300" />,
-    tags: ["Angular", "React", "TypeScript", "Java", "PHP"]
+    tags: ["Process Mining (PM4Py)", "Scikit-learn", "Pandas", "Random Forest", "K-Means"]
   },
   {
     id: "devops",
     titleKey: "tech.cat_devops",
     descKey: "tech.desc_devops",
     icon: <GitBranch className="w-4 h-4 text-primary-dark group-hover:text-primary-light group-hover:drop-shadow-[0_0_8px_rgba(250,229,0,0.6)] transition-all duration-300" />,
-    tags: ["Git", "Bitbucket", "Docker", "Linux"]
+    tags: ["Linux", "Docker", "Git", "GitHub Actions", "Bitbucket", "Postman"]
   },
   {
     id: "ai-agents",
@@ -43,7 +43,7 @@ const techCategoriesData = [
     titleKey: "tech.cat_management",
     descKey: "tech.desc_management",
     icon: <Briefcase className="w-4 h-4 text-primary-dark group-hover:text-primary-light group-hover:drop-shadow-[0_0_8px_rgba(250,229,0,0.6)] transition-all duration-300" />,
-    tags: ["Asana", "Jira", "Scrum"]
+    tags: ["Metodologias Ágeis", "Jira", "Kanban", "Git Flow"]
   }
 ];
 

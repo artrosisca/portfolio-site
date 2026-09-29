@@ -135,16 +135,33 @@ const AboutSection = () => {
             </div>
           </div>
           
-          <div className="pt-6 grid grid-cols-1 md:grid-cols-2 gap-4" style={{ perspective: 1200 }}>
+          <div className="pt-6 grid grid-cols-1 sm:grid-cols-2 gap-4" style={{ perspective: 1200 }}>
             <motion.div 
               initial={{ opacity: 0, rotateX: -10, y: 40, scale: 0.97 }}
               whileInView={{ opacity: 1, rotateX: 0, y: 0, scale: 1 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ type: "spring", stiffness: 85, damping: 14, mass: 1, delay: 0.1 }}
-              className="glass-panel depth-card-hover p-4 rounded-xl text-center relative w-fit mx-auto md:w-full"
+              className="glass-panel depth-card-hover p-4 rounded-xl text-left relative"
             >
-              <span className="block font-headline-md text-primary-fixed font-bold uppercase text-sm mb-1">UTFPR</span>
-              <span className="text-[10px] uppercase tracking-widest text-on-surface-variant">{t('about.degree')}</span>
+              <div className="flex items-center justify-between mb-1">
+                <span className="font-headline-md text-primary-fixed font-bold uppercase text-sm">UTFPR</span>
+                <span className="text-[9px] font-code-sm uppercase tracking-wider text-on-surface-variant/70">{t('about.utfpr_period')}</span>
+              </div>
+              <span className="block text-xs font-semibold uppercase tracking-wide text-text-primary mb-0.5">{t('about.degree')}</span>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, rotateX: -10, y: 40, scale: 0.97 }}
+              whileInView={{ opacity: 1, rotateX: 0, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ type: "spring", stiffness: 85, damping: 14, mass: 1, delay: 0.2 }}
+              className="glass-panel depth-card-hover p-4 rounded-xl text-left relative border border-primary-fixed/20"
+            >
+              <div className="flex items-center justify-between mb-1">
+                <span className="font-headline-md text-primary-fixed font-bold uppercase text-sm">{t('about.cert_de_issuer')}</span>
+                <span className="text-[9px] font-code-sm uppercase tracking-wider text-on-surface-variant/70">{t('about.cert_de_date')}</span>
+              </div>
+              <span className="block text-xs font-semibold uppercase tracking-wide text-text-primary mb-0.5">{t('about.cert_de_title')}</span>
             </motion.div>
           </div>
         </div>
