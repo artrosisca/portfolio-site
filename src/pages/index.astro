@@ -1,0 +1,20 @@
+---
+import Base from '@/layouts/Base.astro';
+import Intro from '@/components/intro/Intro';
+---
+<Base
+  title="Arthur Rosisca — Full-Stack & Dados"
+  description="Portfólio de Arthur Rosisca: desenvolvedor full-stack e engenharia de dados."
+>
+  <Intro client:only="react" />
+
+  <!-- Placeholder for the post-intro site. We'll design this next. -->
+  <main class="relative z-10 mx-auto max-w-5xl px-6 py-32">
+    <p class="font-mono text-amber text-sm tracking-widest uppercase">sessão iniciada</p>
+    <h1 class="mt-4 text-5xl md:text-7xl font-semibold tracking-tight">Arthur Rosisca</h1>
+    <p class="mt-6 max-w-xl text-lg text-muted">
+      Full-Stack &amp; Dados. Aqui entra o restante do site — ainda vamos desenhar essa parte.
+    </p>
+    <div class="h-[120vh]"></div>
+  </main>
+</Base>
