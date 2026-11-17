@@ -45,27 +45,29 @@ const LOGO = [
 const INFO: [string, string][] = [
   ['', 'arthur@fedora'],
   ['', '-------------'],
-  ['OS', 'Fedora Linux 43 (Workstation Edition)'],
+  ['OS', 'Fedora Linux 43 Workstation'],
   ['Kernel', 'Linux 7.0.12'],
   ['Uptime', '3 hours, 12 mins'],
   ['Packages', '2214 (rpm), 41 (flatpak)'],
   ['Shell', 'fish 4.1.2'],
   ['DE', 'GNOME 49'],
   ['Terminal', 'Ptyxis'],
-  ['Memory', '9.12 GiB / 31.0 GiB (29%)'],
+  ['Memory', '9.1 GiB / 31 GiB (29%)'],
   ['', '■'],
 ];
 const PALETTE = ['#2e3436', '#cc0000', '#4e9a06', '#c4a000', '#3465a4', '#75507b', '#06989a', '#d3d7cf'];
 
-function fetchBlock(logo: boolean): Line[] {
-  return INFO.map(([k, v], i) => {
-    const line: Line = logo ? [{ t: (LOGO[i] ?? '').padEnd(18), c: K.fedora, b: true }] : [];
+function fetchBlock(side: boolean): Line[] {
+  const info = INFO.map(([k, v], i) => {
+    const line: Line = side ? [{ t: (LOGO[i] ?? '').padEnd(18), c: K.fedora, b: true }] : [];
     if (v === '■') PALETTE.forEach((c) => line.push({ t: '   ', bg: c }));
     else if (i === 0) line.push({ t: 'arthur', c: K.blue, b: true }, { t: '@', c: K.text }, { t: 'fedora', c: K.blue, b: true });
     else if (!k) line.push({ t: v, c: K.text });
     else line.push({ t: `${k}: `, c: K.blue, b: true }, { t: v, c: K.text });
     return line;
   });
+  if (side) return info;
+  return [...LOGO.slice(0, 9).map((l): Line => [{ t: l, c: K.fedora, b: true }]), [], ...info];
 }
 
 const CPS = 40;
@@ -149,11 +151,11 @@ export function layout(vw: number, vh: number) {
   const tb = f * 2.6;
   const pad = f * 0.9;
   const tx = narrow ? f * 0.7 : vw * 0.05;
-  const tw = narrow ? vw - f * 1.4 : Math.min(vw * 0.5, cw * 64 + pad * 2);
+  const tw = narrow ? vw - f * 1.4 : Math.min(vw * 0.56, cw * 62 + pad * 2);
   const ty = topH + (narrow ? f * 1.2 : vh * 0.06);
   const th = narrow ? vh * 0.56 : Math.min(dock.y - f * 1.5 - ty, tb + pad * 2 + lineH * 25);
   const term = { x: tx, y: ty, w: tw, h: th, tb, pad, rows: Math.floor((th - tb - pad * 2) / lineH) };
-  const logo = (tw - pad * 2) / cw >= 58;
+  const logo = (tw - pad * 2) / cw >= 52; // logo beside the info; stacked above it when narrower
 
   const ff = narrow
     ? { x: f * 0.7, y: topH + vh * 0.1, w: vw - f * 1.4, h: vh * 0.7 }
