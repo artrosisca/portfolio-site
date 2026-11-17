@@ -5,8 +5,8 @@ export const SCREEN_W = 0.62;
 export const SCREEN_H = 0.35;
 export const SCREEN_POS = new THREE.Vector3(0, 1.17, -0.3);
 export const DESK_Y = 0.76; // top surface height
-/** Smoothed progress at which the camera has fully arrived at the screen. */
-export const ARRIVE = 0.86;
+/** Scroll progress at which the camera has fully arrived at the screen. */
+export const ARRIVE = 1;
 
 export const C = {
   ink: '#050507',
@@ -22,3 +22,10 @@ export const C = {
   leafDark: '#2c6b45',
   terracotta: '#b9603f',
 };
+
+/** Distance at which the screen exactly covers the viewport, and the visible fraction of it. */
+export function arrival(aspect: number) {
+  const tan = Math.tan((FOV * Math.PI) / 360);
+  const visH = Math.min(SCREEN_H, SCREEN_W / aspect) * 0.985;
+  return { dist: visH / (2 * tan), fx: (visH * aspect) / SCREEN_W, fy: visH / SCREEN_H };
+}

@@ -1,8 +1,7 @@
 import { useMemo, useRef, type RefObject } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
-import { ARRIVE, SCREEN_POS } from './constants';
-import { arrival } from './terminal';
+import { ARRIVE, SCREEN_POS, arrival } from './constants';
 
 const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 

@@ -1,6 +1,7 @@
 ---
 import Base from '@/layouts/Base.astro';
 import Intro from '@/components/intro/Intro';
+import SiteHero from '@/components/site/SiteHero';
 ---
 <Base
   title="Arthur Rosisca — Full-Stack & Dados"
@@ -8,13 +9,13 @@ import Intro from '@/components/intro/Intro';
 >
   <Intro client:only="react" />
 
-  <!-- Placeholder for the post-intro site. We'll design this next. -->
-  <main class="relative z-10 mx-auto max-w-5xl px-6 py-32">
-    <p class="font-mono text-amber text-sm">$ cat sobre.md</p>
-    <h1 class="mt-4 text-5xl md:text-7xl font-semibold tracking-tight">Arthur Rosisca</h1>
-    <p class="mt-6 max-w-xl text-lg text-muted">
-      Full-Stack &amp; Dados. Aqui entra o restante do site — ainda vamos desenhar essa parte.
-    </p>
-    <div class="h-[120vh]"></div>
+  <main>
+    <SiteHero />
+    <!-- Placeholder for the rest of the site. We'll design this next. -->
+    <section id="projetos" class="mx-auto max-w-5xl px-6 py-32 md:px-12">
+      <p class="font-mono text-sm text-amber">$ ls projetos/</p>
+      <p class="mt-4 text-muted">Em construção.</p>
+      <div class="h-[80vh]"></div>
+    </section>
   </main>
 </Base>
