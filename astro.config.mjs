@@ -5,5 +5,6 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://arthurrosisca.dev',
   integrations: [react()],
+  devToolbar: { enabled: false },
   vite: { plugins: [tailwindcss()] },
 });

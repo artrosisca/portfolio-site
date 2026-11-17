@@ -1,57 +1,79 @@
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
+import { Rod } from './Rod';
+import { C, DESK_Y } from '../constants';
 
-export function Lamp() {
+type V3 = [number, number, number];
+const BASE: V3 = [-0.86, DESK_Y, -0.42];
+const ELBOW: V3 = [-0.98, DESK_Y + 0.42, -0.42];
+const HEAD: V3 = [-0.52, DESK_Y + 0.62, -0.3];
+const TARGET: V3 = [-0.05, DESK_Y, 0.08];
+
+export function Lamp({ shadowSize }: { shadowSize: number }) {
   const light = useRef<THREE.SpotLight>(null);
-  const target = useRef<THREE.Object3D>(null);
+  const target = useMemo(() => {
+    const o = new THREE.Object3D();
+    o.position.set(...TARGET);
+    return o;
+  }, []);
+  // The shade opens along the same axis the beam travels, so light and object agree.
+  const headQuat = useMemo(() => {
+    const dir = new THREE.Vector3(...TARGET).sub(new THREE.Vector3(...HEAD)).normalize();
+    return new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, -1, 0), dir);
+  }, []);
+  const metal = <meshStandardMaterial color={C.amber} roughness={0.5} metalness={0.2} />;
+
   useFrame(({ clock }) => {
-    if (!light.current) return;
-    // subtle warm flicker
-    light.current.intensity = 19 + Math.sin(clock.elapsedTime * 7.3) * 0.35 + Math.sin(clock.elapsedTime * 1.7) * 0.25;
-    if (target.current) light.current.target = target.current;
+    if (light.current) light.current.intensity = 6 + Math.sin(clock.elapsedTime * 1.3) * 0.25;
   });
+
   return (
-    <group position={[-0.95, 0.76, -0.25]}>
-      {/* base */}
-      <mesh castShadow>
-        <cylinderGeometry args={[0.08, 0.09, 0.02, 32]} />
-        <meshStandardMaterial color="#1f1a14" metalness={0.5} roughness={0.4} />
+    <group>
+      <mesh position={[BASE[0], BASE[1] + 0.012, BASE[2]]} castShadow receiveShadow>
+        <cylinderGeometry args={[0.085, 0.095, 0.024, 32]} />
+        {metal}
       </mesh>
-      {/* arm */}
-      <mesh position={[0.08, 0.26, 0]} rotation={[0, 0, -0.35]} castShadow>
-        <cylinderGeometry args={[0.008, 0.008, 0.56, 8]} />
-        <meshStandardMaterial color="#2a2219" metalness={0.6} roughness={0.35} />
+      <Rod a={[BASE[0], BASE[1] + 0.02, BASE[2]]} b={ELBOW} r={0.009}>{metal}</Rod>
+      <Rod a={ELBOW} b={HEAD} r={0.009}>{metal}</Rod>
+      <mesh position={ELBOW}>
+        <sphereGeometry args={[0.018, 16, 12]} />
+        {metal}
       </mesh>
-      <mesh position={[0.32, 0.5, 0]} rotation={[0, 0, 1.25]} castShadow>
-        <cylinderGeometry args={[0.008, 0.008, 0.36, 8]} />
-        <meshStandardMaterial color="#2a2219" metalness={0.6} roughness={0.35} />
-      </mesh>
-      {/* shade */}
-      <group position={[0.46, 0.42, 0]} rotation={[0, 0, 0.9]}>
-        <mesh castShadow>
-          <coneGeometry args={[0.11, 0.14, 32, 1, true]} />
-          <meshStandardMaterial color="#1f1a14" side={THREE.DoubleSide} metalness={0.4} roughness={0.5} />
+      <group position={HEAD} quaternion={headQuat}>
+        <mesh position={[0, 0.03, 0]}>
+          <sphereGeometry args={[0.024, 16, 12]} />
+          {metal}
         </mesh>
-        {/* bulb */}
-        <mesh position={[0, -0.02, 0]}>
-          <sphereGeometry args={[0.03, 16, 16]} />
-          <meshBasicMaterial color="#ffd38a" toneMapped={false} />
+        {/* shade: open cone, apex at the joint. Not a shadow caster, so it can't clip its own beam. */}
+        <mesh position={[0, -0.045, 0]}>
+          <coneGeometry args={[0.1, 0.15, 32, 1, true]} />
+          <meshStandardMaterial color={C.amber} roughness={0.5} metalness={0.2} side={THREE.DoubleSide} emissive="#ff9a3c" emissiveIntensity={0.08} />
         </mesh>
-        <spotLight
-          ref={light}
-          position={[0, -0.04, 0]}
-          color="#f2a33a"
-          angle={0.9}
-          penumbra={0.7}
-          distance={6}
-          decay={2}
-          castShadow
-          shadow-mapSize={[1024, 1024]}
-          shadow-bias={-0.0004}
-        />
+        {/* glowing bulb: values above 1 feed the bloom pass */}
+        <mesh position={[0, -0.075, 0]}>
+          <sphereGeometry args={[0.03, 16, 12]} />
+          <meshBasicMaterial color={[5, 3.4, 1.6]} toneMapped={false} />
+        </mesh>
       </group>
-      <object3D ref={target} position={[0.9, -0.76, 0.3]} />
+      <primitive object={target} />
+      <spotLight
+        ref={light}
+        position={HEAD}
+        target={target}
+        color="#ffb765"
+        angle={0.95}
+        penumbra={1}
+        distance={5}
+        decay={1.8}
+        castShadow
+        shadow-mapSize={[shadowSize, shadowSize]}
+        shadow-bias={-0.0006}
+        shadow-radius={6}
+        shadow-camera-near={0.15}
+      />
+      {/* warm bounce so the wall behind the desk is not pitch black */}
+      <pointLight position={[-0.3, DESK_Y + 0.35, 0]} color="#ff9a4a" intensity={0.9} distance={3} decay={2} />
     </group>
   );
 }

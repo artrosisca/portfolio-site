@@ -1,0 +1,68 @@
+import { RoundedBox } from '@react-three/drei';
+import { C, DESK_Y } from '../constants';
+
+export function Room() {
+  return (
+    <group>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <planeGeometry args={[40, 40]} />
+        <meshStandardMaterial color={C.floor} roughness={0.9} />
+      </mesh>
+      <mesh position={[0, 3, -0.8]} receiveShadow>
+        <planeGeometry args={[40, 6]} />
+        <meshStandardMaterial color={C.wall} roughness={1} />
+      </mesh>
+      {/* skirting board */}
+      <mesh position={[0, 0.05, -0.79]}>
+        <boxGeometry args={[40, 0.1, 0.02]} />
+        <meshStandardMaterial color="#12131c" roughness={0.8} />
+      </mesh>
+      {/* rug */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0.1, 0.004, 0.75]} receiveShadow>
+        <circleGeometry args={[1.5, 48]} />
+        <meshStandardMaterial color="#2a2140" roughness={1} />
+      </mesh>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0.1, 0.006, 0.75]} receiveShadow>
+        <ringGeometry args={[1.25, 1.32, 48]} />
+        <meshStandardMaterial color="#c98a3c" roughness={1} />
+      </mesh>
+    </group>
+  );
+}
+
+export function Desk() {
+  return (
+    <group>
+      <RoundedBox args={[2.2, 0.05, 1.05]} radius={0.018} smoothness={3} position={[0, DESK_Y - 0.025, -0.15]} castShadow receiveShadow>
+        <meshStandardMaterial color={C.wood} roughness={0.6} />
+      </RoundedBox>
+      {/* desk mat */}
+      <RoundedBox args={[0.95, 0.006, 0.42]} radius={0.003} smoothness={2} position={[0.08, DESK_Y + 0.003, 0.1]} receiveShadow>
+        <meshStandardMaterial color="#20222c" roughness={0.95} />
+      </RoundedBox>
+      {/* drawer unit (right) */}
+      <RoundedBox args={[0.5, 0.68, 0.9]} radius={0.015} smoothness={2} position={[0.78, 0.37, -0.17]} castShadow receiveShadow>
+        <meshStandardMaterial color={C.woodDark} roughness={0.7} />
+      </RoundedBox>
+      {[0.56, 0.36, 0.16].map((y) => (
+        <group key={y} position={[0.78, y, 0.285]}>
+          <mesh>
+            <boxGeometry args={[0.44, 0.17, 0.006]} />
+            <meshStandardMaterial color={C.wood} roughness={0.65} />
+          </mesh>
+          <mesh position={[0, 0, 0.012]}>
+            <boxGeometry args={[0.12, 0.014, 0.014]} />
+            <meshStandardMaterial color={C.metal} metalness={0.6} roughness={0.35} />
+          </mesh>
+        </group>
+      ))}
+      {/* left legs */}
+      {[-0.55, 0.25].map((z) => (
+        <mesh key={z} position={[-1.0, 0.355, z]} castShadow>
+          <boxGeometry args={[0.05, 0.71, 0.05]} />
+          <meshStandardMaterial color={C.metal} metalness={0.5} roughness={0.45} />
+        </mesh>
+      ))}
+    </group>
+  );
+}
