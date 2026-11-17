@@ -126,7 +126,7 @@ export default function Intro() {
   const skip = () => setPhase('done');
   const copy = Math.max(0, 1 - p / 0.14);
   const L = layout(vp.w, vp.h);
-  const sceneActive = !desktopOn || seqT < 0.6;
+  const sceneActive = !desktopOn || seqT < 0.45;
 
   return (
     <section ref={section} className="relative h-[300vh]" aria-label="Introdução">

@@ -1,100 +1,194 @@
-import { C } from './constants';
-import { BOOT_LINES, DOCK, MONO, OPEN_CMD, OPEN_OUT, URL_LABEL, WIN, wallpaperCss, type Layout } from './desktop';
+import { useEffect, useRef } from 'react';
+import { K, MONO, SANS, SEQ, drawDesktop, type Layout } from './desktop';
 import SiteHero from '../site/SiteHero';
 
 const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
 const easeOut = (x: number) => 1 - Math.pow(1 - x, 3);
 const easeInOut = (x: number) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
-const easeOutBack = (x: number) => 1 + 2.2 * Math.pow(x - 1, 3) + 1.2 * Math.pow(x - 1, 2);
+const lerp = (a: number, b: number, k: number) => a + (b - a) * k;
+const phase = (t: number, start: number, dur: number) => clamp01((t - start) / dur);
 
-/** Seconds, at normal speed. */
-export const SEQ = (() => {
-  const typeStart = 0.35;
-  const typeEnd = typeStart + OPEN_CMD.length / 30;
-  const out = typeEnd + 0.15;
-  const open = out + 0.35;
-  const openDur = 0.55;
-  const max = open + openDur + 0.45;
-  const maxDur = 0.85;
-  return { typeStart, typeEnd, out, open, openDur, max, maxDur, end: max + maxDur + 0.05 };
-})();
+type Rect = { x: number; y: number; w: number; h: number };
+const lerpRect = (a: Rect, b: Rect, k: number): Rect => ({ x: lerp(a.x, b.x, k), y: lerp(a.y, b.y, k), w: lerp(a.w, b.w, k), h: lerp(a.h, b.h, k) });
 
-/** HTML twin of the desktop drawn on the monitor, plus the browser window that becomes the site. */
+/** The desktop after the camera lands: canvas twin of the monitor + Firefox, pointer and F11. */
 export function Desktop({ L, t, time }: { L: Layout; t: number; time: string }) {
-  const typed = OPEN_CMD.slice(0, Math.max(0, Math.floor((t - SEQ.typeStart) * 30)));
-  const showOut = t >= SEQ.out;
-  const blink = Math.floor(t * 2) % 2 === 0;
-  const kOpen = clamp01((t - SEQ.open) / SEQ.openDur);
-  const kMax = easeInOut(clamp01((t - SEQ.max) / SEQ.maxDur));
-  const term = L.term;
-  const d = L.dock;
+  const canvas = useRef<HTMLCanvasElement>(null);
 
-  // browser window: a full-viewport page scaled down; maximizing = scaling back to 1
-  const b = L.browser;
-  const g = 0.86 + 0.14 * easeOutBack(kOpen);
-  const sW = b.s0 * g;
-  const TB = b.tb / b.s0; // titlebar height in unscaled units, so it's tb px when windowed
-  const winX = b.cx - (L.vw * sW) / 2;
-  const winY = b.cy - ((L.vh + TB) * sW) / 2;
-  const S = sW + (1 - sW) * kMax;
-  const X = winX * (1 - kMax);
-  const Y = winY + (-TB - winY) * kMax;
+  const kMax = easeOut(phase(t, SEQ.max, SEQ.maxDur));
+  const kFull = easeInOut(phase(t, SEQ.full, SEQ.fullDur));
 
-  const lineStyle = { height: L.lineH, lineHeight: `${L.lineH}px` };
-  const cursor = <span className="inline-block align-middle" style={{ width: L.f * 0.55, height: L.f * 1.1, marginLeft: L.f * 0.2, background: C.amber }} />;
+  useEffect(() => {
+    const c = canvas.current;
+    if (!c) return;
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    const TW = Math.round(L.vw * dpr);
+    const TH = Math.round(L.vh * dpr);
+    if (c.width !== TW || c.height !== TH) {
+      c.width = TW;
+      c.height = TH;
+    }
+    drawDesktop(c.getContext('2d')!, L, { ox: 0, oy: 0, s: dpr, TW, TH }, { pre: 99, seq: t, blink: Math.floor(t * 2) % 2 === 0, time, ffRunning: t >= SEQ.ff, topOff: kFull });
+  });
 
   return (
-    <div className="absolute inset-0 overflow-hidden" style={{ background: wallpaperCss(L), fontFamily: MONO }}>
-      <div style={{ opacity: 1 - kMax * 0.6 }}>
-        {/* menu bar */}
-        <div className="absolute inset-x-0 top-0 flex items-center justify-between" style={{ height: L.menuH, padding: `0 ${L.f}px`, background: 'rgba(8,7,14,0.55)', fontSize: L.f * 0.78, fontWeight: 500, color: '#e8e2d4' }}>
-          <span><span style={{ color: C.amber, marginRight: L.f * 0.55 }}>●</span>arthur-os</span>
-          <span>{time}</span>
-        </div>
-
-        {/* dock */}
-        <div className="absolute flex items-center" style={{ left: d.x, top: d.y, width: d.w, height: d.h, gap: d.gap, padding: d.gap, borderRadius: L.r * 1.3, background: 'rgba(20,16,30,0.6)', border: '1px solid rgba(255,255,255,0.08)' }}>
-          {DOCK.map((it, i) => (
-            <div key={i} className="relative grid shrink-0 place-items-center" style={{ width: d.icon, height: d.icon, borderRadius: d.icon * 0.24, background: it.bg, color: it.fg, fontSize: d.icon * 0.3, fontWeight: 600 }}>
-              {it.g}
-              {(i === 0 || (i === 1 && kOpen > 0)) && <span className="absolute rounded-full bg-[#e8e2d4]" style={{ width: L.f * 0.28, height: L.f * 0.28, bottom: -d.gap * 0.65 }} />}
-            </div>
-          ))}
-        </div>
-
-        {/* terminal window */}
-        <div className="absolute overflow-hidden" style={{ left: term.x, top: term.y, width: term.w, height: term.h, borderRadius: L.r, background: WIN.body, boxShadow: `0 ${L.f * 0.8}px ${L.f * 2.5}px rgba(0,0,0,0.55)` }}>
-          <div className="relative flex items-center" style={{ height: term.tb, background: WIN.bar, paddingLeft: L.f * 0.78, gap: L.f * 0.31 }}>
-            {WIN.dots.map((c) => <span key={c} className="rounded-full" style={{ width: L.f * 0.64, height: L.f * 0.64, background: c }} />)}
-            <span className="absolute inset-x-0 text-center" style={{ fontSize: L.f * 0.75, fontWeight: 500, color: WIN.title }}>zsh — arthur</span>
-          </div>
-          <div style={{ padding: term.pad, fontSize: L.f, color: WIN.text }}>
-            {BOOT_LINES.map((l) => <div key={l} style={{ ...lineStyle, color: l.startsWith('$') ? C.amber : undefined }}>{l}</div>)}
-            <div style={{ ...lineStyle, color: C.amber }}>{typed}{!showOut && blink && cursor}</div>
-            {showOut && <div style={lineStyle}>{OPEN_OUT}{blink && cursor}</div>}
-          </div>
-        </div>
-      </div>
-
-      {/* browser window holding the real site */}
-      {kOpen > 0 && (
-        <div
-          className="absolute left-0 top-0 origin-top-left will-change-transform"
-          style={{ width: L.vw, height: L.vh + TB, transform: `translate3d(${X}px, ${Y}px, 0) scale(${S})`, opacity: easeOut(Math.min(1, kOpen * 1.6)) }}
-        >
-          <div className="overflow-hidden" style={{ borderRadius: (L.r * (1 - kMax)) / S, boxShadow: `0 ${30 / S}px ${80 / S}px rgba(0,0,0,${0.6 * (1 - kMax)})` }}>
-            <div className="relative flex items-center" style={{ height: TB, background: WIN.bar, paddingLeft: (L.f * 0.78) / b.s0, gap: (L.f * 0.31) / b.s0 }}>
-              {WIN.dots.map((c) => <span key={c} className="rounded-full" style={{ width: (L.f * 0.64) / b.s0, height: (L.f * 0.64) / b.s0, background: c }} />)}
-              <span className="absolute left-1/2 -translate-x-1/2 rounded-md text-center" style={{ fontSize: (L.f * 0.75) / b.s0, color: WIN.title, background: 'rgba(255,255,255,0.06)', padding: `${(L.f * 0.2) / b.s0}px ${(L.f * 2.5) / b.s0}px` }}>
-                {URL_LABEL}
-              </span>
-            </div>
-            <div className="font-sans" style={{ width: L.vw, height: L.vh }}>
-              <SiteHero />
-            </div>
-          </div>
-        </div>
-      )}
+    <div className="absolute inset-0 overflow-hidden bg-ink">
+      <canvas ref={canvas} className="absolute inset-0 h-full w-full" />
+      {t >= SEQ.ff && <Firefox L={L} t={t} kMax={kMax} kFull={kFull} />}
+      <Pointer L={L} t={t} />
+      <Keycap L={L} t={t} />
     </div>
   );
 }
+
+function Firefox({ L, t, kMax, kFull }: { L: Layout; t: number; kMax: number; kFull: number }) {
+  const ch = L.chrome.tab + L.chrome.nav;
+  const win: Rect = L.ff;
+  const maxed: Rect = { x: 0, y: L.topH, w: L.vw, h: L.vh - L.topH };
+  const full: Rect = { x: 0, y: -ch, w: L.vw, h: L.vh + ch };
+  let R = lerpRect(lerpRect(win, maxed, kMax), full, kFull);
+
+  // GNOME open animation: quick scale-up from 92% with a fade
+  const kOpen = easeOut(phase(t, SEQ.ff, 0.22));
+  const g = 0.92 + 0.08 * kOpen;
+  R = { x: R.x + (R.w * (1 - g)) / 2, y: R.y + (R.h * (1 - g)) / 2, w: R.w * g, h: R.h * g };
+
+  const s = R.w / L.vw; // page scale inside the window
+  const radius = L.r * (1 - kMax);
+  const loading = t < SEQ.loaded;
+  const progress = easeOut(phase(t, SEQ.ff + 0.05, SEQ.loaded - SEQ.ff - 0.05));
+  const contentIn = phase(t, SEQ.loaded - 0.05, 0.22);
+  const f = L.f;
+
+  return (
+    <div
+      className="absolute overflow-hidden"
+      style={{ left: R.x, top: R.y, width: R.w, height: R.h, borderRadius: radius, opacity: kOpen, boxShadow: `0 ${f}px ${f * 3}px rgba(0,0,0,${0.55 * (1 - kMax)})`, fontFamily: SANS }}
+    >
+      {/* tab strip, with GNOME window controls on the right */}
+      <div className="flex items-end" style={{ height: L.chrome.tab, background: '#1c1b22', paddingLeft: f * 0.5, paddingRight: f * 0.5 }}>
+        <div className="flex items-center" style={{ height: L.chrome.tab - f * 0.45, width: Math.min(R.w * 0.45, f * 15), gap: f * 0.5, padding: `0 ${f * 0.6}px`, background: '#42414d', borderRadius: `${f * 0.4}px ${f * 0.4}px 0 0`, color: '#fbfbfe', fontSize: f * 0.72 }}>
+          {loading ? (
+            <span className="shrink-0 rounded-full" style={{ width: f * 0.8, height: f * 0.8, border: `${f * 0.12}px solid rgba(255,255,255,0.25)`, borderTopColor: '#fbfbfe', transform: `rotate(${t * 540}deg)` }} />
+          ) : (
+            <span className="grid shrink-0 place-items-center rounded-[3px] font-bold" style={{ width: f * 0.85, height: f * 0.85, background: K.amber, color: '#050507', fontSize: f * 0.55 }}>A</span>
+          )}
+          <span className="truncate">{loading ? 'localhost:4321' : 'Arthur Rosisca — Full-Stack & Dados'}</span>
+        </div>
+        <div className="flex-1" />
+        <div className="flex items-center self-center" style={{ gap: f * 0.55 }}>
+          {['–', '□', '×'].map((g2) => (
+            <span key={g2} className="grid place-items-center rounded-full" style={{ width: f * 1.2, height: f * 1.2, background: 'rgba(255,255,255,0.1)', color: '#fbfbfe', fontSize: f * 0.75, lineHeight: 1 }}>{g2}</span>
+          ))}
+        </div>
+      </div>
+      {/* navigation bar */}
+      <div className="flex items-center" style={{ height: L.chrome.nav, background: '#2b2a33', gap: f * 0.8, padding: `0 ${f * 0.7}px`, color: '#fbfbfe', fontSize: f * 0.85 }}>
+        <span className="opacity-50">←</span>
+        <span className="opacity-30">→</span>
+        <span className="opacity-80">{loading ? '×' : '↻'}</span>
+        <div className="flex flex-1 items-center rounded-md" style={{ height: L.chrome.nav - f * 0.7, background: '#1c1b22', padding: `0 ${f * 0.7}px`, fontSize: f * 0.75, fontFamily: MONO }}>
+          <span className="text-[#fbfbfe]/50">localhost:</span>
+          <span>4321</span>
+        </div>
+      </div>
+      {/* page */}
+      <div className="relative overflow-hidden bg-ink" style={{ width: R.w, height: R.h - ch }}>
+        {progress < 1 && <div className="absolute left-0 top-0 z-10" style={{ height: 2, width: `${progress * 100}%`, background: 'linear-gradient(90deg,#0060df,#00ddff)' }} />}
+        <div className="absolute left-0 top-0 origin-top-left font-sans" style={{ width: L.vw, height: L.vh, transform: `scale(${s})` }}>
+          {contentIn < 1 && <Skeleton L={L} t={t} />}
+          <div style={{ opacity: contentIn }}>
+            <SiteHero />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** Grey placeholder blocks shaped like the hero, shown while the "page" loads. */
+function Skeleton({ L, t }: { L: Layout; t: number }) {
+  if (t < SEQ.ff + 0.15) return null;
+  const px = L.narrow ? 24 : 48;
+  const pulse = 0.55 + 0.25 * Math.sin(t * 9);
+  const block = (x: number, y: number, w: number, h: number, r = 8) => (
+    <div className="absolute" style={{ left: x, top: y, width: w, height: h, borderRadius: r, background: '#1b1b23', opacity: pulse }} />
+  );
+  const h1 = Math.min(Math.max(48, L.vw * 0.09), 120);
+  const y0 = L.vh * 0.33;
+  return (
+    <div className="absolute inset-0">
+      {block(px, 28, 150, 14)}
+      {block(L.vw - px - 110, 22, 110, 30, 99)}
+      {block(px, y0, 130, 14)}
+      {block(px, y0 + 36, Math.min(L.vw - px * 2, L.vw * 0.62), h1)}
+      {block(px, y0 + 60 + h1, Math.min(L.vw - px * 2, 560), 16)}
+      {block(px, y0 + 88 + h1, Math.min(L.vw - px * 2, 420), 16)}
+      {block(px, y0 + 140 + h1, 140, 46, 99)}
+      {block(px + 152, y0 + 140 + h1, 150, 46, 99)}
+    </div>
+  );
+}
+
+/** Mouse pointer: drifts in, travels to the Firefox title bar and double-clicks it. */
+function Pointer({ L, t }: { L: Layout; t: number }) {
+  const start = { x: L.vw * (L.narrow ? 0.72 : 0.62), y: L.vh * 0.8 };
+  const target = { x: L.ff.x + L.ff.w * 0.62, y: L.ff.y + L.chrome.tab * 0.5 };
+  const k = easeInOut(phase(t, SEQ.move, SEQ.click1 - SEQ.move - 0.05));
+  // slight arc, like a hand moving a mouse
+  const x = lerp(start.x, target.x, k) + Math.sin(k * Math.PI) * L.f * 2;
+  const y = lerp(start.y, target.y, k) - Math.sin(k * Math.PI) * L.f * 1.2;
+  const fade = clamp01((t - 0.15) / 0.25) * (1 - phase(t, SEQ.full, 0.2));
+  const clicks = [SEQ.click1, SEQ.click2];
+  const down = clicks.some((c) => t >= c && t < c + 0.06);
+  const size = L.f * 1.35;
+  return (
+    <>
+      {clicks.map((c) => {
+        const r = phase(t, c, 0.35);
+        return r > 0 && r < 1 ? (
+          <span key={c} className="pointer-events-none absolute rounded-full border-2 border-white" style={{ left: target.x - size * r, top: target.y - size * r, width: size * 2 * r, height: size * 2 * r, opacity: 0.7 * (1 - r) }} />
+        ) : null;
+      })}
+      <svg
+        className="pointer-events-none absolute"
+        width={size}
+        height={size * 1.5}
+        viewBox="0 0 14 21"
+        style={{ left: x, top: y, opacity: fade, transform: `scale(${down ? 0.85 : 1})`, transformOrigin: '0 0', filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.5))' }}
+      >
+        <path d="M1 1 L1 17 L5 13.4 L7.8 19.6 L10.4 18.5 L7.7 12.5 L13 12.5 Z" fill="#fff" stroke="#000" strokeWidth="1.2" strokeLinejoin="round" />
+      </svg>
+    </>
+  );
+}
+
+/** On-screen F11 keycap, pressed right before the browser goes fullscreen. */
+function Keycap({ L, t }: { L: Layout; t: number }) {
+  const inK = easeOut(phase(t, SEQ.key, 0.15));
+  const out = phase(t, SEQ.full + 0.1, 0.2);
+  if (inK <= 0 || out >= 1) return null;
+  const pressed = t >= SEQ.press && t < SEQ.press + 0.14;
+  const f = L.f;
+  return (
+    <div className="pointer-events-none absolute left-1/2 grid place-items-center" style={{ bottom: L.vh * 0.14, transform: `translate(-50%, ${(1 - inK) * f}px)`, opacity: inK * (1 - out) }}>
+      <div
+        className="grid place-items-center font-mono font-semibold"
+        style={{
+          width: f * 4.2,
+          height: f * 3.4,
+          borderRadius: f * 0.55,
+          background: '#efe7d6',
+          color: '#050507',
+          fontSize: f * 1.05,
+          boxShadow: pressed ? `0 ${f * 0.08}px 0 #9d9483, 0 ${f * 0.3}px ${f}px rgba(0,0,0,0.4)` : `0 ${f * 0.3}px 0 #9d9483, 0 ${f * 0.6}px ${f * 1.4}px rgba(0,0,0,0.45)`,
+          transform: `translateY(${pressed ? f * 0.22 : 0}px)`,
+        }}
+      >
+        F11
+      </div>
+    </div>
+  );
+}
+
+export { SEQ };

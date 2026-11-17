@@ -3,7 +3,7 @@ import { useFrame, useThree } from '@react-three/fiber';
 import { RoundedBox } from '@react-three/drei';
 import * as THREE from 'three';
 import { C, DESK_Y, SCREEN_H, SCREEN_POS, SCREEN_W, arrival } from '../constants';
-import { BOOT_TOTAL, MONO, clock, drawDesktop, layout } from '../desktop';
+import { MONO, PRE, SANS, clock, drawDesktop, layout } from '../desktop';
 
 const TW = 2048;
 const TH = 1152;
@@ -26,17 +26,17 @@ export function Monitor({ progress }: { progress: RefObject<number> }) {
 
   useEffect(() => {
     // redraw once the webfont is ready so canvas and DOM text match
-    document.fonts?.load(`400 16px ${MONO}`).then(() => (last.current = ''));
+    Promise.all([document.fonts?.load(`400 16px ${MONO}`), document.fonts?.load(`700 16px ${MONO}`), document.fonts?.load(`600 16px ${SANS}`)]).then(() => (last.current = ''));
     return () => texture.dispose();
   }, [texture]);
 
   useFrame(({ clock: c }) => {
     const t = c.elapsedTime;
-    // typed over time; forced complete once the camera is on its way in
-    const chars = (progress.current ?? 0) > 0.35 ? BOOT_TOTAL : Math.min(BOOT_TOTAL, Math.floor(Math.max(0, t - 0.8) * 22));
+    // `fastfetch` runs shortly after load; forced complete once the camera is on its way in
+    const pre = (progress.current ?? 0) > 0.2 ? 99 : Math.min(t, PRE.out + 0.01);
     const blink = Math.floor(t * 2) % 2 === 0;
     const time = clock();
-    const key = `${chars}|${blink}|${time}|${size.width}x${size.height}`;
+    const key = `${pre.toFixed(2)}|${blink}|${time}|${size.width}x${size.height}`;
     if (key === last.current) return;
     last.current = key;
 
@@ -47,7 +47,7 @@ export function Monitor({ progress }: { progress: RefObject<number> }) {
     const ox = (TW - safeW) / 2;
     const oy = (TH - size.height * s) / 2;
     const ctx = canvas.getContext('2d')!;
-    drawDesktop(ctx, layout(size.width, size.height), { ox, oy, s, TW, TH }, { chars, blink, time });
+    drawDesktop(ctx, layout(size.width, size.height), { ox, oy, s, TW, TH }, { pre, seq: 0, blink, time, ffRunning: false, topOff: 0 });
     texture.needsUpdate = true;
   });
 
@@ -71,8 +71,8 @@ export function Monitor({ progress }: { progress: RefObject<number> }) {
       <RoundedBox args={[0.26, 0.014, 0.17]} radius={0.006} smoothness={2} position={[0, baseY + 0.007, -0.03]} castShadow receiveShadow>
         <meshStandardMaterial color={C.metal} metalness={0.5} roughness={0.4} />
       </RoundedBox>
-      {/* the screen glows purple-amber now, so tint its light on the desk to match */}
-      <pointLight position={[0, -0.05, 0.3]} color="#c9a8ff" intensity={0.6} distance={1.6} decay={2} />
+      {/* the screen's blue wallpaper tints the desk in front of it */}
+      <pointLight position={[0, -0.05, 0.3]} color="#9db4ff" intensity={0.6} distance={1.6} decay={2} />
     </group>
   );
 }
