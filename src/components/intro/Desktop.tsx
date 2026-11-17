@@ -49,7 +49,7 @@ function Firefox({ L, t, kMax, kFull }: { L: Layout; t: number; kMax: number; kF
   let R = lerpRect(lerpRect(win, maxed, kMax), full, kFull);
 
   // GNOME open animation: quick scale-up from 92% with a fade
-  const kOpen = easeOut(phase(t, SEQ.ff, 0.22));
+  const kOpen = easeOut(phase(t, SEQ.ff, 0.32));
   const g = 0.92 + 0.08 * kOpen;
   R = { x: R.x + (R.w * (1 - g)) / 2, y: R.y + (R.h * (1 - g)) / 2, w: R.w * g, h: R.h * g };
 
@@ -57,7 +57,7 @@ function Firefox({ L, t, kMax, kFull }: { L: Layout; t: number; kMax: number; kF
   const radius = L.r * (1 - kMax);
   const loading = t < SEQ.loaded;
   const progress = easeOut(phase(t, SEQ.ff + 0.05, SEQ.loaded - SEQ.ff - 0.05));
-  const contentIn = phase(t, SEQ.loaded - 0.05, 0.22);
+  const contentIn = phase(t, SEQ.loaded - 0.05, 0.35);
   const f = L.f;
 
   return (
@@ -108,7 +108,7 @@ function Firefox({ L, t, kMax, kFull }: { L: Layout; t: number; kMax: number; kF
 
 /** Grey placeholder blocks shaped like the hero, shown while the "page" loads. */
 function Skeleton({ L, t }: { L: Layout; t: number }) {
-  if (t < SEQ.ff + 0.15) return null;
+  if (t < SEQ.ff + 0.25) return null;
   const px = L.narrow ? 24 : 48;
   const pulse = 0.55 + 0.25 * Math.sin(t * 9);
   const block = (x: number, y: number, w: number, h: number, r = 8) => (
@@ -140,7 +140,7 @@ function Pointer({ L, t }: { L: Layout; t: number }) {
   const y = lerp(start.y, target.y, k) - Math.sin(k * Math.PI) * L.f * 1.2;
   const fade = clamp01((t - 0.15) / 0.25) * (1 - phase(t, SEQ.full, 0.2));
   const clicks = [SEQ.click1, SEQ.click2];
-  const down = clicks.some((c) => t >= c && t < c + 0.06);
+  const down = clicks.some((c) => t >= c && t < c + 0.08);
   const size = L.f * 1.35;
   return (
     <>
@@ -165,10 +165,10 @@ function Pointer({ L, t }: { L: Layout; t: number }) {
 
 /** On-screen F11 keycap, pressed right before the browser goes fullscreen. */
 function Keycap({ L, t }: { L: Layout; t: number }) {
-  const inK = easeOut(phase(t, SEQ.key, 0.15));
+  const inK = easeOut(phase(t, SEQ.key, 0.25));
   const out = phase(t, SEQ.full + 0.1, 0.2);
   if (inK <= 0 || out >= 1) return null;
-  const pressed = t >= SEQ.press && t < SEQ.press + 0.14;
+  const pressed = t >= SEQ.press && t < SEQ.press + 0.2;
   const f = L.f;
   return (
     <div className="pointer-events-none absolute left-1/2 grid place-items-center" style={{ bottom: L.vh * 0.14, transform: `translate(-50%, ${(1 - inK) * f}px)`, opacity: inK * (1 - out) }}>

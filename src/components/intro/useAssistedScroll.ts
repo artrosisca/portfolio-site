@@ -43,7 +43,7 @@ export function useAssistedScroll(section: RefObject<HTMLElement | null>, enable
       const end = start + el.offsetHeight - window.innerHeight;
       const y = window.scrollY;
       if (y <= start + 2 || y >= end - 2) return;
-      const push = Math.sign(v) * Math.min(Math.abs(v) * 520, window.innerHeight * 1.4);
+      const push = Math.sign(v) * Math.min(Math.abs(v) * 380, window.innerHeight);
       const target = Math.min(end, Math.max(start, y + push));
       pushing = true;
       lenis.scrollTo(target, {

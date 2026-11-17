@@ -70,7 +70,7 @@ function fetchBlock(side: boolean): Line[] {
   return [...LOGO.slice(0, 9).map((l): Line => [{ t: l, c: K.fedora, b: true }]), [], ...info];
 }
 
-const CPS = 40;
+const CPS = 26; // human typing pace
 const CMD_CD = 'cd ~/projetos/portfolio';
 const CMD_DEV = 'npm run dev -- --open';
 const OUT: Line[] = [
@@ -90,26 +90,26 @@ export const PRE = { type: 0.7, out: 1.2 };
 
 /** Boot sequence timeline, seconds at normal speed. */
 export const SEQ = (() => {
-  const cd0 = 0.2;
+  const cd0 = 0.5;
   const cd1 = cd0 + CMD_CD.length / CPS;
-  const cdEnter = cd1 + 0.1;
-  const dev0 = cdEnter + 0.18;
+  const cdEnter = cd1 + 0.3;
+  const dev0 = cdEnter + 0.4;
   const dev1 = dev0 + CMD_DEV.length / CPS;
-  const devEnter = dev1 + 0.1;
-  const outStep = 0.05;
+  const devEnter = dev1 + 0.3;
+  const outStep = 0.09;
   const outEnd = devEnter + OUT.length * outStep;
-  const ff = outEnd + 0.15; // firefox window appears
-  const loaded = ff + 0.85;
-  const move = ff + 0.95; // pointer travels to the title bar
-  const click1 = move + 0.6;
-  const click2 = click1 + 0.13;
+  const ff = outEnd + 0.45; // firefox window appears
+  const loaded = ff + 1.2;
+  const move = loaded + 0.3; // pointer travels to the title bar
+  const click1 = move + 0.8;
+  const click2 = click1 + 0.18;
   const max = click2 + 0.06;
-  const maxDur = 0.3;
-  const key = max + maxDur + 0.15; // F11 keycap appears
-  const press = key + 0.2;
+  const maxDur = 0.45;
+  const key = max + maxDur + 0.45; // F11 keycap appears
+  const press = key + 0.4;
   const full = press + 0.08;
-  const fullDur = 0.34;
-  return { cd0, cd1, cdEnter, dev0, dev1, devEnter, outStep, outEnd, ff, loaded, move, click1, click2, max, maxDur, key, press, full, fullDur, end: full + fullDur + 0.08 };
+  const fullDur = 0.55;
+  return { cd0, cd1, cdEnter, dev0, dev1, devEnter, outStep, outEnd, ff, loaded, move, click1, click2, max, maxDur, key, press, full, fullDur, end: full + fullDur + 0.3 };
 })();
 
 export function termLines(logo: boolean, pre: number, seq: number): { lines: Line[]; cursor: boolean } {

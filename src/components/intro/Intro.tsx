@@ -33,6 +33,7 @@ export default function Intro() {
   const [p, setP] = useState(0);
   const [seqT, setSeqT] = useState(0);
   const [desktopOn, setDesktopOn] = useState(false);
+  const [hurried, setHurried] = useState(false);
   const phaseRef = useRef<Phase>('scroll');
   phaseRef.current = phase;
   const vp = useViewport();
@@ -77,16 +78,17 @@ export default function Intro() {
     const html = document.documentElement;
     html.style.overflow = 'hidden';
 
-    let speed = sessionStorage.getItem(SEEN_KEY) ? 1.8 : 1;
-    const hurry = () => (speed = Math.max(speed, 3.5));
-    const block = (e: Event) => {
-      e.preventDefault();
-      hurry();
+    let speed = sessionStorage.getItem(SEEN_KEY) ? 1.4 : 1;
+    const hurry = () => {
+      speed = Math.max(speed, 2.5);
+      setHurried(true);
     };
+    const block = (e: Event) => e.preventDefault(); // scroll is locked; momentum is ignored
+    const onKey = (e: KeyboardEvent) => (e.key === 'Escape' ? setPhase('done') : hurry());
     window.addEventListener('wheel', block, { passive: false });
     window.addEventListener('touchmove', block, { passive: false });
-    window.addEventListener('keydown', hurry);
-    window.addEventListener('pointerdown', hurry);
+    window.addEventListener('keydown', onKey);
+    window.addEventListener('click', hurry);
 
     let raf = 0;
     let last = performance.now();
@@ -105,8 +107,8 @@ export default function Intro() {
       cancelAnimationFrame(raf);
       window.removeEventListener('wheel', block);
       window.removeEventListener('touchmove', block);
-      window.removeEventListener('keydown', hurry);
-      window.removeEventListener('pointerdown', hurry);
+      window.removeEventListener('keydown', onKey);
+      window.removeEventListener('click', hurry);
       html.style.overflow = '';
       lenis?.start();
     };
@@ -129,7 +131,7 @@ export default function Intro() {
   const sceneActive = !desktopOn || seqT < 0.45;
 
   return (
-    <section ref={section} className="relative h-[300vh]" aria-label="Introdução">
+    <section ref={section} className="relative h-[420vh]" aria-label="Introdução">
       <div className="sticky top-0 h-svh w-full overflow-hidden bg-ink">
         {quality && (
           <div className="absolute inset-0" style={{ visibility: sceneActive ? 'visible' : 'hidden' }}>
@@ -166,6 +168,12 @@ export default function Intro() {
           <div className="absolute inset-0 animate-[fadein_250ms_ease-out]">
             <Desktop L={L} t={seqT} time={clock()} />
           </div>
+        )}
+
+        {desktopOn && (
+          <p className="pointer-events-none absolute bottom-3 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-black/55 px-3 py-1 font-mono text-[11px] text-white/70 backdrop-blur transition-opacity duration-500" style={{ opacity: hurried ? 0 : 1 }}>
+            clique para acelerar · esc para pular
+          </p>
         )}
 
         <button
