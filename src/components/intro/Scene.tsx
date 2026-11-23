@@ -2,11 +2,11 @@ import { Suspense, useRef, useState, type RefObject } from 'react';
 import { useFrame } from '@react-three/fiber';
 import type { BloomEffect, VignetteEffect } from 'postprocessing';
 import { Canvas } from '@react-three/fiber';
-import { AdaptiveDpr, PerformanceMonitor } from '@react-three/drei';
+import { AdaptiveDpr, ContactShadows, PerformanceMonitor } from '@react-three/drei';
 import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
 import * as THREE from 'three';
 import { CameraRig } from './CameraRig';
-import { ARRIVE, C, FOV } from './constants';
+import { ARRIVE, C, DESK_Y, FOV } from './constants';
 import { Room, Desk } from './objects/Room';
 import { Monitor } from './objects/Monitor';
 import { Keyboard } from './objects/Keyboard';
@@ -15,6 +15,7 @@ import { RubiksCube } from './objects/RubiksCube';
 import { Guitar } from './objects/Guitar';
 import { Plant } from './objects/Plant';
 import { Decor } from './objects/Decor';
+import { Dust, MUG_TOP, Steam, StringLights } from './objects/Effects';
 import type { Quality } from './quality';
 
 export function Scene({ progress, lamp, quality: initial, active }: { progress: RefObject<number>; lamp: RefObject<number>; quality: Quality; active: boolean }) {
@@ -51,6 +52,11 @@ export function Scene({ progress, lamp, quality: initial, active }: { progress: 
         <Guitar />
         <Plant position={[-1.45, 0, -0.38]} scale={1.35} />
         <Decor />
+        <StringLights />
+        <Steam position={MUG_TOP} />
+        <Dust lamp={lamp} count={quality === 'low' ? 60 : 160} />
+        {/* soft contact shadows ground the props on the desk; rendered for a few frames only */}
+        <ContactShadows position={[0, DESK_Y + 0.0008, -0.15]} scale={[2.2, 1.05]} resolution={quality === 'high' ? 1024 : 512} far={0.25} blur={2.2} opacity={0.55} frames={40} color="#000000" />
       </Suspense>
 
       <CameraRig progress={progress} />

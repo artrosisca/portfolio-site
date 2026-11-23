@@ -1,5 +1,7 @@
+import { useMemo } from 'react';
 import { RoundedBox } from '@react-three/drei';
 import { C, DESK_Y } from '../constants';
+import { feltTexture, woodTexture } from '../textures';
 
 export function Room() {
   return (
@@ -31,15 +33,25 @@ export function Room() {
 }
 
 export function Desk() {
+  const { wood, felt } = useMemo(() => ({ wood: woodTexture(3), felt: feltTexture('#8ecbff') }), []);
   return (
     <group>
       <RoundedBox args={[2.2, 0.05, 1.05]} radius={0.018} smoothness={3} position={[0, DESK_Y - 0.025, -0.15]} castShadow receiveShadow>
         <meshStandardMaterial color={C.wood} roughness={0.6} />
       </RoundedBox>
-      {/* desk mat */}
+      {/* grain on the top face (RoundedBox UVs are not 0..1, so a plane carries the texture) */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, DESK_Y + 0.0004, -0.15]} receiveShadow>
+        <planeGeometry args={[2.17, 1.02]} />
+        <meshStandardMaterial map={wood} color="#c8936a" roughness={0.5} />
+      </mesh>
+      {/* felt desk mat with a stitched edge */}
       <RoundedBox args={[0.95, 0.006, 0.42]} radius={0.003} smoothness={2} position={[0.08, DESK_Y + 0.003, 0.1]} receiveShadow>
-        <meshStandardMaterial color="#20222c" roughness={0.95} />
+        <meshStandardMaterial color="#1b1f29" roughness={0.95} />
       </RoundedBox>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0.08, DESK_Y + 0.0062, 0.1]} receiveShadow>
+        <planeGeometry args={[0.944, 0.414]} />
+        <meshStandardMaterial map={felt} roughness={0.95} />
+      </mesh>
       {/* drawer unit (right) */}
       <RoundedBox args={[0.5, 0.68, 0.9]} radius={0.015} smoothness={2} position={[0.78, 0.37, -0.17]} castShadow receiveShadow>
         <meshStandardMaterial color={C.woodDark} roughness={0.7} />
@@ -48,7 +60,7 @@ export function Desk() {
         <group key={y} position={[0.78, y, 0.285]}>
           <mesh>
             <boxGeometry args={[0.44, 0.17, 0.006]} />
-            <meshStandardMaterial color={C.wood} roughness={0.65} />
+            <meshStandardMaterial map={wood} color="#b58660" roughness={0.6} />
           </mesh>
           <mesh position={[0, 0, 0.012]}>
             <boxGeometry args={[0.12, 0.014, 0.014]} />

@@ -7,8 +7,8 @@ import { C, DESK_Y } from '../constants';
 type V3 = [number, number, number];
 const BASE: V3 = [-0.86, DESK_Y, -0.42];
 const ELBOW: V3 = [-0.98, DESK_Y + 0.42, -0.42];
-const HEAD: V3 = [-0.52, DESK_Y + 0.62, -0.3];
-const TARGET: V3 = [-0.05, DESK_Y, 0.08];
+export const HEAD: V3 = [-0.52, DESK_Y + 0.62, -0.3];
+export const TARGET: V3 = [-0.05, DESK_Y, 0.08];
 
 const BULB = new THREE.Color(5, 3.4, 1.6);
 const BULB_OFF = new THREE.Color(0.12, 0.09, 0.06);

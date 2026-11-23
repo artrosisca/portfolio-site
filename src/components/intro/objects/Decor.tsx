@@ -1,5 +1,7 @@
+import { useMemo } from 'react';
 import { RoundedBox } from '@react-three/drei';
-import { C, DESK_Y } from '../constants';
+import { C, DESK_Y, SCREEN_H, SCREEN_POS, SCREEN_W } from '../constants';
+import { noteTexture, woodTexture } from '../textures';
 import { Plant } from './Plant';
 
 const BOOKS: [string, number, number][] = [
@@ -13,6 +15,14 @@ const BOOKS: [string, number, number][] = [
 
 /** Wall shelf with an LED strip, framed prints, and the small things on the desk. */
 export function Decor() {
+  const tex = useMemo(
+    () => ({
+      wood: woodTexture(7),
+      note1: noteTexture('#ffe27a', ['deploy na', 'sexta? não.']),
+      note2: noteTexture('#9fd3ff', ['beber', 'água :)']),
+    }),
+    [],
+  );
   let bx = 0;
   return (
     <group>
@@ -21,6 +31,10 @@ export function Decor() {
         <RoundedBox args={[1.1, 0.035, 0.22]} radius={0.008} smoothness={2} castShadow receiveShadow>
           <meshStandardMaterial color={C.wood} roughness={0.6} />
         </RoundedBox>
+        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.0178, 0]}>
+          <planeGeometry args={[1.08, 0.2]} />
+          <meshStandardMaterial map={tex.wood} color="#a9764f" roughness={0.55} />
+        </mesh>
         {BOOKS.map(([color, h, w], i) => {
           const x = -0.48 + bx + w / 2;
           bx += w + 0.004;
@@ -60,8 +74,12 @@ export function Decor() {
         </group>
       ))}
 
-      {/* mug */}
-      <group position={[-0.42, DESK_Y, 0.16]}>
+      {/* cork coaster + mug */}
+      <mesh position={[-0.42, DESK_Y + 0.002, 0.16]} receiveShadow>
+        <cylinderGeometry args={[0.055, 0.055, 0.004, 32]} />
+        <meshStandardMaterial color="#b98a5a" roughness={0.95} />
+      </mesh>
+      <group position={[-0.42, DESK_Y + 0.004, 0.16]}>
         <mesh position={[0, 0.045, 0]} castShadow receiveShadow>
           <cylinderGeometry args={[0.04, 0.035, 0.09, 24]} />
           <meshStandardMaterial color="#3a78e0" roughness={0.5} />
@@ -86,6 +104,60 @@ export function Decor() {
           <meshStandardMaterial color={C.cream} roughness={0.5} />
         </mesh>
       </group>
+
+      {/* monitor light bar */}
+      <group position={[SCREEN_POS.x, SCREEN_POS.y + SCREEN_H / 2 + 0.028, SCREEN_POS.z + 0.004]}>
+        <mesh rotation={[0, 0, Math.PI / 2]} castShadow>
+          <cylinderGeometry args={[0.009, 0.009, 0.42, 16]} />
+          <meshStandardMaterial color="#20222b" metalness={0.6} roughness={0.35} />
+        </mesh>
+        <mesh position={[0, -0.0092, 0.004]} rotation={[Math.PI / 2, 0, 0]}>
+          <planeGeometry args={[0.38, 0.006]} />
+          <meshBasicMaterial color={[2.4, 2.4, 2.6]} toneMapped={false} />
+        </mesh>
+        <mesh position={[0, -0.012, -0.012]}>
+          <boxGeometry args={[0.04, 0.012, 0.03]} />
+          <meshStandardMaterial color="#20222b" roughness={0.5} />
+        </mesh>
+      </group>
+
+      {/* sticky notes hanging under the bezel: they never cover the screen */}
+      {[
+        { x: -SCREEN_W / 2 + 0.05, r: 0.06, t: tex.note1 },
+        { x: -SCREEN_W / 2 + 0.115, r: -0.08, t: tex.note2 },
+      ].map((n, i) => (
+        <mesh key={i} position={[SCREEN_POS.x + n.x, SCREEN_POS.y - SCREEN_H / 2 - 0.04, SCREEN_POS.z + 0.0005]} rotation={[0, 0, n.r]}>
+          <planeGeometry args={[0.055, 0.055]} />
+          <meshStandardMaterial map={n.t} roughness={0.9} side={2} />
+        </mesh>
+      ))}
+
+      {/* pen cup next to the lamp */}
+      <group position={[-0.64, DESK_Y, -0.5]}>
+        <mesh position={[0, 0.045, 0]} castShadow receiveShadow>
+          <cylinderGeometry args={[0.032, 0.03, 0.09, 24, 1, true]} />
+          <meshStandardMaterial color="#2b2e3a" roughness={0.5} side={2} />
+        </mesh>
+        <mesh position={[0, 0.002, 0]}>
+          <cylinderGeometry args={[0.03, 0.03, 0.004, 24]} />
+          <meshStandardMaterial color="#2b2e3a" roughness={0.5} />
+        </mesh>
+        {[
+          ['#8ecbff', 0.25, 0.1],
+          ['#efe7d6', -0.2, -0.3],
+          ['#d9643a', 0.05, 0.25],
+        ].map(([c, a, b], i) => (
+          <mesh key={i} position={[(a as number) * 0.05, 0.1, (b as number) * 0.05]} rotation={[b as number, 0, a as number]} castShadow>
+            <cylinderGeometry args={[0.0045, 0.0045, 0.15, 8]} />
+            <meshStandardMaterial color={c as string} roughness={0.5} />
+          </mesh>
+        ))}
+      </group>
+
+      {/* phone, face down */}
+      <RoundedBox args={[0.075, 0.009, 0.155]} radius={0.004} smoothness={2} position={[-0.6, DESK_Y + 0.0045, 0.27]} rotation={[0, 0.5, 0]} castShadow receiveShadow>
+        <meshStandardMaterial color="#2a3550" metalness={0.3} roughness={0.35} />
+      </RoundedBox>
 
       {/* headphones resting on the drawer side of the desk */}
       <group position={[0.84, DESK_Y + 0.085, -0.38]} rotation={[0, -0.4, 0]}>
