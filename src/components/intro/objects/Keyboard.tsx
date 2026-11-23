@@ -100,11 +100,22 @@ export function Keyboard() {
       <mesh geometry={cable}>
         <meshStandardMaterial color={C.amber} roughness={0.5} />
       </mesh>
-      {/* mouse */}
-      <mesh position={[0.29, 0.012, 0.03]} scale={[0.8, 0.45, 1.25]} castShadow>
-        <sphereGeometry args={[0.026, 20, 14]} />
-        <meshStandardMaterial color="#e9e2d0" roughness={0.6} />
-      </mesh>
+      {/* VXE Dragonfly R1 Pro Max: small, symmetrical, low hump, matte black */}
+      <group position={[0.29, 0, 0.03]} rotation={[0, -0.08, 0]}>
+        <mesh position={[0, 0.011, 0]} scale={[0.78, 0.42, 1.22]} castShadow>
+          <sphereGeometry args={[0.026, 24, 16]} />
+          <meshStandardMaterial color="#111216" roughness={0.55} />
+        </mesh>
+        {/* button split + scroll wheel */}
+        <mesh position={[0, 0.0205, -0.017]}>
+          <boxGeometry args={[0.0008, 0.002, 0.026]} />
+          <meshBasicMaterial color="#000000" />
+        </mesh>
+        <mesh position={[0, 0.0215, -0.014]} rotation={[0, 0, Math.PI / 2]}>
+          <cylinderGeometry args={[0.0035, 0.0035, 0.003, 12]} />
+          <meshStandardMaterial color="#2b2d35" roughness={0.4} />
+        </mesh>
+      </group>
     </group>
   );
 }

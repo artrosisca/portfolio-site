@@ -13,7 +13,7 @@ import { Keyboard } from './objects/Keyboard';
 import { Lamp } from './objects/Lamp';
 import { RubiksCube } from './objects/RubiksCube';
 import { Guitar } from './objects/Guitar';
-import { Plant } from './objects/Plant';
+import { ZZPlant } from './objects/ZZPlant';
 import { Decor } from './objects/Decor';
 import { Dust, MUG_TOP, Steam, StringLights } from './objects/Effects';
 import type { Quality } from './quality';
@@ -50,7 +50,7 @@ export function Scene({ progress, lamp, quality: initial, active }: { progress: 
         <Lamp shadowSize={quality === 'high' ? 2048 : 1024} power={lamp} />
         <RubiksCube />
         <Guitar />
-        <Plant position={[-1.45, 0, -0.38]} scale={1.35} />
+        <ZZPlant position={[-1.45, 0, -0.38]} scale={1.3} />
         <Decor />
         <StringLights />
         <Steam position={MUG_TOP} />

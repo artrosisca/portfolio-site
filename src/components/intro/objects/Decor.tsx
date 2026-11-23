@@ -154,13 +154,23 @@ export function Decor() {
         ))}
       </group>
 
+      {/* closed laptop standing in a vertical stand, right of the monitor */}
+      <group position={[0.6, DESK_Y, -0.52]} rotation={[0, -0.12, 0]}>
+        <RoundedBox args={[0.12, 0.012, 0.05]} radius={0.004} smoothness={2} position={[0, 0.006, 0]} castShadow receiveShadow>
+          <meshStandardMaterial color="#2a2c33" metalness={0.6} roughness={0.35} />
+        </RoundedBox>
+        <RoundedBox args={[0.31, 0.215, 0.018]} radius={0.006} smoothness={2} position={[0, 0.118, 0]} castShadow receiveShadow>
+          <meshStandardMaterial color="#1e2026" metalness={0.5} roughness={0.4} />
+        </RoundedBox>
+      </group>
+
       {/* phone, face down */}
       <RoundedBox args={[0.075, 0.009, 0.155]} radius={0.004} smoothness={2} position={[-0.6, DESK_Y + 0.0045, 0.27]} rotation={[0, 0.5, 0]} castShadow receiveShadow>
         <meshStandardMaterial color="#2a3550" metalness={0.3} roughness={0.35} />
       </RoundedBox>
 
-      {/* headphones resting on the drawer side of the desk */}
-      <group position={[0.84, DESK_Y + 0.085, -0.38]} rotation={[0, -0.4, 0]}>
+      {/* headphones */}
+      <group position={[0.92, DESK_Y + 0.085, -0.4]} rotation={[0, -0.4, 0]}>
         <mesh rotation={[0, 0, 0]}>
           <torusGeometry args={[0.085, 0.009, 10, 28, Math.PI]} />
           <meshStandardMaterial color="#14141a" roughness={0.5} />
