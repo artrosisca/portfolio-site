@@ -67,6 +67,7 @@ import sys; sys.path.insert(0, os.path.join(HERE, 'models'))
 import sofle; sofle.build()
 import mouse; mouse.build()
 import props; props.lamp(); props.plants()
+import desk_items; desk_items.monitor_arm(); desk_items.notebook(); print('CUP_TOP', tuple(desk_items.cup()))
 import materials; materials.apply()
 # bake.py groups meshes by their "part__" prefix: Arthur's gear goes with the keyboard
 for name, part in (('sofle', 'keyboard'), ('mouse', 'keyboard')):

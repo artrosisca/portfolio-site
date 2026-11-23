@@ -77,3 +77,5 @@ export function Steam({ position }: { position: [number, number, number] }) {
 }
 
 export const MUG_TOP: [number, number, number] = [0.72, DESK_Y + 0.099, 0.12];
+/** The baked room has a cappuccino cup on a saucer there instead (blender/models/desk_items.py). */
+export const CUP_TOP: [number, number, number] = [0.72, DESK_Y + 0.067, 0.12];

@@ -15,7 +15,7 @@ import { RubiksCube } from './objects/RubiksCube';
 import { Guitar } from './objects/Guitar';
 import { ZZPlant } from './objects/ZZPlant';
 import { Decor } from './objects/Decor';
-import { Dust, MUG_TOP, Steam } from './objects/Effects';
+import { CUP_TOP, Dust, MUG_TOP, Steam } from './objects/Effects';
 import type { Quality } from './quality';
 // dev only: the dynamic import disappears from production builds with the DEV branch
 const ExportScene = import.meta.env.DEV ? lazy(() => import('./exportScene').then((m) => ({ default: m.ExportScene }))) : () => null;
@@ -46,7 +46,7 @@ export function Scene({ progress, lamp, quality, active, onReady, baked = false 
         <Suspense fallback={null}>
           <BakedRoom lamp={lamp} />
           <Monitor progress={progress} screenOnly />
-          <Steam position={MUG_TOP} />
+          <Steam position={CUP_TOP} />
           <Dust lamp={lamp} count={quality === 'low' ? 60 : 160} />
         </Suspense>
       ) : (

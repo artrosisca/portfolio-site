@@ -37,8 +37,9 @@ def lamp():
     remove(lambda o: o.name.startswith('lamp__'))
     o, = load('desk_lamp_arm_01', 'lamp')
     s = 1.0
-    clamp = Vector((-0.78, DESK_BACK + 0.02, DESK_Y - 0.075 * s))  # desk top sits in the jaw
-    d = (TARGET - clamp).xy.normalized()
+    clamp = Vector((-0.86, DESK_BACK + 0.02, DESK_Y - 0.075 * s))  # desk top sits in the jaw
+    # reaching mostly along the wall: the elbow then folds out to the side, not into the wall
+    d = Vector((0.94, -0.34)).normalized()
     T = Matrix.Translation(clamp) @ Matrix.Rotation(math.atan2(-d.x, d.y), 4, 'Z') @ Matrix.Scale(s, 4)
 
     # model space: the shade is everything above the top joint on the reaching side

@@ -105,5 +105,5 @@ def apply():
                 principled(o).inputs['Roughness'].default_value = 0.14
             elif (centre(o).xy - MUG).length < 0.01 and principled(o):              # coffee
                 principled(o).inputs['Roughness'].default_value = 0.05
-        elif p == 'monitor' and principled(o) and principled(o).inputs['Metallic'].default_value > 0.5:
+        elif p == 'monitor' and '__arm' not in o.name and principled(o) and principled(o).inputs['Metallic'].default_value > 0.5:
             set_mat(o, metal)                               # the arm
