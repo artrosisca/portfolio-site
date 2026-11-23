@@ -1,8 +1,7 @@
 @import "tailwindcss";
 @import "@fontsource-variable/inter";
 @import "@fontsource-variable/jetbrains-mono";
-@import "@fontsource-variable/fraunces";
-@import "@fontsource-variable/fraunces/opsz-italic.css";
+@import "@fontsource-variable/bricolage-grotesque";
 
 @theme {
   /* Night (the intro room) */
@@ -11,24 +10,25 @@
   --color-surface-2: #181b22;
   --color-cream: #f3efe6;
   --color-muted: #8b8f99;
-  --color-accent: #c4502b;     /* rust: the one accent */
-  --color-accent-soft: #e98a62; /* the same rust, lifted for small text on the dark intro */
+  --color-accent: #ff5c34;      /* persimmon: the one warm accent (dark text on it, never white) */
+  --color-accent-soft: #ff7f5e; /* the same persimmon, lifted for small text on the dark intro */
 
-  /* Day: once the browser goes fullscreen the light is on, the site is paper */
-  --color-paper: #f1ece2;
-  --color-paper-2: #e6dfd1;
-  --color-char: #17140f;       /* text on paper */
+  /* The site: deep "transformative teal", jade for quiet details, bone for text */
+  --color-deep: #17312b;
+  --color-deep-2: #1c4d4d;
+  --color-jade: #aeb8a0;
+  --color-bone: #f4f1e8;
   --color-ember: #d9643a;
 
   --font-sans: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono Variable", ui-monospace, "SF Mono", Menlo, monospace;
-  --font-serif: "Fraunces Variable", "Fraunces", ui-serif, Georgia, serif;
+  --font-display: "Bricolage Grotesque Variable", "Inter Variable", ui-sans-serif, sans-serif;
 }
 
 html {
   scrollbar-width: none;
-  background: var(--color-paper);
-  color: var(--color-char);
+  background: var(--color-deep);
+  color: var(--color-bone);
   scroll-behavior: smooth;
 }
 
@@ -61,6 +61,7 @@ html::-webkit-scrollbar { display: none; }
 }
 .reveal-word { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.08em; margin-bottom: -0.08em; }
 .reveal-word > span { display: inline-block; transform: translateY(105%); }
+.reveal-em { color: var(--color-accent); }
 .reveal-on .reveal-word > span { animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.1, 1) forwards; }
 @media (prefers-reduced-motion: reduce) {
   .reveal-word > span { transform: none !important; animation: none !important; }

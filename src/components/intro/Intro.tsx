@@ -208,7 +208,7 @@ export default function Intro() {
             </header>
             <div className="mt-[7vh] max-w-xl md:mt-0 md:mb-[15vh]">
               <p className="font-mono text-xs uppercase tracking-[0.25em] text-accent-soft">full-stack &amp; dados</p>
-              <h1 className="mt-4 font-serif text-[clamp(2.6rem,6.4vw,5.4rem)] font-[420] leading-[1.02] tracking-[-0.02em] text-cream">
+              <h1 className="mt-4 font-display text-[clamp(2.6rem,6.4vw,5.4rem)] font-[650] leading-[0.98] tracking-[-0.035em] text-cream">
                 <Reveal text="Construo sistemas e dou *sentido* a dados." start={lit} delay={0.45} />
               </h1>
               <p className="mt-5 max-w-sm text-base leading-relaxed text-cream/70">Role para entrar no meu quarto, onde as coisas acontecem.</p>

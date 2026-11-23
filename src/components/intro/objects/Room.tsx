@@ -34,7 +34,7 @@ export function Room() {
 }
 
 export function Desk() {
-  const { wood, felt } = useMemo(() => ({ wood: woodTexture(3), felt: feltTexture('#c4502b') }), []);
+  const { wood, felt } = useMemo(() => ({ wood: woodTexture(3), felt: feltTexture('#ff5c34') }), []);
   return (
     <group>
       <RoundedBox args={[2.2, 0.05, 1.05]} radius={0.018} smoothness={3} position={[0, DESK_Y - 0.025, -0.15]} castShadow receiveShadow>
