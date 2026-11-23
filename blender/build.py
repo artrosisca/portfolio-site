@@ -18,12 +18,20 @@ bpy.ops.wm.read_factory_settings(use_empty=True)
 bpy.ops.import_scene.gltf(filepath=os.path.join(HERE, 'scene.glb'))
 sc = bpy.context.scene
 
-# the site uses 40 m floor/wall planes; only the part around the desk is ever seen
+# the site uses 40 m floor/wall planes; only the part around the desk is ever seen. Cropped
+# in the mesh itself (not the object scale), so the bake's unwrap gives them their real area.
+def crop(o, xs, ys=None, zs=None):
+    o.data.transform(o.matrix_world); o.matrix_world = Matrix.Identity(4)
+    for v in o.data.vertices:
+        v.co.x = min(max(v.co.x, xs[0]), xs[1])
+        if ys: v.co.y = min(max(v.co.y, ys[0]), ys[1])
+        if zs: v.co.z = min(max(v.co.z, zs[0]), zs[1])
 for o in list(bpy.data.objects):
     if o.type == 'MESH' and max(o.dimensions) > 30:
-        o.scale.x *= 0.25
-        if o.dimensions.y > 30: o.scale.y *= 0.25
-        bpy.context.view_layer.update()
+        if o.dimensions.y > 30: crop(o, (-3.2, 3.2), ys=(-3.0, 0.8))   # floor
+        else: crop(o, (-3.2, 3.2), zs=(0, 3.4))                         # wall
+    elif o.type == 'MESH' and o.name.startswith('room__') and o.dimensions.x > 30:
+        crop(o, (-3.2, 3.2))                                             # skirting
 
 def hexcol(h, a=1):
     h = h.lstrip('#'); c = [int(h[i:i+2], 16) / 255 for i in (0, 2, 4)]
@@ -45,7 +53,7 @@ light('guitar_warm', 'POINT', B(0.9, 1.5, 0.6), '#ffc98a', 6, shadow_soft_size=0
 
 # world: the dim cool night fill
 w = bpy.data.worlds.new('night'); sc.world = w; w.use_nodes = True
-bg = w.node_tree.nodes['Background']; bg.inputs[0].default_value = hexcol('#1a1f3a'); bg.inputs[1].default_value = 1.3
+bg = w.node_tree.nodes['Background']; bg.inputs[0].default_value = hexcol('#2a2140'); bg.inputs[1].default_value = 1.6
 
 # the screen glows: its desktop image lights the desk
 for o in bpy.data.objects:
@@ -91,6 +99,16 @@ sc.cycles.use_denoising = True
 sc.render.resolution_x, sc.render.resolution_y = 960, 600
 sc.view_settings.view_transform = 'AgX'
 sc.view_settings.look = 'AgX - Medium High Contrast'
-sc.view_settings.exposure = 1.25
+sc.view_settings.exposure = 1.6
+# the bake joins meshes and unwraps them: modifiers (booleans, bevels) must be real geometry,
+# and every transform baked in, so nothing is stretched in the bake UVs
+bpy.ops.object.select_all(action='DESELECT')
+for o in bpy.data.objects:
+    if o.type == 'MESH': o.select_set(True)
+bpy.context.view_layer.objects.active = next(o for o in bpy.data.objects if o.type == 'MESH')
+bpy.ops.object.make_single_user(object=True, obdata=True)
+bpy.ops.object.convert(target='MESH')
+bpy.ops.object.parent_clear(type='CLEAR_KEEP_TRANSFORM')
+bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
 bpy.ops.wm.save_as_mainfile(filepath=os.path.join(HERE, 'room.blend'))
 print('SAVED')

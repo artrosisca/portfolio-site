@@ -20,7 +20,7 @@ sc.cycles.use_denoising = False
 b = sc.render.bake
 b.use_pass_direct = b.use_pass_indirect = True
 b.use_pass_diffuse = b.use_pass_emit = b.use_pass_transmission = True
-b.use_pass_glossy = False  # view-dependent: wrong once baked
+b.use_pass_glossy = os.environ.get("BAKE_GLOSSY", "1") == "1"  # rough sheen on dark surfaces is most of their light; sharp highlights get blurred
 b.margin = 6
 
 DESK_Y = 0.76

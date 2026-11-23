@@ -84,9 +84,9 @@ def apply():
         d = dims(o); p = part(o)
         if p == 'room':
             if d[0] > 9 and d[1] > 9:                       # floor
-                set_mat(o, scan('floor', 'dark_wooden_planks', color=(0.012, 0.010, 0.016), scale=0.45, normal=0.5))
+                set_mat(o, scan('floor', 'dark_wooden_planks', color=(0.02, 0.015, 0.026), scale=0.45, normal=0.5))
             elif d[0] > 9 and d[1] > 5:                     # wall
-                set_mat(o, scan('wall', 'clay_plaster', color=(0.016, 0.017, 0.032), scale=1.4, normal=0.25))
+                set_mat(o, scan('wall', 'clay_plaster', color=(0.034, 0.024, 0.05), scale=1.4, normal=0.25))
             elif d[0] > 2 and d[1] > 2:                     # the round rug and its ring
                 set_mat(o, scan(f'rug_{o.name[-3:]}', 'poly_wool_herringbone', color=base(o), scale=2.5, normal=0.9))
         elif p == 'desk':
