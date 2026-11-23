@@ -12,6 +12,8 @@ import { Reveal } from '@/components/site/Reveal';
 
 type Phase = 'scroll' | 'boot' | 'done';
 const SEEN_KEY = 'intro-seen';
+// TEMP (comparison): ?baked renders the Blender-baked room instead of the live-lit one
+const BAKED = typeof location !== 'undefined' && new URLSearchParams(location.search).has('baked');
 const SKIP_KEY = 'intro-skipped'; // localStorage: whoever skipped once goes straight to the site
 const getLenis = () => (window as Window & { __lenis?: Lenis }).__lenis;
 
@@ -209,7 +211,7 @@ export default function Intro() {
       <div className="sticky top-0 h-svh w-full overflow-hidden bg-ink">
         {quality && (
           <div className="absolute inset-0" style={{ visibility: sceneActive ? 'visible' : 'hidden' }}>
-            <Scene progress={smooth} lamp={lamp} quality={quality} active={sceneActive} onReady={onReady} />
+            <Scene progress={smooth} lamp={lamp} quality={quality} active={sceneActive} onReady={onReady} baked={BAKED} />
           </div>
         )}
 

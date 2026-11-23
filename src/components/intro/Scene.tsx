@@ -1,4 +1,4 @@
-import { Suspense, useRef, type RefObject } from 'react';
+import { Suspense, lazy, useRef, type RefObject } from 'react';
 import { useFrame } from '@react-three/fiber';
 import type { BloomEffect, VignetteEffect } from 'postprocessing';
 import { Canvas } from '@react-three/fiber';
@@ -17,8 +17,11 @@ import { ZZPlant } from './objects/ZZPlant';
 import { Decor } from './objects/Decor';
 import { Dust, MUG_TOP, Steam } from './objects/Effects';
 import type { Quality } from './quality';
+// dev only: the dynamic import disappears from production builds with the DEV branch
+const ExportScene = import.meta.env.DEV ? lazy(() => import('./exportScene').then((m) => ({ default: m.ExportScene }))) : () => null;
+import { BakedRoom } from './BakedRoom';
 
-export function Scene({ progress, lamp, quality, active, onReady }: { progress: RefObject<number>; lamp: RefObject<number>; quality: Quality; active: boolean; onReady?: () => void }) {
+export function Scene({ progress, lamp, quality, active, onReady, baked = false }: { progress: RefObject<number>; lamp: RefObject<number>; quality: Quality; active: boolean; onReady?: () => void; baked?: boolean }) {
   // a fixed resolution: switching it at runtime is what made the monitor go blurry/pixelated
   // for the first seconds (and every quality switch recompiled the shaders mid-animation)
   const dpr = quality === 'high' ? Math.min(1.5, window.devicePixelRatio || 1) : quality === 'mid' ? 1 : 0.8;
@@ -26,7 +29,7 @@ export function Scene({ progress, lamp, quality, active, onReady }: { progress: 
   return (
     <Canvas
       frameloop={active ? 'always' : 'never'}
-      shadows={quality !== 'low'}
+      shadows={!baked && quality !== 'low'}
       dpr={dpr}
       camera={{ fov: FOV, near: 0.02, far: 30, position: [-0.7, 1.55, 3.05] }}
       gl={{ antialias: quality !== 'low', powerPreference: 'high-performance', toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.05, outputColorSpace: THREE.SRGBColorSpace }}
@@ -39,27 +42,42 @@ export function Scene({ progress, lamp, quality, active, onReady }: { progress: 
       }}
     >
 
+      {baked ? (
+        <Suspense fallback={null}>
+          <BakedRoom lamp={lamp} />
+          <Monitor progress={progress} screenOnly />
+          <Steam position={MUG_TOP} />
+          <Dust lamp={lamp} count={quality === 'low' ? 60 : 160} />
+        </Suspense>
+      ) : (
+      <>
       {/* night: a dim cool fill plus a moonlight rim from the right */}
       <NightFill lamp={lamp} />
       <directionalLight position={[3, 3.5, 2]} color="#9fb0ff" intensity={0.55} />
 
       <Suspense fallback={null}>
-        <Room />
-        <Desk />
-        <Monitor progress={progress} />
-        <Keyboard />
-        <Lamp shadowSize={quality === 'high' ? 2048 : 1024} power={lamp} />
-        <RubiksCube />
-        <Guitar />
-        <ZZPlant position={[-1.45, 0, -0.38]} scale={1.3} />
-        <Decor />
-        <Steam position={MUG_TOP} />
-        <Dust lamp={lamp} count={quality === 'low' ? 60 : 160} />
+        {/* userData.part names the groups for the Blender export (exportScene.tsx) */}
+        <group userData={{ part: 'room' }}><Room /></group>
+        <group userData={{ part: 'desk' }}><Desk /></group>
+        <group userData={{ part: 'monitor' }}><Monitor progress={progress} /></group>
+        <group userData={{ part: 'keyboard' }}><Keyboard /></group>
+        <group userData={{ part: 'lamp' }}><Lamp shadowSize={quality === 'high' ? 2048 : 1024} power={lamp} /></group>
+        <group userData={{ part: 'cube' }}><RubiksCube /></group>
+        <group userData={{ part: 'guitar' }}><Guitar /></group>
+        <group userData={{ part: 'plant' }}><ZZPlant position={[-1.45, 0, -0.38]} scale={1.3} /></group>
+        <group userData={{ part: 'decor' }}><Decor /></group>
+        <group userData={{ noExport: true }}>
+          <Steam position={MUG_TOP} />
+          <Dust lamp={lamp} count={quality === 'low' ? 60 : 160} />
+        </group>
         {/* soft contact shadows ground the props on the desk; rendered for a few frames only */}
-        <ContactShadows position={[0, DESK_Y + 0.0008, -0.15]} scale={[2.2, 1.05]} resolution={quality === 'high' ? 1024 : 512} far={0.25} blur={2.2} opacity={0.55} frames={40} color="#000000" />
+        <ContactShadows userData={{ noExport: true }} position={[0, DESK_Y + 0.0008, -0.15]} scale={[2.2, 1.05]} resolution={quality === 'high' ? 1024 : 512} far={0.25} blur={2.2} opacity={0.55} frames={40} color="#000000" />
       </Suspense>
+      </>
+      )}
 
       <CameraRig progress={progress} />
+      {import.meta.env.DEV && <Suspense fallback={null}><ExportScene /></Suspense>}
 
       {quality !== 'low' && (
         <Post progress={progress} />

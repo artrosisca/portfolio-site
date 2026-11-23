@@ -6,3 +6,9 @@ dist/
 .env.*
 .DS_Store
 graphify-out/
+
+# Blender intermediates (rebuilt by the scripts in blender/, see blender/README.md)
+blender/*.blend
+blender/*.blend1
+blender/*.glb
+blender/bakes/

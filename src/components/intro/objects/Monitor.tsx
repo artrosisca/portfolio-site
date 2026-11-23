@@ -9,7 +9,8 @@ import { Rod } from './Rod';
 const TW = 2048;
 const TH = 1152;
 
-export function Monitor({ progress }: { progress: RefObject<number> }) {
+/** `screenOnly`: just the live screen, for the baked room (the bezel and arm are in the bake). */
+export function Monitor({ progress, screenOnly = false }: { progress: RefObject<number>; screenOnly?: boolean }) {
   const size = useThree((s) => s.size);
   const canvas = useMemo(() => {
     const c = document.createElement('canvas');
@@ -56,20 +57,24 @@ export function Monitor({ progress }: { progress: RefObject<number> }) {
   const baseY = DESK_Y - SCREEN_POS.y; // desk surface, relative to the screen centre
   return (
     <group position={SCREEN_POS}>
-      <RoundedBox args={[SCREEN_W + 0.03, SCREEN_H + 0.03, 0.028]} radius={0.012} smoothness={3} position={[0, 0, -0.016]} castShadow>
+      {!screenOnly && <RoundedBox args={[SCREEN_W + 0.03, SCREEN_H + 0.03, 0.028]} radius={0.012} smoothness={3} position={[0, 0, -0.016]} castShadow>
         <meshStandardMaterial color={C.plastic} roughness={0.45} />
-      </RoundedBox>
-      <mesh>
+      </RoundedBox>}
+      <mesh name="screen">
         <planeGeometry args={[SCREEN_W, SCREEN_H]} />
         <meshBasicMaterial map={texture} toneMapped={false} fog={false} />
       </mesh>
-      <mesh position={[SCREEN_W / 2 - 0.02, -SCREEN_H / 2 - 0.007, 0]}>
-        <circleGeometry args={[0.0025, 12]} />
-        <meshBasicMaterial color={[3, 1.8, 0.5]} toneMapped={false} />
-      </mesh>
-      <MonitorArm baseY={baseY} />
-      {/* the screen's blue wallpaper tints the desk in front of it */}
-      <pointLight position={[0, -0.05, 0.3]} color="#9db4ff" intensity={0.6} distance={1.6} decay={2} />
+      {!screenOnly && (
+        <>
+          <mesh position={[SCREEN_W / 2 - 0.02, -SCREEN_H / 2 - 0.007, 0]}>
+            <circleGeometry args={[0.0025, 12]} />
+            <meshBasicMaterial color={[3, 1.8, 0.5]} toneMapped={false} />
+          </mesh>
+          <MonitorArm baseY={baseY} />
+          {/* the screen's blue wallpaper tints the desk in front of it */}
+          <pointLight position={[0, -0.05, 0.3]} color="#9db4ff" intensity={0.6} distance={1.6} decay={2} />
+        </>
+      )}
     </group>
   );
 }

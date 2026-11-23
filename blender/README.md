@@ -1,0 +1,38 @@
+# Quarto com luz assada (Blender)
+
+O quarto do site é modelado em código (`src/components/intro/objects`). A iluminação é feita
+no Blender e "assada" em texturas: o navegador só desenha texturas, sem calcular luz nem
+sombra. Fica mais bonito (luz rebatida, sombras suaves) e bem mais leve.
+
+Blender usado: 5.3 (`~/Applications/blender-5.3.0-linux-x64/blender`, abreviado `blender` abaixo).
+
+## Fluxo
+
+1. **Exportar o quarto do site** (`scene.glb`)
+   ```sh
+   node blender/receive.mjs          # escuta na porta 4399
+   # abra http://localhost:4321/?export com o `astro dev` rodando
+   ```
+   `src/components/intro/exportScene.tsx` (só em dev) envia a cena como `.glb`.
+
+2. **Montar a cena iluminada** (`room.blend`)
+   ```sh
+   blender --background --python blender/build.py
+   ```
+   Importa o `scene.glb`, cria as luzes (luminária, luar, brilhos) e a câmera da landing.
+   Para conferir a iluminação antes de assar:
+   ```sh
+   blender --background blender/room.blend --render-output /tmp/prev_ --render-format JPEG -f 1
+   ```
+   O `room.blend` também pode ser aberto e ajustado à mão no Blender.
+
+3. **Assar e exportar** (`public/room/room.glb`)
+   ```sh
+   BAKE_SCALE=1 BAKE_SAMPLES=48 blender --background blender/room.blend --python blender/bake.py
+   ```
+   Junta cada parte num objeto, apaga faces que a câmera nunca vê, desdobra UVs, assa a luz
+   no Cycles, tira o ruído (`denoise.py`, OIDN) e exporta com texturas WebP e malha Draco.
+   `BAKE_SCALE=0.25 BAKE_SAMPLES=16` faz uma versão rápida para testar (cerca de 20s).
+
+No site, `BakedRoom.tsx` carrega o `.glb` e escurece as texturas enquanto a luminária está
+apagada. A tela do monitor, a poeira e o vapor continuam ao vivo, em código.
