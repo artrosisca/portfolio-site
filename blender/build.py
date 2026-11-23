@@ -57,6 +57,7 @@ for o in bpy.data.objects:
 # --- Arthur's own gear, modelled here instead of the site's placeholders -------
 import sys; sys.path.insert(0, os.path.join(HERE, 'models'))
 import sofle; sofle.build()
+import mouse; mouse.build()
 
 # the Rubik's cube was drawn oversized in the site; a real 57 mm cube at the desk set's 1.35x
 cube = [o for o in bpy.data.objects if o.type == 'MESH' and o.name.startswith('cube__')]

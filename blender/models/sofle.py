@@ -63,23 +63,14 @@ def half_keys():
     return keys  # (x, row-depth z, rotation, width in u) in the site's half-local frame
 
 def keycap_mesh():
-    """KLP Lamé: a low (~4.5 mm), slightly tapered cap with soft round edges and a shallow
-    concave dish on top. One shared mesh for every key."""
+    """KLP Lamé, simplified: a low (~4.5 mm), slightly tapered cap with round edges. One
+    shared mesh for every key; kept light because 58 of them are on screen."""
     bm = bmesh.new(); bmesh.ops.create_cube(bm, size=1)
     for v in bm.verts:
         top = v.co.z > 0
         k = 0.9 if top else 1.0  # taper towards the top
         v.co.x *= CAP_X * k; v.co.y *= CAP_Y * k; v.co.z = 0.0045 if top else 0.0
-    bmesh.ops.bevel(bm, geom=bm.edges[:], offset=0.0016, segments=4, profile=0.55, affect='EDGES')
-    # the dish: a shallow scoop across the top, deepest in the middle
-    hx = CAP_X * 0.9 / 2
-    for v in bm.verts:
-        if v.co.z > 0.0040:
-            v.co.z -= 0.0005 * max(0.0, 1 - (v.co.x / hx) ** 2)
-    bmesh.ops.subdivide_edges(bm, edges=[e for e in bm.edges if all(v.co.z > 0.0040 for v in e.verts)], cuts=6, use_grid_fill=True)
-    for v in bm.verts:
-        if v.co.z > 0.0038:
-            v.co.z = 0.0045 - 0.0005 * max(0.0, 1 - (v.co.x / hx) ** 2) if abs(v.co.x) < hx * 0.8 and abs(v.co.y) < CAP_Y * 0.9 / 2 * 0.8 else v.co.z
+    bmesh.ops.bevel(bm, geom=bm.edges[:], offset=0.0016, segments=2, profile=0.6, affect='EDGES')
     me = bpy.data.meshes.new('sofle_cap'); bm.to_mesh(me); bm.free()
     for p in me.polygons: p.use_smooth = True
     return me
