@@ -14,7 +14,7 @@ export const K = {
   blue: '#5aa2ff',
   fedora: '#51a2da',
   amber: '#f2a33a',
-  accent: '#8ecbff', // the site's accent, for its favicon in the browser tab
+  accent: '#c4502b', // the site's accent, for its favicon in the browser tab
   term: '#1e1e22',
   headerbar: '#2e2e33',
   topbar: 'rgba(0,0,0,0.92)',

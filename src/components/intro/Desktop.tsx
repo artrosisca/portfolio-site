@@ -67,7 +67,7 @@ function Firefox({ L, t, kFull }: { L: Layout; t: number; kFull: number }) {
           {loading ? (
             <span className="shrink-0 rounded-full" style={{ width: f * 0.8, height: f * 0.8, border: `${f * 0.12}px solid rgba(255,255,255,0.25)`, borderTopColor: '#fbfbfe', transform: `rotate(${t * 540}deg)` }} />
           ) : (
-            <span className="grid shrink-0 place-items-center rounded-[3px] font-bold" style={{ width: f * 0.85, height: f * 0.85, background: K.accent, color: '#05060a', fontSize: f * 0.55 }}>A</span>
+            <span className="grid shrink-0 place-items-center rounded-[3px] font-bold" style={{ width: f * 0.85, height: f * 0.85, background: K.accent, color: '#f1ece2', fontSize: f * 0.55 }}>A</span>
           )}
           <span className="truncate">{loading ? 'localhost:4321' : 'Arthur Rosisca — Full-Stack & Dados'}</span>
         </div>
@@ -89,7 +89,7 @@ function Firefox({ L, t, kFull }: { L: Layout; t: number; kFull: number }) {
         </div>
       </div>
       {/* page */}
-      <div className="relative overflow-hidden bg-ink" style={{ width: R.w, height: R.h - ch }}>
+      <div className="relative overflow-hidden bg-paper" style={{ width: R.w, height: R.h - ch }}>
         {progress < 1 && <div className="absolute left-0 top-0 z-10" style={{ height: 2, width: `${progress * 100}%`, background: 'linear-gradient(90deg,#0060df,#00ddff)' }} />}
         <div className="absolute left-0 top-0 origin-top-left font-sans" style={{ width: L.vw, height: L.vh, transform: `scale(${s})` }}>
           {contentIn < 1 && <Skeleton L={L} t={t} />}
@@ -108,7 +108,7 @@ function Skeleton({ L, t }: { L: Layout; t: number }) {
   const px = L.narrow ? 24 : 48;
   const pulse = 0.55 + 0.25 * Math.sin(t * 9);
   const block = (x: number, y: number, w: number, h: number, r = 8) => (
-    <div className="absolute" style={{ left: x, top: y, width: w, height: h, borderRadius: r, background: '#1b1b23', opacity: pulse }} />
+    <div className="absolute" style={{ left: x, top: y, width: w, height: h, borderRadius: r, background: '#ddd5c5', opacity: pulse }} />
   );
   const h1 = Math.min(Math.max(48, L.vw * 0.09), 120);
   const y0 = L.vh * 0.33;
