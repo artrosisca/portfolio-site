@@ -71,7 +71,7 @@ function Firefox({ L, t, kMax, kFull }: { L: Layout; t: number; kMax: number; kF
           {loading ? (
             <span className="shrink-0 rounded-full" style={{ width: f * 0.8, height: f * 0.8, border: `${f * 0.12}px solid rgba(255,255,255,0.25)`, borderTopColor: '#fbfbfe', transform: `rotate(${t * 540}deg)` }} />
           ) : (
-            <span className="grid shrink-0 place-items-center rounded-[3px] font-bold" style={{ width: f * 0.85, height: f * 0.85, background: K.amber, color: '#050507', fontSize: f * 0.55 }}>A</span>
+            <span className="grid shrink-0 place-items-center rounded-[3px] font-bold" style={{ width: f * 0.85, height: f * 0.85, background: K.accent, color: '#05060a', fontSize: f * 0.55 }}>A</span>
           )}
           <span className="truncate">{loading ? 'localhost:4321' : 'Arthur Rosisca — Full-Stack & Dados'}</span>
         </div>

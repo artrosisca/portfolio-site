@@ -3,7 +3,6 @@ import Base from '@/layouts/Base.astro';
 import Intro from '@/components/intro/Intro';
 import SiteHero from '@/components/site/SiteHero';
 import SoundToggle from '@/components/site/SoundToggle';
-import PalettePicker from '@/components/site/PalettePicker';
 ---
 <Base
   title="Arthur Rosisca — Full-Stack & Dados"
@@ -11,7 +10,6 @@ import PalettePicker from '@/components/site/PalettePicker';
 >
   <Intro client:only="react" />
   <SoundToggle client:only="react" />
-  {import.meta.env.DEV && <PalettePicker client:only="react" />}
 
   <main>
     <SiteHero />

@@ -9,7 +9,7 @@ export const DESK_Y = 0.76; // top surface height
 export const ARRIVE = 1;
 
 export const C = {
-  ink: '#050507',
+  ink: '#05060a',
   wall: '#1d1f2e',
   floor: '#15131b',
   wood: '#8a5a34',
