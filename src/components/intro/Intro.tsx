@@ -4,7 +4,7 @@ import type Lenis from 'lenis';
 import { Scene } from './Scene';
 import { Desktop, SEQ } from './Desktop';
 import { useScrollProgress } from './useScrollProgress';
-import { useAssistedScroll } from './useAssistedScroll';
+import { useSmoothScroll } from './useSmoothScroll';
 import { detectQuality, prefersReducedMotion, type Quality } from './quality';
 import { TYPING, clock, layout } from './desktop';
 import { sound } from '@/lib/sound';
@@ -89,8 +89,8 @@ export default function Intro() {
     return () => window.clearTimeout(id);
   }, []);
 
-  // Lenis lives for the whole page; the push only acts inside the intro section.
-  useAssistedScroll(section, quality !== null && !reduced);
+  // Lenis lives for the whole page; scrolling is never automatic until the camera arrives.
+  useSmoothScroll(quality !== null && !reduced);
 
   // progress smoothing + arrival detection
   useEffect(() => {
