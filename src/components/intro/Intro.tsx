@@ -89,6 +89,16 @@ export default function Intro() {
     return () => window.clearTimeout(id);
   }, []);
 
+  // While the intro runs, the site below it is out of the document: the page then ends
+  // exactly where the camera reaches the screen, so the last wheel flick can't overshoot
+  // into the site (and get yanked back when the boot locks the scroll).
+  useLayoutEffect(() => {
+    const html = document.documentElement;
+    if (phase === 'done') delete html.dataset.intro;
+    else html.dataset.intro = 'on';
+    return () => void delete html.dataset.intro;
+  }, [phase]);
+
   // Lenis lives for the whole page; scrolling is never automatic until the camera arrives.
   useSmoothScroll(quality !== null && !reduced);
 

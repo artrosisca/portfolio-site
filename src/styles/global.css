@@ -65,3 +65,6 @@ html::-webkit-scrollbar { display: none; }
 @media (prefers-reduced-motion: reduce) {
   .reveal-word > span { transform: none !important; animation: none !important; }
 }
+
+/* the intro owns the page until it hands over to the site (see Intro.tsx) */
+html[data-intro] main { display: none; }
