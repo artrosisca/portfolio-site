@@ -37,7 +37,7 @@ def light(name, kind, loc, color, energy, **kw):
 
 lamp = light('lamp_spot', 'SPOT', HEAD, '#ffb765', 70, spot_size=math.radians(110), spot_blend=0.9, shadow_soft_size=0.025)
 lamp.rotation_euler = (TARGET - HEAD).to_track_quat('-Z', 'Y').to_euler()
-moon = light('moon', 'SUN', (0, 0, 0), '#9fb0ff', 0.25, angle=math.radians(3))
+moon = light('moon', 'SUN', (0, 0, 0), '#9fb0ff', 0.7, angle=math.radians(3))
 moon.rotation_euler = B(3, 3.5, 2).to_track_quat('Z', 'Y').to_euler()
 light('shelf_glow', 'POINT', B(0.0, 1.62, -0.6), '#ffa95a', 6, shadow_soft_size=0.3)
 light('lamp_bounce', 'POINT', B(-0.3, DESK_Y + 0.35, 0), '#ff9a4a', 5, shadow_soft_size=0.4)
@@ -45,7 +45,7 @@ light('guitar_warm', 'POINT', B(0.9, 1.5, 0.6), '#ffc98a', 6, shadow_soft_size=0
 
 # world: the dim cool night fill
 w = bpy.data.worlds.new('night'); sc.world = w; w.use_nodes = True
-bg = w.node_tree.nodes['Background']; bg.inputs[0].default_value = hexcol('#1a1f3a'); bg.inputs[1].default_value = 0.8
+bg = w.node_tree.nodes['Background']; bg.inputs[0].default_value = hexcol('#1a1f3a'); bg.inputs[1].default_value = 1.3
 
 # the screen glows: its desktop image lights the desk
 for o in bpy.data.objects:
@@ -58,6 +58,12 @@ for o in bpy.data.objects:
 import sys; sys.path.insert(0, os.path.join(HERE, 'models'))
 import sofle; sofle.build()
 import mouse; mouse.build()
+import props; props.lamp(); props.plants()
+import materials; materials.apply()
+# bake.py groups meshes by their "part__" prefix: Arthur's gear goes with the keyboard
+for name, part in (('sofle', 'keyboard'), ('mouse', 'keyboard')):
+    for o in bpy.data.collections[name].all_objects:
+        if o.type == 'MESH': o.name = f'{part}__{o.name}'
 
 # the Rubik's cube was drawn oversized in the site; a real 57 mm cube at the desk set's 1.35x
 cube = [o for o in bpy.data.objects if o.type == 'MESH' and o.name.startswith('cube__')]
@@ -85,6 +91,6 @@ sc.cycles.use_denoising = True
 sc.render.resolution_x, sc.render.resolution_y = 960, 600
 sc.view_settings.view_transform = 'AgX'
 sc.view_settings.look = 'AgX - Medium High Contrast'
-sc.view_settings.exposure = 0.8
+sc.view_settings.exposure = 1.25
 bpy.ops.wm.save_as_mainfile(filepath=os.path.join(HERE, 'room.blend'))
 print('SAVED')

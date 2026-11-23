@@ -6,6 +6,20 @@ sombra. Fica mais bonito (luz rebatida, sombras suaves) e bem mais leve.
 
 Blender usado: 5.3 (`~/Applications/blender-5.3.0-linux-x64/blender`, abreviado `blender` abaixo).
 
+## Modelos e materiais
+
+- `models/sofle.py`, `models/mouse.py`: o teclado (Sofle, teclas KLP Lamé) e o mouse (VXE R1 Pro Max)
+  modelados em código.
+- `models/props.py`: troca a luminária e as plantas do site por modelos CC0 do Poly Haven.
+- `models/materials.py`: superfícies escaneadas (nogueira, reboco, piso, lã, camurça), tingidas
+  para manter a paleta do quarto.
+
+Os arquivos do Poly Haven ficam em `blender/assets/` (fora do git, resolução 1k):
+texturas `american_walnut_veneer`, `clay_plaster`, `dark_wooden_planks`, `poly_wool_herringbone`,
+`scuba_suede` (`<nome>_diff|rough|nor_gl_1k.jpg`) e os modelos glTF `desk_lamp_arm_01`,
+`potted_plant_02`, `potted_plant_04` (cada um na sua pasta). Para baixar, use a API pública:
+`https://api.polyhaven.com/files/<nome>`.
+
 ## Fluxo
 
 1. **Exportar o quarto do site** (`scene.glb`)
