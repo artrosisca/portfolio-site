@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { sound } from '@/lib/sound';
 
-/** Fixed sound button for the whole page. Until the visitor chooses, it invites them. */
+/** Fixed sound button for the whole page, one look over the room and the site. Until the visitor chooses, a persimmon border invites them. */
 export default function SoundToggle() {
   const [on, setOn] = useState(sound.on);
   const [asked, setAsked] = useState(true);
@@ -24,11 +24,8 @@ export default function SoundToggle() {
       }}
       aria-pressed={on}
       aria-label={on ? 'Desligar som' : 'Ligar som'}
-      className="fixed bottom-6 left-6 z-50 flex items-center gap-2 rounded-full border border-cream/20 bg-ink/70 px-3 py-2 font-mono text-xs text-cream/80 backdrop-blur transition hover:border-accent-soft hover:text-accent-soft md:bottom-12 md:left-12"
+      className={`fixed bottom-6 left-6 z-50 flex items-center gap-2 rounded-full border bg-deep-2/80 px-3 py-2 font-mono text-xs backdrop-blur transition hover:border-accent hover:text-accent md:bottom-12 md:left-12 ${asked ? 'border-bone/15 text-bone/75' : 'border-accent/60 text-bone'}`}
     >
-      {!asked && (
-        <span className="absolute inset-0 -z-10 animate-ping rounded-full border border-accent-soft/60 [animation-duration:2.2s]" aria-hidden />
-      )}
       <span className="flex h-3 items-end gap-[2px]" aria-hidden>
         {[0.5, 1, 0.7, 0.9].map((h, i) => (
           <span

@@ -13,10 +13,10 @@
   --color-accent: #ff5c34;      /* persimmon: the one warm accent (dark text on it, never white) */
   --color-accent-soft: #ff7f5e; /* the same persimmon, lifted for small text on the dark intro */
 
-  /* The site: deep "transformative teal", jade for quiet details, bone for text */
-  --color-deep: #17312b;
-  --color-deep-2: #1c4d4d;
-  --color-jade: #aeb8a0;
+  /* The site: the room's own purple-black with the lamp's persimmon, so the hand-off
+     from the 3D intro reads as the same place with the light on */
+  --color-deep: #0f0d16;
+  --color-deep-2: #17141f;
   --color-bone: #f4f1e8;
   --color-ember: #d9643a;
 

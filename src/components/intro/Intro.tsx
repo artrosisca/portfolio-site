@@ -12,6 +12,7 @@ import { Reveal } from '@/components/site/Reveal';
 
 type Phase = 'scroll' | 'boot' | 'done';
 const SEEN_KEY = 'intro-seen';
+const SKIP_KEY = 'intro-skipped'; // localStorage: whoever skipped once goes straight to the site
 const getLenis = () => (window as Window & { __lenis?: Lenis }).__lenis;
 
 /** Lamp power over time after the click: on, off, on, off, then it warms up. */
@@ -63,12 +64,16 @@ export default function Intro() {
   const phaseRef = useRef<Phase>('scroll');
   phaseRef.current = phase;
   const vp = useViewport();
+  function skip() {
+    localStorage.setItem(SKIP_KEY, '1');
+    setPhase('done');
+  }
 
   useEffect(() => {
     const r = prefersReducedMotion();
     setReduced(r);
     setQuality(detectQuality());
-    if (r) {
+    if (r || localStorage.getItem(SKIP_KEY)) {
       setPhase('done');
       return;
     }
@@ -139,7 +144,7 @@ export default function Intro() {
       setHurried(true);
     };
     const block = (e: Event) => e.preventDefault(); // scroll is locked; momentum is ignored
-    const onKey = (e: KeyboardEvent) => (e.key === 'Escape' ? setPhase('done') : hurry());
+    const onKey = (e: KeyboardEvent) => (e.key === 'Escape' ? skip() : hurry());
     window.addEventListener('wheel', block, { passive: false });
     window.addEventListener('touchmove', block, { passive: false });
     window.addEventListener('keydown', onKey);
@@ -183,13 +188,12 @@ export default function Intro() {
 
   if (phase === 'done') return null;
 
-  const skip = () => setPhase('done');
   const copy = Math.max(0, 1 - p / 0.14);
   const L = layout(vp.w, vp.h);
   const sceneActive = !desktopOn || seqT < 0.45;
 
   return (
-    <section ref={section} className="relative h-[420vh]" aria-label="Introdução">
+    <section ref={section} className="relative h-[220vh]" aria-label="Introdução">
       <div className="sticky top-0 h-svh w-full overflow-hidden bg-ink">
         {quality && (
           <div className="absolute inset-0" style={{ visibility: sceneActive ? 'visible' : 'hidden' }}>
@@ -241,7 +245,7 @@ export default function Intro() {
         <button
           type="button"
           onClick={skip}
-          className="absolute bottom-6 right-6 z-10 rounded-full border border-cream/20 bg-ink/70 px-4 py-2 font-mono text-xs text-cream/80 backdrop-blur transition hover:border-accent-soft hover:text-accent-soft md:bottom-12 md:right-12"
+          className="absolute bottom-6 right-6 z-10 rounded-full border border-bone/15 bg-deep-2/80 px-4 py-2 font-mono text-xs text-bone/75 backdrop-blur transition hover:border-accent hover:text-accent md:bottom-12 md:right-12"
           style={{ opacity: phase === 'scroll' && lit ? 1 : 0, pointerEvents: phase === 'scroll' && lit ? 'auto' : 'none' }}
         >
           pular intro →

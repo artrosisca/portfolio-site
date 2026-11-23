@@ -1,0 +1,23 @@
+---
+const LINKS = [
+  { label: 'email', value: 'arthur.rosisca@gmail.com', href: 'mailto:arthur.rosisca@gmail.com' },
+  { label: 'linkedin', value: 'in/artrosisca', href: 'https://www.linkedin.com/in/artrosisca/' },
+  { label: 'github', value: 'artrosisca', href: 'https://github.com/artrosisca' },
+  { label: 'currículo', value: 'arthur_resume_pt-br.pdf', href: '/arthur_resume_pt-br.pdf' },
+];
+---
+<section id="contato" class="mx-auto max-w-5xl px-6 py-32 md:px-12">
+  <p class="font-mono text-sm text-accent">$ ssh arthur@contato</p>
+  <h2 class="mt-5 font-display text-[clamp(2.4rem,5vw,4.4rem)] font-[700] leading-[0.95] tracking-[-0.04em]">Vamos conversar.</h2>
+  <p class="mt-6 max-w-xl text-lg text-bone/70">Procurando minha primeira vaga como desenvolvedor full-stack ou de dados. Formatura em dezembro de 2026.</p>
+  <ul class="mt-12 divide-y divide-bone/10 border-y border-bone/10 font-mono text-sm md:text-base">
+    {LINKS.map((l) => (
+      <li>
+        <a href={l.href} target={l.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer" class="group flex items-center justify-between gap-6 py-5 transition-colors hover:text-accent">
+          <span class="text-bone/50 group-hover:text-accent">{l.label}</span>
+          <span>{l.value} <span aria-hidden>→</span></span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>
