@@ -94,17 +94,6 @@ export function Decor() {
         </mesh>
       </group>
 
-      {/* notebook + pen */}
-      <group position={[-0.62, DESK_Y, -0.02]} rotation={[0, 0.35, 0]}>
-        <RoundedBox args={[0.17, 0.014, 0.23]} radius={0.004} smoothness={2} position={[0, 0.007, 0]} castShadow receiveShadow>
-          <meshStandardMaterial color="#d9643a" roughness={0.8} />
-        </RoundedBox>
-        <mesh position={[0.02, 0.02, 0.01]} rotation={[Math.PI / 2, 0, 0.5]} castShadow>
-          <cylinderGeometry args={[0.005, 0.005, 0.15, 8]} />
-          <meshStandardMaterial color={C.cream} roughness={0.5} />
-        </mesh>
-      </group>
-
       {/* monitor light bar */}
       <group position={[SCREEN_POS.x, SCREEN_POS.y + SCREEN_H / 2 + 0.028, SCREEN_POS.z + 0.004]}>
         <mesh rotation={[0, 0, Math.PI / 2]} castShadow>
@@ -164,24 +153,6 @@ export function Decor() {
         </RoundedBox>
       </group>
 
-      {/* phone, face down */}
-      <RoundedBox args={[0.075, 0.009, 0.155]} radius={0.004} smoothness={2} position={[-0.6, DESK_Y + 0.0045, 0.27]} rotation={[0, 0.5, 0]} castShadow receiveShadow>
-        <meshStandardMaterial color="#2a3550" metalness={0.3} roughness={0.35} />
-      </RoundedBox>
-
-      {/* headphones */}
-      <group position={[0.92, DESK_Y + 0.085, -0.4]} rotation={[0, -0.4, 0]}>
-        <mesh rotation={[0, 0, 0]}>
-          <torusGeometry args={[0.085, 0.009, 10, 28, Math.PI]} />
-          <meshStandardMaterial color="#14141a" roughness={0.5} />
-        </mesh>
-        {[-1, 1].map((s) => (
-          <mesh key={s} position={[s * 0.085, -0.035, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
-            <cylinderGeometry args={[0.045, 0.045, 0.035, 24]} />
-            <meshStandardMaterial color={s === 1 ? C.amber : '#14141a'} roughness={0.5} />
-          </mesh>
-        ))}
-      </group>
     </group>
   );
 }

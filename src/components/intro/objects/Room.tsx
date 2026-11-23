@@ -63,40 +63,7 @@ export function Desk() {
           ))}
         </group>
       ))}
-      <PCTower />
     </group>
   );
 }
 
-/** Gaming tower under the desk: glass side, three red RGB fans glowing on the floor. */
-function PCTower() {
-  const W = 0.21;
-  const H = 0.46;
-  const D = 0.44;
-  const red: [number, number, number] = [3.2, 0.35, 0.3];
-  return (
-    <group position={[0.62, 0, -0.32]}>
-      <RoundedBox args={[W, H, D]} radius={0.01} smoothness={2} position={[0, H / 2 + 0.02, 0]} castShadow receiveShadow>
-        <meshStandardMaterial color="#0e0f13" metalness={0.4} roughness={0.4} />
-      </RoundedBox>
-      {/* tempered-glass side (facing the camera), with a red glow behind it */}
-      <mesh position={[-W / 2 - 0.001, H / 2 + 0.02, 0]} rotation={[0, -Math.PI / 2, 0]}>
-        <planeGeometry args={[D - 0.04, H - 0.04]} />
-        <meshBasicMaterial color="#1c0709" />
-      </mesh>
-      {/* front fans */}
-      {[0.12, 0.25, 0.38].map((y) => (
-        <mesh key={y} position={[0, y + 0.02, D / 2 + 0.001]}>
-          <ringGeometry args={[0.045, 0.055, 32]} />
-          <meshBasicMaterial color={red} toneMapped={false} />
-        </mesh>
-      ))}
-      {/* power LED */}
-      <mesh position={[0.06, H + 0.021, D / 2 - 0.03]} rotation={[-Math.PI / 2, 0, 0]}>
-        <circleGeometry args={[0.004, 12]} />
-        <meshBasicMaterial color={[1.2, 2.2, 3]} toneMapped={false} />
-      </mesh>
-      <pointLight position={[0.04, 0.04, 0.36]} color="#ff3b30" intensity={0.7} distance={1.2} decay={2} />
-    </group>
-  );
-}

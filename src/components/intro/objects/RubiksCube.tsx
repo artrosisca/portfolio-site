@@ -51,7 +51,7 @@ export function RubiksCube() {
   });
 
   return (
-    <group position={[0.52, DESK_Y + STEP * 1.5 + 0.002, 0.2]} rotation={[0, 0.6, 0]}>
+    <group position={[0.82, DESK_Y + STEP * 1.5 + 0.002, -0.32]} rotation={[0, 0.6, 0]}>
       {coords.filter((c) => c[1] !== 1).map(([x, y, z]) => <Cubie key={`${x}${y}${z}`} ix={x} iy={y} iz={z} />)}
       <group ref={top}>
         {coords.filter((c) => c[1] === 1).map(([x, y, z]) => <Cubie key={`${x}${y}${z}`} ix={x} iy={y} iz={z} />)}

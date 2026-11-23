@@ -15,7 +15,7 @@ import { RubiksCube } from './objects/RubiksCube';
 import { Guitar } from './objects/Guitar';
 import { ZZPlant } from './objects/ZZPlant';
 import { Decor } from './objects/Decor';
-import { Dust, MUG_TOP, Steam, StringLights } from './objects/Effects';
+import { Dust, MUG_TOP, Steam } from './objects/Effects';
 import type { Quality } from './quality';
 
 export function Scene({ progress, lamp, quality: initial, active }: { progress: RefObject<number>; lamp: RefObject<number>; quality: Quality; active: boolean }) {
@@ -52,7 +52,6 @@ export function Scene({ progress, lamp, quality: initial, active }: { progress: 
         <Guitar />
         <ZZPlant position={[-1.45, 0, -0.38]} scale={1.3} />
         <Decor />
-        <StringLights />
         <Steam position={MUG_TOP} />
         <Dust lamp={lamp} count={quality === 'low' ? 60 : 160} />
         {/* soft contact shadows ground the props on the desk; rendered for a few frames only */}
