@@ -126,7 +126,7 @@ export function termLines(logo: boolean, pre: number, seq: number): { lines: Lin
   return { lines, cursor: true };
 }
 
-const DOCK = ['firefox', 'terminal', 'cursor', 'claude', 'obsidian', 'spotify', 'cube'] as const;
+const DOCK = ['firefox', 'terminal', 'cursor', 'claude', 'obsidian', 'spotify', 'docker'] as const;
 type App = (typeof DOCK)[number] | 'grid';
 
 export type Layout = ReturnType<typeof layout>;
@@ -394,18 +394,26 @@ function drawIcon(ctx: Ctx, a: App, x: number, y: number, s: number) {
         ctx.stroke();
       });
       break;
-    case 'cube': {
-      rr('#16161c');
-      const cols = ['#e5483b', '#f6f2e7', '#39a85a', '#f7d53a', '#3a78e0', '#f59331', '#39a85a', '#e5483b', '#f7d53a'];
-      const c = s * 0.18;
-      const g0 = s * 0.035;
-      const ox = cx - (c * 3 + g0 * 2) / 2;
-      cols.forEach((col, i) => {
-        ctx.fillStyle = col;
-        ctx.beginPath();
-        ctx.roundRect(ox + (i % 3) * (c + g0), ox - cx + cy + Math.floor(i / 3) * (c + g0), c, c, c * 0.2);
-        ctx.fill();
-      });
+    case 'docker': {
+      rr('#1d63ed');
+      ctx.fillStyle = '#ffffff';
+      // whale body: flat back, rounded belly, nose to the right, tail flick to the left
+      ctx.beginPath();
+      ctx.moveTo(x + s * 0.17, cy + s * 0.02);
+      ctx.lineTo(x + s * 0.8, cy + s * 0.02);
+      ctx.quadraticCurveTo(x + s * 0.86, cy - s * 0.08, x + s * 0.83, cy - s * 0.02);
+      ctx.quadraticCurveTo(x + s * 0.76, cy + s * 0.3, x + s * 0.42, cy + s * 0.3);
+      ctx.quadraticCurveTo(x + s * 0.2, cy + s * 0.3, x + s * 0.17, cy + s * 0.02);
+      ctx.fill();
+      // containers stacked on its back
+      const c = s * 0.095;
+      const gap = s * 0.018;
+      const row = (n: number, x0: number, yy: number) => {
+        for (let i = 0; i < n; i++) ctx.fillRect(x0 + i * (c + gap), yy, c, c);
+      };
+      row(5, x + s * 0.2, cy - c - gap * 0.5);
+      row(3, x + s * 0.2 + (c + gap), cy - c * 2 - gap * 1.5);
+      row(1, x + s * 0.2 + (c + gap) * 3, cy - c * 3 - gap * 2.5);
       break;
     }
     case 'grid':

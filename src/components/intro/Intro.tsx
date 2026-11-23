@@ -223,7 +223,7 @@ export default function Intro() {
         )}
 
         {desktopOn && (
-          <p className="pointer-events-none absolute bottom-3 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-black/55 px-3 py-1 font-mono text-[11px] text-white/70 backdrop-blur transition-opacity duration-500" style={{ opacity: hurried ? 0 : 1 }}>
+          <p className="pointer-events-none absolute top-10 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-black/55 px-3 py-1 font-mono text-[11px] text-white/70 backdrop-blur transition-opacity duration-500" style={{ opacity: hurried ? 0 : 1 }}>
             clique para acelerar · esc para pular
           </p>
         )}

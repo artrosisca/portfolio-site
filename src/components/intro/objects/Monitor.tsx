@@ -78,9 +78,10 @@ type V3 = [number, number, number];
 /** Gas-spring monitor arm: clamp on the desk's back edge, pole, two segments, VESA plate. */
 function MonitorArm({ baseY }: { baseY: number }) {
   const mat = <meshStandardMaterial color="#1b1d24" metalness={0.6} roughness={0.35} />;
-  const clamp: V3 = [0.42, baseY, -0.33];
-  const poleTop: V3 = [0.42, baseY + 0.32, -0.33];
-  const elbow: V3 = [0.22, baseY + 0.38, -0.16];
+  // clamped on the left, like on the real desk
+  const clamp: V3 = [-0.42, baseY, -0.33];
+  const poleTop: V3 = [-0.42, baseY + 0.32, -0.33];
+  const elbow: V3 = [-0.22, baseY + 0.38, -0.16];
   const head: V3 = [0, -0.02, -0.07];
   return (
     <group>
