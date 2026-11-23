@@ -1,79 +1,140 @@
 /**
- * "fedora" desktop shown on the monitor: GNOME top bar, wallpaper, dash and a Ptyxis
- * terminal running fish. One function draws it, both into the 3D screen texture and
- * into a 2D canvas overlay after the camera lands, so the handoff is pixel-identical.
+ * Arthur's desktop shown on the monitor: Fedora with COSMIC (panel, floating dock) and a
+ * translucent kitty running fish with his capsule prompt and his real fastfetch. One function
+ * draws it, both into the 3D screen texture and into a 2D canvas overlay after the camera
+ * lands, so the handoff is pixel-identical.
  * Coordinates are CSS px of the browser viewport.
  */
-export const MONO = '"JetBrains Mono Variable", ui-monospace, Menlo, monospace';
+export const MONO = '"Fira Code Variable", "JetBrains Mono Variable", ui-monospace, Menlo, monospace';
 export const SANS = '"Inter Variable", Inter, system-ui, sans-serif';
 
 export const K = {
   text: '#e6e1d6',
   dim: '#8b8f99',
   green: '#7cc77f',
-  blue: '#5aa2ff',
-  fedora: '#51a2da',
   amber: '#f2a33a',
+  key: '#4d9ff5', // fastfetch keys
   accent: '#ff5c34', // the site's accent, for its favicon in the browser tab
-  term: '#1e1e22',
-  headerbar: '#2e2e33',
-  topbar: 'rgba(0,0,0,0.92)',
+  term: 'rgba(10,9,14,0.86)', // kitty, translucent
+  topbar: 'rgba(14,12,19,0.94)',
 };
 
-type Seg = { t: string; c?: string; b?: boolean; bg?: string };
-type Line = Seg[];
+/** Arthur's prompt: Catppuccin capsules (fish + a powerline theme). */
+const P = { lav: '#b4befe', peach: '#fab387', green: '#a6e3a1', yellow: '#f9e2af', sky: '#89dceb', pink: '#f5c2e7', mauve: '#cba6f7', ink: '#313244', rule: '#585b70' };
 
-const prompt = (cwd: string): Line => [
-  { t: 'arthur', c: K.green, b: true },
-  { t: '@fedora ', c: K.text },
-  { t: cwd, c: K.green },
-  { t: '> ', c: K.text },
-];
+type Icon = 'fedora' | 'folder' | 'branch' | 'battery';
+/** One terminal cell run. Shape segments (arrow, chevron, cap, icon) are one or two cells wide. */
+type Seg = { t: string; c?: string; b?: boolean; bg?: string; arrow?: string; arrowL?: string; chev?: string; chevL?: string; capL?: string; capR?: string; icon?: Icon };
+type Line = Seg[] & { right?: Seg[] };
 
+const withRight = (left: Seg[], right: Seg[]): Line => Object.assign(left, { right });
+
+/** Two-line prompt, like Arthur's kitty: capsules on top, `❯ command` below. */
+function prompt(cwd: string, branch: string | null, cmd: string): Line[] {
+  const top: Seg[] = [
+    { t: '╭─', c: P.rule },
+    { t: ' ', capL: P.lav },
+    { t: '  ', icon: 'fedora', bg: P.lav, c: P.ink },
+    { t: 'arosisca@fedora ', bg: P.lav, c: P.ink },
+    { t: ' ', arrow: P.lav, bg: P.peach },
+    { t: '  ', icon: 'folder', bg: P.peach, c: P.ink },
+    { t: `${cwd} `, bg: P.peach, c: P.ink },
+  ];
+  let last = P.peach;
+  if (branch) {
+    top.push({ t: ' ', arrow: P.peach, bg: P.green }, { t: '  ', icon: 'branch', bg: P.green, c: P.ink }, { t: `${branch} `, bg: P.green, c: P.ink });
+    last = P.green;
+  }
+  top.push({ t: ' ', arrow: last });
+  (branch ? [P.yellow, P.sky] : [P.yellow, P.green, P.sky]).forEach((c) => top.push({ t: ' ', chev: c }));
+  const right: Seg[] = [
+    { t: ' ', chevL: P.pink },
+    { t: ' ', chevL: P.mauve },
+    { t: ' ', arrowL: P.lav },
+    { t: '  ', icon: 'battery', bg: P.lav, c: P.ink },
+    { t: '100%', bg: P.lav, c: P.ink },
+    { t: ' ', capR: P.lav },
+    { t: '─╮', c: P.rule },
+  ];
+  return [withRight(top, right), [{ t: '╰─', c: P.rule }, { t: '❯ ', c: P.green, b: true }, { t: cmd, c: K.text }]];
+}
+
+// fastfetch's Fedora logo: the "c" field in blue, the f glyph in white
 const LOGO = [
-  "        ,'''''.",
-  "       |   ,.  |",
-  "       |  |  '_'",
-  "  ,....|  |..",
-  ".'  ,_;|   ..'",
-  "|  |   |  |",
-  "|  ',_,'  |",
-  " '.     ,'",
-  "   '''''",
-  '',
-  '',
+  "             .',;::::;,'.",
+  "         .';:cccccccccccc:;,.",
+  "      .;cccccccccccccccccccccc;.",
+  "    .:cccccccccccccccccccccccccc:.",
+  "  .;ccccccccccccc;.:dddl:.;ccccccc;.",
+  " .:ccccccccccccc;OWMKOOXMWd;ccccccc:.",
+  ".:ccccccccccccc;KMMc;cc;xMMc;ccccccc:.",
+  ",cccccccccccccc;MMM.;cc;;WW:;cccccccc,",
+  ":cccccccccccccc;MMM.;cccccccccccccccc:",
+  ":ccccccc;oxOOOo;MMM000k.;cccccccccccc:",
+  "cccccc;0MMKxdd:;MMMkddc.;cccccccccccc;",
+  "ccccc;XMO';cccc;MMM.;cccccccccccccccc'",
+  "ccccc;MMo;ccccc;MMW.;ccccccccccccccc;",
+  "ccccc;0MNc.ccc.xMMd;ccccccccccccccc;",
+  "cccccc;dNMWXXXWM0:;cccccccccccccc:,",
+  "cccccccc;.:odl:.;cccccccccccccc:,.",
+  "ccccccccccccccccccccccccccccc:'.",
+  ":ccccccccccccccccccccccc:;,..",
+  " ':cccccccccccccccc::;,.",
 ];
-const INFO: [string, string][] = [
-  ['', 'arthur@fedora'],
-  ['', '-------------'],
-  ['OS', 'Fedora Linux 43 Workstation'],
-  ['Kernel', 'Linux 7.0.12'],
-  ['Uptime', '3 hours, 12 mins'],
-  ['Packages', '2214 (rpm), 41 (flatpak)'],
-  ['Shell', 'fish 4.1.2'],
-  ['DE', 'GNOME 49'],
-  ['Terminal', 'Ptyxis'],
-  ['Memory', '9.1 GiB / 31 GiB (29%)'],
-  ['', '■'],
-];
-const PALETTE = ['#2e3436', '#cc0000', '#4e9a06', '#c4a000', '#3465a4', '#75507b', '#06989a', '#d3d7cf'];
+const LOGO_W = 39;
+const LOGO_BLUE = '#3c8ee8';
 
-function fetchBlock(side: boolean): Line[] {
-  const info = INFO.map(([k, v], i) => {
-    const line: Line = side ? [{ t: (LOGO[i] ?? '').padEnd(18), c: K.fedora, b: true }] : [];
-    if (v === '■') PALETTE.forEach((c) => line.push({ t: '   ', bg: c }));
-    else if (i === 0) line.push({ t: 'arthur', c: K.blue, b: true }, { t: '@', c: K.text }, { t: 'fedora', c: K.blue, b: true });
-    else if (!k) line.push({ t: v, c: K.text });
-    else line.push({ t: `${k}: `, c: K.blue, b: true }, { t: v, c: K.text });
-    return line;
-  });
-  if (side) return info;
-  return [...LOGO.slice(0, 9).map((l): Line => [{ t: l, c: K.fedora, b: true }]), [], ...info];
+function logoLine(s: string): Seg[] {
+  const out: Seg[] = [];
+  for (const ch of s.padEnd(LOGO_W + 2)) {
+    const white = /[A-Za-z0-9]/.test(ch) && ch !== 'c';
+    const c = white ? '#f4f4f4' : LOGO_BLUE;
+    const prev = out[out.length - 1];
+    if (prev && prev.c === c) prev.t += ch;
+    else out.push({ t: ch, c, b: true });
+  }
+  return out;
+}
+
+const YEL = '#e5c07b';
+const INFO: Seg[][] = [
+  [{ t: 'arosisca@fedora', c: K.text, b: true }],
+  [{ t: '───────────────', c: K.text }],
+  ...([
+    ['OS', 'Fedora Linux 43 (COSMIC) x86_64'],
+    ['Host', 'Zenbook UN5401QA'],
+    ['Kernel', 'Linux 7.0.12-101.fc43'],
+    ['Uptime', '5 hours, 33 mins'],
+    ['Packages', '6646 (rpm), 24 (flatpak)'],
+    ['Shell', 'fish 4.2.0'],
+    ['Display', '2880x1800 @ 90 Hz'],
+    ['DE', 'COSMIC 1.0.0'],
+    ['WM', 'cosmic-comp (Wayland)'],
+    ['Terminal', 'kitty 0.43.1'],
+    ['Font', 'FiraCode-Regular (11pt)'],
+    ['CPU', 'AMD Ryzen 9 5900HX (16)'],
+    ['GPU', 'AMD Radeon Vega (Integrated)'],
+  ] as const).map(([k, v]): Seg[] => [{ t: `${k}: `, c: K.key, b: true }, { t: v, c: K.text }]),
+  [{ t: 'Memory: ', c: K.key, b: true }, { t: '11.24 GiB / 15.01 GiB (', c: K.text }, { t: '75%', c: YEL }, { t: ')', c: K.text }],
+  [{ t: 'Disk (/): ', c: K.key, b: true }, { t: '125.80 GiB / 184.26 GiB (', c: K.text }, { t: '68%', c: YEL }, { t: ')', c: K.text }],
+  [{ t: 'Battery: ', c: K.key, b: true }, { t: '100%', c: '#2fd16a' }, { t: ' [AC Connected]', c: K.text }],
+  [],
+  ['#000000', '#cc0000', '#19cb00', '#cecb00', '#0d73cc', '#cb1ed1', '#0dcdcd', '#dddddd'].map((bg) => ({ t: '   ', bg })),
+  ['#767676', '#f2201f', '#23fd00', '#fffd00', '#1a8fff', '#fd28ff', '#14ffff', '#ffffff'].map((bg) => ({ t: '   ', bg })),
+];
+
+function fetchBlock(logo: boolean): Line[] {
+  if (!logo) return INFO.map((l) => [...l]);
+  const n = Math.max(LOGO.length, INFO.length + 1);
+  // info starts one row down, like fastfetch's own layout
+  return Array.from({ length: n }, (_, i): Line => [...logoLine(LOGO[i] ?? ''), ...(INFO[i - 1] ?? [])]);
 }
 
 const CPS = 26; // human typing pace
-const CMD_CD = 'cd ~/projetos/portfolio';
+const CMD_CD = 'cd GIT/portfolio-site';
 const CMD_DEV = 'npm run dev -- --open';
+const CWD = '~/GIT/portfolio-site';
+const BRANCH = 'main';
 const OUT: Line[] = [
   [],
   [{ t: '> portfolio@2.0.0 dev', c: K.dim }],
@@ -112,21 +173,22 @@ export const SEQ = (() => {
 export function termLines(logo: boolean, pre: number, seq: number): { lines: Line[]; cursor: boolean } {
   const lines: Line[] = [];
   const typed = (s: string, t0: number, t: number) => s.slice(0, Math.max(0, Math.floor((t - t0) * CPS)));
-  lines.push([...prompt('~'), { t: typed('fastfetch', PRE.type, pre), c: K.text }]);
+  lines.push(...prompt('~', null, typed('fastfetch', PRE.type, pre)));
   if (pre < PRE.out) return { lines, cursor: true };
-  lines.push(...fetchBlock(logo), [], prompt('~'));
-  if (seq <= 0) return { lines, cursor: true };
-
-  lines[lines.length - 1] = [...prompt('~'), { t: typed(CMD_CD, SEQ.cd0, seq), c: K.text }];
-  if (seq < SEQ.cdEnter) return { lines, cursor: true };
-  lines.push([...prompt('~/p/portfolio'), { t: typed(CMD_DEV, SEQ.dev0, seq), c: K.text }]);
+  lines.push(...fetchBlock(logo), []);
+  if (seq < SEQ.cdEnter) {
+    lines.push(...prompt('~', null, seq > 0 ? typed(CMD_CD, SEQ.cd0, seq) : ''));
+    return { lines, cursor: true };
+  }
+  lines.push(...prompt('~', null, CMD_CD), []);
+  lines.push(...prompt(CWD, BRANCH, typed(CMD_DEV, SEQ.dev0, seq)));
   if (seq < SEQ.devEnter) return { lines, cursor: true };
   const n = Math.min(OUT.length, Math.floor((seq - SEQ.devEnter) / SEQ.outStep) + 1);
   lines.push(...OUT.slice(0, n));
   return { lines, cursor: true };
 }
 
-const DOCK = ['firefox', 'terminal', 'cursor', 'claude', 'obsidian', 'spotify', 'docker'] as const;
+const DOCK = ['firefox', 'kitty', 'cursor', 'claude', 'docker'] as const;
 type App = (typeof DOCK)[number] | 'grid';
 
 export type Layout = ReturnType<typeof layout>;
@@ -145,14 +207,14 @@ export function layout(vw: number, vh: number) {
   const dockH = icon + gap * 2;
   const dock = { x: (vw - dockW) / 2, y: vh - dockH - f * 0.8, w: dockW, h: dockH, icon, gap };
 
-  const tb = f * 2.6;
+  const tb = 0; // kitty: no title bar
   const pad = f * 0.9;
-  const tx = narrow ? f * 0.7 : vw * 0.05;
-  const tw = narrow ? vw - f * 1.4 : Math.min(vw * 0.56, cw * 62 + pad * 2);
-  const ty = topH + (narrow ? f * 1.2 : vh * 0.06);
-  const th = narrow ? vh * 0.56 : Math.min(dock.y - f * 1.5 - ty, tb + pad * 2 + lineH * 25);
-  const term = { x: tx, y: ty, w: tw, h: th, tb, pad, rows: Math.floor((th - tb - pad * 2) / lineH) };
-  const logo = (tw - pad * 2) / cw >= 52; // logo beside the info; stacked above it when narrower
+  const tx = narrow ? f * 0.7 : vw * 0.04;
+  const tw = narrow ? vw - f * 1.4 : Math.min(vw * 0.7, cw * 84 + pad * 2);
+  const ty = topH + (narrow ? f * 1.2 : vh * 0.05);
+  const th = narrow ? vh * 0.56 : Math.min(dock.y - f * 1.5 - ty, pad * 2 + lineH * 30);
+  const term = { x: tx, y: ty, w: tw, h: th, tb, pad, rows: Math.floor((th - tb - pad * 2) / lineH), cols: Math.floor((tw - pad * 2) / cw) };
+  const logo = term.cols >= LOGO_W + 2 + 40; // logo beside the info; info alone when narrower
 
   const ff = narrow
     ? { x: f * 0.7, y: topH + vh * 0.1, w: vw - f * 1.4, h: vh * 0.7 }
@@ -164,10 +226,9 @@ export function layout(vw: number, vh: number) {
 
 export function clock() {
   const d = new Date();
-  const wd = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'][d.getDay()];
-  const mo = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'][d.getMonth()];
-  const hm = d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-  return `${wd} ${d.getDate()} de ${mo}  ${hm}`;
+  const day = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  const hm = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  return `${day}  ${hm}`;
 }
 
 type Ctx = CanvasRenderingContext2D;
@@ -182,17 +243,17 @@ export function drawDesktop(ctx: Ctx, L: Layout, map: { ox: number; oy: number; 
   const W = map.TW / s;
   const H = map.TH / s;
 
-  // wallpaper: deep Fedora blue with soft light blobs (one warm, echoing the lamp)
+  // wallpaper: the room's purple-black with the lamp's persimmon glow, so when the browser
+  // grows to fullscreen the desktop is already the colour of the site
   const lin = ctx.createLinearGradient(0, 0, 0, L.vh);
-  lin.addColorStop(0, '#10224a');
-  lin.addColorStop(1, '#060a18');
+  lin.addColorStop(0, '#15121d');
+  lin.addColorStop(1, '#0b0a10');
   ctx.fillStyle = lin;
   ctx.fillRect(x0, y0, W, H);
   const M = Math.max(L.vw, L.vh);
   for (const [bx, by, br, col] of [
-    [0.18, 0.2, 0.55, 'rgba(70,120,230,0.32)'],
-    [0.88, 0.15, 0.45, 'rgba(130,90,210,0.24)'],
-    [0.75, 1.0, 0.55, 'rgba(242,163,58,0.2)'],
+    [0.12, 0.1, 0.5, 'rgba(140,100,220,0.14)'],
+    [0.85, 0.95, 0.6, 'rgba(255,92,52,0.2)'],
   ] as [number, number, number, string][]) {
     const g = ctx.createRadialGradient(bx * L.vw, by * L.vh, 0, bx * L.vw, by * L.vh, br * M);
     g.addColorStop(0, col);
@@ -204,24 +265,25 @@ export function drawDesktop(ctx: Ctx, L: Layout, map: { ox: number; oy: number; 
   drawDock(ctx, L, st.ffRunning);
   drawTerminal(ctx, L, s, st);
 
-  // GNOME top bar (slides up when the browser goes fullscreen)
+  // COSMIC panel (slides up when the browser goes fullscreen)
   ctx.save();
   ctx.translate(0, -L.topH * st.topOff);
   ctx.fillStyle = K.topbar;
   ctx.fillRect(x0, y0 - L.topH, W, L.topH * 2 + oy / s);
   const cy = L.topH / 2;
-  // workspace indicator: one pill + dots
-  ctx.fillStyle = '#ffffff';
-  pill(ctx, L.f * 0.9, cy - L.f * 0.22, L.f * 1.5, L.f * 0.44);
-  ctx.fillStyle = 'rgba(255,255,255,0.45)';
-  for (let i = 0; i < 2; i++) {
-    ctx.beginPath();
-    ctx.arc(L.f * 2.95 + i * L.f * 0.75, cy, L.f * 0.22, 0, Math.PI * 2);
-    ctx.fill();
-  }
-  ctx.fillStyle = '#ffffff';
   ctx.font = `600 ${L.f * 0.74}px ${SANS}`;
   ctx.textBaseline = 'middle';
+  ctx.textAlign = 'left';
+  let lx = L.f * 0.9;
+  for (const label of ['Workspaces', 'Applications']) {
+    const w = ctx.measureText(label).width;
+    ctx.fillStyle = 'rgba(255,255,255,0.08)';
+    pill(ctx, lx - L.f * 0.55, cy - L.f * 0.62, w + L.f * 1.1, L.f * 1.24);
+    ctx.fillStyle = '#ececec';
+    ctx.fillText(label, lx, cy + 0.5);
+    lx += w + L.f * 1.6;
+  }
+  ctx.fillStyle = '#ffffff';
   ctx.textAlign = 'center';
   ctx.fillText(st.time, L.vw / 2, cy + 0.5);
   ctx.textAlign = 'left';
@@ -273,9 +335,9 @@ function drawStatus(ctx: Ctx, L: Layout, right: number, cy: number) {
 
 function drawDock(ctx: Ctx, L: Layout, ffRunning: boolean) {
   const d = L.dock;
-  ctx.fillStyle = 'rgba(28,28,32,0.82)';
+  ctx.fillStyle = 'rgba(22,20,28,0.88)';
   ctx.beginPath();
-  ctx.roundRect(d.x, d.y, d.w, d.h, L.r * 1.6);
+  ctx.roundRect(d.x, d.y, d.w, d.h, L.r * 2);
   ctx.fill();
   const apps: App[] = [...DOCK, 'grid'];
   let x = d.x + d.gap;
@@ -286,7 +348,7 @@ function drawDock(ctx: Ctx, L: Layout, ffRunning: boolean) {
       x += d.gap;
     }
     drawIcon(ctx, a, x, d.y + d.gap, d.icon);
-    if (a === 'terminal' || (a === 'firefox' && ffRunning)) {
+    if (a === 'kitty' || (a === 'firefox' && ffRunning)) {
       ctx.fillStyle = '#ffffff';
       ctx.beginPath();
       ctx.arc(x + d.icon / 2, d.y + d.h - d.gap * 0.45, L.f * 0.13, 0, Math.PI * 2);
@@ -322,14 +384,28 @@ function drawIcon(ctx: Ctx, a: App, x: number, y: number, s: number) {
       ctx.fill();
       break;
     }
-    case 'terminal':
-      rr('#2b2b30');
-      ctx.fillStyle = '#ffffff';
-      ctx.font = `700 ${s * 0.32}px ${MONO}`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText('>_', cx, cy);
+    case 'kitty': {
+      rr('#2a2633');
+      // a cat's head: two ears and a round face, like kitty's own icon
+      ctx.fillStyle = '#f2e9de';
+      ctx.beginPath();
+      ctx.moveTo(cx - s * 0.27, cy - s * 0.02);
+      ctx.lineTo(cx - s * 0.22, cy - s * 0.3);
+      ctx.lineTo(cx - s * 0.06, cy - s * 0.16);
+      ctx.lineTo(cx + s * 0.06, cy - s * 0.16);
+      ctx.lineTo(cx + s * 0.22, cy - s * 0.3);
+      ctx.lineTo(cx + s * 0.27, cy - s * 0.02);
+      ctx.quadraticCurveTo(cx + s * 0.28, cy + s * 0.24, cx, cy + s * 0.25);
+      ctx.quadraticCurveTo(cx - s * 0.28, cy + s * 0.24, cx - s * 0.27, cy - s * 0.02);
+      ctx.fill();
+      ctx.fillStyle = '#2a2633';
+      for (const sx of [-1, 1]) {
+        ctx.beginPath();
+        ctx.ellipse(cx + sx * s * 0.1, cy + s * 0.02, s * 0.03, s * 0.05, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
       break;
+    }
     case 'cursor':
       rr('#0e0e10');
       ctx.strokeStyle = '#e8e8e8';
@@ -363,36 +439,6 @@ function drawIcon(ctx: Ctx, a: App, x: number, y: number, s: number) {
         ctx.lineTo(cx + Math.cos(an) * s * len, cy + Math.sin(an) * s * len);
         ctx.stroke();
       }
-      break;
-    case 'obsidian': {
-      rr('#2a2140');
-      const g = ctx.createLinearGradient(cx, y + s * 0.18, cx, y + s * 0.82);
-      g.addColorStop(0, '#b794ff');
-      g.addColorStop(1, '#6c3be0');
-      ctx.fillStyle = g;
-      ctx.beginPath();
-      ctx.moveTo(cx + s * 0.02, y + s * 0.17);
-      ctx.lineTo(cx + s * 0.22, cy - s * 0.02);
-      ctx.lineTo(cx + s * 0.1, y + s * 0.83);
-      ctx.lineTo(cx - s * 0.16, cy + s * 0.18);
-      ctx.lineTo(cx - s * 0.12, cy - s * 0.12);
-      ctx.closePath();
-      ctx.fill();
-      break;
-    }
-    case 'spotify':
-      ctx.fillStyle = '#1ed760';
-      ctx.beginPath();
-      ctx.arc(cx, cy, s * 0.44, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.strokeStyle = '#0b0b0b';
-      ctx.lineCap = 'round';
-      [0.26, 0.2, 0.14].forEach((w, i) => {
-        ctx.lineWidth = s * (0.07 - i * 0.012);
-        ctx.beginPath();
-        ctx.arc(cx, cy + s * (0.32 + i * 0.06), s * (0.46 - i * 0.1), -Math.PI * 0.5 - w * 3, -Math.PI * 0.5 + w * 3);
-        ctx.stroke();
-      });
       break;
     case 'docker': {
       rr('#1d63ed');
@@ -439,32 +485,11 @@ function drawTerminal(ctx: Ctx, L: Layout, s: number, st: DesktopState) {
   ctx.roundRect(t.x, t.y, t.w, t.h, L.r);
   ctx.fill();
   ctx.restore();
-  // libadwaita header bar: centred title, single close button on the right
-  ctx.fillStyle = K.headerbar;
+  ctx.strokeStyle = 'rgba(255,255,255,0.16)';
+  ctx.lineWidth = 1;
   ctx.beginPath();
-  ctx.roundRect(t.x, t.y, t.w, t.tb, [L.r, L.r, 0, 0]);
-  ctx.fill();
-  ctx.fillStyle = K.text;
-  ctx.font = `700 ${L.f * 0.76}px ${SANS}`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  const cwd = st.seq >= SEQ.cdEnter ? '~/projetos/portfolio' : '~';
-  ctx.fillText(`arthur@fedora: ${cwd}`, t.x + t.w / 2, t.y + t.tb / 2);
-  const bx = t.x + t.w - t.tb / 2;
-  ctx.fillStyle = 'rgba(255,255,255,0.1)';
-  ctx.beginPath();
-  ctx.arc(bx, t.y + t.tb / 2, L.f * 0.6, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.strokeStyle = K.text;
-  ctx.lineWidth = L.f * 0.09;
-  const k = L.f * 0.22;
-  ctx.beginPath();
-  ctx.moveTo(bx - k, t.y + t.tb / 2 - k);
-  ctx.lineTo(bx + k, t.y + t.tb / 2 + k);
-  ctx.moveTo(bx + k, t.y + t.tb / 2 - k);
-  ctx.lineTo(bx - k, t.y + t.tb / 2 + k);
+  ctx.roundRect(t.x + 0.5, t.y + 0.5, t.w - 1, t.h - 1, L.r);
   ctx.stroke();
-  ctx.textAlign = 'left';
 
   // body: last `rows` lines, like a real scrolling terminal
   const { lines, cursor } = termLines(L.logo, st.pre, st.seq);
@@ -473,29 +498,146 @@ function drawTerminal(ctx: Ctx, L: Layout, s: number, st: DesktopState) {
   ctx.beginPath();
   ctx.rect(t.x, t.y + t.tb, t.w, t.h - t.tb);
   ctx.clip();
+  ctx.textBaseline = 'middle';
+  ctx.textAlign = 'left';
   const left = t.x + t.pad;
   const top = t.y + t.tb + t.pad;
   let endX = left;
   vis.forEach((line, row) => {
     const y = top + L.lineH * (row + 0.5);
-    let x = left;
-    for (const seg of line) {
-      const w = seg.t.length * L.cw;
-      if (seg.bg) {
-        ctx.fillStyle = seg.bg;
-        ctx.fillRect(x, y - L.lineH / 2 + 1, w, L.lineH - 2);
-      }
-      ctx.fillStyle = seg.c ?? K.text;
-      ctx.font = `${seg.b ? 700 : 400} ${L.f}px ${MONO}`;
-      ctx.fillText(seg.t, x, y);
-      x += w;
+    endX = drawSegs(ctx, L, line, left, y);
+    if (line.right) {
+      const w = line.right.reduce((a, g) => a + g.t.length * L.cw, 0);
+      drawSegs(ctx, L, line.right, t.x + t.w - t.pad - w, y);
     }
-    endX = x;
   });
   if (cursor && st.blink) {
     const y = top + L.lineH * (vis.length - 0.5);
     ctx.fillStyle = K.text;
-    ctx.fillRect(endX, y - L.lineH * 0.42, L.cw, L.lineH * 0.84);
+    ctx.fillRect(endX + 1, y - L.lineH * 0.42, Math.max(1.5, L.f * 0.1), L.lineH * 0.84); // kitty's beam cursor
+  }
+  ctx.restore();
+}
+
+/** Draws one run of cells (text, capsule backgrounds, powerline shapes, icons); returns the end x. */
+function drawSegs(ctx: Ctx, L: Layout, segs: Seg[], x: number, y: number) {
+  const h = L.lineH * 0.9;
+  const top = y - h / 2;
+  for (const seg of segs) {
+    const w = seg.t.length * L.cw;
+    if (seg.bg) {
+      ctx.fillStyle = seg.bg;
+      ctx.fillRect(x - 0.5, top, w + 1, h);
+    }
+    if (seg.arrow) tri(ctx, seg.arrow, x, top, w, h, 1);
+    if (seg.arrowL) tri(ctx, seg.arrowL, x, top, w, h, -1);
+    if (seg.chev) chevron(ctx, seg.chev, x, top, w, h, 1);
+    if (seg.chevL) chevron(ctx, seg.chevL, x, top, w, h, -1);
+    if (seg.capL || seg.capR) {
+      ctx.fillStyle = (seg.capL ?? seg.capR)!;
+      ctx.beginPath();
+      if (seg.capL) ctx.arc(x + w, y, h / 2, Math.PI / 2, -Math.PI / 2);
+      else ctx.arc(x, y, h / 2, -Math.PI / 2, Math.PI / 2);
+      ctx.fill();
+    }
+    if (seg.icon) drawGlyph(ctx, seg.icon, x + w * 0.45, y, h * 0.62, seg.c ?? K.text, seg.bg ?? '#000');
+    else if (seg.t.trim()) {
+      ctx.fillStyle = seg.c ?? K.text;
+      ctx.font = `${seg.b ? 700 : 400} ${L.f}px ${MONO}`;
+      ctx.fillText(seg.t, x, y);
+    }
+    x += w;
+  }
+  return x;
+}
+
+/** Powerline separator: a solid triangle pointing right (dir 1) or left (-1). */
+function tri(ctx: Ctx, c: string, x: number, top: number, w: number, h: number, dir: 1 | -1) {
+  ctx.fillStyle = c;
+  ctx.beginPath();
+  if (dir === 1) {
+    ctx.moveTo(x - 0.5, top);
+    ctx.lineTo(x + w, top + h / 2);
+    ctx.lineTo(x - 0.5, top + h);
+  } else {
+    ctx.moveTo(x + w + 0.5, top);
+    ctx.lineTo(x, top + h / 2);
+    ctx.lineTo(x + w + 0.5, top + h);
+  }
+  ctx.fill();
+}
+
+/** Thick chevron, the decorative tail of the prompt. */
+function chevron(ctx: Ctx, c: string, x: number, top: number, w: number, h: number, dir: 1 | -1) {
+  const k = w * 0.55;
+  ctx.fillStyle = c;
+  ctx.beginPath();
+  if (dir === 1) {
+    ctx.moveTo(x - w * 0.2, top);
+    ctx.lineTo(x - w * 0.2 + k, top);
+    ctx.lineTo(x + w, top + h / 2);
+    ctx.lineTo(x - w * 0.2 + k, top + h);
+    ctx.lineTo(x - w * 0.2, top + h);
+    ctx.lineTo(x + w - k, top + h / 2);
+  } else {
+    ctx.moveTo(x + w * 1.2, top);
+    ctx.lineTo(x + w * 1.2 - k, top);
+    ctx.lineTo(x, top + h / 2);
+    ctx.lineTo(x + w * 1.2 - k, top + h);
+    ctx.lineTo(x + w * 1.2, top + h);
+    ctx.lineTo(x + k, top + h / 2);
+  }
+  ctx.closePath();
+  ctx.fill();
+}
+
+/** The prompt's small icons (Nerd Font glyphs in the real terminal). */
+function drawGlyph(ctx: Ctx, icon: Icon, cx: number, cy: number, s: number, c: string, bg: string) {
+  ctx.save();
+  ctx.fillStyle = c;
+  ctx.strokeStyle = c;
+  ctx.lineWidth = s * 0.14;
+  ctx.lineCap = 'round';
+  switch (icon) {
+    case 'fedora':
+      ctx.beginPath();
+      ctx.arc(cx, cy, s * 0.5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = bg;
+      ctx.lineWidth = s * 0.13;
+      ctx.beginPath();
+      ctx.arc(cx + s * 0.06, cy - s * 0.1, s * 0.16, Math.PI, Math.PI * 1.9, false);
+      ctx.moveTo(cx - s * 0.1, cy - s * 0.12);
+      ctx.lineTo(cx - s * 0.1, cy + s * 0.3);
+      ctx.moveTo(cx - s * 0.26, cy + s * 0.04);
+      ctx.lineTo(cx + s * 0.08, cy + s * 0.04);
+      ctx.stroke();
+      break;
+    case 'folder':
+      ctx.beginPath();
+      ctx.roundRect(cx - s * 0.5, cy - s * 0.3, s * 0.42, s * 0.2, s * 0.05);
+      ctx.roundRect(cx - s * 0.5, cy - s * 0.2, s, s * 0.6, s * 0.08);
+      ctx.fill();
+      break;
+    case 'branch':
+      ctx.beginPath();
+      ctx.moveTo(cx - s * 0.22, cy - s * 0.32);
+      ctx.lineTo(cx - s * 0.22, cy + s * 0.32);
+      ctx.moveTo(cx + s * 0.24, cy - s * 0.18);
+      ctx.quadraticCurveTo(cx + s * 0.24, cy + s * 0.08, cx - s * 0.2, cy + s * 0.14);
+      ctx.stroke();
+      for (const [px, py] of [[-0.22, -0.36], [-0.22, 0.36], [0.24, -0.24]]) {
+        ctx.beginPath();
+        ctx.arc(cx + px * s, cy + py * s, s * 0.12, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      break;
+    case 'battery':
+      ctx.lineWidth = s * 0.1;
+      ctx.strokeRect(cx - s * 0.2, cy - s * 0.38, s * 0.4, s * 0.8);
+      ctx.fillRect(cx - s * 0.08, cy - s * 0.5, s * 0.16, s * 0.1);
+      ctx.fillRect(cx - s * 0.12, cy - s * 0.28, s * 0.24, s * 0.62);
+      break;
   }
   ctx.restore();
 }
