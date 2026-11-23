@@ -15,8 +15,22 @@ import '@/styles/global.css';
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <!-- Before the first paint: if the intro is going to play, hide the site and show the
+         loader now, instead of flashing the site and yanking the visitor back into the intro
+         once the 3D has loaded. A safety net brings the site back if the intro never mounts. -->
+    <script is:inline>
+      try {
+        if (!localStorage.getItem('intro-skipped') && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          document.documentElement.dataset.intro = 'on';
+          setTimeout(function () {
+            if (!window.__intro) delete document.documentElement.dataset.intro;
+          }, 10000);
+        }
+      } catch (e) {}
+    </script>
   </head>
   <body class="bg-deep text-bone">
+    <div id="intro-loader" aria-hidden="true"><span>arosisca@fedora</span><i></i></div>
     <slot />
   </body>
 </html>

@@ -1,8 +1,8 @@
-import { Suspense, useRef, useState, type RefObject } from 'react';
+import { Suspense, useRef, type RefObject } from 'react';
 import { useFrame } from '@react-three/fiber';
 import type { BloomEffect, VignetteEffect } from 'postprocessing';
 import { Canvas } from '@react-three/fiber';
-import { AdaptiveDpr, ContactShadows, PerformanceMonitor } from '@react-three/drei';
+import { ContactShadows } from '@react-three/drei';
 import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
 import * as THREE from 'three';
 import { CameraRig } from './CameraRig';
@@ -18,9 +18,10 @@ import { Decor } from './objects/Decor';
 import { Dust, MUG_TOP, Steam } from './objects/Effects';
 import type { Quality } from './quality';
 
-export function Scene({ progress, lamp, quality: initial, active }: { progress: RefObject<number>; lamp: RefObject<number>; quality: Quality; active: boolean }) {
-  const [quality, setQuality] = useState<Quality>(initial);
-  const dpr: [number, number] = quality === 'high' ? [1, 2] : quality === 'mid' ? [1, 1.5] : [0.75, 1];
+export function Scene({ progress, lamp, quality, active, onReady }: { progress: RefObject<number>; lamp: RefObject<number>; quality: Quality; active: boolean; onReady?: () => void }) {
+  // a fixed resolution: switching it at runtime is what made the monitor go blurry/pixelated
+  // for the first seconds (and every quality switch recompiled the shaders mid-animation)
+  const dpr = quality === 'high' ? Math.min(1.5, window.devicePixelRatio || 1) : quality === 'mid' ? 1 : 0.8;
 
   return (
     <Canvas
@@ -33,10 +34,10 @@ export function Scene({ progress, lamp, quality: initial, active }: { progress: 
         gl.setClearColor(C.ink, 1);
         // only hides the far edges of the room; the desk area stays clear
         scene.fog = new THREE.Fog(C.ink, 4.5, 11);
+        // two frames later the scene is on screen: the loader can go
+        requestAnimationFrame(() => requestAnimationFrame(() => onReady?.()));
       }}
     >
-      <PerformanceMonitor onDecline={() => setQuality((q) => (q === 'high' ? 'mid' : 'low'))} />
-      <AdaptiveDpr pixelated={false} />
 
       {/* night: a dim cool fill plus a moonlight rim from the right */}
       <NightFill lamp={lamp} />

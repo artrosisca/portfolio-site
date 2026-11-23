@@ -54,6 +54,7 @@ export default function Intro() {
   const lamp = useRef(0); // desk lamp power, 0 until the visitor "turns it on"
   const lampAt = useRef<number | null>(null);
   const [lit, setLit] = useState(false);
+  const [ready, setReady] = useState(false); // the 3D scene has drawn its first frames
   const [quality, setQuality] = useState<Quality | null>(null);
   const [reduced, setReduced] = useState(false);
   const [phase, setPhase] = useState<Phase>('scroll');
@@ -70,13 +71,21 @@ export default function Intro() {
   }
 
   useEffect(() => {
+    (window as Window & { __intro?: boolean }).__intro = true; // see the inline script in Base.astro
     const r = prefersReducedMotion();
     setReduced(r);
     setQuality(detectQuality());
-    if (r || localStorage.getItem(SKIP_KEY)) {
-      setPhase('done');
-      return;
-    }
+    if (r || localStorage.getItem(SKIP_KEY)) setPhase('done');
+  }, []);
+
+  // the loader leaves once the scene is on screen; only then does the lamp switch on, so the
+  // visitor actually sees it happen
+  const onReady = () => {
+    document.documentElement.dataset.intro = 'ready';
+    setReady(true);
+  };
+  useEffect(() => {
+    if (!ready) return;
     // already came in this session: the light is simply on
     if (sessionStorage.getItem(SEEN_KEY)) {
       lampAt.current = -1e6;
@@ -90,9 +99,9 @@ export default function Intro() {
       sound.play('switch');
       sound.ambience(0.9, 2);
       setLit(true);
-    }, 1400);
+    }, 700);
     return () => window.clearTimeout(id);
-  }, []);
+  }, [ready]);
 
   // While the intro runs, the site below it is out of the document: the page then ends
   // exactly where the camera reaches the screen, so the last wheel flick can't overshoot
@@ -100,9 +109,9 @@ export default function Intro() {
   useLayoutEffect(() => {
     const html = document.documentElement;
     if (phase === 'done') delete html.dataset.intro;
-    else html.dataset.intro = 'on';
-    return () => void delete html.dataset.intro;
+    else if (!html.dataset.intro) html.dataset.intro = 'on';
   }, [phase]);
+  useEffect(() => () => void delete document.documentElement.dataset.intro, []);
 
   // Lenis lives for the whole page; scrolling is never automatic until the camera arrives.
   useSmoothScroll(quality !== null && !reduced);
@@ -200,7 +209,7 @@ export default function Intro() {
       <div className="sticky top-0 h-svh w-full overflow-hidden bg-ink">
         {quality && (
           <div className="absolute inset-0" style={{ visibility: sceneActive ? 'visible' : 'hidden' }}>
-            <Scene progress={smooth} lamp={lamp} quality={quality} active={sceneActive} />
+            <Scene progress={smooth} lamp={lamp} quality={quality} active={sceneActive} onReady={onReady} />
           </div>
         )}
 

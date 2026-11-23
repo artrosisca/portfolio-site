@@ -130,7 +130,7 @@ function fetchBlock(logo: boolean): Line[] {
   return Array.from({ length: n }, (_, i): Line => [...logoLine(LOGO[i] ?? ''), ...(INFO[i - 1] ?? [])]);
 }
 
-const CPS = 26; // human typing pace
+const CPS = 40; // a quick typist
 const CMD_CD = 'cd GIT/portfolio-site';
 const CMD_DEV = 'npm run dev -- --open';
 const CWD = '~/GIT/portfolio-site';
@@ -155,19 +155,19 @@ export const TYPING = { cps: CPS, cd: CMD_CD.length, dev: CMD_DEV.length };
 
 /** Boot sequence timeline, seconds at normal speed. */
 export const SEQ = (() => {
-  const cd0 = 0.5;
+  const cd0 = 0.3;
   const cd1 = cd0 + CMD_CD.length / CPS;
-  const cdEnter = cd1 + 0.3;
-  const dev0 = cdEnter + 0.4;
+  const cdEnter = cd1 + 0.2;
+  const dev0 = cdEnter + 0.25;
   const dev1 = dev0 + CMD_DEV.length / CPS;
-  const devEnter = dev1 + 0.3;
-  const outStep = 0.09;
+  const devEnter = dev1 + 0.2;
+  const outStep = 0.05;
   const outEnd = devEnter + OUT.length * outStep;
-  const ff = outEnd + 0.45; // firefox window appears
-  const loaded = ff + 1.2;
-  const full = loaded + 0.6; // the window grows straight into fullscreen
-  const fullDur = 0.85;
-  return { cd0, cd1, cdEnter, dev0, dev1, devEnter, outStep, outEnd, ff, loaded, full, fullDur, end: full + fullDur + 0.3 };
+  const ff = outEnd + 0.25; // firefox window appears
+  const loaded = ff + 0.7;
+  const full = loaded + 0.35; // the window grows straight into fullscreen
+  const fullDur = 0.7;
+  return { cd0, cd1, cdEnter, dev0, dev1, devEnter, outStep, outEnd, ff, loaded, full, fullDur, end: full + fullDur + 0.15 };
 })();
 
 export function termLines(logo: boolean, pre: number, seq: number): { lines: Line[]; cursor: boolean } {
@@ -207,13 +207,18 @@ export function layout(vw: number, vh: number) {
   const dockH = icon + gap * 2;
   const dock = { x: (vw - dockW) / 2, y: vh - dockH - f * 0.8, w: dockW, h: dockH, icon, gap };
 
-  const tb = 0; // kitty: no title bar
-  const pad = f * 0.9;
-  const tx = narrow ? f * 0.7 : vw * 0.04;
-  const tw = narrow ? vw - f * 1.4 : Math.min(vw * 0.7, cw * 84 + pad * 2);
-  const ty = topH + (narrow ? f * 1.2 : vh * 0.05);
-  const th = narrow ? vh * 0.56 : Math.min(dock.y - f * 1.5 - ty, pad * 2 + lineH * 30);
-  const term = { x: tx, y: ty, w: tw, h: th, tb, pad, rows: Math.floor((th - tb - pad * 2) / lineH), cols: Math.floor((tw - pad * 2) / cw) };
+  // kitty: no title bar, centred, with its own (smaller) font so ~100 columns fit and the
+  // fastfetch logo sits beside the info with room to breathe, like on Arthur's screen
+  const tb = 0;
+  const tw = narrow ? vw - f * 1.4 : Math.min(vw * 0.86, 1240);
+  const tx = (vw - tw) / 2;
+  const tpad = narrow ? 12 : 18;
+  const tf = Math.min(15, Math.max(narrow ? 9 : 10, (tw - tpad * 2) / (100 * 0.6)));
+  const tLineH = tf * 1.42;
+  const tcw = tf * 0.6;
+  const ty = topH + (narrow ? f * 1.2 : vh * 0.045);
+  const th = narrow ? vh * 0.56 : dock.y - f * 1.2 - ty;
+  const term = { x: tx, y: ty, w: tw, h: th, tb, pad: tpad, f: tf, lineH: tLineH, cw: tcw, rows: Math.floor((th - tb - tpad * 2) / tLineH), cols: Math.floor((tw - tpad * 2) / tcw) };
   const logo = term.cols >= LOGO_W + 2 + 40; // logo beside the info; info alone when narrower
 
   const ff = narrow
@@ -504,27 +509,27 @@ function drawTerminal(ctx: Ctx, L: Layout, s: number, st: DesktopState) {
   const top = t.y + t.tb + t.pad;
   let endX = left;
   vis.forEach((line, row) => {
-    const y = top + L.lineH * (row + 0.5);
-    endX = drawSegs(ctx, L, line, left, y);
+    const y = top + t.lineH * (row + 0.5);
+    endX = drawSegs(ctx, t, line, left, y);
     if (line.right) {
-      const w = line.right.reduce((a, g) => a + g.t.length * L.cw, 0);
-      drawSegs(ctx, L, line.right, t.x + t.w - t.pad - w, y);
+      const w = line.right.reduce((a, g) => a + g.t.length * t.cw, 0);
+      drawSegs(ctx, t, line.right, t.x + t.w - t.pad - w, y);
     }
   });
   if (cursor && st.blink) {
-    const y = top + L.lineH * (vis.length - 0.5);
+    const y = top + t.lineH * (vis.length - 0.5);
     ctx.fillStyle = K.text;
-    ctx.fillRect(endX + 1, y - L.lineH * 0.42, Math.max(1.5, L.f * 0.1), L.lineH * 0.84); // kitty's beam cursor
+    ctx.fillRect(endX + 1, y - t.lineH * 0.42, Math.max(1.5, t.f * 0.1), t.lineH * 0.84); // kitty's beam cursor
   }
   ctx.restore();
 }
 
 /** Draws one run of cells (text, capsule backgrounds, powerline shapes, icons); returns the end x. */
-function drawSegs(ctx: Ctx, L: Layout, segs: Seg[], x: number, y: number) {
-  const h = L.lineH * 0.9;
+function drawSegs(ctx: Ctx, m: Layout['term'], segs: Seg[], x: number, y: number) {
+  const h = m.lineH * 0.9;
   const top = y - h / 2;
   for (const seg of segs) {
-    const w = seg.t.length * L.cw;
+    const w = seg.t.length * m.cw;
     if (seg.bg) {
       ctx.fillStyle = seg.bg;
       ctx.fillRect(x - 0.5, top, w + 1, h);
@@ -543,7 +548,7 @@ function drawSegs(ctx: Ctx, L: Layout, segs: Seg[], x: number, y: number) {
     if (seg.icon) drawGlyph(ctx, seg.icon, x + w * 0.45, y, h * 0.62, seg.c ?? K.text, seg.bg ?? '#000');
     else if (seg.t.trim()) {
       ctx.fillStyle = seg.c ?? K.text;
-      ctx.font = `${seg.b ? 700 : 400} ${L.f}px ${MONO}`;
+      ctx.font = `${seg.b ? 700 : 400} ${m.f}px ${MONO}`;
       ctx.fillText(seg.t, x, y);
     }
     x += w;

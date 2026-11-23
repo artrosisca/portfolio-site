@@ -35,9 +35,10 @@ export function Monitor({ progress }: { progress: RefObject<number> }) {
     const t = c.elapsedTime;
     // `fastfetch` runs shortly after load; forced complete once the camera is on its way in
     const pre = (progress.current ?? 0) > 0.2 ? 99 : Math.min(t, PRE.out + 0.01);
-    const blink = Math.floor(t * 2) % 2 === 0;
+    // no blinking here: every change re-uploads the whole 2048x1152 texture to the GPU
+    const blink = true;
     const time = clock();
-    const key = `${pre.toFixed(2)}|${blink}|${time}|${size.width}x${size.height}`;
+    const key = `${pre.toFixed(2)}|${time}|${size.width}x${size.height}`;
     if (key === last.current) return;
     last.current = key;
 
