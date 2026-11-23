@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { K, MONO, SANS, SEQ, drawDesktop, type Layout } from './desktop';
 import SiteHero from '../site/SiteHero';
 
@@ -17,7 +17,9 @@ export function Desktop({ L, t, time }: { L: Layout; t: number; time: string }) 
 
   const kFull = easeInOut(phase(t, SEQ.full, SEQ.fullDur));
 
-  useEffect(() => {
+  // layout effect: the canvas must be drawn before the first paint, or the desktop's black
+  // backing fades in over the 3D monitor for a few frames (a visible black flash)
+  useLayoutEffect(() => {
     const c = canvas.current;
     if (!c) return;
     const dpr = Math.min(2, window.devicePixelRatio || 1);

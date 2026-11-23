@@ -39,16 +39,17 @@ function SiteHero() {
           </div>
         </div>
 
-        {/* a still of the room the visitor just left: the bridge between the 3D and the page */}
-        <figure className="hidden overflow-hidden rounded-xl border border-bone/10 bg-deep-2 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.7)] md:block">
-          <figcaption className="flex h-8 items-center gap-1.5 border-b border-bone/10 px-3 font-mono text-[11px] text-bone/50">
+        {/* the first project, as a window: real work instead of empty space */}
+        <a href="#projetos" className="group hidden overflow-hidden rounded-xl border border-bone/10 bg-deep-2 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.7)] transition-colors hover:border-accent/50 md:block">
+          <span className="flex h-8 items-center gap-1.5 border-b border-bone/10 px-3 font-mono text-[11px] text-bone/50">
             <span className="size-2.5 rounded-full bg-bone/15" />
             <span className="size-2.5 rounded-full bg-bone/15" />
             <span className="size-2.5 rounded-full bg-bone/15" />
-            <span className="ml-2">~/quarto.webp</span>
-          </figcaption>
-          <img src="/quarto.webp" alt="A mesa do Arthur à noite: luminária acesa, monitor com o Fedora, teclado Sofle e violão" className="block aspect-[4/3] w-full object-cover" width={1200} height={900} />
-        </figure>
+            <span className="ml-2">~/projetos/tcc-urbs · linha 541</span>
+            <span className="ml-auto transition-colors group-hover:text-accent">abrir →</span>
+          </span>
+          <img src="/projetos/tcc/replay.webp" alt="TCC: replay de uma viagem da linha 541 com as paradas omitidas marcadas em laranja" className="block aspect-[16/9] w-full object-cover" width={1600} height={900} />
+        </a>
       </div>
 
       <div className="flex h-20 shrink-0 items-center justify-center font-mono text-xs text-bone/50">↓ role para continuar</div>

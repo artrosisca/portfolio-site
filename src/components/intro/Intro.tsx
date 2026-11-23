@@ -160,7 +160,10 @@ export default function Intro() {
       if (smooth.current >= 0.997) t += dt * speed; // wait until the camera has landed
       bootSounds(prev, t);
       setSeqT(t);
-      if (t >= SEQ.end) setPhase('done');
+      if (t >= SEQ.end) {
+        document.documentElement.dataset.arrived = ''; // see global.css: no second reveal
+        setPhase('done');
+      }
       else raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
@@ -206,14 +209,13 @@ export default function Intro() {
         <div className="absolute inset-0" style={{ opacity: copy }}>
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,5,7,0.95)_0%,rgba(5,5,7,0.8)_38%,transparent_58%)] md:bg-[linear-gradient(90deg,rgba(5,5,7,0.92)_0%,rgba(5,5,7,0.6)_38%,transparent_62%)]" />
           <div className="relative flex h-full flex-col p-6 md:justify-between md:p-12">
-            <header className="flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.25em] text-cream/60">
-              <span>arthur rosisca</span>
+            <header className="flex items-center justify-end font-mono text-[11px] uppercase tracking-[0.25em] text-cream/60">
               <span>portfólio · 2026</span>
             </header>
             <div className="mt-[7vh] max-w-xl md:mt-0 md:mb-[15vh]">
               <p className="font-mono text-xs uppercase tracking-[0.25em] text-accent-soft">full-stack &amp; dados</p>
               <h1 className="mt-4 font-display text-[clamp(2.6rem,6.4vw,5.4rem)] font-[650] leading-[0.98] tracking-[-0.035em] text-cream">
-                <Reveal text="Construo sistemas e dou *sentido* a dados." start={lit} delay={0.45} />
+                <Reveal text="Arthur Rosisca" start={lit} delay={0.45} step={0.12} />
               </h1>
               <p className="mt-5 max-w-sm text-base leading-relaxed text-cream/70">Role para entrar no meu quarto, onde as coisas acontecem.</p>
             </div>
@@ -237,7 +239,7 @@ export default function Intro() {
         )}
 
         {desktopOn && (
-          <p className="pointer-events-none absolute top-10 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-black/55 px-3 py-1 font-mono text-[11px] text-white/70 backdrop-blur transition-opacity duration-500" style={{ opacity: hurried ? 0 : 1 }}>
+          <p className="pointer-events-none absolute top-10 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-black/55 px-3 py-1 font-mono text-[11px] text-white/70 backdrop-blur transition-opacity duration-500" style={{ opacity: hurried || seqT >= SEQ.full ? 0 : 1 }}>
             clique para acelerar · esc para pular
           </p>
         )}

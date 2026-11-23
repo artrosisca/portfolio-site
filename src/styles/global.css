@@ -62,6 +62,9 @@ html::-webkit-scrollbar { display: none; }
 .reveal-word { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.08em; margin-bottom: -0.08em; }
 .reveal-word > span { display: inline-block; transform: translateY(105%); }
 .reveal-em { color: var(--color-accent); }
+/* arriving from the intro: the headline was already read inside the browser window, so the
+   real page shows it settled instead of animating it a second time */
+html[data-arrived] .reveal-word > span { transform: none; animation: none; }
 .reveal-on .reveal-word > span { animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.1, 1) forwards; }
 @media (prefers-reduced-motion: reduce) {
   .reveal-word > span { transform: none !important; animation: none !important; }
