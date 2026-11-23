@@ -54,6 +54,10 @@ for o in bpy.data.objects:
             p = m.node_tree.nodes.get('Principled BSDF')
             if p: p.inputs['Emission Strength'].default_value = 2.0
 
+# --- Arthur's own gear, modelled here instead of the site's placeholders -------
+import sys; sys.path.insert(0, os.path.join(HERE, 'models'))
+import sofle; sofle.build()
+
 # --- camera: the site's landing pose (CameraRig START.wide) --------------------
 az, el, r = -0.95, 0.42, 3.4
 pos = Vector((math.sin(az) * math.cos(el), math.sin(el), math.cos(az) * math.cos(el))) * r
