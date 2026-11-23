@@ -76,4 +76,4 @@ export function Steam({ position }: { position: [number, number, number] }) {
   );
 }
 
-export const MUG_TOP: [number, number, number] = [-0.42, DESK_Y + 0.095, 0.16];
+export const MUG_TOP: [number, number, number] = [0.72, DESK_Y + 0.099, 0.12];

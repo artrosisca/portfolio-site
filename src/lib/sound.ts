@@ -5,7 +5,7 @@
  */
 
 type Listener = (on: boolean) => void;
-export type Sfx = 'switch' | 'key' | 'enter' | 'click' | 'thock';
+export type Sfx = 'switch' | 'key' | 'enter';
 
 const PREF_KEY = 'sound';
 
@@ -83,14 +83,6 @@ class SoundEngine {
       case 'enter':
         this.tick(t, 2000, 0.24, 0.03);
         this.thump(t, 85, 0.3, 0.06);
-        break;
-      case 'click':
-        this.tick(t, 4200, 0.2, 0.012);
-        this.tick(t + 0.045, 3600, 0.12, 0.012);
-        break;
-      case 'thock':
-        this.tick(t, 1500, 0.3, 0.04);
-        this.thump(t, 70, 0.45, 0.09);
         break;
     }
   }

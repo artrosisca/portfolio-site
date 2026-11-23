@@ -100,22 +100,52 @@ export function Keyboard() {
       <mesh geometry={cable}>
         <meshStandardMaterial color={C.amber} roughness={0.5} />
       </mesh>
-      {/* VXE Dragonfly R1 Pro Max: small, symmetrical, low hump, matte black */}
-      <group position={[0.29, 0, 0.03]} rotation={[0, -0.08, 0]}>
-        <mesh position={[0, 0.011, 0]} scale={[0.78, 0.42, 1.22]} castShadow>
-          <sphereGeometry args={[0.026, 24, 16]} />
-          <meshStandardMaterial color="#111216" roughness={0.55} />
-        </mesh>
-        {/* button split + scroll wheel */}
-        <mesh position={[0, 0.0205, -0.017]}>
-          <boxGeometry args={[0.0008, 0.002, 0.026]} />
-          <meshBasicMaterial color="#000000" />
-        </mesh>
-        <mesh position={[0, 0.0215, -0.014]} rotation={[0, 0, Math.PI / 2]}>
-          <cylinderGeometry args={[0.0035, 0.0035, 0.003, 12]} />
-          <meshStandardMaterial color="#2b2d35" roughness={0.4} />
-        </mesh>
-      </group>
+      <Mouse position={[0.29, 0, 0.03]} />
+    </group>
+  );
+}
+
+/**
+ * VXE Dragonfly R1 Pro Max: small symmetrical shell with a low hump towards the back,
+ * flat underside, a visible button split and a lighter wheel so it reads as a mouse.
+ */
+function Mouse({ position }: { position: [number, number, number] }) {
+  const shell = useMemo(() => {
+    const L = 0.045; // half length (the whole desk set is drawn at 1.35x)
+    const W = 0.024; // half width
+    const H = 0.023;
+    const g = new THREE.SphereGeometry(1, 40, 20, 0, Math.PI * 2, 0, Math.PI / 2); // top half only
+    const p = g.attributes.position;
+    for (let i = 0; i < p.count; i++) {
+      const x = p.getX(i);
+      const y = p.getY(i);
+      const z = p.getZ(i); // -1 front (buttons) .. 1 back (palm)
+      const hump = 0.72 + 0.28 * Math.exp(-((z - 0.25) ** 2) / 0.45); // highest behind the middle
+      const waist = 1 - 0.07 * Math.exp(-(z ** 2) / 0.15); // slight pinch where the thumb sits
+      p.setXYZ(i, x * W * waist, y * H * hump, z * L);
+    }
+    g.computeVertexNormals();
+    return g;
+  }, []);
+  return (
+    <group position={position} rotation={[0, -0.08, 0]}>
+      <mesh geometry={shell} position={[0, 0.002, 0]} castShadow receiveShadow>
+        <meshStandardMaterial color="#17181d" roughness={0.38} />
+      </mesh>
+      {/* base skirt */}
+      <mesh position={[0, 0.0015, 0]} scale={[0.024, 1, 0.045]}>
+        <cylinderGeometry args={[1, 1, 0.003, 40]} />
+        <meshStandardMaterial color="#0b0b0e" roughness={0.7} />
+      </mesh>
+      {/* gap between the two buttons, from the nose to past the wheel */}
+      <mesh position={[0, 0.0195, -0.027]} rotation={[0.35, 0, 0]}>
+        <boxGeometry args={[0.001, 0.003, 0.026]} />
+        <meshBasicMaterial color="#000000" />
+      </mesh>
+      <mesh position={[0, 0.0215, -0.023]} rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.0045, 0.0045, 0.005, 16]} />
+        <meshStandardMaterial color="#5a5e6b" roughness={0.45} />
+      </mesh>
     </group>
   );
 }

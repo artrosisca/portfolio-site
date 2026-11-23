@@ -32,8 +32,6 @@ function bootSounds(a: number, b: number) {
   if (typed(SEQ.cd0, TYPING.cd, b) > typed(SEQ.cd0, TYPING.cd, a)) sound.play('key');
   if (typed(SEQ.dev0, TYPING.dev, b) > typed(SEQ.dev0, TYPING.dev, a)) sound.play('key');
   if (crossed(SEQ.cdEnter) || crossed(SEQ.devEnter)) sound.play('enter');
-  if (crossed(SEQ.click1) || crossed(SEQ.click2)) sound.play('click');
-  if (crossed(SEQ.press)) sound.play('thock');
   if (crossed(SEQ.full)) sound.ambience(0, 1.5);
 }
 

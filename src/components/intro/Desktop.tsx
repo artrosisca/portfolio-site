@@ -15,7 +15,6 @@ const lerpRect = (a: Rect, b: Rect, k: number): Rect => ({ x: lerp(a.x, b.x, k),
 export function Desktop({ L, t, time }: { L: Layout; t: number; time: string }) {
   const canvas = useRef<HTMLCanvasElement>(null);
 
-  const kMax = easeOut(phase(t, SEQ.max, SEQ.maxDur));
   const kFull = easeInOut(phase(t, SEQ.full, SEQ.fullDur));
 
   useEffect(() => {
@@ -34,19 +33,16 @@ export function Desktop({ L, t, time }: { L: Layout; t: number; time: string }) 
   return (
     <div className="absolute inset-0 overflow-hidden bg-ink">
       <canvas ref={canvas} className="absolute inset-0 h-full w-full" />
-      {t >= SEQ.ff && <Firefox L={L} t={t} kMax={kMax} kFull={kFull} />}
-      <Pointer L={L} t={t} />
-      <Keycap L={L} t={t} />
+      {t >= SEQ.ff && <Firefox L={L} t={t} kFull={kFull} />}
     </div>
   );
 }
 
-function Firefox({ L, t, kMax, kFull }: { L: Layout; t: number; kMax: number; kFull: number }) {
+function Firefox({ L, t, kFull }: { L: Layout; t: number; kFull: number }) {
   const ch = L.chrome.tab + L.chrome.nav;
   const win: Rect = L.ff;
-  const maxed: Rect = { x: 0, y: L.topH, w: L.vw, h: L.vh - L.topH };
   const full: Rect = { x: 0, y: -ch, w: L.vw, h: L.vh + ch };
-  let R = lerpRect(lerpRect(win, maxed, kMax), full, kFull);
+  let R = lerpRect(win, full, kFull);
 
   // GNOME open animation: quick scale-up from 92% with a fade
   const kOpen = easeOut(phase(t, SEQ.ff, 0.32));
@@ -54,7 +50,7 @@ function Firefox({ L, t, kMax, kFull }: { L: Layout; t: number; kMax: number; kF
   R = { x: R.x + (R.w * (1 - g)) / 2, y: R.y + (R.h * (1 - g)) / 2, w: R.w * g, h: R.h * g };
 
   const s = R.w / L.vw; // page scale inside the window
-  const radius = L.r * (1 - kMax);
+  const radius = L.r * (1 - kFull);
   const loading = t < SEQ.loaded;
   const progress = easeOut(phase(t, SEQ.ff + 0.05, SEQ.loaded - SEQ.ff - 0.05));
   const contentIn = phase(t, SEQ.loaded - 0.05, 0.35);
@@ -63,7 +59,7 @@ function Firefox({ L, t, kMax, kFull }: { L: Layout; t: number; kMax: number; kF
   return (
     <div
       className="absolute overflow-hidden"
-      style={{ left: R.x, top: R.y, width: R.w, height: R.h, borderRadius: radius, opacity: kOpen, boxShadow: `0 ${f}px ${f * 3}px rgba(0,0,0,${0.55 * (1 - kMax)})`, fontFamily: SANS }}
+      style={{ left: R.x, top: R.y, width: R.w, height: R.h, borderRadius: radius, opacity: kOpen, boxShadow: `0 ${f}px ${f * 3}px rgba(0,0,0,${0.55 * (1 - kFull)})`, fontFamily: SANS }}
     >
       {/* tab strip, with GNOME window controls on the right */}
       <div className="flex items-end" style={{ height: L.chrome.tab, background: '#1c1b22', paddingLeft: f * 0.5, paddingRight: f * 0.5 }}>
@@ -126,67 +122,6 @@ function Skeleton({ L, t }: { L: Layout; t: number }) {
       {block(px, y0 + 88 + h1, Math.min(L.vw - px * 2, 420), 16)}
       {block(px, y0 + 140 + h1, 140, 46, 99)}
       {block(px + 152, y0 + 140 + h1, 150, 46, 99)}
-    </div>
-  );
-}
-
-/** Mouse pointer: drifts in, travels to the Firefox title bar and double-clicks it. */
-function Pointer({ L, t }: { L: Layout; t: number }) {
-  const start = { x: L.vw * (L.narrow ? 0.72 : 0.62), y: L.vh * 0.8 };
-  const target = { x: L.ff.x + L.ff.w * 0.62, y: L.ff.y + L.chrome.tab * 0.5 };
-  const k = easeInOut(phase(t, SEQ.move, SEQ.click1 - SEQ.move - 0.05));
-  // slight arc, like a hand moving a mouse
-  const x = lerp(start.x, target.x, k) + Math.sin(k * Math.PI) * L.f * 2;
-  const y = lerp(start.y, target.y, k) - Math.sin(k * Math.PI) * L.f * 1.2;
-  const fade = clamp01((t - 0.15) / 0.25) * (1 - phase(t, SEQ.full, 0.2));
-  const clicks = [SEQ.click1, SEQ.click2];
-  const down = clicks.some((c) => t >= c && t < c + 0.08);
-  const size = L.f * 1.35;
-  return (
-    <>
-      {clicks.map((c) => {
-        const r = phase(t, c, 0.35);
-        return r > 0 && r < 1 ? (
-          <span key={c} className="pointer-events-none absolute rounded-full border-2 border-white" style={{ left: target.x - size * r, top: target.y - size * r, width: size * 2 * r, height: size * 2 * r, opacity: 0.7 * (1 - r) }} />
-        ) : null;
-      })}
-      <svg
-        className="pointer-events-none absolute"
-        width={size}
-        height={size * 1.5}
-        viewBox="0 0 14 21"
-        style={{ left: x, top: y, opacity: fade, transform: `scale(${down ? 0.85 : 1})`, transformOrigin: '0 0', filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.5))' }}
-      >
-        <path d="M1 1 L1 17 L5 13.4 L7.8 19.6 L10.4 18.5 L7.7 12.5 L13 12.5 Z" fill="#fff" stroke="#000" strokeWidth="1.2" strokeLinejoin="round" />
-      </svg>
-    </>
-  );
-}
-
-/** On-screen F11 keycap, pressed right before the browser goes fullscreen. */
-function Keycap({ L, t }: { L: Layout; t: number }) {
-  const inK = easeOut(phase(t, SEQ.key, 0.25));
-  const out = phase(t, SEQ.full + 0.1, 0.2);
-  if (inK <= 0 || out >= 1) return null;
-  const pressed = t >= SEQ.press && t < SEQ.press + 0.2;
-  const f = L.f;
-  return (
-    <div className="pointer-events-none absolute left-1/2 grid place-items-center" style={{ bottom: L.vh * 0.14, transform: `translate(-50%, ${(1 - inK) * f}px)`, opacity: inK * (1 - out) }}>
-      <div
-        className="grid place-items-center font-mono font-semibold"
-        style={{
-          width: f * 4.2,
-          height: f * 3.4,
-          borderRadius: f * 0.55,
-          background: '#efe7d6',
-          color: '#050507',
-          fontSize: f * 1.05,
-          boxShadow: pressed ? `0 ${f * 0.08}px 0 #9d9483, 0 ${f * 0.3}px ${f}px rgba(0,0,0,0.4)` : `0 ${f * 0.3}px 0 #9d9483, 0 ${f * 0.6}px ${f * 1.4}px rgba(0,0,0,0.45)`,
-          transform: `translateY(${pressed ? f * 0.22 : 0}px)`,
-        }}
-      >
-        F11
-      </div>
     </div>
   );
 }

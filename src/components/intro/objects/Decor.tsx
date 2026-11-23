@@ -74,12 +74,12 @@ export function Decor() {
         </group>
       ))}
 
-      {/* cork coaster + mug */}
-      <mesh position={[-0.42, DESK_Y + 0.002, 0.16]} receiveShadow>
+      {/* cork coaster + mug, to the right of the mat */}
+      <mesh position={[0.72, DESK_Y + 0.002, 0.12]} receiveShadow>
         <cylinderGeometry args={[0.055, 0.055, 0.004, 32]} />
         <meshStandardMaterial color="#b98a5a" roughness={0.95} />
       </mesh>
-      <group position={[-0.42, DESK_Y + 0.004, 0.16]}>
+      <group position={[0.72, DESK_Y + 0.004, 0.12]} rotation={[0, -0.6, 0]}>
         <mesh position={[0, 0.045, 0]} castShadow receiveShadow>
           <cylinderGeometry args={[0.04, 0.035, 0.09, 24]} />
           <meshStandardMaterial color="#3a78e0" roughness={0.5} />

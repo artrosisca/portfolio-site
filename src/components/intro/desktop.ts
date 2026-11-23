@@ -104,16 +104,9 @@ export const SEQ = (() => {
   const outEnd = devEnter + OUT.length * outStep;
   const ff = outEnd + 0.45; // firefox window appears
   const loaded = ff + 1.2;
-  const move = loaded + 0.3; // pointer travels to the title bar
-  const click1 = move + 0.8;
-  const click2 = click1 + 0.18;
-  const max = click2 + 0.06;
-  const maxDur = 0.45;
-  const key = max + maxDur + 0.45; // F11 keycap appears
-  const press = key + 0.4;
-  const full = press + 0.08;
-  const fullDur = 0.55;
-  return { cd0, cd1, cdEnter, dev0, dev1, devEnter, outStep, outEnd, ff, loaded, move, click1, click2, max, maxDur, key, press, full, fullDur, end: full + fullDur + 0.3 };
+  const full = loaded + 0.6; // the window grows straight into fullscreen
+  const fullDur = 0.85;
+  return { cd0, cd1, cdEnter, dev0, dev1, devEnter, outStep, outEnd, ff, loaded, full, fullDur, end: full + fullDur + 0.3 };
 })();
 
 export function termLines(logo: boolean, pre: number, seq: number): { lines: Line[]; cursor: boolean } {
