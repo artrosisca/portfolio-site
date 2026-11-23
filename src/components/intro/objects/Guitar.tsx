@@ -1,7 +1,12 @@
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
+import { useFrame, type ThreeEvent } from '@react-three/fiber';
 import * as THREE from 'three';
 import { Rod } from './Rod';
 import { C } from '../constants';
+import { sound } from '@/lib/sound';
+
+// E minor, low to high: a strum on hover
+const EM = [82.41, 123.47, 164.81, 196.0, 246.94, 329.63];
 
 /** Acoustic guitar ("violão") on a floor stand, with its own soft accent light. */
 export function Guitar() {
@@ -27,8 +32,30 @@ export function Guitar() {
   }, []);
 
   const strings = [-0.02, -0.012, -0.004, 0.004, 0.012, 0.02];
+  const stringRefs = useRef<(THREE.Mesh | null)[]>([]);
+  const strumAt = useRef(-10);
+  const clock = useRef(0);
+
+  const strum = (e: ThreeEvent<PointerEvent>) => {
+    e.stopPropagation();
+    document.body.style.cursor = 'pointer';
+    if (clock.current - strumAt.current < 0.7) return;
+    strumAt.current = clock.current;
+    EM.forEach((f, i) => setTimeout(() => sound.pluck(f, 0.22), i * 28));
+  };
+
+  // strings shimmer for a moment after each strum
+  useFrame(({ clock: c }) => {
+    clock.current = c.elapsedTime;
+    const age = c.elapsedTime - strumAt.current;
+    const amp = age < 1.6 ? 0.0012 * Math.exp(-age * 3) : 0;
+    stringRefs.current.forEach((m, i) => {
+      if (m) m.position.x = strings[i] + Math.sin(c.elapsedTime * (70 + i * 9)) * amp;
+    });
+  });
+
   return (
-    <group position={[1.28, 0, 0.42]} rotation={[0, -0.75, 0]}>
+    <group position={[1.28, 0, 0.42]} rotation={[0, -0.75, 0]} onPointerOver={strum} onPointerOut={() => (document.body.style.cursor = '')}>
       {/* stand */}
       <Rod a={[0, 0.02, 0.02]} b={[0, 0.62, -0.1]} r={0.008}><meshStandardMaterial color={C.metal} metalness={0.5} roughness={0.4} /></Rod>
       <Rod a={[-0.2, 0.01, 0.16]} b={[0, 0.2, -0.02]} r={0.008}><meshStandardMaterial color={C.metal} metalness={0.5} roughness={0.4} /></Rod>
@@ -84,8 +111,8 @@ export function Guitar() {
             </mesh>
           )),
         )}
-        {strings.map((x) => (
-          <mesh key={x} position={[x, 0.33, 0.0185]}>
+        {strings.map((x, i) => (
+          <mesh key={x} ref={(m) => void (stringRefs.current[i] = m)} position={[x, 0.33, 0.0185]}>
             <cylinderGeometry args={[0.0007, 0.0007, 0.88, 4]} />
             <meshStandardMaterial color="#f4eede" metalness={0.8} roughness={0.25} />
           </mesh>

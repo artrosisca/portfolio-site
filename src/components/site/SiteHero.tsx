@@ -31,7 +31,7 @@ function SiteHero() {
         </div>
       </div>
 
-      <div className="flex h-20 shrink-0 items-center font-mono text-xs text-cream/40">↓ role para continuar</div>
+      <div className="flex h-20 shrink-0 items-center justify-center font-mono text-xs text-cream/40">↓ role para continuar</div>
     </section>
   );
 }

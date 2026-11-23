@@ -6,11 +6,35 @@ import { Desktop, SEQ } from './Desktop';
 import { useScrollProgress } from './useScrollProgress';
 import { useAssistedScroll } from './useAssistedScroll';
 import { detectQuality, prefersReducedMotion, type Quality } from './quality';
-import { clock, layout } from './desktop';
+import { TYPING, clock, layout } from './desktop';
+import { sound } from '@/lib/sound';
 
 type Phase = 'scroll' | 'boot' | 'done';
 const SEEN_KEY = 'intro-seen';
 const getLenis = () => (window as Window & { __lenis?: Lenis }).__lenis;
+
+/** Lamp power over time after the click: on, off, on, off, then it warms up. */
+function lampFlicker(s: number) {
+  if (s < 0) return 0;
+  if (s < 0.06) return 1;
+  if (s < 0.16) return 0.08;
+  if (s < 0.24) return 0.75;
+  if (s < 0.36) return 0.04;
+  if (s < 0.9) return 0.4 + 0.6 * ((s - 0.36) / 0.54) ** 0.6;
+  return 1;
+}
+
+/** Sound cues of the boot sequence that happen between two moments of its timeline. */
+function bootSounds(a: number, b: number) {
+  const crossed = (x: number) => a < x && b >= x;
+  const typed = (t0: number, len: number, t: number) => Math.min(len, Math.max(0, Math.floor((t - t0) * TYPING.cps)));
+  if (typed(SEQ.cd0, TYPING.cd, b) > typed(SEQ.cd0, TYPING.cd, a)) sound.play('key');
+  if (typed(SEQ.dev0, TYPING.dev, b) > typed(SEQ.dev0, TYPING.dev, a)) sound.play('key');
+  if (crossed(SEQ.cdEnter) || crossed(SEQ.devEnter)) sound.play('enter');
+  if (crossed(SEQ.click1) || crossed(SEQ.click2)) sound.play('click');
+  if (crossed(SEQ.press)) sound.play('thock');
+  if (crossed(SEQ.full)) sound.ambience(0, 1.5);
+}
 
 function useViewport() {
   const [vp, setVp] = useState({ w: 1280, h: 800 });
@@ -27,6 +51,9 @@ export default function Intro() {
   const section = useRef<HTMLElement>(null);
   const raw = useScrollProgress(section);
   const smooth = useRef(0); // the single progress value the camera AND the overlays read
+  const lamp = useRef(0); // desk lamp power, 0 until the visitor "turns it on"
+  const lampAt = useRef<number | null>(null);
+  const [entered, setEntered] = useState(false);
   const [quality, setQuality] = useState<Quality | null>(null);
   const [reduced, setReduced] = useState(false);
   const [phase, setPhase] = useState<Phase>('scroll');
@@ -43,7 +70,42 @@ export default function Intro() {
     setReduced(r);
     setQuality(detectQuality());
     if (r) setPhase('done');
+    else if (sessionStorage.getItem(SEEN_KEY)) {
+      // already came in this session: no gate, the light is simply on
+      lampAt.current = -1e6;
+      setEntered(true);
+      sound.ambience(0.9);
+    }
   }, []);
+
+  // gate: nothing scrolls until the visitor clicks to turn the light on
+  useEffect(() => {
+    if (entered || phase !== 'scroll' || quality === null) return;
+    const lenis = getLenis();
+    lenis?.stop();
+    const html = document.documentElement;
+    html.style.overflow = 'hidden';
+    html.dataset.gate = ''; // hides the floating sound toggle: the gate already asks
+    const block = (e: Event) => e.preventDefault();
+    window.addEventListener('wheel', block, { passive: false });
+    window.addEventListener('touchmove', block, { passive: false });
+    return () => {
+      window.removeEventListener('wheel', block);
+      window.removeEventListener('touchmove', block);
+      html.style.overflow = '';
+      delete html.dataset.gate;
+      lenis?.start();
+    };
+  }, [entered, phase, quality]);
+
+  const enter = (withSound: boolean) => {
+    if (entered) return;
+    void sound.setOn(withSound);
+    sound.play('switch');
+    sound.ambience(0.9, 2);
+    lampAt.current = performance.now();
+    setEntered(true);
+  };
 
   // Lenis lives for the whole page; the push only acts inside the intro section.
   useAssistedScroll(section, quality !== null && !reduced);
@@ -56,6 +118,7 @@ export default function Intro() {
     const tick = (t: number) => {
       const dt = Math.min(0.1, (t - last) / 1000);
       last = t;
+      lamp.current = lampAt.current === null ? 0 : lampFlicker((t - lampAt.current) / 1000);
       smooth.current = THREE.MathUtils.damp(smooth.current, raw.current, 9, dt);
       if (Math.abs(raw.current - smooth.current) < 0.0005) smooth.current = raw.current;
       setP((old) => (Math.abs(old - smooth.current) > 0.002 ? smooth.current : old));
@@ -96,7 +159,9 @@ export default function Intro() {
     const tick = (now: number) => {
       const dt = Math.min(0.25, (now - last) / 1000);
       last = now;
+      const prev = t;
       if (smooth.current >= 0.997) t += dt * speed; // wait until the camera has landed
+      bootSounds(prev, t);
       setSeqT(t);
       if (t >= SEQ.end) setPhase('done');
       else raf = requestAnimationFrame(tick);
@@ -119,6 +184,7 @@ export default function Intro() {
   useLayoutEffect(() => {
     if (phase !== 'done') return;
     sessionStorage.setItem(SEEN_KEY, '1');
+    sound.ambience(0, 0.8);
     getLenis()?.scrollTo(0, { immediate: true, force: true });
     window.scrollTo(0, 0);
   }, [phase]);
@@ -135,33 +201,39 @@ export default function Intro() {
       <div className="sticky top-0 h-svh w-full overflow-hidden bg-ink">
         {quality && (
           <div className="absolute inset-0" style={{ visibility: sceneActive ? 'visible' : 'hidden' }}>
-            <Scene progress={smooth} quality={quality} active={sceneActive} />
+            <Scene progress={smooth} lamp={lamp} quality={quality} active={sceneActive} />
           </div>
         )}
 
         {/* landing: scrim keeps the headline legible over the scene */}
-        <div className="pointer-events-none absolute inset-0" style={{ opacity: copy }}>
+        <div className="pointer-events-none absolute inset-0 transition-opacity duration-1000" style={{ opacity: entered ? 1 : 0, transitionDelay: entered ? '500ms' : '0ms' }}>
+        <div className="absolute inset-0" style={{ opacity: copy }}>
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,5,7,0.95)_0%,rgba(5,5,7,0.8)_38%,transparent_58%)] md:bg-[linear-gradient(90deg,rgba(5,5,7,0.92)_0%,rgba(5,5,7,0.6)_38%,transparent_62%)]" />
           <div className="relative flex h-full flex-col p-6 md:justify-between md:p-12">
             <header className="flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.25em] text-cream/60">
               <span>arthur rosisca</span>
               <span>portfólio · 2026</span>
             </header>
-            <div className="mt-[7vh] max-w-xl md:mt-0 md:mb-[8vh]">
+            <div className="mt-[7vh] max-w-xl md:mt-0 md:mb-[15vh]">
               <p className="font-mono text-xs uppercase tracking-[0.25em] text-amber">full-stack &amp; dados</p>
               <h1 className="mt-4 text-[clamp(2.4rem,6vw,5rem)] font-semibold leading-[1.02] tracking-[-0.03em] text-cream">
                 Construo sistemas e dou sentido a dados.
               </h1>
               <p className="mt-5 max-w-sm text-base leading-relaxed text-cream/70">Role para entrar no meu quarto, onde as coisas acontecem.</p>
             </div>
-            <div className="mt-auto flex items-center gap-3 font-mono text-xs text-cream/60 md:mt-0">
+            {/* centered, so it doesn't collide with the sound toggle (left) or "pular intro" (right) */}
+            <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 items-center gap-3 font-mono text-xs text-cream/60 md:bottom-12">
               <span className="relative block h-8 w-5 rounded-full border border-cream/30">
                 <span className="absolute left-1/2 top-1.5 h-1.5 w-1 -translate-x-1/2 animate-bounce rounded-full bg-amber" />
               </span>
-              role para entrar
+              <span className="hidden sm:inline">role para entrar</span>
             </div>
           </div>
         </div>
+        </div>
+
+        {/* gate: the click that turns the lamp on also unlocks audio */}
+        {quality && !entered && <Gate onEnter={enter} />}
 
         {/* HTML desktop takes over from the monitor texture once the camera has landed */}
         {desktopOn && (
@@ -180,11 +252,42 @@ export default function Intro() {
           type="button"
           onClick={skip}
           className="absolute bottom-6 right-6 z-10 rounded-full border border-cream/20 bg-ink/70 px-4 py-2 font-mono text-xs text-cream/80 backdrop-blur transition hover:border-amber hover:text-amber md:bottom-12 md:right-12"
-          style={{ opacity: phase === 'scroll' ? 1 : 0, pointerEvents: phase === 'scroll' ? 'auto' : 'none' }}
+          style={{ opacity: phase === 'scroll' && entered ? 1 : 0, pointerEvents: phase === 'scroll' && entered ? 'auto' : 'none' }}
         >
           pular intro →
         </button>
       </div>
     </section>
+  );
+}
+
+function Gate({ onEnter }: { onEnter: (withSound: boolean) => void }) {
+  return (
+    <div className="absolute inset-0 z-20 animate-[fadein_600ms_ease-out]">
+      <button
+        type="button"
+        autoFocus
+        onClick={() => onEnter(true)}
+        className="group absolute inset-0 flex cursor-pointer flex-col items-center justify-end bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(5,5,7,0.75)_100%)] pb-[18vh] outline-none"
+        aria-label="Acender a luz e entrar, com som"
+      >
+        <span className="relative flex h-14 w-9 items-start justify-center rounded-xl border border-cream/25 bg-surface/60 p-1.5 shadow-[0_0_40px_rgba(242,163,58,0.15)] backdrop-blur transition group-hover:border-amber/70 group-focus-visible:border-amber">
+          <span className="h-5 w-full rounded-md bg-amber/90 shadow-[0_0_18px_rgba(242,163,58,0.8)] animate-[glow_2.4s_ease-in-out_infinite]" />
+        </span>
+        <span className="mt-6 font-mono text-sm tracking-wide text-cream/90">clique para acender a luz</span>
+        <span className="mt-2 font-mono text-[11px] text-cream/45">com som · melhor com fone</span>
+      </button>
+      <button
+        type="button"
+        onClick={() => onEnter(false)}
+        className="absolute bottom-[10vh] left-1/2 -translate-x-1/2 font-mono text-[11px] text-cream/40 underline decoration-cream/20 underline-offset-4 transition hover:text-amber"
+      >
+        entrar sem som
+      </button>
+      <header className="pointer-events-none absolute inset-x-0 top-0 flex justify-between p-6 font-mono text-[11px] uppercase tracking-[0.25em] text-cream/40 md:p-12">
+        <span>arthur rosisca</span>
+        <span>portfólio · 2026</span>
+      </header>
+    </div>
   );
 }

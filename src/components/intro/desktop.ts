@@ -88,6 +88,9 @@ const OUT: Line[] = [
 /** Pre-arrival: `fastfetch` typed shortly after load (seconds since the scene started). */
 export const PRE = { type: 0.7, out: 1.2 };
 
+/** Typing pace and command lengths, so sound can follow each keystroke. */
+export const TYPING = { cps: CPS, cd: CMD_CD.length, dev: CMD_DEV.length };
+
 /** Boot sequence timeline, seconds at normal speed. */
 export const SEQ = (() => {
   const cd0 = 0.5;

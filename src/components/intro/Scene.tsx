@@ -17,7 +17,7 @@ import { Plant } from './objects/Plant';
 import { Decor } from './objects/Decor';
 import type { Quality } from './quality';
 
-export function Scene({ progress, quality: initial, active }: { progress: RefObject<number>; quality: Quality; active: boolean }) {
+export function Scene({ progress, lamp, quality: initial, active }: { progress: RefObject<number>; lamp: RefObject<number>; quality: Quality; active: boolean }) {
   const [quality, setQuality] = useState<Quality>(initial);
   const dpr: [number, number] = quality === 'high' ? [1, 2] : quality === 'mid' ? [1, 1.5] : [0.75, 1];
 
@@ -38,7 +38,7 @@ export function Scene({ progress, quality: initial, active }: { progress: RefObj
       <AdaptiveDpr pixelated={false} />
 
       {/* night: a dim cool fill plus a moonlight rim from the right */}
-      <hemisphereLight color="#8c97d9" groundColor="#1a1420" intensity={0.55} />
+      <NightFill lamp={lamp} />
       <directionalLight position={[3, 3.5, 2]} color="#9fb0ff" intensity={0.55} />
 
       <Suspense fallback={null}>
@@ -46,7 +46,7 @@ export function Scene({ progress, quality: initial, active }: { progress: RefObj
         <Desk />
         <Monitor progress={progress} />
         <Keyboard />
-        <Lamp shadowSize={quality === 'high' ? 2048 : 1024} />
+        <Lamp shadowSize={quality === 'high' ? 2048 : 1024} power={lamp} />
         <RubiksCube />
         <Guitar />
         <Plant position={[-1.45, 0, -0.38]} scale={1.35} />
@@ -60,6 +60,15 @@ export function Scene({ progress, quality: initial, active }: { progress: RefObj
       )}
     </Canvas>
   );
+}
+
+/** Dim cool fill; slightly darker while the lamp is still off, so lighting it up reads. */
+function NightFill({ lamp }: { lamp: RefObject<number> }) {
+  const hemi = useRef<THREE.HemisphereLight>(null);
+  useFrame(() => {
+    if (hemi.current) hemi.current.intensity = 0.3 + 0.25 * (lamp.current ?? 1);
+  });
+  return <hemisphereLight ref={hemi} color="#8c97d9" groundColor="#1a1420" intensity={0.55} />;
 }
 
 function Post({ progress }: { progress: RefObject<number> }) {

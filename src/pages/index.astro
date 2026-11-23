@@ -2,12 +2,14 @@
 import Base from '@/layouts/Base.astro';
 import Intro from '@/components/intro/Intro';
 import SiteHero from '@/components/site/SiteHero';
+import SoundToggle from '@/components/site/SoundToggle';
 ---
 <Base
   title="Arthur Rosisca — Full-Stack & Dados"
   description="Portfólio de Arthur Rosisca: desenvolvedor full-stack e engenharia de dados."
 >
   <Intro client:only="react" />
+  <SoundToggle client:only="react" />
 
   <main>
     <SiteHero />
