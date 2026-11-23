@@ -3,14 +3,14 @@
 @import "@fontsource-variable/jetbrains-mono";
 
 @theme {
-  /* "Quarto à noite" palette: lamp amber on near-black */
+  /* Base tokens. The accent is swappable: see [data-palette] below. */
   --color-ink: #050507;        /* page + monitor screen: the same black */
   --color-surface: #101217;
   --color-surface-2: #181b22;
   --color-cream: #f3efe6;
   --color-muted: #8b8f99;
-  --color-amber: #f2a33a;      /* lamp light = UI accent */
-  --color-amber-soft: #ffd38a;
+  --color-accent: #f2a33a;     /* UI accent (the lamp in the scene stays warm regardless) */
+  --color-accent-ink: #050507; /* text on top of an accent-filled button */
   --color-ember: #d9643a;
 
   --font-sans: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
@@ -45,3 +45,9 @@ html::-webkit-scrollbar { display: none; }
   to { transform: scaleY(1); }
 }
 
+
+/* Palettes under evaluation; pick one, then fold it into @theme. */
+html[data-palette='fosforo'] { --color-accent: #7ee2a0; --color-ink: #050807; }
+html[data-palette='lua'] { --color-accent: #8ecbff; --color-ink: #05060a; --color-surface: #0f131b; }
+html[data-palette='lavanda'] { --color-accent: #b9a4ff; --color-ink: #06050a; }
+html[data-palette='papel'] { --color-accent: #f3efe6; --color-muted: #7d7f86; }

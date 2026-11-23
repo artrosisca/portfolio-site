@@ -8,6 +8,7 @@ import { useAssistedScroll } from './useAssistedScroll';
 import { detectQuality, prefersReducedMotion, type Quality } from './quality';
 import { TYPING, clock, layout } from './desktop';
 import { sound } from '@/lib/sound';
+import { DecodeText } from '@/components/site/DecodeText';
 
 type Phase = 'scroll' | 'boot' | 'done';
 const SEEN_KEY = 'intro-seen';
@@ -198,16 +199,16 @@ export default function Intro() {
               <span>portfólio · 2026</span>
             </header>
             <div className="mt-[7vh] max-w-xl md:mt-0 md:mb-[15vh]">
-              <p className="font-mono text-xs uppercase tracking-[0.25em] text-amber">full-stack &amp; dados</p>
+              <p className="font-mono text-xs uppercase tracking-[0.25em] text-accent"><DecodeText text="full-stack & dados" start={lit} duration={0.8} delay={0.5} /></p>
               <h1 className="mt-4 text-[clamp(2.4rem,6vw,5rem)] font-semibold leading-[1.02] tracking-[-0.03em] text-cream">
-                Construo sistemas e dou sentido a dados.
+                <DecodeText text="Construo sistemas e dou sentido a dados." start={lit} duration={1.3} delay={0.6} />
               </h1>
               <p className="mt-5 max-w-sm text-base leading-relaxed text-cream/70">Role para entrar no meu quarto, onde as coisas acontecem.</p>
             </div>
             {/* centered, so it doesn't collide with the sound toggle (left) or "pular intro" (right) */}
             <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 items-center gap-3 font-mono text-xs text-cream/60 md:bottom-12">
               <span className="relative block h-8 w-5 rounded-full border border-cream/30">
-                <span className="absolute left-1/2 top-1.5 h-1.5 w-1 -translate-x-1/2 animate-bounce rounded-full bg-amber" />
+                <span className="absolute left-1/2 top-1.5 h-1.5 w-1 -translate-x-1/2 animate-bounce rounded-full bg-accent" />
               </span>
               <span className="hidden sm:inline">role para entrar</span>
             </div>
@@ -232,7 +233,7 @@ export default function Intro() {
         <button
           type="button"
           onClick={skip}
-          className="absolute bottom-6 right-6 z-10 rounded-full border border-cream/20 bg-ink/70 px-4 py-2 font-mono text-xs text-cream/80 backdrop-blur transition hover:border-amber hover:text-amber md:bottom-12 md:right-12"
+          className="absolute bottom-6 right-6 z-10 rounded-full border border-cream/20 bg-ink/70 px-4 py-2 font-mono text-xs text-cream/80 backdrop-blur transition hover:border-accent hover:text-accent md:bottom-12 md:right-12"
           style={{ opacity: phase === 'scroll' && lit ? 1 : 0, pointerEvents: phase === 'scroll' && lit ? 'auto' : 'none' }}
         >
           pular intro →

@@ -13,21 +13,21 @@ function SiteHero() {
         <span className="tracking-[0.2em] uppercase">arthur rosisca</span>
         <div className="hidden gap-8 text-cream/60 md:flex">
           {LINKS.map((l) => (
-            <a key={l} href={`#${l}`} className="transition-colors hover:text-amber">{l}</a>
+            <a key={l} href={`#${l}`} className="transition-colors hover:text-accent">{l}</a>
           ))}
         </div>
-        <a href="/arthur_resume_pt-br.pdf" className="rounded-full border border-cream/20 px-4 py-2 text-cream/80 transition-colors hover:border-amber hover:text-amber">currículo</a>
+        <a href="/arthur_resume_pt-br.pdf" className="rounded-full border border-cream/20 px-4 py-2 text-cream/80 transition-colors hover:border-accent hover:text-accent">currículo</a>
       </nav>
 
       <div className="my-auto max-w-4xl">
-        <p className="font-mono text-sm text-amber">$ cat sobre.md</p>
+        <p className="font-mono text-sm text-accent">$ cat sobre.md</p>
         <h1 className="mt-5 text-[clamp(3rem,9vw,7.5rem)] font-semibold leading-[0.95] tracking-[-0.04em]">Arthur Rosisca</h1>
         <p className="mt-6 max-w-xl text-lg leading-relaxed text-cream/70 md:text-xl">
           Desenvolvedor full-stack e de dados. Construo sistemas web de ponta a ponta e transformo dados em decisões.
         </p>
         <div className="mt-10 flex flex-wrap gap-3 font-mono text-sm">
-          <a href="#projetos" className="rounded-full bg-amber px-5 py-3 text-ink transition-transform hover:-translate-y-0.5">ver projetos</a>
-          <a href="#contato" className="rounded-full border border-cream/20 px-5 py-3 text-cream/80 transition-colors hover:border-amber hover:text-amber">falar comigo</a>
+          <a href="#projetos" className="rounded-full bg-accent px-5 py-3 text-ink transition-transform hover:-translate-y-0.5">ver projetos</a>
+          <a href="#contato" className="rounded-full border border-cream/20 px-5 py-3 text-cream/80 transition-colors hover:border-accent hover:text-accent">falar comigo</a>
         </div>
       </div>
 

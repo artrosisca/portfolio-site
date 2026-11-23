@@ -15,6 +15,15 @@ import '@/styles/global.css';
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <!-- palette under evaluation: ?palette=<name>, remembered locally; set before first paint -->
+    <script is:inline>
+      (() => {
+        const q = new URLSearchParams(location.search).get('palette');
+        if (q) localStorage.setItem('palette', q);
+        const p = q || localStorage.getItem('palette');
+        if (p && p !== 'ambar') document.documentElement.dataset.palette = p;
+      })();
+    </script>
   </head>
   <body class="bg-ink text-cream">
     <slot />

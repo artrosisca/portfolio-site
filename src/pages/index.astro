@@ -3,6 +3,7 @@ import Base from '@/layouts/Base.astro';
 import Intro from '@/components/intro/Intro';
 import SiteHero from '@/components/site/SiteHero';
 import SoundToggle from '@/components/site/SoundToggle';
+import PalettePicker from '@/components/site/PalettePicker';
 ---
 <Base
   title="Arthur Rosisca — Full-Stack & Dados"
@@ -10,12 +11,13 @@ import SoundToggle from '@/components/site/SoundToggle';
 >
   <Intro client:only="react" />
   <SoundToggle client:only="react" />
+  {import.meta.env.DEV && <PalettePicker client:only="react" />}
 
   <main>
     <SiteHero />
     <!-- Placeholder for the rest of the site. We'll design this next. -->
     <section id="projetos" class="mx-auto max-w-5xl px-6 py-32 md:px-12">
-      <p class="font-mono text-sm text-amber">$ ls projetos/</p>
+      <p class="font-mono text-sm text-accent">$ ls projetos/</p>
       <p class="mt-4 text-muted">Em construção.</p>
       <div class="h-[80vh]"></div>
     </section>
