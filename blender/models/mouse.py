@@ -16,27 +16,46 @@ def mat(name, rgb, rough):
     p.inputs['Base Color'].default_value = (*rgb, 1); p.inputs['Roughness'].default_value = rough
     return m
 
-def hump(yn):
-    """Height profile along the length (yn: -1 back .. 1 front)."""
-    return 0.62 + 0.38 * math.exp(-((yn + 0.25) ** 2) / 0.5)
+# Side profile traced from a photo of the R1 Pro Max (yn: -1 back .. 1 front), as a fraction
+# of H: a long slope from the palm, the peak just behind the middle, a tall blunt nose.
+HEIGHT = [(-1.0, 0.12), (-0.95, 0.38), (-0.85, 0.58), (-0.7, 0.8), (-0.45, 0.95), (-0.15, 1.0),
+          (0.15, 0.97), (0.45, 0.85), (0.75, 0.66), (0.92, 0.52), (1.0, 0.34)]
+# half width as a fraction of W/2: round at the back, a faint waist, straight sides at the front
+WIDTH = [(-1.0, 0.3), (-0.9, 0.7), (-0.75, 0.9), (-0.4, 1.0), (0.0, 0.95), (0.5, 0.93),
+         (0.85, 0.9), (0.97, 0.72), (1.0, 0.45)]
+
+def curve(table, x):
+    """Catmull-Rom through the table's points."""
+    x = min(max(x, table[0][0]), table[-1][0])
+    i = max(j for j in range(len(table) - 1) if table[j][0] <= x) if x < table[-1][0] else len(table) - 2
+    (x1, p1), (x2, p2) = table[i], table[i + 1]
+    p0 = table[i - 1][1] if i > 0 else p1
+    p3 = table[i + 2][1] if i + 2 < len(table) else p2
+    t = (x - x1) / (x2 - x1)
+    return 0.5 * (2 * p1 + (p2 - p0) * t + (2 * p0 - 5 * p1 + 4 * p2 - p3) * t * t
+                  + (3 * p1 - p0 - 3 * p2 + p3) * t ** 3)
 
 def top_z(y):
     """Height of the shell's centre line at local y (m)."""
-    u = y / L  # -0.5 .. 0.5 on the unit sphere
-    return 2 * H * hump(2 * u) * math.sqrt(max(0.0, 0.25 - u * u))
+    return H * curve(HEIGHT, 2 * y / L)
 
-def shell():
-    """Top half of a sphere, shaped: highest a bit behind the middle, narrower at the front."""
-    bm = bmesh.new()
-    bmesh.ops.create_uvsphere(bm, u_segments=48, v_segments=24, radius=0.5)
-    for v in list(bm.verts):
-        if v.co.z < -1e-6: bm.verts.remove(v)
-    for v in bm.verts:
-        y = v.co.y * 2          # -1 back .. 1 front
-        k = hump(y)
-        width = 1 - 0.1 * max(0, y)  # a touch narrower towards the buttons
-        v.co.x *= W * width; v.co.y *= L; v.co.z *= 2 * H * k
-    bmesh.ops.contextual_create(bm, geom=[e for e in bm.edges if e.is_boundary])  # flat base
+def shell(rings=72, arc=28, n=2.6):
+    """Lofted along the length: each ring is a superellipse arch (boxy, like the real shell)
+    over a flat base; the two end rings are capped."""
+    bm = bmesh.new(); loops = []
+    for i in range(rings):
+        yn = -1 + 2 * i / (rings - 1)
+        h, w = H * curve(HEIGHT, yn), W / 2 * curve(WIDTH, yn)
+        ring = []
+        for j in range(arc + 1):
+            t = math.pi * j / arc
+            c, s_ = math.cos(t), math.sin(t)
+            ring.append(bm.verts.new((math.copysign(abs(c) ** (2 / n), c) * w, yn * L / 2, abs(s_) ** (2 / n) * h)))
+        loops.append(ring)
+    for a, b in zip(loops, loops[1:]):
+        for j in range(arc): bm.faces.new((a[j], a[j + 1], b[j + 1], b[j]))
+        bm.faces.new((a[arc], a[0], b[0], b[arc]))           # flat base strip
+    bm.faces.new(loops[0]); bm.faces.new(loops[-1][::-1])  # end caps
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces[:])
     return bm
 
@@ -50,7 +69,7 @@ def build(replace_existing=True):
     coll = bpy.data.collections.new('mouse'); sc.collection.children.link(coll)
     black = mat('vxe_black', (0.012, 0.012, 0.013), 0.55)
     seam = mat('vxe_seam', (0.0, 0.0, 0.0), 0.9)
-    rubber = mat('vxe_wheel', (0.03, 0.03, 0.032), 0.8)
+    rubber = mat('vxe_wheel', (0.55, 0.55, 0.56), 0.45)  # white wheel, as on the real one
 
     root = bpy.data.objects.new('vxe', None); coll.objects.link(root)
     # site: mouse at (0.29, 0, 0.03) inside the keyboard group at (0, DESK_Y+0.006, 0.13) x1.35
@@ -66,21 +85,23 @@ def build(replace_existing=True):
     body = add('vxe_body', shell(), black)
     body.modifiers.new('wn', 'WEIGHTED_NORMAL')
     # the split between the buttons and the seam behind them: thin dark strips on the shell
-    for (sx, sy, cx, cy) in ((0.0009, L * 0.42, 0, L * 0.29), (W * 0.62, 0.0009, 0, L * 0.08)):
+    for (sx, sy, cx, cy) in ((0.0009, L * 0.46, 0, L * 0.28), (W * 0.9, 0.0009, 0, L * 0.06)):
         bm = bmesh.new(); bmesh.ops.create_cube(bm, size=1)
-        for v in bm.verts: v.co.x *= sx; v.co.y *= sy; v.co.z = (v.co.z + 0.5) * 2 * H
+        # the cross seam only runs over the top, where the buttons end
+        z0 = 0.0 if sx < 0.01 else 0.62 * H
+        for v in bm.verts: v.co.x *= sx; v.co.y *= sy; v.co.z = z0 + (v.co.z + 0.5) * (2 * H - z0)
         o = add('vxe_seam', bm, seam, smooth=False); o.location = (cx, cy, 0)
         bool_ = o.modifiers.new('only_on_shell', 'BOOLEAN'); bool_.operation = 'INTERSECT'; bool_.object = body
         o.scale = (1, 1, 1.002)
     # scroll wheel in its slot
-    bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=32, radius1=0.009, radius2=0.009, depth=0.0065)
+    bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=32, radius1=0.0095, radius2=0.0095, depth=0.007)
     wheel = add('vxe_wheel', bm, rubber); wheel.rotation_euler = (0, math.pi / 2, 0)
-    # sunk in its slot: only ~1.5 mm shows above the shell
-    wheel.location = (0, L * 0.2, top_z(L * 0.2) + 0.0015 - 0.009)
+    # sunk in its slot: ~3 mm shows above the shell
+    wheel.location = (0, L * 0.27, top_z(L * 0.27) + 0.003 - 0.0095)
     # two side buttons on the left
-    for i, y in enumerate((L * 0.12, -L * 0.06)):
+    for i, y in enumerate((L * 0.2, L * 0.03)):
         bm = bmesh.new(); bmesh.ops.create_cube(bm, size=1)
-        for v in bm.verts: v.co.x *= 0.002; v.co.y *= 0.014; v.co.z *= 0.0045
-        bmesh.ops.bevel(bm, geom=bm.edges[:], offset=0.0012, segments=2, affect='EDGES')
-        b = add(f'vxe_side{i}', bm, black); b.location = (-W * 0.485, y, H * 0.45)
+        for v in bm.verts: v.co.x *= 0.004; v.co.y *= 0.015; v.co.z *= 0.005
+        bmesh.ops.bevel(bm, geom=bm.edges[:], offset=0.0011, segments=3, affect='EDGES')
+        b = add(f'vxe_side{i}', bm, black); b.location = (-W / 2 * curve(WIDTH, 2 * y / L) * 0.985, y, H * 0.55)
     return root
