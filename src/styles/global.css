@@ -45,9 +45,3 @@ html::-webkit-scrollbar { display: none; }
   to { transform: scaleY(1); }
 }
 
-@keyframes glow {
-  0%, 100% { opacity: 0.55; }
-  50% { opacity: 1; }
-}
-
-html[data-gate] .sound-toggle { opacity: 0; pointer-events: none; }

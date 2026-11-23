@@ -44,6 +44,20 @@ class SoundEngine {
     this.listeners.forEach((l) => l(on));
   }
 
+  /**
+   * A returning visitor who left sound on gets it back on their first click or key press:
+   * browsers refuse to start audio before one.
+   */
+  resumeOnGesture() {
+    if (this.pref !== true || this.on) return;
+    const go = () => {
+      off();
+      if (!this.on) void this.setOn(true);
+    };
+    const off = () => ['pointerdown', 'keydown'].forEach((e) => window.removeEventListener(e, go, true));
+    ['pointerdown', 'keydown'].forEach((e) => window.addEventListener(e, go, true));
+  }
+
   /** Room ambience (rain, PC hum). 0 = silent. Kept even while muted so toggling restores it. */
   ambience(level: number, seconds = 1.2) {
     this.ambLevel = level;

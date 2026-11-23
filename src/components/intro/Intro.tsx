@@ -53,7 +53,7 @@ export default function Intro() {
   const smooth = useRef(0); // the single progress value the camera AND the overlays read
   const lamp = useRef(0); // desk lamp power, 0 until the visitor "turns it on"
   const lampAt = useRef<number | null>(null);
-  const [entered, setEntered] = useState(false);
+  const [lit, setLit] = useState(false);
   const [quality, setQuality] = useState<Quality | null>(null);
   const [reduced, setReduced] = useState(false);
   const [phase, setPhase] = useState<Phase>('scroll');
@@ -69,43 +69,26 @@ export default function Intro() {
     const r = prefersReducedMotion();
     setReduced(r);
     setQuality(detectQuality());
-    if (r) setPhase('done');
-    else if (sessionStorage.getItem(SEEN_KEY)) {
-      // already came in this session: no gate, the light is simply on
-      lampAt.current = -1e6;
-      setEntered(true);
-      sound.ambience(0.9);
+    if (r) {
+      setPhase('done');
+      return;
     }
+    // already came in this session: the light is simply on
+    if (sessionStorage.getItem(SEEN_KEY)) {
+      lampAt.current = -1e6;
+      setLit(true);
+      sound.ambience(0.9);
+      return;
+    }
+    // first visit: the room opens dark and the lamp switches itself on a moment later
+    const id = window.setTimeout(() => {
+      lampAt.current = performance.now();
+      sound.play('switch');
+      sound.ambience(0.9, 2);
+      setLit(true);
+    }, 1400);
+    return () => window.clearTimeout(id);
   }, []);
-
-  // gate: nothing scrolls until the visitor clicks to turn the light on
-  useEffect(() => {
-    if (entered || phase !== 'scroll' || quality === null) return;
-    const lenis = getLenis();
-    lenis?.stop();
-    const html = document.documentElement;
-    html.style.overflow = 'hidden';
-    html.dataset.gate = ''; // hides the floating sound toggle: the gate already asks
-    const block = (e: Event) => e.preventDefault();
-    window.addEventListener('wheel', block, { passive: false });
-    window.addEventListener('touchmove', block, { passive: false });
-    return () => {
-      window.removeEventListener('wheel', block);
-      window.removeEventListener('touchmove', block);
-      html.style.overflow = '';
-      delete html.dataset.gate;
-      lenis?.start();
-    };
-  }, [entered, phase, quality]);
-
-  const enter = (withSound: boolean) => {
-    if (entered) return;
-    void sound.setOn(withSound);
-    sound.play('switch');
-    sound.ambience(0.9, 2);
-    lampAt.current = performance.now();
-    setEntered(true);
-  };
 
   // Lenis lives for the whole page; the push only acts inside the intro section.
   useAssistedScroll(section, quality !== null && !reduced);
@@ -206,7 +189,7 @@ export default function Intro() {
         )}
 
         {/* landing: scrim keeps the headline legible over the scene */}
-        <div className="pointer-events-none absolute inset-0 transition-opacity duration-1000" style={{ opacity: entered ? 1 : 0, transitionDelay: entered ? '500ms' : '0ms' }}>
+        <div className="pointer-events-none absolute inset-0 transition-opacity duration-1000" style={{ opacity: lit ? 1 : 0, transitionDelay: lit ? '500ms' : '0ms' }}>
         <div className="absolute inset-0" style={{ opacity: copy }}>
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,5,7,0.95)_0%,rgba(5,5,7,0.8)_38%,transparent_58%)] md:bg-[linear-gradient(90deg,rgba(5,5,7,0.92)_0%,rgba(5,5,7,0.6)_38%,transparent_62%)]" />
           <div className="relative flex h-full flex-col p-6 md:justify-between md:p-12">
@@ -232,8 +215,6 @@ export default function Intro() {
         </div>
         </div>
 
-        {/* gate: the click that turns the lamp on also unlocks audio */}
-        {quality && !entered && <Gate onEnter={enter} />}
 
         {/* HTML desktop takes over from the monitor texture once the camera has landed */}
         {desktopOn && (
@@ -252,7 +233,7 @@ export default function Intro() {
           type="button"
           onClick={skip}
           className="absolute bottom-6 right-6 z-10 rounded-full border border-cream/20 bg-ink/70 px-4 py-2 font-mono text-xs text-cream/80 backdrop-blur transition hover:border-amber hover:text-amber md:bottom-12 md:right-12"
-          style={{ opacity: phase === 'scroll' && entered ? 1 : 0, pointerEvents: phase === 'scroll' && entered ? 'auto' : 'none' }}
+          style={{ opacity: phase === 'scroll' && lit ? 1 : 0, pointerEvents: phase === 'scroll' && lit ? 'auto' : 'none' }}
         >
           pular intro →
         </button>
@@ -261,33 +242,3 @@ export default function Intro() {
   );
 }
 
-function Gate({ onEnter }: { onEnter: (withSound: boolean) => void }) {
-  return (
-    <div className="absolute inset-0 z-20 animate-[fadein_600ms_ease-out]">
-      <button
-        type="button"
-        autoFocus
-        onClick={() => onEnter(true)}
-        className="group absolute inset-0 flex cursor-pointer flex-col items-center justify-end bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(5,5,7,0.75)_100%)] pb-[18vh] outline-none"
-        aria-label="Acender a luz e entrar, com som"
-      >
-        <span className="relative flex h-14 w-9 items-start justify-center rounded-xl border border-cream/25 bg-surface/60 p-1.5 shadow-[0_0_40px_rgba(242,163,58,0.15)] backdrop-blur transition group-hover:border-amber/70 group-focus-visible:border-amber">
-          <span className="h-5 w-full rounded-md bg-amber/90 shadow-[0_0_18px_rgba(242,163,58,0.8)] animate-[glow_2.4s_ease-in-out_infinite]" />
-        </span>
-        <span className="mt-6 font-mono text-sm tracking-wide text-cream/90">clique para acender a luz</span>
-        <span className="mt-2 font-mono text-[11px] text-cream/45">com som · melhor com fone</span>
-      </button>
-      <button
-        type="button"
-        onClick={() => onEnter(false)}
-        className="absolute bottom-[10vh] left-1/2 -translate-x-1/2 font-mono text-[11px] text-cream/40 underline decoration-cream/20 underline-offset-4 transition hover:text-amber"
-      >
-        entrar sem som
-      </button>
-      <header className="pointer-events-none absolute inset-x-0 top-0 flex justify-between p-6 font-mono text-[11px] uppercase tracking-[0.25em] text-cream/40 md:p-12">
-        <span>arthur rosisca</span>
-        <span>portfólio · 2026</span>
-      </header>
-    </div>
-  );
-}
