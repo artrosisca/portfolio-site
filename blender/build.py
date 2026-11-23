@@ -4,7 +4,7 @@ Run: blender --background --python blender/build.py  ->  blender/room.blend
 Three.js is Y-up, Blender Z-up: three (x, y, z) == blender (x, -z, y).
 """
 import bpy, math, os
-from mathutils import Vector
+from mathutils import Vector, Matrix
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 def B(x, y, z): return Vector((x, -z, y))  # three -> blender
@@ -57,6 +57,15 @@ for o in bpy.data.objects:
 # --- Arthur's own gear, modelled here instead of the site's placeholders -------
 import sys; sys.path.insert(0, os.path.join(HERE, 'models'))
 import sofle; sofle.build()
+
+# the Rubik's cube was drawn oversized in the site; a real 57 mm cube at the desk set's 1.35x
+cube = [o for o in bpy.data.objects if o.type == 'MESH' and o.name.startswith('cube__')]
+if cube:
+    pts = [o.matrix_world @ Vector(c) for o in cube for c in o.bound_box]
+    lo = Vector((sum(p.x for p in pts) / len(pts), sum(p.y for p in pts) / len(pts), min(p.z for p in pts)))
+    k = 0.057 * 1.35 / (max(p.x for p in pts) - min(p.x for p in pts))
+    for o in cube:
+        o.matrix_world = Matrix.Translation(lo) @ Matrix.Scale(k, 4) @ Matrix.Translation(-lo) @ o.matrix_world
 
 # --- camera: the site's landing pose (CameraRig START.wide) --------------------
 az, el, r = -0.95, 0.42, 3.4
