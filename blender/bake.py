@@ -12,7 +12,7 @@ SCALE = float(os.environ.get('BAKE_SCALE', 1))
 SAMPLES = int(os.environ.get('BAKE_SAMPLES', 128))
 OUT = os.environ.get('BAKE_OUT', os.path.join(HERE, '..', 'public', 'room', 'room.glb'))
 # texture size per part; the desk area is what the camera gets closest to
-SIZES = {'room': 2048, 'desk': 2048, 'decor': 2048, 'monitor': 1024, 'keyboard': 1024, 'lamp': 1024, 'guitar': 1024, 'plant': 1024, 'cube': 512, 'art': 1024}
+SIZES = {'room': 2048, 'desk': 2048, 'decor': 2048, 'monitor': 1024, 'keyboard': 1024, 'lamp': 1024, 'guitar': 1024, 'plant': 1024, 'cube': 512, 'art': 2048}
 
 sc = bpy.context.scene
 sc.cycles.samples = SAMPLES
