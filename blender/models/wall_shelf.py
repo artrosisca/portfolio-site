@@ -13,13 +13,18 @@ WALL_Y = 0.8
 SHELF_TOP = 1.7375
 SHELF_BACK = 0.785
 
+def art(name):
+    """The real cover if Arthur's copy is in blender/assets/covers (not committed), else our drawing."""
+    cover = os.path.join(HERE, 'assets', 'covers', f'{name}.png')
+    return cover if os.path.exists(cover) else os.path.join(HERE, 'textures', f'poster_{name}.png')
+
 def mat(name, rgb, rough, image=None):
     m = bpy.data.materials.new(name); m.use_nodes = True
     p = m.node_tree.nodes['Principled BSDF']; p.inputs['Roughness'].default_value = rough
     p.inputs['Base Color'].default_value = (*rgb, 1)
     if image:
         t = m.node_tree.nodes.new('ShaderNodeTexImage')
-        t.image = bpy.data.images.load(os.path.join(HERE, 'textures', image), check_existing=True)
+        t.image = bpy.data.images.load(image if os.path.isabs(image) else os.path.join(HERE, 'textures', image), check_existing=True)
         m.node_tree.links.new(t.outputs['Color'], p.inputs['Base Color'])
     return m
 
@@ -63,7 +68,7 @@ def posters():
     for i, name in enumerate(('perola_negra', 'cartola', 'construcao', 'elis')):
         x, z = -0.98 + i * 0.34, 1.68
         obj(f'art__frame_{name}', box((0.3, 0.02, 0.3), 0.003), frame, Matrix.Translation((x, WALL_Y - 0.011, z)))
-        obj(f'art__poster_{name}', quad(0.27, 0.27), mat(f'poster_{name}', (1, 1, 1), 0.7, f'poster_{name}.png'),
+        obj(f'art__poster_{name}', quad(0.27, 0.27), mat(f'poster_{name}', (1, 1, 1), 0.7, art(name)),
             Matrix.Translation((x, WALL_Y - 0.0215, z)))
 
 def books():
@@ -81,7 +86,7 @@ def books():
         x += thick + 0.002
 
 def lps():
-    """Six sleeves leaning on the wall, the front one facing out with a record pulled up."""
+    """Sleeves leaning on the wall, the front one (Alcione) facing out with a record pulled up."""
     colours = [(30, 30, 34), (200, 70, 50), (240, 236, 222), (40, 90, 140), (120, 40, 60)]
     lean = math.radians(14); size = 0.315
     base = Vector((0.88, SHELF_BACK - 0.012 - size * math.sin(lean), SHELF_TOP))
@@ -91,9 +96,11 @@ def lps():
         M = Matrix.Translation(base + off) @ R @ Matrix.Translation((0, 0.0025, size / 2))
         obj(f'decor__lp_{i}', box((size, 0.003, size)), mat(f'lp_{i}', srgb(c), 0.7), M)
     M = Matrix.Translation(base) @ R
-    obj('decor__lp_front', box((size, 0.003, size)), mat('lp_front_back', srgb((238, 204, 74)), 0.7),
+    front = os.path.join(HERE, 'assets', 'covers', 'alcione.png')  # A Voz do Samba
+    if not os.path.exists(front): front = 'lp_acabou_chorare.png'
+    obj('decor__lp_front', box((size, 0.003, size)), mat('lp_front_back', srgb((60, 110, 170)), 0.7),
         M @ Matrix.Translation((0, 0.0015, size / 2)))
-    obj('decor__lp_front_art', quad(size, size), mat('lp_front', (1, 1, 1), 0.6, 'lp_acabou_chorare.png'),
+    obj('decor__lp_front_art', quad(size, size), mat('lp_front', (1, 1, 1), 0.6, front),
         M @ Matrix.Translation((0, -0.0004, size / 2)))
     # the vinyl, half out of its sleeve
     bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=64, radius1=0.15, radius2=0.15, depth=0.0015)
