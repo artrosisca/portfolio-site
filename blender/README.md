@@ -17,10 +17,11 @@ Blender usado: 5.3 (`~/Applications/blender-5.3.0-linux-x64/blender`, abreviado 
 Os arquivos do Poly Haven ficam em `blender/assets/` (fora do git, resolução 1k):
 texturas `american_walnut_veneer`, `clay_plaster`, `dark_wooden_planks`, `poly_wool_herringbone`,
 `scuba_suede` (`<nome>_diff|rough|nor_gl_1k.jpg`) e os modelos glTF `desk_lamp_arm_01`,
-`potted_plant_02`, `potted_plant_04` (cada um na sua pasta).
-As capas dos discos (do acervo do Arthur) ficam em `blender/assets/covers/` (`perola_negra`, `cartola`,
-`construcao`, `elis`, `alcione`, PNG quadrado); sem elas, `wall_shelf.py` usa os pôsteres desenhados por `art.py`. Para baixar, use a API pública:
+`potted_plant_02`, `potted_plant_04` (cada um na sua pasta). Para baixar, use a API pública:
 `https://api.polyhaven.com/files/<nome>`.
+
+As capas dos discos (do acervo do Arthur) ficam em `blender/assets/covers/` (`perola_negra`, `cartola`,
+`construcao`, `elis`, `alcione`, PNG quadrado); sem elas, `wall_shelf.py` usa os pôsteres desenhados por `art.py`.
 
 ## Fluxo
 
