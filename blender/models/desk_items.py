@@ -70,24 +70,24 @@ def monitor_arm():
     black = mat('arm_black', (0.012, 0.012, 0.014), 0.42, 0.35)
     steel = mat('arm_steel', (0.5, 0.5, 0.52), 0.3, 1.0)
     part = 'monitor__arm'
-    bx, by = mid.x - 0.42, DESK_BACK - 0.045
-    top = DESK_Y + 0.17
+    # pole behind the monitor's left half; both links stay mostly hidden behind the screen,
+    # like a real arm: from the front you see the pole, from the side the arm folding up
+    bx, by = mid.x - 0.14, DESK_BACK - 0.06
+    top = DESK_Y + 0.13
     # clamp: plate on the desk, jaw behind the edge, screw under it
-    place(obj(part + '_plate', rbox((0.075, 0.075, 0.012), 0.004), black), (bx, by, DESK_Y + 0.006))
-    place(obj(part + '_jaw', rbox((0.05, 0.012, 0.075), 0.003), black), (bx, DESK_BACK + 0.007, DESK_Y - 0.03))
-    place(obj(part + '_jaw2', rbox((0.05, 0.06, 0.01), 0.003), black), (bx, DESK_BACK - 0.02, DESK_Y - 0.072))
-    place(obj(part + '_pole', cyl(0.016, top - DESK_Y), black), (bx, by, (top + DESK_Y) / 2))
-    place(obj(part + '_cap', cyl(0.02, 0.012), steel), (bx, by, top + 0.006))
-    # lower link, then the elbow
-    elbow = Vector((bx + 0.17, by - 0.07, top + 0.03))
-    place(obj(part + '_j0', cyl(0.024, 0.05), black), (bx, by, top + 0.03))
-    beam(part + '_low', (bx, by, top + 0.03), elbow, 0.03, 0.038, black)
-    place(obj(part + '_j1', cyl(0.024, 0.055), black), elbow)
-    # gas-spring arm up to the head behind the monitor
-    head = Vector((mid.x, back + 0.075, mid.z - 0.04))
-    beam(part + '_spring', elbow + Vector((0, 0, 0.012)), head, 0.036, 0.055, black, taper=0.8)
-    beam(part + '_spring_hl', elbow + Vector((0.004, -0.004, 0.044)), head + Vector((0, -0.004, 0.026)), 0.006, 0.004, steel)
-    place(obj(part + '_j2', cyl(0.02, 0.05), black), head)
+    place(obj(part + '_plate', rbox((0.07, 0.07, 0.012), 0.004), black), (bx, by, DESK_Y + 0.006))
+    place(obj(part + '_jaw', rbox((0.045, 0.012, 0.075), 0.003), black), (bx, DESK_BACK + 0.007, DESK_Y - 0.03))
+    place(obj(part + '_jaw2', rbox((0.045, 0.06, 0.01), 0.003), black), (bx, DESK_BACK - 0.02, DESK_Y - 0.072))
+    place(obj(part + '_pole', cyl(0.015, top - DESK_Y), black), (bx, by, (top + DESK_Y) / 2))
+    place(obj(part + '_j0', cyl(0.02, 0.04), black), (bx, by, top))
+    # lower link rises steeply to the elbow, the gas spring comes back down to the head
+    elbow = Vector((bx - 0.06, by - 0.05, DESK_Y + 0.36))
+    beam(part + '_low', (bx, by, top), elbow, 0.026, 0.032, black)
+    place(obj(part + '_j1', cyl(0.019, 0.045), black), elbow)
+    head = Vector((mid.x, back + 0.07, mid.z - 0.03))
+    beam(part + '_spring', elbow, head, 0.03, 0.044, black, taper=0.85)
+    beam(part + '_spring_hl', elbow + Vector((0, -0.016, 0.02)), head + Vector((0, -0.016, 0.017)), 0.004, 0.003, steel)
+    place(obj(part + '_j2', cyl(0.017, 0.045), black), head)
     # swivel + tilt + VESA
     tilt = Vector((mid.x, back + 0.03, mid.z))
     beam(part + '_neck', head + Vector((0, 0, 0.02)), tilt, 0.026, 0.026, black)

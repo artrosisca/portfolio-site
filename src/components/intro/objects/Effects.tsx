@@ -5,17 +5,22 @@ import { DESK_Y } from '../constants';
 import { softDot } from '../textures';
 import { HEAD, TARGET } from './Lamp';
 
+type V3 = [number, number, number];
+
+/** Where the baked room's clamp lamp shines from (lamp_spot in blender/room.blend, Y-up). */
+export const BAKED_HEAD: V3 = [-0.689, 1.326, -0.581];
+
 /** Dust motes drifting inside the lamp's beam; only visible while the lamp is on. */
-export function Dust({ lamp, count }: { lamp: RefObject<number>; count: number }) {
+export function Dust({ lamp, count, from = HEAD, to = TARGET }: { lamp: RefObject<number>; count: number; from?: V3; to?: V3 }) {
   const mat = useRef<THREE.PointsMaterial>(null);
   const { geo, seeds, axis, head } = useMemo(() => {
-    const head = new THREE.Vector3(...HEAD);
-    const axis = new THREE.Vector3(...TARGET).sub(head);
+    const head = new THREE.Vector3(...from);
+    const axis = new THREE.Vector3(...to).sub(head);
     const seeds = Array.from({ length: count }, () => ({ t: 0.12 + Math.random() * 0.85, a: Math.random() * Math.PI * 2, r: Math.sqrt(Math.random()), sp: 0.01 + Math.random() * 0.03, ph: Math.random() * 10 }));
     const geo = new THREE.BufferGeometry();
     geo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(count * 3), 3));
     return { geo, seeds, axis, head };
-  }, [count]);
+  }, [count, from, to]);
   const tex = useMemo(() => softDot(), []);
   const side = useMemo(() => {
     // two vectors perpendicular to the beam, to place motes around its axis
