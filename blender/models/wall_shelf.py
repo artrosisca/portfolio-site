@@ -1,5 +1,5 @@
 """
-The wall and the shelf: four framed MPB posters above the desk, programming books (and a
+The wall and the shelf: framed MPB posters (and a Copacabana print) hung loosely above the desk, programming books (and a
 calculus one) on the shelf next to a few LPs leaning on the wall. Art from blender/art.py.
 """
 import bpy, bmesh, math, os, sys
@@ -30,7 +30,8 @@ def mat(name, rgb, rough, image=None, pixels=0):
         t = m.node_tree.nodes.new('ShaderNodeTexImage')
         t.image = bpy.data.images.load(image if os.path.isabs(image) else os.path.join(HERE, 'textures', image), check_existing=True)
         if pixels:  # a deliberately low-res print: crisp square pixels, still recognisable
-            t.image = t.image.copy(); t.image.scale(pixels, pixels); t.interpolation = 'Closest'
+            t.image = t.image.copy(); w, h = t.image.size
+            t.image.scale(round(pixels * w / h), pixels); t.interpolation = 'Closest'
         m.node_tree.links.new(t.outputs['Color'], p.inputs['Base Color'])
     return m
 
@@ -69,13 +70,30 @@ def clear_old():
         elif 0.35 < c.x < 1.2 and SHELF_TOP < c.z < 2.1 and d < 0.3:  # the coloured books
             bpy.data.objects.remove(o)
 
+# a loose salon hang: mixed sizes, frames and mats, staggered heights, each a touch off level.
+# (art, outer w, outer h, centre x, centre z, tilt in degrees, frame, mat border)
+HANG = [
+    ('perola_negra', 0.38, 0.38, -1.0, 1.66, 1.0, 'black', 0.0),
+    ('cartola', 0.3, 0.3, -0.64, 1.79, -1.3, 'black', 0.035),
+    ('construcao', 0.32, 0.32, -0.27, 1.63, 0.6, 'walnut', 0.0),
+    ('elis', 0.24, 0.24, 0.03, 1.8, -0.8, 'cream', 0.03),
+    ('copacabana', 0.21, 0.3, 0.3, 1.56, 1.4, 'walnut', 0.0),
+]
+
 def posters():
-    frame = mat('frame', (0.015, 0.014, 0.016), 0.5)
-    for i, name in enumerate(('perola_negra', 'cartola', 'construcao', 'elis')):
-        x, z = -0.98 + i * 0.34, 1.68
-        obj(f'art__frame_{name}', box((0.3, 0.02, 0.3), 0.003), frame, Matrix.Translation((x, WALL_Y - 0.011, z)))
-        obj(f'art__poster_{name}', quad(0.27, 0.27), mat(f'poster_{name}', (1, 1, 1), 0.7, art(name), PIXELS),
-            Matrix.Translation((x, WALL_Y - 0.0215, z)))
+    frames = {'black': mat('frame', (0.015, 0.014, 0.016), 0.5), 'walnut': mat('frame_walnut', srgb((92, 58, 36)), 0.55),
+              'cream': mat('frame_cream', srgb((214, 206, 190)), 0.5)}
+    matboard = mat('poster_mat', srgb((232, 226, 212)), 0.9)
+    for name, w, h, x, z, tilt, frame, border in HANG:
+        M = Matrix.Translation((x, 0, z)) @ Matrix.Rotation(math.radians(tilt), 4, 'Y')
+        at = lambda y: M @ Matrix.Translation((0, y, 0))
+        obj(f'art__frame_{name}', box((w, 0.02, h), 0.003), frames[frame], at(WALL_Y - 0.011))
+        iw, ih = w - 0.03, h - 0.03
+        if border:
+            obj(f'art__mat_{name}', quad(iw, ih), matboard, at(WALL_Y - 0.0213))
+            iw, ih = iw - 2 * border, ih - 2 * border
+        obj(f'art__poster_{name}', quad(iw, ih), mat(f'poster_{name}', (1, 1, 1), 0.7, art(name), PIXELS),
+            at(WALL_Y - 0.0217))
 
 def books():
     x = 0.8  # just past the pothos pot at the shelf's left end

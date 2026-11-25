@@ -99,7 +99,24 @@ def elis():
     centred(d, 800, '20 anos blue', F('hand', 110), (255, 140, 100))
     return grain(img)
 
-POSTERS = {'perola_negra': perola_negra, 'cartola': cartola, 'construcao': construcao, 'elis': elis}
+def copacabana():
+    """A tall print of Copacabana's promenade: Burle Marx's black and cream waves, a persimmon sun."""
+    W, H = 680, S
+    img = Image.new('RGB', (W, H), (236, 228, 212)); d = ImageDraw.Draw(img)
+    # the waves run across the print; every other band between two wave lines is black
+    lines = [(y0, 26 + 4 * (i % 3), 0.011 + 0.0006 * (i % 2)) for i, y0 in enumerate(range(150, H - 40, 62))]
+    wave = lambda y0, amp, k, x: y0 + amp * math.sin(k * x + y0 * 0.02)
+    d.ellipse((W - 250, 70, W - 90, 230), fill=(232, 108, 54))  # setting behind the sea
+    for i in range(0, len(lines) - 1, 2):
+        a, b = lines[i], lines[i + 1]
+        top = [(x, wave(*a, x)) for x in range(0, W + 8, 8)]
+        bottom = [(x, wave(*b, x)) for x in range(W, -8, -8)]
+        d.polygon(top + bottom, fill=(22, 20, 26))
+    d.text((44, 60), 'COPACABANA', font=F('bold', 40), fill=(22, 20, 26))
+    d.text((46, 108), 'rio, 1970', font=F('garamond_i', 36), fill=(120, 60, 30))
+    return grain(img)
+
+POSTERS = {'perola_negra': perola_negra, 'cartola': cartola, 'construcao': construcao, 'elis': elis, 'copacabana': copacabana}
 
 # --- book spines ------------------------------------------------------------------------------
 from books import BOOKS  # shared with models/wall_shelf.py

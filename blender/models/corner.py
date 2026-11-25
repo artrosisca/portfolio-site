@@ -252,12 +252,12 @@ def pothos():
         heart_leaf(leaves, stem_end, axis, normal, size, U(0.1, 0.5), rng)
     # vines: out of the soil, over the rim, down the outside of the pot, across the shelf and
     # over its edge, then down the wall wandering as they go: a loose, uneven curtain
-    for s in range(26):
-        if s < 10:   # short ones draping over the shelf's edge either side of the pot: the top stays full
-            x0, length = potloc.x + U(-0.17, 0.17), U(0.03, 0.18)
-        else:
-            x0 = potloc.x + U(-0.06, 0.16)
-            length = U(0.35, 0.9) if s > 14 else U(0.08, 0.3)
+    for s in range(24):
+        if s < 8:    # short ones draping over the shelf's edge either side of the pot: the top stays full
+            x0, length = potloc.x + U(-0.2, 0.2), U(0.03, 0.12)
+        else:        # the rest leave the shelf spread out, so they don't bunch up right under it
+            x0 = potloc.x + U(-0.14, 0.2)
+            length = U(0.35, 0.9) if s > 12 else U(0.1, 0.3)
         a = math.atan2(SHELF_FRONT - potloc.y, x0 - potloc.x) + U(-0.9, 0.9)
         out = Vector((math.cos(a), math.sin(a), 0))
         lift = U(0.0, 0.035)
@@ -279,10 +279,12 @@ def pothos():
         tube(stems, pts, U(0.0018, 0.003))
         # leaves at the nodes, alternating sides, some missing, smaller towards the tip
         for k in range(2, len(pts) - 1):
-            if rng.random() < 0.2: continue
+            # the first hand-span under the shelf is where every vine passes: thin it out
+            under = 0.0 < SHELF_TOP - pts[k].z < 0.16
+            if rng.random() < (0.55 if under else 0.2): continue
             t = k / (len(pts) - 1)
             side = Vector((1 if (k + s) % 2 else -1, 0, 0))
-            size = U(0.05, 0.09) * (1 - 0.5 * t) if s >= 10 else U(0.06, 0.095)
+            size = U(0.05, 0.09) * (1 - 0.5 * t) if s >= 8 else U(0.05, 0.08)
             leaf_on(pts[k], side if k > 3 else out, size, hanging=k > 4)
         heart_leaf(leaves, pts[-1], Vector((U(-0.3, 0.3), -0.3, -1)), Vector((0, -1, 0.3)), U(0.015, 0.03), 0.2, rng)
     # a full crown in the pot: leaves arching up and out over the rim
