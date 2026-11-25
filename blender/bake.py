@@ -12,7 +12,7 @@ SCALE = float(os.environ.get('BAKE_SCALE', 1))
 SAMPLES = int(os.environ.get('BAKE_SAMPLES', 128))
 OUT = os.environ.get('BAKE_OUT', os.path.join(HERE, '..', 'public', 'room', 'room.glb'))
 # texture size per part; the desk area is what the camera gets closest to
-SIZES = {'room': 2048, 'desk': 2048, 'decor': 2048, 'monitor': 1024, 'keyboard': 1024, 'lamp': 1024, 'guitar': 1024, 'plant': 1024, 'cube': 512, 'art': 2048, 'rug': 1024, 'records': 1024, 'pothos': 2048, 'notes': 1024}
+SIZES = {'room': 2048, 'desk': 2048, 'decor': 2048, 'monitor': 1024, 'keyboard': 1024, 'lamp': 1024, 'guitar': 1024, 'plant': 1024, 'cube': 512, 'art': 2048, 'rug': 1024, 'records': 1024, 'pothos': 2048, 'notes': 1024, 'vinyl': 512}
 # share of triangles kept per part: detail the camera never gets close enough to see
 DECIMATE = {'cube': float(os.environ.get('DEC_CUBE', 0.15)), 'lamp': float(os.environ.get('DEC_LAMP', 0.4)),
             'keyboard': float(os.environ.get('DEC_KB', 0.6)), 'plant': float(os.environ.get('DEC_PLANT', 0.6)),

@@ -379,8 +379,11 @@ def record_corner():
         f = rec.faces.new((centre_v, rim[i], rim[(i + 1) % n]))
         for l in f.loops: l[uv].uv = (l.vert.co.x / 0.3 + 0.5, l.vert.co.y / 0.3 + 0.5)
         rec.faces.new((rim[(i + 1) % n], rim[i], low[i], low[(i + 1) % n]))
-    vinyl = mat('tt_vinyl', (1, 1, 1), 0.3, image='vinyl.png')
-    obj('records__tt_record', rec, vinyl, Matrix.Translation(tt + Vector((-0.06, 0, 0.085))) @ Matrix.Rotation(0.6, 4, 'Z'), smooth=False)
+    # matte in the bake: a glossy disc bakes the warm shelf above it as an amber mirror; the
+    # sheen is painted into the texture instead. Its own small texture keeps the grooves sharp.
+    vinyl = mat('tt_vinyl', (1, 1, 1), 0.7, image='vinyl.png')
+    vinyl.node_tree.nodes['Principled BSDF'].inputs['Specular IOR Level'].default_value = 0.1
+    obj('vinyl__record', rec, vinyl, Matrix.Translation(tt + Vector((-0.06, 0, 0.085))) @ Matrix.Rotation(0.6, 4, 'Z'), smooth=False)
     arm = mat('tt_arm', srgb((200, 200, 205)), 0.25, 1.0)
     pivot = tt + Vector((0.15, 0.11, 0.09))
     obj('records__tt_pivot', lathe([(0, 0), (0.018, 0), (0.018, 0.025), (0, 0.025)], 20), arm, Matrix.Translation(pivot - Vector((0, 0, 0.02))))
