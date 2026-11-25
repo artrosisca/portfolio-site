@@ -7,7 +7,7 @@ import bpy, bmesh, math
 from mathutils import Vector, Matrix
 
 DESK_Y = 0.76
-SCALE = 1.35                       # the desk set is drawn slightly larger on the site
+SCALE = 1.0                        # real size (the site draws its placeholder desk set 1.35x)
 L, W, H = 0.1225, 0.0620, 0.0380   # real size (m)
 
 def mat(name, rgb, rough):

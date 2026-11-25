@@ -100,7 +100,7 @@ def notebook():
     """An open A5 notebook left of the mat, turned towards the chair, and a pen on it."""
     loc, rot = Vector((-0.70, 0.16, DESK_Y)), 0.32
     T = Matrix.Translation(loc) @ Matrix.Rotation(rot, 4, 'Z')
-    W, D = 0.36, 0.25
+    W, D = 0.296, 0.21  # A5 opened flat
     cover = mat('nb_cover', (0.02, 0.018, 0.024), 0.6)
     band = mat('nb_band', (0.9, 0.2, 0.08), 0.5)
     o = obj('decor__nb_cover', rbox((W + 0.014, D + 0.012, 0.004), 0.0015, 2), cover)
@@ -136,9 +136,9 @@ def notebook():
     # a pen lying across the right page
     pen = mat('pen', (0.03, 0.05, 0.14), 0.3, 0.2)
     o = obj('decor__pen', cyl(0.0048, 0.14, 16), pen)
-    o.matrix_world = T @ Matrix.Translation((0.1, -0.02, 0.011)) @ Matrix.Rotation(0.5, 4, 'Z') @ Matrix.Rotation(math.pi / 2, 4, 'Y')
+    o.matrix_world = T @ Matrix.Translation((0.08, -0.015, 0.011)) @ Matrix.Rotation(0.5, 4, 'Z') @ Matrix.Rotation(math.pi / 2, 4, 'Y')
     o = obj('decor__pen_clip', rbox((0.03, 0.002, 0.0015), 0.0005, 1), mat('pen_clip', (0.7, 0.7, 0.72), 0.25, 1))
-    o.matrix_world = T @ Matrix.Translation((0.1, -0.02, 0.011)) @ Matrix.Rotation(0.5, 4, 'Z') @ Matrix.Translation((-0.045, 0, 0.0055))
+    o.matrix_world = T @ Matrix.Translation((0.08, -0.015, 0.011)) @ Matrix.Rotation(0.5, 4, 'Z') @ Matrix.Translation((-0.045, 0, 0.0055))
 
 # --- coffee cup ----------------------------------------------------------------------------
 

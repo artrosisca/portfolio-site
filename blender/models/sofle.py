@@ -13,7 +13,7 @@ P = PX
 CAP_X, CAP_Y = 0.0175, 0.0165   # KLP Lamé footprint
 STAGGER = [0, 0, 0.25, 0.375, 0.25, 0.125]
 DESK_Y = 0.76
-SCALE = 1.35                     # the site draws the desk set slightly larger, so it reads
+SCALE = 1.0                      # real size (the site draws its placeholder desk set 1.35x)
 ASSETS = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'assets')
 
 def lin(h):

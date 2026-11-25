@@ -79,12 +79,12 @@ for name, part in (('sofle', 'keyboard'), ('mouse', 'keyboard')):
     for o in bpy.data.collections[name].all_objects:
         if o.type == 'MESH': o.name = f'{part}__{o.name}'
 
-# the Rubik's cube was drawn oversized in the site; a real 57 mm cube at the desk set's 1.35x
+# the Rubik's cube was drawn oversized in the site; here it is a real 57 mm cube
 cube = [o for o in bpy.data.objects if o.type == 'MESH' and o.name.startswith('cube__')]
 if cube:
     pts = [o.matrix_world @ Vector(c) for o in cube for c in o.bound_box]
     lo = Vector((sum(p.x for p in pts) / len(pts), sum(p.y for p in pts) / len(pts), min(p.z for p in pts)))
-    k = 0.057 * 1.35 / (max(p.x for p in pts) - min(p.x for p in pts))
+    k = 0.057 / (max(p.x for p in pts) - min(p.x for p in pts))
     for o in cube:
         o.matrix_world = Matrix.Translation(lo) @ Matrix.Scale(k, 4) @ Matrix.Translation(-lo) @ o.matrix_world
 
