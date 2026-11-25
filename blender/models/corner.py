@@ -22,6 +22,9 @@ def mat(name, rgb, rough, metal=0.0, emit=None, image=None):
         t = m.node_tree.nodes.new('ShaderNodeTexImage')
         t.image = bpy.data.images.load(os.path.join(HERE, 'textures', image), check_existing=True)
         m.node_tree.links.new(t.outputs['Color'], p.inputs['Base Color'])
+        # name the UV map: once bake.py joins the part, the default may be another object's map
+        u = m.node_tree.nodes.new('ShaderNodeUVMap'); u.uv_map = 'UVMap'
+        m.node_tree.links.new(u.outputs['UV'], t.inputs['Vector'])
     return m
 
 def srgb(c): return tuple((x / 255) ** 2.2 for x in c)
@@ -332,7 +335,7 @@ def cork_board():
         f = bm.faces.new(vs)
         for l, uvc in zip(f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))): l[uv].uv = uvc
         M = Matrix.Translation((c.x + x, face - 0.0006, c.z + z)) @ Matrix.Rotation(rot, 4, 'Y')
-        obj(f'art__{img[:-4]}', bm, mat(img[:-4], (1, 1, 1), 0.8, image=img), M, smooth=False)
+        obj(f'notes__{img[:-4]}', bm, mat(img[:-4], (1, 1, 1), 0.8, image=img), M, smooth=False)  # own bake texture: sharp
         s = bmesh.new(); bmesh.ops.create_uvsphere(s, u_segments=8, v_segments=6, radius=0.0045)
         obj(f'art__pin_{img[:-4]}', s, pin, Matrix.Translation((c.x + x, face - 0.004, c.z + z + h / 2 - 0.01)))
 

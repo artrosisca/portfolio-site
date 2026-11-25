@@ -283,7 +283,7 @@ def laptop():
 
 def notes():
     """The post-its under the monitor: two big handwritten words each."""
-    for o in bpy.data.objects:
+    for o in list(bpy.data.objects):
         if o.type != 'MESH' or not o.name.startswith('decor__') or max(o.dimensions) > 0.07: continue
         c = centre(o)
         if abs(c.y - 0.3) < 0.02 and 0.9 < c.z < 1.0 and -0.32 < c.x < -0.14:
@@ -295,6 +295,7 @@ def notes():
             if not o.get('uv_fixed'):
                 for l in uv: l.uv.y = 1 - l.uv.y
                 o['uv_fixed'] = 1
+            o.name = 'notes__' + img[:-4]  # baked on their own texture, so the handwriting stays sharp
 
 def rug():
     """Arthur's burgundy kilim in front of the desk, with fringes on the short ends."""
