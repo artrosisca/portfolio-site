@@ -10,7 +10,7 @@ const smooth = (a: number, b: number, x: number) => {
 
 /** Framing at progress 0, per orientation. Angles in radians around the screen centre. */
 const START = {
-  wide: { az: -0.95, el: 0.42, r: 3.4, roll: 0.07, look: new THREE.Vector3(-0.75, 0.95, -0.35) },
+  wide: { az: -0.22, el: 0.2, r: 3.4, roll: 0.02, look: new THREE.Vector3(-0.55, 1.22, -0.5) },
   tall: { az: -0.75, el: 0.5, r: 4.6, roll: 0.05, look: new THREE.Vector3(0.15, 1.15, -0.15) },
 };
 
