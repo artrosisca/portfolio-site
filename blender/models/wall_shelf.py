@@ -75,7 +75,7 @@ def posters():
             Matrix.Translation((x, WALL_Y - 0.0215, z)))
 
 def books():
-    x = 0.5  # the pothos pot sits at the shelf's left end
+    x = 0.55  # the pothos pot sits at the shelf's left end
     for i, (title, author, bg, fg, accent, thick, height) in enumerate(BOOKS):
         depth = 0.17 + 0.02 * (height > 0.24)
         cx = x + thick / 2; cy = SHELF_BACK - 0.005 - depth / 2

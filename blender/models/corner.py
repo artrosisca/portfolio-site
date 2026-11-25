@@ -224,7 +224,7 @@ def heart_leaf(bm, at, axis, normal, size, curl, rng):
 
 def pothos():
     rng = random.Random(5)
-    potloc = Vector((0.43, 0.68, SHELF_TOP))
+    potloc = Vector((0.47, 0.68, SHELF_TOP))  # the shelf's left end, clear of the monitor
     obj('decor__pothos_pot', lathe([(0, 0), (0.05, 0), (0.06, 0.09), (0.064, 0.095), (0.0, 0.095)]),
         mat('pot_white', srgb((228, 224, 214)), 0.35), Matrix.Translation(potloc))
     green = leaf_material('pothos', pothos_nodes)
@@ -244,25 +244,32 @@ def pothos():
         tube(stems, [p, (p + stem_end) / 2 + Vector((0, 0, 0.004)), stem_end], 0.0018)
         heart_leaf(leaves, stem_end, axis, normal, size, rng.uniform(0.15, 0.4), rng)
     # vines: over the shelf's front edge and down the wall, bunched into a full curtain
+    rim = potloc.z + 0.095
     for s in range(13):
-        x0 = potloc.x + rng.uniform(-0.12, 0.1)
+        x0 = potloc.x + rng.uniform(-0.05, 0.1)
         length = rng.uniform(0.3, 0.85) if s > 3 else rng.uniform(0.1, 0.25)
-        pts = [top + Vector((rng.uniform(-0.03, 0.03), rng.uniform(-0.03, 0.02), 0))]
-        pts.append(Vector((x0 * 0.6 + potloc.x * 0.4, SHELF_FRONT + 0.03, SHELF_TOP + 0.05)))
-        pts.append(Vector((x0, SHELF_FRONT - 0.015, SHELF_TOP - 0.01)))
-        n = max(3, int(length / 0.03)); ph = rng.uniform(0, 6); drift = rng.uniform(-0.12, 0.12); amp = rng.uniform(0.01, 0.04)
+        # out of the soil, up over the rim, down the outside of the pot, then over the shelf's edge
+        a = math.atan2(SHELF_FRONT - potloc.y, x0 - potloc.x) + rng.uniform(-0.5, 0.5)
+        out = Vector((math.cos(a), math.sin(a), 0))
+        start = top + Vector((rng.uniform(-0.02, 0.02), rng.uniform(-0.02, 0.02), -0.005))
+        pts = [start, potloc + out * 0.045 + Vector((0, 0, rim - potloc.z + 0.02)),
+               potloc + out * 0.074 + Vector((0, 0, rim - potloc.z + 0.012)),
+               potloc + out * 0.08 + Vector((0, 0, rim - potloc.z - 0.03))]
+        pts.append(Vector((x0 * 0.5 + pts[-1].x * 0.5, SHELF_FRONT + 0.012, SHELF_TOP + 0.006)))
+        pts.append(Vector((x0, SHELF_FRONT - 0.012, SHELF_TOP - 0.012)))
+        n = max(3, int(length / 0.03)); ph = rng.uniform(0, 6); drift = rng.uniform(-0.04, 0.12); amp = rng.uniform(0.01, 0.04)
         for k in range(1, n + 1):
             t = k / n
             pts.append(Vector((x0 + math.sin(t * 4 + ph) * amp + t * t * drift,
-                               SHELF_FRONT - 0.015 + t * 0.08 * (1 + 0.5 * math.sin(ph)), SHELF_TOP - 0.01 - length * t)))
+                               SHELF_FRONT - 0.012 + t * 0.08 * (1 + 0.5 * math.sin(ph)), SHELF_TOP - 0.012 - length * t)))
         tube(stems, pts, 0.0025)
         # a leaf at each node, alternating sides, smaller towards the tip
-        for k in range(1, len(pts) - 1):
+        for k in range(2, len(pts) - 1):
             if rng.random() < 0.15: continue
             t = k / (len(pts) - 1)
             side = Vector((1 if k % 2 else -1, 0, 0))
             size = rng.uniform(0.05, 0.08) * (1 - 0.45 * t)
-            leaf_on(pts[k], side, size, hanging=k > 1)
+            leaf_on(pts[k], side if k > 3 else out, size, hanging=k > 4)
         heart_leaf(leaves, pts[-1], Vector((0, -0.3, -1)), Vector((0, -1, 0.3)), 0.025, 0.2, rng)
     # a full crown in the pot: leaves arching up and out over the rim
     for k in range(34):
@@ -274,13 +281,22 @@ def pothos():
         tube(stems, [p - Vector((0, 0, 0.02)), (p + tip) / 2 + Vector((0, 0, 0.01)), tip], 0.002)
         heart_leaf(leaves, tip, out + Vector((0, 0, rng.uniform(-0.1, 0.5))), Vector((0, 0, 1)) + out * 0.3,
                    rng.uniform(0.06, 0.085), rng.uniform(0.2, 0.5), rng)
+    # and a skirt spilling over the rim all round, so the pot sits inside the plant
+    for k in range(16):
+        a = k / 16 * 2 * math.pi + rng.uniform(-0.2, 0.2)
+        out = Vector((math.cos(a), math.sin(a), 0))
+        p = potloc + out * 0.05 + Vector((0, 0, rim - potloc.z + 0.01))
+        tip = potloc + out * 0.075 + Vector((0, 0, rim - potloc.z + 0.015))
+        tube(stems, [p, tip], 0.002)
+        heart_leaf(leaves, tip, out + Vector((0, 0, rng.uniform(-0.9, -0.3))), out + Vector((0, 0, 0.6)),
+                   rng.uniform(0.055, 0.075), rng.uniform(0.2, 0.4), rng)
     obj('decor__pothos_leaves', leaves, green)
     obj('decor__pothos_vines', stems, vine)
 
 # --- cork board ------------------------------------------------------------------------------
 
 def cork_board():
-    c = Vector((0.86, WALL_Y - 0.012, 1.3)); W, H = 0.46, 0.32
+    c = Vector((1.38, WALL_Y - 0.012, 1.28)); W, H = 0.46, 0.32  # over the record player
     obj('art__cork_frame', box((W + 0.03, 0.02, H + 0.03), 0.004), mat('cork_frame', srgb((120, 78, 46)), 0.6), Matrix.Translation(c))
     cork = bpy.data.materials.new('cork'); cork.use_nodes = True; nt = cork.node_tree; p = nt.nodes['Principled BSDF']
     nz = nt.nodes.new('ShaderNodeTexNoise'); nz.inputs['Scale'].default_value = 900; nz.inputs['Detail'].default_value = 4
