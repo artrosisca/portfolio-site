@@ -27,6 +27,9 @@ import '@/styles/global.css';
         }
         if (!localStorage.getItem('intro-skipped') && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
           document.documentElement.dataset.intro = 'on';
+          // the intro always starts at the top: a reload must not restore a scroll position deep in it
+          history.scrollRestoration = 'manual';
+          window.scrollTo(0, 0);
           setTimeout(function () {
             if (!window.__intro) delete document.documentElement.dataset.intro;
           }, 10000);

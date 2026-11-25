@@ -58,6 +58,7 @@ export default function Intro() {
   const lampAt = useRef<number | null>(null);
   const [lit, setLit] = useState(false);
   const [ready, setReady] = useState(false); // the 3D scene has drawn its first frames
+  const readyRef = useRef(false);
   const [quality, setQuality] = useState<Quality | null>(null);
   const [reduced, setReduced] = useState(false);
   const [phase, setPhase] = useState<Phase>('scroll');
@@ -79,12 +80,17 @@ export default function Intro() {
     setReduced(r);
     setQuality(detectQuality());
     if (r || localStorage.getItem(SKIP_KEY)) setPhase('done');
+    // a room that never arrives (failed download, no WebGL) must not hold the site hostage
+    const id = window.setTimeout(() => { if (!readyRef.current) setPhase('done'); }, 15000);
+    return () => window.clearTimeout(id);
   }, []);
 
   // the loader leaves once the scene is on screen; only then does the lamp switch on, so the
   // visitor actually sees it happen
   const onReady = () => {
+    window.scrollTo(0, 0); // whatever happened while loading, the room starts from the top
     document.documentElement.dataset.intro = 'ready';
+    readyRef.current = true;
     setReady(true);
   };
   useEffect(() => {
@@ -117,7 +123,8 @@ export default function Intro() {
   useEffect(() => () => void delete document.documentElement.dataset.intro, []);
 
   // Lenis lives for the whole page; scrolling is never automatic until the camera arrives.
-  useSmoothScroll(quality !== null && !reduced);
+  // It starts with the room (nothing scrolls under the loader), or at once when the intro is skipped.
+  useSmoothScroll(quality !== null && !reduced && (ready || phase === 'done'));
 
   // progress smoothing + arrival detection
   useEffect(() => {
@@ -131,7 +138,7 @@ export default function Intro() {
       smooth.current = THREE.MathUtils.damp(smooth.current, raw.current, 9, dt);
       if (Math.abs(raw.current - smooth.current) < 0.0005) smooth.current = raw.current;
       setP((old) => (Math.abs(old - smooth.current) > 0.002 ? smooth.current : old));
-      if (phaseRef.current === 'scroll' && raw.current >= 0.999) setPhase('boot');
+      if (phaseRef.current === 'scroll' && readyRef.current && raw.current >= 0.999) setPhase('boot');
       if (phaseRef.current === 'boot' && smooth.current >= 0.997) setDesktopOn(true);
       raf = requestAnimationFrame(tick);
     };

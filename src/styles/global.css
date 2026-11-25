@@ -74,6 +74,9 @@ html[data-arrived] .reveal-word > span { transform: none; animation: none; }
 /* the intro owns the page until it hands over to the site (see Intro.tsx, Base.astro) */
 html[data-intro] main { display: none; }
 html[data-intro] body { background: var(--color-ink); }
+/* nothing scrolls until the room is on screen: a flick during the loader (or a restored scroll
+   position after a reload) would otherwise land straight on the boot sequence */
+html[data-intro="on"] { overflow: hidden; }
 
 /* loader: only while the 3D loads, then it fades into the dark room */
 #intro-loader { display: none; }
