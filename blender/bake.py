@@ -12,7 +12,7 @@ SCALE = float(os.environ.get('BAKE_SCALE', 1))
 SAMPLES = int(os.environ.get('BAKE_SAMPLES', 128))
 OUT = os.environ.get('BAKE_OUT', os.path.join(HERE, '..', 'public', 'room', 'room.glb'))
 # texture size per part; the desk area is what the camera gets closest to
-SIZES = {'room': 2048, 'desk': 2048, 'decor': 2048, 'monitor': 1024, 'keyboard': 1024, 'lamp': 1024, 'guitar': 1024, 'plant': 1024, 'cube': 512, 'art': 2048, 'rug': 1024, 'records': 1024}
+SIZES = {'room': 2048, 'desk': 2048, 'decor': 2048, 'monitor': 1024, 'keyboard': 1024, 'lamp': 1024, 'guitar': 1024, 'plant': 1024, 'cube': 512, 'art': 2048, 'rug': 1024, 'records': 1024, 'pothos': 2048}
 # share of triangles kept per part: detail the camera never gets close enough to see
 DECIMATE = {'cube': float(os.environ.get('DEC_CUBE', 0.15)), 'lamp': float(os.environ.get('DEC_LAMP', 0.4)),
             'keyboard': float(os.environ.get('DEC_KB', 0.6)), 'plant': float(os.environ.get('DEC_PLANT', 0.6)),
@@ -54,6 +54,37 @@ def lighten(o, ratio):
         d = o.modifiers.new('dec', 'DECIMATE'); d.ratio = ratio; d.use_collapse_triangulate = True
         bpy.ops.object.modifier_apply(modifier=d.name)
 
+# every place the camera can be: the orbit around the screen (CameraRig) from the widest, most
+# sideways start down to the screen, plus the pointer sway. Visibility from a point is linear in
+# it, so testing the corners of this region covers everything inside.
+def _cams():
+    import math
+    from mathutils import Vector
+    screen = Vector((0, 0.3, 1.17))
+    for az in (-1.1, -0.5, 0.15):
+        for el in (-0.05, 0.55):
+            for r in (0.4, 4.9):
+                d = Vector((math.sin(az) * math.cos(el), -math.cos(az) * math.cos(el), math.sin(el)))
+                yield screen + d * r
+CAMS = list(_cams())
+
+def cull_back(o):
+    """On closed solids, drops faces that point away from every camera position: the backs of
+    frames, books and sleeves against the wall, the far sides of boxes. Open sheets (leaves,
+    blades, paper) are left alone, since the site draws both their sides."""
+    import bmesh
+    bm = bmesh.new(); bm.from_mesh(o.data)
+    bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=1e-5)
+    if not bm.edges or not all(e.is_manifold for e in bm.edges):
+        bm.free(); return
+    mw = o.matrix_world; m3 = mw.to_3x3()
+    dead = []
+    for f in bm.faces:
+        n = (m3 @ f.normal).normalized(); c = mw @ f.calc_center_median()
+        if all(n.dot(C - c) <= 0 for C in CAMS): dead.append(f)
+    bmesh.ops.delete(bm, geom=dead, context='FACES')
+    bm.to_mesh(o.data); bm.free()
+
 def objs(part):
     return [o for o in bpy.data.objects if o.type == 'MESH' and o.name.split('__')[0] == part]
 
@@ -63,7 +94,7 @@ for part, size in SIZES.items():
     if not group: continue
     t0 = time.time()
     bpy.ops.object.select_all(action='DESELECT')
-    for o in group: o.select_set(True)
+    for o in group: cull_back(o); o.select_set(True)
     bpy.context.view_layer.objects.active = group[0]
     if len(group) > 1: bpy.ops.object.join()
     o = bpy.context.view_layer.objects.active

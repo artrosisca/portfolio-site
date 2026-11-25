@@ -229,7 +229,7 @@ def heart_leaf(bm, at, axis, normal, size, curl, rng):
 def pothos():
     rng = random.Random(5)
     potloc = Vector((0.71, 0.68, SHELF_TOP))  # the shelf's left end, beside the cork board
-    obj('decor__pothos_pot', lathe([(0, 0), (0.05, 0), (0.06, 0.09), (0.064, 0.095), (0.0, 0.095)]),
+    obj('pothos__pot', lathe([(0, 0), (0.05, 0), (0.06, 0.09), (0.064, 0.095), (0.0, 0.095)]),
         mat('pot_white', srgb((228, 224, 214)), 0.35), Matrix.Translation(potloc))
     green = leaf_material('pothos', pothos_nodes)
     vine = mat('pothos_vine', srgb((84, 112, 48)), 0.6)
@@ -305,8 +305,8 @@ def pothos():
         tube(stems, [p, tip], 0.002)
         heart_leaf(leaves, tip, out + Vector((U(-0.4, 0.4), U(-0.4, 0.4), U(-1.0, -0.1))),
                    out + Vector((U(-0.3, 0.3), U(-0.3, 0.3), U(0.3, 0.9))), U(0.045, 0.09), U(0.15, 0.45), rng)
-    obj('decor__pothos_leaves', leaves, green)
-    obj('decor__pothos_vines', stems, vine)
+    obj('pothos__leaves', leaves, green)
+    obj('pothos__vines', stems, vine)
 
 # --- cork board ------------------------------------------------------------------------------
 
