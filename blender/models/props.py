@@ -112,4 +112,4 @@ def plants():
     # haworthia on the shelf, where the site has its small plant
     remove(lambda o: o.name.startswith('decor__') and centre(o).x > 1.2 and centre(o).z > 1.73)
     objs = load('potted_plant_04', 'decor')
-    place(objs, Matrix.Translation((1.316, 0.685, 1.737)) @ Matrix.Scale(0.8, 4))
+    place(objs, Matrix.Translation((1.8, 0.685, 1.737)) @ Matrix.Scale(0.8, 4))

@@ -13,6 +13,9 @@ WALL_Y = 0.8
 SHELF_TOP = 1.7375
 SHELF_BACK = 0.785
 PIXELS = 112  # covers are shown as a chunky print
+# the site's shelf spans x 0.4..1.5; here it moves right and grows so it runs over the cork
+# board and the record player, with the pothos at its left end
+SHELF_X = (0.62, 1.92)
 
 def art(name):
     """The real cover if Arthur's copy is in blender/assets/covers (not committed), else our drawing."""
@@ -75,7 +78,7 @@ def posters():
             Matrix.Translation((x, WALL_Y - 0.0215, z)))
 
 def books():
-    x = 0.55  # the pothos pot sits at the shelf's left end
+    x = 0.8  # just past the pothos pot at the shelf's left end
     for i, (title, author, bg, fg, accent, thick, height) in enumerate(BOOKS):
         depth = 0.17 + 0.02 * (height > 0.24)
         cx = x + thick / 2; cy = SHELF_BACK - 0.005 - depth / 2
@@ -92,7 +95,7 @@ def lps():
     """Sleeves leaning on the wall, the front one (Alcione) facing out with a record pulled up."""
     colours = [(30, 30, 34), (200, 70, 50), (240, 236, 222), (40, 90, 140), (120, 40, 60)]
     lean = math.radians(14); size = 0.315
-    base = Vector((0.92, SHELF_BACK - 0.012 - size * math.sin(lean), SHELF_TOP))
+    base = Vector((1.24, SHELF_BACK - 0.012 - size * math.sin(lean), SHELF_TOP))
     R = Matrix.Rotation(-lean, 4, 'X')  # top tips back towards the wall
     for i, c in enumerate(colours):
         off = Vector((0.004 * (i % 2 * 2 - 1), 0.006 * (len(colours) - i), 0))
@@ -113,5 +116,14 @@ def lps():
     obj('decor__vinyl_label', bm, mat('vinyl_label', srgb((232, 120, 50)), 0.6),
         M @ Matrix.Translation((0.05, 0.003, size / 2 + 0.1)) @ Matrix.Rotation(math.pi / 2, 4, 'X'))
 
+def move_shelf():
+    for o in list(bpy.data.objects):
+        if o.type != 'MESH' or not o.name.startswith('decor__'): continue
+        bb = [o.matrix_world @ Vector(c) for c in o.bound_box]
+        lo, hi = Vector([min(p[i] for p in bb) for i in range(3)]), Vector([max(p[i] for p in bb) for i in range(3)])
+        if lo.x > 0.38 and lo.x < 0.46 and 1.44 < hi.x < 1.52 and lo.z > 1.69 and hi.z < 1.74:   # board, top, LED strip
+            o.data.transform(o.matrix_world); o.matrix_world = Matrix.Identity(4)
+            for v in o.data.vertices: v.co.x = SHELF_X[0] + (v.co.x - 0.4) * (SHELF_X[1] - SHELF_X[0]) / 1.1
+
 def build():
-    clear_old(); posters(); books(); lps()
+    move_shelf(); clear_old(); posters(); books(); lps()

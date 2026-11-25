@@ -47,7 +47,7 @@ lamp = light('lamp_spot', 'SPOT', HEAD, '#ffb765', 70, spot_size=math.radians(80
 lamp.rotation_euler = (TARGET - HEAD).to_track_quat('-Z', 'Y').to_euler()
 moon = light('moon', 'SUN', (0, 0, 0), '#9fb0ff', 0.7, angle=math.radians(3))
 moon.rotation_euler = B(3, 3.5, 2).to_track_quat('Z', 'Y').to_euler()
-light('shelf_glow', 'POINT', B(0.95, 1.64, -0.62), '#ffa95a', 3, shadow_soft_size=0.3)  # under the shelf's LED strip
+light('shelf_glow', 'POINT', B(1.27, 1.64, -0.62), '#ffa95a', 3, shadow_soft_size=0.3)  # under the shelf's LED strip
 light('lamp_bounce', 'POINT', B(-0.3, DESK_Y + 0.35, 0), '#ff9a4a', 5, shadow_soft_size=0.4)
 light('guitar_warm', 'POINT', B(0.9, 1.5, 0.6), '#ffc98a', 6, shadow_soft_size=0.5)
 

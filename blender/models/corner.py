@@ -228,7 +228,7 @@ def heart_leaf(bm, at, axis, normal, size, curl, rng):
 
 def pothos():
     rng = random.Random(5)
-    potloc = Vector((0.47, 0.68, SHELF_TOP))  # the shelf's left end, clear of the monitor
+    potloc = Vector((0.71, 0.68, SHELF_TOP))  # the shelf's left end, beside the cork board
     obj('decor__pothos_pot', lathe([(0, 0), (0.05, 0), (0.06, 0.09), (0.064, 0.095), (0.0, 0.095)]),
         mat('pot_white', srgb((228, 224, 214)), 0.35), Matrix.Translation(potloc))
     green = leaf_material('pothos', pothos_nodes)
@@ -252,9 +252,12 @@ def pothos():
         heart_leaf(leaves, stem_end, axis, normal, size, U(0.1, 0.5), rng)
     # vines: out of the soil, over the rim, down the outside of the pot, across the shelf and
     # over its edge, then down the wall wandering as they go: a loose, uneven curtain
-    for s in range(16):
-        x0 = potloc.x + U(-0.06, 0.14)
-        length = U(0.35, 0.9) if s > 4 else U(0.08, 0.3)
+    for s in range(26):
+        if s < 10:   # short ones draping over the shelf's edge either side of the pot: the top stays full
+            x0, length = potloc.x + U(-0.17, 0.17), U(0.03, 0.18)
+        else:
+            x0 = potloc.x + U(-0.06, 0.16)
+            length = U(0.35, 0.9) if s > 14 else U(0.08, 0.3)
         a = math.atan2(SHELF_FRONT - potloc.y, x0 - potloc.x) + U(-0.9, 0.9)
         out = Vector((math.cos(a), math.sin(a), 0))
         lift = U(0.0, 0.035)
@@ -270,8 +273,8 @@ def pothos():
             vel.x = max(-0.012, min(0.014, vel.x + rng.gauss(0, 0.004)))
             vel.y = max(-0.003, min(0.006, vel.y + rng.gauss(0, 0.0015)))
             p = p + vel; p.y = min(p.y, WALL_Y - 0.02)
-            if p.x < potloc.x - 0.07: p.x, vel.x = potloc.x - 0.07, abs(vel.x)  # keep clear of the monitor
-            if p.x > 0.76: p.x, vel.x = 0.76, -abs(vel.x)                       # and hang beside the cork board
+            if p.x < potloc.x - 0.19: p.x, vel.x = potloc.x - 0.19, abs(vel.x)  # keep clear of the monitor
+            if p.x > 1.11: p.x, vel.x = 1.11, -abs(vel.x)                       # and hang beside the cork board
             pts.append(p.copy())
         tube(stems, pts, U(0.0018, 0.003))
         # leaves at the nodes, alternating sides, some missing, smaller towards the tip
@@ -279,15 +282,15 @@ def pothos():
             if rng.random() < 0.2: continue
             t = k / (len(pts) - 1)
             side = Vector((1 if (k + s) % 2 else -1, 0, 0))
-            size = U(0.04, 0.09) * (1 - 0.5 * t)
+            size = U(0.05, 0.09) * (1 - 0.5 * t) if s >= 10 else U(0.06, 0.095)
             leaf_on(pts[k], side if k > 3 else out, size, hanging=k > 4)
         heart_leaf(leaves, pts[-1], Vector((U(-0.3, 0.3), -0.3, -1)), Vector((0, -1, 0.3)), U(0.015, 0.03), 0.2, rng)
     # a full crown in the pot: leaves arching up and out over the rim
-    for k in range(40):
+    for k in range(60):
         a = U(0, 2 * math.pi)
         out = Vector((math.cos(a), math.sin(a), 0))
         p = top + out * U(0.0, 0.05) + Vector((0, 0, U(0.0, 0.05)))
-        tip = p + out * U(0.01, 0.07) + Vector((0, 0, U(0.02, 0.13)))
+        tip = p + out * U(0.01, 0.11) + Vector((0, 0, U(0.0, 0.13)))
         tube(stems, [p - Vector((0, 0, 0.02)), (p + tip) / 2 + Vector((U(-0.01, 0.01), U(-0.01, 0.01), 0.01)), tip], 0.002)
         heart_leaf(leaves, tip, out + Vector((U(-0.4, 0.4), U(-0.4, 0.4), U(-0.3, 0.7))),
                    Vector((U(-0.3, 0.3), U(-0.3, 0.3), 1)) + out * U(0.0, 0.6), U(0.045, 0.1), U(0.15, 0.55), rng)
@@ -307,7 +310,7 @@ def pothos():
 
 def cork_board():
     # beside the pothos, its top just under the shelf so the shelf's strip washes over it
-    c = Vector((1.1, WALL_Y - 0.012, 1.38)); W, H = 0.62, 0.43
+    c = Vector((1.46, WALL_Y - 0.012, 1.38)); W, H = 0.62, 0.43  # over the record player
     obj('art__cork_frame', box((W + 0.03, 0.02, H + 0.03), 0.004), mat('cork_frame', srgb((120, 78, 46)), 0.6), Matrix.Translation(c))
     cork = bpy.data.materials.new('cork'); cork.use_nodes = True; nt = cork.node_tree; p = nt.nodes['Principled BSDF']
     nz = nt.nodes.new('ShaderNodeTexNoise'); nz.inputs['Scale'].default_value = 900; nz.inputs['Detail'].default_value = 4
@@ -398,8 +401,8 @@ def led_strip(light):
 def shelf_wash(light):
     """The strip under the shelf lights the wall below it: a thin area light along its front edge,
     tipped towards the wall, so the cork board's top catches the glow and it fades down."""
-    w = light('shelf_wash', 'AREA', Vector((0.95, SHELF_FRONT + 0.05, SHELF_TOP - 0.045)), '#ffa95a', 4,
-              size=1.05, shape='RECTANGLE', size_y=0.03)
+    w = light('shelf_wash', 'AREA', Vector((1.27, SHELF_FRONT + 0.05, SHELF_TOP - 0.045)), '#ffa95a', 4,
+              size=1.25, shape='RECTANGLE', size_y=0.03)
     w.rotation_euler = Vector((0, 0.55, -1)).normalized().to_track_quat('-Z', 'Y').to_euler()
 
 def build(light):
