@@ -46,13 +46,31 @@ def lamp():
     pivot = Vector((0, 0.1, 0.71))
     me = o.data
     shade = [v for v in me.vertices if v.co.z > 0.57 and v.co.y > 0.085]
-    far = max((v.co - pivot).length for v in shade)
-    mouth = sum((v.co for v in shade if (v.co - pivot).length > 0.9 * far), Vector()) / \
-        len([v for v in shade if (v.co - pivot).length > 0.9 * far])
-    want = (T.inverted() @ TARGET - pivot).normalized()
-    q = (mouth - pivot).normalized().rotation_difference(want)
-    for v in shade: v.co = pivot + q @ (v.co - pivot)
-    axis = q @ (mouth - pivot)
+    want_at = T.inverted() @ TARGET
+    def mouth(axis):
+        """The rim: the shade's verts furthest along its axis; their centre and the normal of the
+        plane they lie in (the shade's real axis, pointing out of the mouth)."""
+        for _ in range(3):
+            top = max(v.co.dot(axis) for v in shade)
+            rim = [v.co.copy() for v in shade if v.co.dot(axis) > top - 0.012]
+            c = sum(rim, Vector()) / len(rim)
+            cov = Matrix(((0, 0, 0), (0, 0, 0), (0, 0, 0)))
+            for r in rim:
+                d = r - c
+                for i in range(3):
+                    for j in range(3): cov[i][j] += d[i] * d[j]
+            # smallest-variance direction of the rim = its plane's normal (power iteration on the inverse)
+            n = axis.copy(); inv = (cov + Matrix.Identity(3) * 1e-9).inverted()
+            for _ in range(30): n = (inv @ n).normalized()
+            axis = n if n.dot(axis) > 0 else -n
+        return c, axis
+    # the scan's shade points down and out over the arm's reach; turn it on its joint until the
+    # mouth faces the pool of light (a few rounds: turning moves the mouth too)
+    c, axis = mouth(Vector((0, 0.37, -0.93)).normalized())
+    for _ in range(4):
+        q = axis.rotation_difference((want_at - c).normalized())
+        for v in shade: v.co = pivot + q @ (v.co - pivot)
+        c, axis = mouth((q @ axis).normalized())
     me.update()
     o.data.transform(T)
     # keep the persimmon, a little less loud than the scan's orange
@@ -62,11 +80,15 @@ def lamp():
             hs = nt.nodes.new('ShaderNodeHueSaturation'); hs.inputs['Saturation'].default_value = 0.92
             nt.links.new(link.from_socket, hs.inputs['Color']); nt.links.new(hs.outputs['Color'], p.inputs['Base Color'])
 
-    inside = T @ (pivot + axis * 0.72)
+    # world space: the light sits just inside the mouth, on its axis, and shines along it. The scan
+    # has its own bulb 18 mm in from the rim: the light goes in front of it, not inside it
+    c, axis = T @ c, (T.to_3x3() @ axis).normalized()
+    inside = c - axis * 0.01
     spot = bpy.data.objects.get('lamp_spot')
     if spot:
         spot.location = inside
-        spot.rotation_euler = (TARGET - inside).to_track_quat('-Z', 'Y').to_euler()
+        spot.rotation_euler = axis.to_track_quat('-Z', 'Y').to_euler()
+    print('LAMP mouth', tuple(round(x, 3) for x in c), 'axis', tuple(round(x, 3) for x in axis))
     # the bulb, glowing inside the shade
     bm = bmesh.new(); bmesh.ops.create_uvsphere(bm, u_segments=16, v_segments=10, radius=0.022)
     bulb_me = bpy.data.meshes.new('bulb'); bm.to_mesh(bulb_me); bm.free()
@@ -77,10 +99,11 @@ def lamp():
     p.inputs['Emission Color'].default_value = (1, 0.72, 0.42, 1); p.inputs['Emission Strength'].default_value = 25
     bulb_me.materials.append(m)
     bulb = bpy.data.objects.new('lamp__bulb', bulb_me); bpy.context.scene.collection.objects.link(bulb)
-    bulb.location = T @ (pivot + axis * 0.62)
+    bulb.location = c - axis * 0.02  # over the scan's bulb, its front half glowing
+    bulb.visible_shadow = False
     # warm light on the inside of the shade
     d = bpy.data.lights.new('shade_glow', 'POINT'); d.energy = 1.2; d.color = (1, 0.7, 0.4); d.shadow_soft_size = 0.02
-    g = bpy.data.objects.new('shade_glow', d); g.location = T @ (pivot + axis * 0.5)
+    g = bpy.data.objects.new('shade_glow', d); g.location = c - axis * 0.012
     bpy.context.scene.collection.objects.link(g)
 
 def plants():

@@ -8,8 +8,8 @@ import { HEAD, TARGET } from './Lamp';
 type V3 = [number, number, number];
 
 /** Where the baked room's clamp lamp shines from (lamp_spot in blender/room.blend, Y-up). */
-export const BAKED_HEAD: V3 = [-0.72, 1.246, -0.589];
-/** Where its pool of light lands (props.py TARGET). */
+export const BAKED_HEAD: V3 = [-0.711, 1.296, -0.596];
+/** Where its pool of light lands (props.py TARGET: the shade's axis meets the desk there). */
 export const BAKED_TARGET: V3 = [-0.18, DESK_Y, 0.1];
 
 /** Dust motes drifting inside the lamp's beam; only visible while the lamp is on. */

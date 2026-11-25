@@ -1,16 +1,17 @@
 """
 The room around the desk: a tall snake plant on the left, a pothos trailing from the shelf, a
 cork board, the record player on a low cabinet full of LPs (guitar beside it), and the warm LED
-strip behind the desk. Plants are grown in code: a few hundred faces each, no scans.
+strip behind the desk. Poly Haven has no snake plant or pothos, so both are grown here: leaf
+shapes on small grids, coloured by procedural materials that the bake flattens into its texture.
 """
 import bpy, bmesh, math, os, random
-from mathutils import Vector, Matrix, noise
+from mathutils import Vector, Matrix
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DESK_Y = 0.76
 WALL_Y = 0.8
 SHELF_TOP, SHELF_FRONT = 1.7375, 0.57
-rng = random.Random(11)
+rng = random.Random(11)  # the LP spines; each plant has its own
 
 def mat(name, rgb, rough, metal=0.0, emit=None, image=None):
     m = bpy.data.materials.new(name); m.use_nodes = True; p = m.node_tree.nodes['Principled BSDF']
@@ -50,90 +51,229 @@ def lathe(profile, segs=40):
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces[:])
     return bm
 
-def strip(bm, path, widths, normal_hint=Vector((0, 0, 1))):
-    """A ribbon along `path` (points), `widths` per point: leaves and blades."""
-    prev = None
-    for i, (p, w) in enumerate(zip(path, widths)):
-        t = (path[min(i + 1, len(path) - 1)] - path[max(i - 1, 0)]).normalized()
-        side = t.cross(normal_hint)
-        if side.length < 1e-4: side = t.cross(Vector((1, 0, 0)))
-        side.normalize()
-        a, b = bm.verts.new(p - side * w / 2), bm.verts.new(p + side * w / 2)
-        if prev: bm.faces.new((prev[0], prev[1], b, a))
-        prev = (a, b)
+# --- leaves -----------------------------------------------------------------------------------
+
+def sheet(bm, rows, cols, at, tint):
+    """A leaf as a grid: at(a, b) -> (point, (u, v)) for a along the midrib (0..1) and b across
+    (-1..1). Every leaf gets a tint (its own shade of green), read by the material."""
+    uv = bm.loops.layers.uv.get('UVMap') or bm.loops.layers.uv.new('UVMap')
+    col = bm.loops.layers.float_color.get('tint') or bm.loops.layers.float_color.new('tint')
+    grid = [[None] * (cols + 1) for _ in range(rows + 1)]
+    for i in range(rows + 1):
+        for j in range(cols + 1):
+            co, st = at(i / rows, j / cols * 2 - 1)
+            grid[i][j] = (bm.verts.new(co), st)
+    for i in range(rows):
+        for j in range(cols):
+            q = (grid[i][j], grid[i][j + 1], grid[i + 1][j + 1], grid[i + 1][j])
+            if len({id(x[0]) for x in q}) < 4: continue
+            f = bm.faces.new([x[0] for x in q])
+            for l, x in zip(f.loops, q): l[uv].uv = x[1]; l[col] = (*tint, 1)
+
+def tube(bm, pts, r):
+    """A thin 4-sided stem through pts."""
+    rings = []
+    for i, p in enumerate(pts):
+        t = (pts[min(i + 1, len(pts) - 1)] - pts[max(i - 1, 0)]).normalized()
+        a = t.cross(Vector((0.3, 0.2, 1)) if abs(t.z) < 0.9 else Vector((1, 0, 0))).normalized(); b = t.cross(a)
+        rings.append([bm.verts.new(p + (a * math.cos(k * math.pi / 2) + b * math.sin(k * math.pi / 2)) * r) for k in range(4)])
+    for r0, r1 in zip(rings, rings[1:]):
+        for k in range(4): bm.faces.new((r0[k], r0[(k + 1) % 4], r1[(k + 1) % 4], r1[k]))
+
+def leaf_material(name, nodes):
+    m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree
+    p = nt.nodes['Principled BSDF']
+    uv = nt.nodes.new('ShaderNodeUVMap'); uv.uv_map = 'UVMap'
+    sep = nt.nodes.new('ShaderNodeSeparateXYZ'); nt.links.new(uv.outputs['UV'], sep.inputs[0])
+    tint = nt.nodes.new('ShaderNodeAttribute'); tint.attribute_name = 'tint'
+    nodes(nt, p, uv, sep, tint)
+    return m
+
+def ramp(nt, stops):
+    r = nt.nodes.new('ShaderNodeValToRGB'); e = r.color_ramp.elements
+    for k, (pos, c) in enumerate(stops):
+        el = e[k] if k < 2 else e.new(pos); el.position = pos; el.color = (*srgb(c), 1)
+    return r
+
+def math_node(nt, op, a, b=None):
+    n = nt.nodes.new('ShaderNodeMath'); n.operation = op
+    for k, x in enumerate((a, b)):
+        if x is None: continue
+        if isinstance(x, (int, float)): n.inputs[k].default_value = x
+        else: nt.links.new(x, n.inputs[k])
+    return n.outputs[0]
+
+def mix(nt, fac, a, b):
+    n = nt.nodes.new('ShaderNodeMix'); n.data_type = 'RGBA'
+    for sock, x in ((n.inputs[0], fac), (n.inputs[6], a), (n.inputs[7], b)):
+        if isinstance(x, tuple): sock.default_value = (*srgb(x), 1)
+        else: nt.links.new(x, sock)
+    return n.outputs[2]
 
 # --- snake plant ------------------------------------------------------------------------------
 
+def sansevieria_nodes(nt, p, uv, sep, tint):
+    """Laurentii: zigzag bands of dark and grey-green across the blade (v is metres along it),
+    a yellow margin down both edges."""
+    co = nt.nodes.new('ShaderNodeCombineXYZ')
+    nt.links.new(math_node(nt, 'MULTIPLY', sep.outputs['X'], 2.0), co.inputs['X']); nt.links.new(sep.outputs['Y'], co.inputs['Y'])
+    nt.links.new(tint.outputs['Fac'], co.inputs['Z'])
+    w = nt.nodes.new('ShaderNodeTexWave'); w.wave_type = 'BANDS'; w.bands_direction = 'Y'
+    w.inputs['Scale'].default_value = 9; w.inputs['Distortion'].default_value = 9
+    w.inputs['Detail'].default_value = 3; w.inputs['Detail Scale'].default_value = 2.5
+    nt.links.new(co.outputs[0], w.inputs['Vector'])
+    bands = ramp(nt, [(0.25, (26, 50, 30)), (0.55, (62, 92, 58)), (0.8, (104, 128, 86))])
+    nt.links.new(w.outputs['Fac'], bands.inputs['Fac'])
+    # margin: |u - 0.5| near 0.5, wobbling a little
+    edge = math_node(nt, 'ABSOLUTE', math_node(nt, 'SUBTRACT', sep.outputs['X'], 0.5))
+    nz = nt.nodes.new('ShaderNodeTexNoise'); nz.inputs['Scale'].default_value = 14; nt.links.new(co.outputs[0], nz.inputs['Vector'])
+    edge = math_node(nt, 'ADD', edge, math_node(nt, 'MULTIPLY', nz.outputs['Fac'], 0.03))
+    m = nt.nodes.new('ShaderNodeMapRange'); m.inputs['From Min'].default_value = 0.455; m.inputs['From Max'].default_value = 0.47
+    nt.links.new(edge, m.inputs['Value'])
+    c = mix(nt, m.outputs[0], bands.outputs['Color'], (196, 178, 74))
+    nt.links.new(mix(nt, math_node(nt, 'MULTIPLY', tint.outputs['Fac'], 0.25), c, (40, 60, 34)), p.inputs['Base Color'])
+    p.inputs['Roughness'].default_value = 0.42
+
 def snake_plant():
+    rng = random.Random(7)
     loc = Vector((-1.42, 0.5, 0))
     pot = lathe([(0.0, 0.0), (0.11, 0.0), (0.125, 0.02), (0.15, 0.3), (0.162, 0.31), (0.162, 0.33), (0.148, 0.33),
                  (0.138, 0.3), (0.0, 0.3)])
     obj('plant__pot', pot, mat('terracotta', srgb((176, 92, 58)), 0.85), Matrix.Translation(loc))
     soil = bmesh.new(); bmesh.ops.create_circle(soil, cap_ends=True, segments=24, radius=0.14)
     obj('plant__soil', soil, mat('soil', srgb((40, 28, 20)), 1.0), Matrix.Translation(loc + Vector((0, 0, 0.29))))
-    # blades: tall, sword-shaped, a little twist and lean, darker bands across them
-    leaf = bpy.data.materials.new('sansevieria'); leaf.use_nodes = True; nt = leaf.node_tree
-    p = nt.nodes['Principled BSDF']; p.inputs['Roughness'].default_value = 0.45
-    wave = nt.nodes.new('ShaderNodeTexWave'); wave.wave_type = 'BANDS'; wave.bands_direction = 'Z'
-    wave.inputs['Scale'].default_value = 18; wave.inputs['Distortion'].default_value = 6
-    ramp = nt.nodes.new('ShaderNodeValToRGB')
-    ramp.color_ramp.elements[0].color = (*srgb((28, 58, 30)), 1); ramp.color_ramp.elements[1].color = (*srgb((74, 112, 56)), 1)
-    nt.links.new(wave.outputs['Fac'], ramp.inputs['Fac']); nt.links.new(ramp.outputs['Color'], p.inputs['Base Color'])
     bm = bmesh.new()
-    for i in range(16):
-        a = i / 16 * 2 * math.pi + rng.uniform(-0.2, 0.2)
-        r0 = rng.uniform(0.0, 0.08); h = rng.uniform(0.55, 1.05); lean = rng.uniform(0.05, 0.22)
-        base = Vector((math.cos(a) * r0, math.sin(a) * r0, 0.29))
-        out = Vector((math.cos(a), math.sin(a), 0))
-        path, widths = [], []
-        for k in range(12):
-            t = k / 11
-            path.append(base + out * (lean * t * t * h) + Vector((0, 0, h * t)))
-            widths.append(0.055 * math.sin(math.pi * (0.12 + 0.88 * t)) ** 0.6 * (1 - t ** 4))
-        strip(bm, path, widths, normal_hint=out.cross(Vector((0, 0, 1))).normalized() if i % 2 else out)
-    o = obj('plant__sansevieria', bm, leaf, Matrix.Translation(loc))
-    o.modifiers.new('thick', 'SOLIDIFY').thickness = 0.004
+    # clumps from the rhizome: each a few nested blades facing the same way, tall in the middle,
+    # the outer ones leaning out so the whole plant opens like a fan
+    clumps = [(-0.05, 0.0, 0.0), (0.05, 0.02, 1.0), (0.0, -0.06, 2.1), (-0.06, 0.05, 3.3), (0.06, -0.04, 4.4), (0.0, 0.06, 5.4),
+              (0.0, 0.0, 0.5), (-0.03, -0.03, 3.9)]
+    for cx, cy, face in clumps:
+        n = rng.choice((3, 4, 4))
+        for k in range(n):
+            out = Vector((math.cos(face + rng.uniform(-0.5, 0.5)), math.sin(face + rng.uniform(-0.5, 0.5)), 0)).normalized()
+            # the blade's flat face turns away from the lean, so the fan isn't all edges
+            facing = Matrix.Rotation(rng.uniform(-0.8, 0.8), 3, 'Z') @ out
+            inner = k / max(n - 1, 1)                       # 0 = outermost of the clump
+            h = rng.uniform(0.75, 1.05) * (0.7 + 0.3 * inner) * (1.0 if abs(cx) + abs(cy) < 0.07 else 0.92)
+            lean = rng.uniform(0.15, 0.35) * (1.4 - inner)   # radians from vertical at the base
+            bend = rng.uniform(0.2, 0.45) * (1.3 - inner)   # more lean towards the tip
+            W = rng.uniform(0.09, 0.12)
+            twist = rng.uniform(-0.35, 0.35)
+            base = loc + Vector((cx, cy, 0.29)) + out * 0.012 * k
+            # midrib path
+            pts, p, ang = [], base.copy(), lean
+            N = 18
+            for i in range(N + 1):
+                pts.append(p.copy())
+                t = i / N
+                ang = lean + bend * t * t
+                p = p + (Vector((0, 0, math.cos(ang))) + out * math.sin(ang)) * (h / N)
+            def at(a, b, pts=pts, out=facing, W=W, twist=twist, h=h):
+                f = a * N; i = min(int(f), N - 1); fr = f - i
+                c = pts[i].lerp(pts[i + 1], fr)
+                tang = (pts[i + 1] - pts[i]).normalized()
+                side = tang.cross(out).normalized()
+                nrm = side.cross(tang)
+                rot = Matrix.Rotation(twist * a, 3, tang)
+                side, nrm = rot @ side, rot @ nrm
+                # lanceolate: narrow sheathing base, widest past the middle, a sharp tip
+                if a < 0.55: w = 0.5 + 0.5 * math.sin(a / 0.55 * math.pi / 2)
+                else: w = max(0.0, 1 - ((a - 0.55) / 0.45) ** 1.7)
+                w *= W / 2 * (1 + 0.04 * math.sin(a * 23 + b))
+                return c + side * b * w + nrm * (1 - b * b) * w * 0.35, ((b + 1) / 2, a * h)
+            sheet(bm, 22, 4, at, (rng.random(), 0, 0))
+    o = obj('plant__sansevieria', bm, leaf_material('sansevieria', sansevieria_nodes), Matrix.Translation(Vector()))
+    o.modifiers.new('thick', 'SOLIDIFY').thickness = 0.0035
 
 # --- pothos trailing from the shelf ------------------------------------------------------------
 
-def heart_leaf(bm, at, facing, size, droop):
-    """A small heart-shaped leaf: a fan of triangles around its stem point."""
-    up = Vector((0, 0, 1)); side = facing.cross(up).normalized()
-    tip = at + facing * size * 1.3 - up * droop * size
-    ring = []
-    for k in range(9):
-        a = math.pi * (k / 8)
-        ring.append(at + side * math.cos(a) * size * 0.6 + facing * math.sin(a) * size * 0.75 - up * droop * size * math.sin(a) * 0.5)
-    vs = [bm.verts.new(v) for v in [at] + ring + [tip]]
-    for k in range(8): bm.faces.new((vs[0], vs[k + 1], vs[k + 2]))
-    bm.faces.new((vs[5], vs[9], vs[10])); bm.faces.new((vs[1], vs[5], vs[10]))
+def pothos_nodes(nt, p, uv, sep, tint):
+    """Golden pothos: deep glossy green, cream-yellow streaks fanning out from the midrib."""
+    base = mix(nt, tint.outputs['Fac'], (34, 82, 30), (66, 120, 44))
+    # streaks: noise stretched along the side veins (across from the midrib, angled to the tip)
+    co = nt.nodes.new('ShaderNodeCombineXYZ')
+    nt.links.new(math_node(nt, 'MULTIPLY', sep.outputs['X'], 3.0), co.inputs['X'])
+    nt.links.new(math_node(nt, 'ADD', math_node(nt, 'MULTIPLY', sep.outputs['Y'], 12.0),
+                           math_node(nt, 'MULTIPLY', tint.outputs['Fac'], 40.0)), co.inputs['Y'])
+    nz = nt.nodes.new('ShaderNodeTexNoise'); nz.inputs['Scale'].default_value = 1.6; nz.inputs['Detail'].default_value = 3
+    nt.links.new(co.outputs[0], nz.inputs['Vector'])
+    m = nt.nodes.new('ShaderNodeMapRange'); m.inputs['From Min'].default_value = 0.58; m.inputs['From Max'].default_value = 0.66
+    nt.links.new(nz.outputs['Fac'], m.inputs['Value'])
+    c = mix(nt, math_node(nt, 'MULTIPLY', m.outputs[0], 0.75), base, (190, 186, 92))
+    # a lighter midrib
+    mid = nt.nodes.new('ShaderNodeMapRange'); mid.inputs['From Min'].default_value = 0.025; mid.inputs['From Max'].default_value = 0.0
+    nt.links.new(math_node(nt, 'ABSOLUTE', math_node(nt, 'SUBTRACT', sep.outputs['X'], 0.5)), mid.inputs['Value'])
+    nt.links.new(mix(nt, math_node(nt, 'MULTIPLY', mid.outputs[0], 0.6), c, (120, 150, 70)), p.inputs['Base Color'])
+    p.inputs['Roughness'].default_value = 0.32
+
+def heart_leaf(bm, at, axis, normal, size, curl, rng):
+    """A heart-shaped leaf with its petiole end at `at`: midrib along `axis`, blade facing
+    `normal`, the two halves raised a little from the midrib and the tip curling down."""
+    axis = axis.normalized(); side = normal.cross(axis).normalized(); normal = axis.cross(side)
+    fold, droop = rng.uniform(0.12, 0.25), curl
+    def pt(a, b):
+        x0 = -0.26 * abs(b) ** 0.8                              # the lobes reach back past the petiole
+        x = x0 + (1 - x0) * a
+        # widest near the base, tapering to a pointed tip, lobes rounded off
+        hw = 0.44 * math.sqrt(max(0.0, 1 - ((x - 0.18) / 0.82) ** 2)) * (1 - max(0.0, x - 0.5) / 0.5 * 0.3)
+        if x < 0: hw *= math.sqrt(max(0.0, 1 - (x / 0.3) ** 2)) * 0.35 + 0.65
+        y = b * hw
+        z = fold * abs(y) - droop * max(0.0, x) ** 2
+        return at + (axis * x + side * y + normal * z) * size, ((b + 1) / 2, a)
+    sheet(bm, 7, 6, pt, (rng.random(), 0, 0))
 
 def pothos():
+    rng = random.Random(5)
     potloc = Vector((0.43, 0.68, SHELF_TOP))
     obj('decor__pothos_pot', lathe([(0, 0), (0.05, 0), (0.06, 0.09), (0.064, 0.095), (0.0, 0.095)]),
         mat('pot_white', srgb((228, 224, 214)), 0.35), Matrix.Translation(potloc))
-    green = mat('pothos', srgb((52, 110, 46)), 0.4)
-    vine = mat('pothos_vine', srgb((70, 100, 40)), 0.6)
+    green = leaf_material('pothos', pothos_nodes)
+    vine = mat('pothos_vine', srgb((84, 112, 48)), 0.6)
     leaves, stems = bmesh.new(), bmesh.new()
-    for s in range(6):
-        # over the front edge of the shelf, then down the wall with a little sway
-        x0 = potloc.x + rng.uniform(-0.05, 0.06); length = rng.uniform(0.35, 0.75)
-        pts = [potloc + Vector((rng.uniform(-0.03, 0.03), rng.uniform(-0.02, 0.02), 0.09))]
-        pts.append(Vector((x0, SHELF_FRONT - 0.01, SHELF_TOP + 0.03)))
-        n = int(length / 0.03)
+    top = potloc + Vector((0, 0, 0.09))
+    def leaf_on(p, out_dir, size, hanging):
+        """A petiole from the vine, then the leaf: hanging ones point down and face the room."""
+        if hanging:
+            axis = Vector((out_dir.x * rng.uniform(0.2, 0.9), -rng.uniform(0.2, 0.6), -1))
+            normal = Vector((out_dir.x * rng.uniform(0.1, 0.7), -1, rng.uniform(0.2, 0.8)))
+        else:
+            axis = out_dir + Vector((0, 0, rng.uniform(0.1, 0.5)))
+            normal = Vector((0, 0, 1)) + out_dir * 0.2 + Vector((0, -0.3, 0))
+        axis.normalize()
+        stem_end = p + (axis * 0.5 + out_dir * 0.5).normalized() * size * 0.45
+        tube(stems, [p, (p + stem_end) / 2 + Vector((0, 0, 0.004)), stem_end], 0.0018)
+        heart_leaf(leaves, stem_end, axis, normal, size, rng.uniform(0.15, 0.4), rng)
+    # vines: over the shelf's front edge and down the wall, bunched into a full curtain
+    for s in range(13):
+        x0 = potloc.x + rng.uniform(-0.12, 0.1)
+        length = rng.uniform(0.3, 0.85) if s > 3 else rng.uniform(0.1, 0.25)
+        pts = [top + Vector((rng.uniform(-0.03, 0.03), rng.uniform(-0.03, 0.02), 0))]
+        pts.append(Vector((x0 * 0.6 + potloc.x * 0.4, SHELF_FRONT + 0.03, SHELF_TOP + 0.05)))
+        pts.append(Vector((x0, SHELF_FRONT - 0.015, SHELF_TOP - 0.01)))
+        n = max(3, int(length / 0.03)); ph = rng.uniform(0, 6); drift = rng.uniform(-0.12, 0.12); amp = rng.uniform(0.01, 0.04)
         for k in range(1, n + 1):
             t = k / n
-            pts.append(Vector((x0 + math.sin(t * 5 + s) * 0.03 + t * rng.uniform(-0.04, 0.04),
-                               SHELF_FRONT - 0.01 + t * 0.12, SHELF_TOP - length * t)))
-        strip(stems, pts, [0.004] * len(pts), normal_hint=Vector((0, 1, 0)))
-        for k, p in enumerate(pts[2::2]):
-            side = 1 if k % 2 else -1
-            facing = Vector((side * 0.8, -0.6, 0.0)).normalized()
-            heart_leaf(leaves, p + Vector((side * 0.006, -0.004, 0)), facing, rng.uniform(0.026, 0.04), rng.uniform(0.6, 1.2))
-    for k in range(10):  # a crown of leaves in the pot
-        a = k / 10 * 2 * math.pi
-        heart_leaf(leaves, potloc + Vector((math.cos(a) * 0.03, math.sin(a) * 0.03, 0.1)),
-                   Vector((math.cos(a), math.sin(a), 0.4)).normalized(), 0.045, 0.5)
+            pts.append(Vector((x0 + math.sin(t * 4 + ph) * amp + t * t * drift,
+                               SHELF_FRONT - 0.015 + t * 0.08 * (1 + 0.5 * math.sin(ph)), SHELF_TOP - 0.01 - length * t)))
+        tube(stems, pts, 0.0025)
+        # a leaf at each node, alternating sides, smaller towards the tip
+        for k in range(1, len(pts) - 1):
+            if rng.random() < 0.15: continue
+            t = k / (len(pts) - 1)
+            side = Vector((1 if k % 2 else -1, 0, 0))
+            size = rng.uniform(0.05, 0.08) * (1 - 0.45 * t)
+            leaf_on(pts[k], side, size, hanging=k > 1)
+        heart_leaf(leaves, pts[-1], Vector((0, -0.3, -1)), Vector((0, -1, 0.3)), 0.025, 0.2, rng)
+    # a full crown in the pot: leaves arching up and out over the rim
+    for k in range(34):
+        a = k / 26 * 2 * math.pi + rng.uniform(-0.15, 0.15)
+        out = Vector((math.cos(a), math.sin(a), 0))
+        r = rng.uniform(0.0, 0.045)
+        p = top + out * r + Vector((0, 0, rng.uniform(0.0, 0.05)))
+        tip = p + out * rng.uniform(0.02, 0.06) + Vector((0, 0, rng.uniform(0.03, 0.11)))
+        tube(stems, [p - Vector((0, 0, 0.02)), (p + tip) / 2 + Vector((0, 0, 0.01)), tip], 0.002)
+        heart_leaf(leaves, tip, out + Vector((0, 0, rng.uniform(-0.1, 0.5))), Vector((0, 0, 1)) + out * 0.3,
+                   rng.uniform(0.06, 0.085), rng.uniform(0.2, 0.5), rng)
     obj('decor__pothos_leaves', leaves, green)
     obj('decor__pothos_vines', stems, vine)
 
