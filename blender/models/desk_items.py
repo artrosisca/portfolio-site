@@ -153,7 +153,8 @@ def lathe(name, profile, m, segs=48):
     return obj(name, bm, m)
 
 def cup():
-    """Swaps the mug for a cappuccino cup on its saucer."""
+    """Swaps the mug for a cappuccino cup on its saucer: white china, verde-água outside the
+    cup (a white lip and foot), on the handle and round the saucer's rim."""
     for o in list(bpy.data.objects):
         if o.type == 'MESH' and o.name.startswith('decor__') and (centre(o).xy - CUP).length < 0.08 and centre(o).z < DESK_Y + 0.12:
             bpy.data.objects.remove(o)
@@ -161,11 +162,19 @@ def cup():
     base = Vector((CUP.x, CUP.y, DESK_Y))
     saucer = [(0.0, 0.0), (0.045, 0.0), (0.05, 0.004), (0.068, 0.009), (0.072, 0.0135), (0.069, 0.0145),
               (0.052, 0.0095), (0.03, 0.007), (0.0, 0.007)]
-    lathe('decor__saucer', saucer, china).location = base
+    agua = mat('china_agua', tuple((x / 255) ** 2.2 for x in (86, 192, 172)), 0.15)
+    def paint(o, where):
+        o.data.materials.append(agua)
+        for f in o.data.polygons:
+            if where(f.center, f.normal): f.material_index = 1
+    o = lathe('decor__saucer', saucer, china); o.location = base
+    paint(o, lambda c, n: c.xy.length > 0.063 and n.z > -0.5)
     z0 = 0.007
     body = [(0.0, z0), (0.024, z0), (0.026, z0 + 0.006), (0.034, z0 + 0.025), (0.0415, z0 + 0.05), (0.0435, z0 + 0.058),
             (0.0415, z0 + 0.0585), (0.039, z0 + 0.05), (0.031, z0 + 0.026), (0.0, z0 + 0.01)]
-    lathe('decor__cup', body, china).location = base
+    o = lathe('decor__cup', body, china); o.location = base
+    # outside faces point away from the axis; the inside ones towards it
+    paint(o, lambda c, n: n.xy.dot(c.xy) > 0 and z0 + 0.008 < c.z < z0 + 0.05)
     coffee = mat('coffee', (0.26, 0.13, 0.055), 0.12)  # cappuccino: milk foam over espresso
     bm = bmesh.new(); bmesh.ops.create_circle(bm, cap_ends=True, segments=40, radius=0.0385)
     c = obj('decor__coffee', bm, coffee); c.location = base + Vector((0, 0, z0 + 0.047))
@@ -177,7 +186,7 @@ def cup():
     bmesh.ops.remove_doubles(bm, verts=bm.verts[:], dist=1e-6)
     for v in bm.verts: v.co.z *= 1.2
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces[:])
-    h = obj('decor__cup_handle', bm, china)
+    h = obj('decor__cup_handle', bm, agua)
     h.matrix_world = Matrix.Translation(base) @ Matrix.Rotation(-0.7, 4, 'Z') @ Matrix.Translation((0.047, 0, z0 + 0.032))
     return base + Vector((0, 0, z0 + 0.06))
 

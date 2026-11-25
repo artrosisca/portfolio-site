@@ -253,7 +253,7 @@ def pothos():
     # vines: out of the soil, over the rim, down the outside of the pot, across the shelf and
     # over its edge, then down the wall wandering as they go: a loose, uneven curtain
     for s in range(16):
-        x0 = potloc.x + U(-0.06, 0.11)
+        x0 = potloc.x + U(-0.06, 0.14)
         length = U(0.35, 0.9) if s > 4 else U(0.08, 0.3)
         a = math.atan2(SHELF_FRONT - potloc.y, x0 - potloc.x) + U(-0.9, 0.9)
         out = Vector((math.cos(a), math.sin(a), 0))
@@ -265,12 +265,13 @@ def pothos():
         edge = Vector((x0, SHELF_FRONT - 0.012, SHELF_TOP - 0.012))
         mid = pts[-1].lerp(edge, 0.5); mid.z = SHELF_TOP + 0.006; mid.x += U(-0.025, 0.025)
         pts += [mid, edge]
-        p, vel = edge.copy(), Vector((U(-0.004, 0.006), U(0.0, 0.004), -0.03))
+        p, vel = edge.copy(), Vector((U(-0.004, 0.008), U(0.0, 0.004), -0.03))
         for k in range(max(2, int(length / 0.03))):
             vel.x = max(-0.012, min(0.014, vel.x + rng.gauss(0, 0.004)))
             vel.y = max(-0.003, min(0.006, vel.y + rng.gauss(0, 0.0015)))
             p = p + vel; p.y = min(p.y, WALL_Y - 0.02)
             if p.x < potloc.x - 0.07: p.x, vel.x = potloc.x - 0.07, abs(vel.x)  # keep clear of the monitor
+            if p.x > 0.76: p.x, vel.x = 0.76, -abs(vel.x)                       # and hang beside the cork board
             pts.append(p.copy())
         tube(stems, pts, U(0.0018, 0.003))
         # leaves at the nodes, alternating sides, some missing, smaller towards the tip
@@ -305,7 +306,8 @@ def pothos():
 # --- cork board ------------------------------------------------------------------------------
 
 def cork_board():
-    c = Vector((1.38, WALL_Y - 0.012, 1.25)); W, H = 0.62, 0.43  # over the record player
+    # beside the pothos, its top just under the shelf so the shelf's strip washes over it
+    c = Vector((1.1, WALL_Y - 0.012, 1.38)); W, H = 0.62, 0.43
     obj('art__cork_frame', box((W + 0.03, 0.02, H + 0.03), 0.004), mat('cork_frame', srgb((120, 78, 46)), 0.6), Matrix.Translation(c))
     cork = bpy.data.materials.new('cork'); cork.use_nodes = True; nt = cork.node_tree; p = nt.nodes['Principled BSDF']
     nz = nt.nodes.new('ShaderNodeTexNoise'); nz.inputs['Scale'].default_value = 900; nz.inputs['Detail'].default_value = 4
@@ -393,5 +395,12 @@ def led_strip(light):
     down = light('led_floor', 'AREA', Vector((0, 0.3, DESK_Y - 0.06)), '#ff8a45', 8, size=1.8, shape='RECTANGLE', size_y=0.04)
     down.rotation_euler = Vector((0, 0, -1)).to_track_quat('-Z', 'Y').to_euler()
 
+def shelf_wash(light):
+    """The strip under the shelf lights the wall below it: a thin area light along its front edge,
+    tipped towards the wall, so the cork board's top catches the glow and it fades down."""
+    w = light('shelf_wash', 'AREA', Vector((0.95, SHELF_FRONT + 0.05, SHELF_TOP - 0.045)), '#ffa95a', 4,
+              size=1.05, shape='RECTANGLE', size_y=0.03)
+    w.rotation_euler = Vector((0, 0.55, -1)).normalized().to_track_quat('-Z', 'Y').to_euler()
+
 def build(light):
-    snake_plant(); pothos(); cork_board(); record_corner(); move_guitar(); led_strip(light)
+    snake_plant(); pothos(); cork_board(); record_corner(); move_guitar(); led_strip(light); shelf_wash(light)

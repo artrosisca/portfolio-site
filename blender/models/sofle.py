@@ -132,11 +132,11 @@ def build_half(side, coll, mats, capmesh):
 
 def build(replace_existing=True):
     sc = bpy.context.scene
-    if replace_existing:  # the site's procedural halves (keep its mouse and cable)
+    if replace_existing:  # the site's procedural halves and the cable between them (Arthur's are wireless); keep its mouse
         for o in list(bpy.data.objects):
             if o.type == 'MESH' and o.name.startswith('keyboard__'):
                 c = o.matrix_world @ (sum((Vector(b) for b in o.bound_box), Vector()) / 8)
-                if 0.03 < abs(c.x) < 0.3: bpy.data.objects.remove(o)
+                if abs(c.x) < 0.3: bpy.data.objects.remove(o)
     coll = bpy.data.collections.new('sofle'); sc.collection.children.link(coll)
     swb = bmesh.new(); bmesh.ops.create_cube(swb, size=1)
     for v in swb.verts: v.co.x *= 0.015; v.co.y *= 0.0145; v.co.z *= 0.003  # Choc: a low switch
