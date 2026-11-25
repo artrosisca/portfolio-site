@@ -242,6 +242,21 @@ def postit(text, colour):
         d.text((256 - d.textlength(line, font=f) / 2, y), line, font=f, fill=(30, 36, 80)); y += f.size * 1.05
     return grain(img, 8)
 
+def contrib_card():
+    """A printed GitHub contribution graph, pinned to the cork board."""
+    W, H = 620, 384
+    img = Image.new('RGB', (W, H), (246, 244, 238)); d = ImageDraw.Draw(img)
+    d.text((24, 16), 'artrosisca · 2026', font=F('bold', 30), fill=(40, 40, 46))
+    greens = [(235, 237, 240), (155, 233, 168), (64, 196, 99), (48, 161, 78), (33, 110, 57)]
+    r = random.Random(5)
+    for wk in range(26):
+        for day in range(7):
+            v = r.choices(range(5), weights=[3, 3, 3, 2, 1 + wk // 6])[0]
+            x, y = 24 + wk * 22, 80 + day * 22
+            d.rounded_rectangle((x, y, x + 17, y + 17), 3, fill=greens[v])
+    d.text((24, 250), '1.2k contribuições', font=F('hand', 54), fill=(40, 40, 46))
+    return grain(img, 6)
+
 if __name__ == '__main__':
     for k, f in POSTERS.items(): f().save(os.path.join(OUT, f'poster_{k}.png'))
     for i, b in enumerate(BOOKS): spine(*b).save(os.path.join(OUT, f'spine_{i}.png'))
@@ -250,4 +265,8 @@ if __name__ == '__main__':
     for k in STICKERS: sticker(k).save(os.path.join(OUT, f'sticker_{k}.png'))
     postit('sexta\n≠ deploy', (255, 226, 122)).save(os.path.join(OUT, 'postit_deploy.png'))
     postit('água!', (159, 211, 255)).save(os.path.join(OUT, 'postit_agua.png'))
+    for k, text, c in (('tcc', 'TCC\n12/12', (255, 226, 122)), ('pr', 'PR #42\nreview', (190, 236, 170)),
+                       ('cafe', 'mais\ncafé', (255, 190, 160)), ('dormir', 'dormir\n> 6h', (159, 211, 255))):
+        postit(text, c).save(os.path.join(OUT, f'cork_{k}.png'))
+    contrib_card().save(os.path.join(OUT, 'cork_contrib.png'))
     print('art done')

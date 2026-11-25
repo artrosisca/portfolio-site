@@ -75,7 +75,7 @@ def posters():
             Matrix.Translation((x, WALL_Y - 0.0215, z)))
 
 def books():
-    x = 0.44
+    x = 0.5  # the pothos pot sits at the shelf's left end
     for i, (title, author, bg, fg, accent, thick, height) in enumerate(BOOKS):
         depth = 0.17 + 0.02 * (height > 0.24)
         cx = x + thick / 2; cy = SHELF_BACK - 0.005 - depth / 2
@@ -92,7 +92,7 @@ def lps():
     """Sleeves leaning on the wall, the front one (Alcione) facing out with a record pulled up."""
     colours = [(30, 30, 34), (200, 70, 50), (240, 236, 222), (40, 90, 140), (120, 40, 60)]
     lean = math.radians(14); size = 0.315
-    base = Vector((0.88, SHELF_BACK - 0.012 - size * math.sin(lean), SHELF_TOP))
+    base = Vector((0.92, SHELF_BACK - 0.012 - size * math.sin(lean), SHELF_TOP))
     R = Matrix.Rotation(-lean, 4, 'X')  # top tips back towards the wall
     for i, c in enumerate(colours):
         off = Vector((0.004 * (i % 2 * 2 - 1), 0.006 * (len(colours) - i), 0))

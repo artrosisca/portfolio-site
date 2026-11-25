@@ -84,14 +84,8 @@ def lamp():
     bpy.context.scene.collection.objects.link(g)
 
 def plants():
-    # floor plant in the corner right of the desk, behind the guitar (the left stays clear for the title)
+    # the site's floor plant goes; corner.py grows a snake plant in its place
     remove(lambda o: o.name.startswith('plant__'))
-    objs = load('potted_plant_02', 'plant')
-    place(objs, Matrix.Translation((1.62, 0.4, 0)) @ Matrix.Rotation(-0.8, 4, 'Z') @ Matrix.Scale(1.0, 4))
-    for o in objs:
-        if o.name.endswith('dirt'):  # 54k faces of soil nobody looks into
-            dec = o.modifiers.new('dec', 'DECIMATE'); dec.ratio = 0.04
-            bpy.context.view_layer.objects.active = o; bpy.ops.object.modifier_apply(modifier='dec')
     # haworthia on the shelf, where the site has its small plant
     remove(lambda o: o.name.startswith('decor__') and centre(o).x > 1.2 and centre(o).z > 1.73)
     objs = load('potted_plant_04', 'decor')

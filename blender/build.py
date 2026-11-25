@@ -73,6 +73,7 @@ import props; props.lamp(); props.plants()
 import wall_shelf; wall_shelf.build()
 import desk_items; desk_items.monitor_arm(); desk_items.notebook(); desk_items.laptop(); desk_items.notes(); desk_items.rug(); print('CUP_TOP', tuple(desk_items.cup()))
 import materials; materials.apply()
+import corner; corner.build(light)  # after materials: it reuses the walnut, and its LED strip isn't a desk leg
 # bake.py groups meshes by their "part__" prefix: Arthur's gear goes with the keyboard
 for name, part in (('sofle', 'keyboard'), ('mouse', 'keyboard')):
     for o in bpy.data.collections[name].all_objects:

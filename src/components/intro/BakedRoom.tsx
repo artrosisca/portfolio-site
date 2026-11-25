@@ -24,7 +24,8 @@ export function BakedRoom({ lamp }: { lamp: RefObject<number> }) {
         src.map.colorSpace = THREE.SRGBColorSpace;
         src.map.anisotropy = 8;
       }
-      const mat = new THREE.MeshBasicMaterial({ map: src.map, toneMapped: false, fog: false });
+      // both sides: leaves, vines and blades are single sheets
+      const mat = new THREE.MeshBasicMaterial({ map: src.map, toneMapped: false, fog: false, side: THREE.DoubleSide });
       m.material = mat;
       out.push(mat);
     });
