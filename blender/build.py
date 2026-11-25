@@ -60,7 +60,10 @@ for o in bpy.data.objects:
     if o.name.startswith('screen'):
         for m in o.data.materials:
             p = m.node_tree.nodes.get('Principled BSDF')
-            if p: p.inputs['Emission Strength'].default_value = 2.0
+            if p: p.inputs['Emission Strength'].default_value = 4.0
+# the screen is the scene's subject: a soft cool glow from it on the desk and the keyboard
+glow = light('screen_glow', 'AREA', SCREEN + Vector((0, -0.03, 0)), '#9db4ff', 6, size=0.6, shape='RECTANGLE', size_y=0.35)
+glow.rotation_euler = Vector((0, -1, -0.35)).to_track_quat('-Z', 'Y').to_euler()
 
 # --- Arthur's own gear, modelled here instead of the site's placeholders -------
 import sys; sys.path.insert(0, os.path.join(HERE, 'models'))
@@ -68,7 +71,7 @@ import sofle; sofle.build()
 import mouse; mouse.build()
 import props; props.lamp(); props.plants()
 import wall_shelf; wall_shelf.build()
-import desk_items; desk_items.monitor_arm(); desk_items.notebook(); print('CUP_TOP', tuple(desk_items.cup()))
+import desk_items; desk_items.monitor_arm(); desk_items.notebook(); desk_items.laptop(); desk_items.notes(); desk_items.rug(); print('CUP_TOP', tuple(desk_items.cup()))
 import materials; materials.apply()
 # bake.py groups meshes by their "part__" prefix: Arthur's gear goes with the keyboard
 for name, part in (('sofle', 'keyboard'), ('mouse', 'keyboard')):

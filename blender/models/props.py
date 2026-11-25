@@ -8,7 +8,7 @@ from mathutils import Vector, Matrix
 ASSETS = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'assets')
 DESK_Y = 0.76
 DESK_BACK = 0.675          # blender y of the desk's back edge
-TARGET = Vector((-0.05, -0.08, DESK_Y))  # where the lamp's pool of light lands (as on the site)
+TARGET = Vector((-0.18, -0.1, DESK_Y))  # the pool of light: on the keyboard, the notebook at its edge
 
 def remove(pred):
     for o in list(bpy.data.objects):
@@ -36,7 +36,7 @@ def lamp():
     joint so it points at the same spot the site's lamp lights."""
     remove(lambda o: o.name.startswith('lamp__'))
     o, = load('desk_lamp_arm_01', 'lamp')
-    s = 1.0
+    s = 0.85
     clamp = Vector((-0.86, DESK_BACK + 0.02, DESK_Y - 0.075 * s))  # desk top sits in the jaw
     # reaching mostly along the wall: the elbow then folds out to the side, not into the wall
     d = Vector((0.94, -0.34)).normalized()
@@ -55,6 +55,12 @@ def lamp():
     axis = q @ (mouth - pivot)
     me.update()
     o.data.transform(T)
+    # keep the persimmon, a little less loud than the scan's orange
+    for m in o.data.materials:
+        nt = m.node_tree; p = nt.nodes.get('Principled BSDF'); link = p.inputs['Base Color'].links[0] if p.inputs['Base Color'].links else None
+        if link:
+            hs = nt.nodes.new('ShaderNodeHueSaturation'); hs.inputs['Saturation'].default_value = 0.92
+            nt.links.new(link.from_socket, hs.inputs['Color']); nt.links.new(hs.outputs['Color'], p.inputs['Base Color'])
 
     inside = T @ (pivot + axis * 0.72)
     spot = bpy.data.objects.get('lamp_spot')
@@ -78,10 +84,10 @@ def lamp():
     bpy.context.scene.collection.objects.link(g)
 
 def plants():
-    # floor plant in the corner, left of the desk
+    # floor plant in the corner right of the desk, behind the guitar (the left stays clear for the title)
     remove(lambda o: o.name.startswith('plant__'))
     objs = load('potted_plant_02', 'plant')
-    place(objs, Matrix.Translation((-1.55, 0.42, 0)) @ Matrix.Rotation(0.6, 4, 'Z') @ Matrix.Scale(1.0, 4))
+    place(objs, Matrix.Translation((1.62, 0.4, 0)) @ Matrix.Rotation(-0.8, 4, 'Z') @ Matrix.Scale(1.0, 4))
     for o in objs:
         if o.name.endswith('dirt'):  # 54k faces of soil nobody looks into
             dec = o.modifiers.new('dec', 'DECIMATE'); dec.ratio = 0.04

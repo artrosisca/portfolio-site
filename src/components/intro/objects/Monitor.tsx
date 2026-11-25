@@ -8,6 +8,7 @@ import { Rod } from './Rod';
 
 const TW = 2048;
 const TH = 1152;
+const SCREEN_BOOST = 1.35;
 
 /** `screenOnly`: just the live screen, for the baked room (the bezel and arm are in the bake). */
 export function Monitor({ progress, screenOnly = false }: { progress: RefObject<number>; screenOnly?: boolean }) {
@@ -25,6 +26,7 @@ export function Monitor({ progress, screenOnly = false }: { progress: RefObject<
     return t;
   }, [canvas]);
   const last = useRef('');
+  const screenMat = useRef<THREE.MeshBasicMaterial>(null);
 
   useEffect(() => {
     // redraw once the webfont is ready so canvas and DOM text match
@@ -33,6 +35,12 @@ export function Monitor({ progress, screenOnly = false }: { progress: RefObject<
   }, [texture]);
 
   useFrame(({ clock: c }) => {
+    // brighter while the screen is something to look at across the room; back to 1:1 on arrival,
+    // so the hand-off to the real desktop has no jump in brightness
+    if (screenMat.current) {
+      const k = Math.min(1, Math.max(0, ((progress.current ?? 0) - 0.55) / 0.4));
+      screenMat.current.color.setScalar(SCREEN_BOOST - (SCREEN_BOOST - 1) * k * k * (3 - 2 * k));
+    }
     const t = c.elapsedTime;
     // `fastfetch` runs shortly after load; forced complete once the camera is on its way in
     const pre = (progress.current ?? 0) > 0.2 ? 99 : Math.min(t, PRE.out + 0.01);
@@ -62,7 +70,7 @@ export function Monitor({ progress, screenOnly = false }: { progress: RefObject<
       </RoundedBox>}
       <mesh name="screen">
         <planeGeometry args={[SCREEN_W, SCREEN_H]} />
-        <meshBasicMaterial map={texture} toneMapped={false} fog={false} />
+        <meshBasicMaterial ref={screenMat} map={texture} toneMapped={false} fog={false} />
       </mesh>
       {!screenOnly && (
         <>

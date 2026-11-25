@@ -180,3 +180,88 @@ def cup():
     h = obj('decor__cup_handle', bm, china)
     h.matrix_world = Matrix.Translation(base) @ Matrix.Rotation(-0.7, 4, 'Z') @ Matrix.Translation((0.047, 0, z0 + 0.032))
     return base + Vector((0, 0, z0 + 0.06))
+
+# --- laptop, post-its, rug ------------------------------------------------------------------
+
+def textured(name, w, h, image, M, rough=0.6, cut=False):
+    """A flat picture facing -y. cut: a die-cut sticker, the mesh trimmed to the image's opaque
+    shape (a transparent square would shade differently from the lid under it)."""
+    m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; p = nt.nodes['Principled BSDF']
+    p.inputs['Roughness'].default_value = rough
+    t = nt.nodes.new('ShaderNodeTexImage'); t.image = bpy.data.images.load(os.path.join(HERE, 'textures', image), check_existing=True)
+    nt.links.new(t.outputs['Color'], p.inputs['Base Color'])
+    n = 40 if cut else 1
+    bm = bmesh.new(); uv = bm.loops.layers.uv.new('UVMap')
+    grid = [[bm.verts.new(((i / n - 0.5) * w, 0, (j / n - 0.5) * h)) for j in range(n + 1)] for i in range(n + 1)]
+    if cut:
+        iw, ih = t.image.size; px = t.image.pixels[:]
+        alpha = lambda u, v: px[(min(ih - 1, int(v * ih)) * iw + min(iw - 1, int(u * iw))) * 4 + 3]
+    for i in range(n):
+        for j in range(n):
+            if cut and alpha((i + 0.5) / n, (j + 0.5) / n) < 0.5: continue
+            f = bm.faces.new((grid[i][j], grid[i + 1][j], grid[i + 1][j + 1], grid[i][j + 1]))
+            for l, (a, b) in zip(f.loops, ((i, j), (i + 1, j), (i + 1, j + 1), (i, j + 1))): l[uv].uv = (a / n, b / n)
+    bmesh.ops.delete(bm, geom=[v for v in bm.verts if not v.link_faces], context='VERTS')
+    o = obj(name, bm, m, smooth=False); o.matrix_world = M
+    return o
+
+def laptop():
+    """The closed laptop in its stand: aluminium, a charge LED, the README's stack as stickers."""
+    lid = base = None
+    for o in bpy.data.objects:
+        if o.type != 'MESH' or not o.name.startswith('decor__'): continue
+        c = centre(o)
+        if 0.4 < c.x < 0.8 and 0.45 < c.y < 0.6 and DESK_Y < c.z < 1.0:
+            if o.dimensions.z > 0.15: lid = o
+            elif o.dimensions.z < 0.02: base = o
+    alu = mat('aluminium', (0.36, 0.37, 0.4), 0.32, 0.8)
+    for o in (lid, base):
+        if o: o.data.materials.clear(); o.data.materials.append(alu)
+    c = centre(lid); R = Matrix.Rotation(-0.12, 4, 'Z')
+    front = Matrix.Translation(c) @ R @ Matrix.Translation((0, -0.0096, 0))
+    spots = [('python', -0.09, 0.05, 0.065, 0.2), ('react', 0.0, 0.06, 0.06, -0.1), ('docker', 0.09, 0.045, 0.062, 0.15),
+             ('laravel', -0.08, -0.045, 0.075, -0.12), ('postgres', 0.02, -0.05, 0.058, 0.08), ('fedora', 0.105, -0.055, 0.05, -0.2)]
+    for k, x, z, size, rot in spots:
+        textured(f'decor__sticker_{k}', size, size, f'sticker_{k}.png',
+                 front @ Matrix.Translation((x, -0.0002 * (1 + len(k) % 3), z)) @ Matrix.Rotation(rot, 4, 'Y'), 0.35, cut=True)
+    led = mat('led_green', (0.2, 1, 0.4), 0.3); p = led.node_tree.nodes['Principled BSDF']
+    p.inputs['Emission Color'].default_value = (0.2, 1, 0.4, 1); p.inputs['Emission Strength'].default_value = 12
+    bc = centre(base)
+    o = obj('decor__laptop_led', rbox((0.006, 0.002, 0.002), 0.0005, 1), led)
+    o.matrix_world = Matrix.Translation(bc) @ R @ Matrix.Translation((0.035, -0.026, 0.0))
+
+def notes():
+    """The post-its under the monitor: two big handwritten words each."""
+    for o in bpy.data.objects:
+        if o.type != 'MESH' or not o.name.startswith('decor__') or max(o.dimensions) > 0.07: continue
+        c = centre(o)
+        if abs(c.y - 0.3) < 0.02 and 0.9 < c.z < 1.0 and -0.32 < c.x < -0.14:
+            img = 'postit_deploy.png' if c.x < -0.2 else 'postit_agua.png'
+            n = o.data.materials[0].node_tree.nodes
+            t = next(x for x in n if x.type == 'TEX_IMAGE')
+            t.image = bpy.data.images.load(os.path.join(HERE, 'textures', img), check_existing=True)
+
+def rug():
+    """Arthur's burgundy kilim in front of the desk, with fringes on the short ends."""
+    for o in list(bpy.data.objects):
+        if o.type == 'MESH' and o.name.startswith('room__') and 2 < max(o.dimensions) < 3.1 and o.dimensions.z < 0.02:
+            bpy.data.objects.remove(o)
+    W, D = 2.1, 1.36
+    m = bpy.data.materials.new('kilim'); m.use_nodes = True; nt = m.node_tree; p = nt.nodes['Principled BSDF']
+    p.inputs['Roughness'].default_value = 0.95
+    t = nt.nodes.new('ShaderNodeTexImage'); t.image = bpy.data.images.load(os.path.join(HERE, 'textures', 'rug_kilim.png'), check_existing=True)
+    nt.links.new(t.outputs['Color'], p.inputs['Base Color'])
+    bm = bmesh.new(); uv = bm.loops.layers.uv.new('UVMap')
+    vs = [bm.verts.new((x * W / 2, y * D / 2, 0)) for x, y in ((-1, -1), (1, -1), (1, 1), (-1, 1))]
+    f = bm.faces.new(vs)
+    for l, c in zip(f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))): l[uv].uv = c
+    loc = Vector((0.1, -0.78, 0.004))
+    o = obj('rug__kilim', bm, m, smooth=False); o.location = loc
+    fringe = mat('fringe', (0.78, 0.74, 0.66), 1.0)
+    for sx in (-1, 1):
+        bm = bmesh.new()
+        for i in range(70):
+            y = -D / 2 + D * (i + 0.5) / 70
+            v = [bm.verts.new((0, y + dy, 0)) for dy in (-0.004, 0.004)] + [bm.verts.new((sx * 0.06, y + dy, 0)) for dy in (0.004, -0.004)]
+            bm.faces.new(v if sx > 0 else v[::-1])
+        f = obj(f'rug__fringe_{sx}', bm, fringe, smooth=False); f.location = loc + Vector((sx * W / 2, 0, 0.001))

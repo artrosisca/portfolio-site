@@ -131,8 +131,123 @@ def acabou_chorare():
     d.text((76, 175), '1972', font=F('garamond_i', 56), fill=(120, 60, 30))
     return grain(img)
 
+# --- the rug: Arthur's burgundy kilim -----------------------------------------------------------
+
+def kilim():
+    """Long axis along x: three stepped diamonds between striped, chequered bands, chevrons on the
+    long edges, a woven texture over everything."""
+    W, H = 2400, 1560
+    img = Image.new('RGB', (W, H), (112, 26, 40)); d = ImageDraw.Draw(img)
+    red, white, black = (196, 44, 52), (236, 228, 214), (24, 20, 26)
+    def band(x, w=150):
+        """Vertical band across the rug: stripes and a row of black squares on white."""
+        stripes = [(red, 14), (white, 8), (red, 6), (white, 34), (red, 6), (white, 8), (red, 14)]
+        t = sum(h for _, h in stripes); xx = x - t / 2
+        for c, h in stripes:
+            d.rectangle((xx, 0, xx + h, H), fill=c); xx += h
+        for y in range(10, H, 46):
+            d.rectangle((x - 12, y, x + 12, y + 26), fill=black)
+    def diamond(cx, cy, r, c):
+        d.polygon([(cx - r, cy), (cx, cy - r), (cx + r, cy), (cx, cy + r)], fill=c)
+    def serrated(cx, cy, r, c, teeth=11):
+        """A diamond outline of little steps, as woven kilims do."""
+        for k in range(teeth):
+            t = k / teeth; s = r / teeth * 0.9
+            for sx, sy in ((1, 1), (1, -1), (-1, 1), (-1, -1)):
+                x = cx + sx * r * t; y = cy + sy * r * (1 - t)
+                d.polygon([(x, y), (x + sx * s, y), (x, y - sy * s)], fill=c)
+    def chevron(x, y, up, c, s=34):
+        k = -1 if up else 1
+        d.polygon([(x - s, y), (x, y + k * s * 0.8), (x + s, y), (x + s, y + k * s * 0.45), (x, y + k * s * 1.25), (x - s, y + k * s * 0.45)], fill=c)
+    # end bands and the dark border lines on the short edges
+    for x in (60, W - 60): band(x, 120)
+    d.rectangle((0, 0, 18, H), fill=(40, 30, 50)); d.rectangle((W - 18, 0, W, H), fill=(40, 30, 50))
+    panels = [(W * (i + 0.5) / 3) for i in range(3)]
+    for x in (W / 3, 2 * W / 3): band(x)
+    for cx in panels:
+        cy = H / 2
+        # olive shading towards the long edges, as on the real rug
+        for y0 in (0, H - 260):
+            for k in range(26):
+                a = (1 - k / 26)
+                d.rectangle((cx - 300, y0 + (k * 10 if y0 == 0 else 250 - k * 10), cx + 300, y0 + (k * 10 if y0 == 0 else 250 - k * 10) + 10),
+                            fill=tuple(int(c1 + (c2 - c1) * a * 0.55) for c1, c2 in zip((112, 26, 40), (86, 70, 46))))
+        diamond(cx, cy, 330, (196, 186, 198))
+        serrated(cx, cy, 330, (226, 150, 110))
+        diamond(cx, cy, 270, (232, 210, 190))
+        diamond(cx, cy, 225, (214, 92, 52))
+        diamond(cx, cy, 195, (150, 70, 110))
+        diamond(cx, cy, 165, (238, 214, 196))
+        serrated(cx, cy, 165, (214, 92, 52), 8)
+        diamond(cx, cy, 110, (124, 28, 52))
+        d.rectangle((cx - 70, cy - 18, cx + 70, cy + 18), fill=(124, 28, 52)); d.rectangle((cx - 18, cy - 70, cx + 18, cy + 70), fill=(124, 28, 52))
+        diamond(cx, cy, 34, (214, 92, 52))
+        for i, dx in enumerate((-230, -150, 150, 230)):
+            col = [(190, 186, 200), (222, 120, 70), (222, 120, 70), (190, 186, 200)][i]
+            chevron(cx + dx, 70, False, col); chevron(cx + dx, H - 70, True, col)
+            chevron(cx + dx * 1.15, 140, False, (230, 214, 196)); chevron(cx + dx * 1.15, H - 140, True, (230, 214, 196))
+    # weave: fine horizontal ribs and noise
+    rib = Image.new('L', (W, H), 0); rd = ImageDraw.Draw(rib)
+    for y in range(0, H, 7): rd.line((0, y, W, y), fill=60)
+    img = Image.composite(Image.new('RGB', (W, H), (0, 0, 0)), img, rib.point(lambda v: v // 3))
+    return grain(img, 14)
+
+# --- laptop stickers: the stack from the GitHub README ------------------------------------------
+
+def sticker(kind):
+    """Die-cut vinyl stickers, our own simple takes on each logo."""
+    S2 = 512
+    img = Image.new('RGBA', (S2, S2), (0, 0, 0, 0)); d = ImageDraw.Draw(img)
+    def badge(fill, r=230):
+        d.ellipse((256 - r - 18, 256 - r - 18, 256 + r + 18, 256 + r + 18), fill=(246, 244, 238, 255))
+        d.ellipse((256 - r, 256 - r, 256 + r, 256 + r), fill=fill)
+    if kind == 'python':
+        d.rounded_rectangle((40, 40, 472, 472), 90, fill=(246, 244, 238, 255))
+        d.rounded_rectangle((80, 80, 300, 300), 60, fill=(55, 118, 171)); d.rounded_rectangle((212, 212, 432, 432), 60, fill=(255, 212, 59))
+        d.ellipse((130, 120, 160, 150), fill=(246, 244, 238)); d.ellipse((352, 362, 382, 392), fill=(246, 244, 238))
+    elif kind == 'react':
+        badge((32, 35, 42))
+        for a in (0, 60, 120):
+            e = Image.new('RGBA', (S2, S2), (0, 0, 0, 0)); ImageDraw.Draw(e).ellipse((66, 196, 446, 316), outline=(97, 218, 251), width=18)
+            img.alpha_composite(e.rotate(a, center=(256, 256)))
+        d.ellipse((226, 226, 286, 286), fill=(97, 218, 251))
+    elif kind == 'docker':
+        badge((36, 150, 237))
+        d.chord((96, 180, 430, 380), 0, 180, fill=(246, 244, 238)); d.polygon([(430, 280), (470, 240), (452, 300)], fill=(246, 244, 238))
+        for i, j in ((0, 0), (1, 0), (2, 0), (1, 1), (2, 1), (2, 2)):
+            x, y = 150 + i * 58, 222 - j * 58; d.rectangle((x, y, x + 48, y + 48), fill=(246, 244, 238))
+    elif kind == 'laravel':
+        d.rounded_rectangle((20, 150, 492, 362), 50, fill=(246, 244, 238, 255)); d.rounded_rectangle((40, 170, 472, 342), 36, fill=(255, 45, 32))
+        f = F('black', 96); d.text((256 - d.textlength('laravel', font=f) / 2, 196), 'laravel', font=f, fill=(255, 255, 255))
+    elif kind == 'postgres':
+        badge((51, 103, 145))
+        f = F('black', 150); d.text((256 - d.textlength('pg', font=f) / 2, 150), 'pg', font=f, fill=(246, 244, 238))
+        f = F('bold', 40); d.text((256 - d.textlength('postgresql', font=f) / 2, 340), 'postgresql', font=f, fill=(246, 244, 238))
+    elif kind == 'fedora':
+        badge((41, 65, 114))
+        d.ellipse((150, 150, 362, 362), outline=(81, 162, 218), width=34)
+        f = F('black', 190); d.text((256 - d.textlength('f', font=f) / 2 + 6, 130), 'f', font=f, fill=(246, 244, 238))
+    return img
+
+STICKERS = ['python', 'react', 'docker', 'laravel', 'postgres', 'fedora']
+
+# --- the post-its under the monitor ---------------------------------------------------------------
+
+def postit(text, colour):
+    img = Image.new('RGB', (512, 512), colour); d = ImageDraw.Draw(img)
+    for i in range(40): d.line((0, 511 - i, 511, 511 - i), fill=tuple(int(c * (0.9 + 0.1 * i / 40)) for c in colour))
+    lines = text.split('\n'); f = F('hand', 150 if len(lines) > 1 else 190)
+    y = 256 - len(lines) * f.size * 0.55
+    for line in lines:
+        d.text((256 - d.textlength(line, font=f) / 2, y), line, font=f, fill=(30, 36, 80)); y += f.size * 1.05
+    return grain(img, 8)
+
 if __name__ == '__main__':
     for k, f in POSTERS.items(): f().save(os.path.join(OUT, f'poster_{k}.png'))
     for i, b in enumerate(BOOKS): spine(*b).save(os.path.join(OUT, f'spine_{i}.png'))
     acabou_chorare().save(os.path.join(OUT, 'lp_acabou_chorare.png'))
+    kilim().save(os.path.join(OUT, 'rug_kilim.png'))
+    for k in STICKERS: sticker(k).save(os.path.join(OUT, f'sticker_{k}.png'))
+    postit('sexta\n≠ deploy', (255, 226, 122)).save(os.path.join(OUT, 'postit_deploy.png'))
+    postit('água!', (159, 211, 255)).save(os.path.join(OUT, 'postit_agua.png'))
     print('art done')
