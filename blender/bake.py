@@ -13,6 +13,10 @@ SAMPLES = int(os.environ.get('BAKE_SAMPLES', 128))
 OUT = os.environ.get('BAKE_OUT', os.path.join(HERE, '..', 'public', 'room', 'room.glb'))
 # texture size per part; the desk area is what the camera gets closest to
 SIZES = {'room': 2048, 'desk': 2048, 'decor': 2048, 'monitor': 1024, 'keyboard': 1024, 'lamp': 1024, 'guitar': 1024, 'plant': 1024, 'cube': 512, 'art': 2048, 'rug': 1024, 'records': 1024}
+# share of triangles kept per part: detail the camera never gets close enough to see
+DECIMATE = {'cube': float(os.environ.get('DEC_CUBE', 0.15)), 'lamp': float(os.environ.get('DEC_LAMP', 0.4)),
+            'keyboard': float(os.environ.get('DEC_KB', 0.6)), 'plant': float(os.environ.get('DEC_PLANT', 0.6)),
+            'decor': float(os.environ.get('DEC_DECOR', 0.6))}
 
 sc = bpy.context.scene
 sc.cycles.samples = SAMPLES
@@ -40,6 +44,16 @@ def cull_hidden(o):
     bmesh.ops.delete(bm, geom=dead, context='FACES')
     bm.to_mesh(o.data); bm.free()
 
+def lighten(o, ratio):
+    """Welds coincident vertices (flat-shaded parts arrive with every face apart) and decimates."""
+    import bmesh
+    bm = bmesh.new(); bm.from_mesh(o.data)
+    bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=1e-5)
+    bm.to_mesh(o.data); bm.free()
+    if ratio < 1:
+        d = o.modifiers.new('dec', 'DECIMATE'); d.ratio = ratio; d.use_collapse_triangulate = True
+        bpy.ops.object.modifier_apply(modifier=d.name)
+
 def objs(part):
     return [o for o in bpy.data.objects if o.type == 'MESH' and o.name.split('__')[0] == part]
 
@@ -54,6 +68,9 @@ for part, size in SIZES.items():
     if len(group) > 1: bpy.ops.object.join()
     o = bpy.context.view_layer.objects.active
     o.name = part
+    tris = len(o.data.loop_triangles) if o.data.calc_loop_triangles() is None else 0
+    lighten(o, DECIMATE.get(part, 1)); o.data.calc_loop_triangles()
+    print(f'MESH {part} {tris} -> {len(o.data.loop_triangles)} tris', flush=True)
     cull_hidden(o)
     # fresh UV for the bake; texture lookups keep using the original (render) UV
     uv = o.data.uv_layers.new(name='bake')
@@ -95,6 +112,7 @@ for o, img in baked:
 for l in [x for x in bpy.data.objects if x.type in ('LIGHT', 'CAMERA')]: bpy.data.objects.remove(l)
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
 bpy.ops.export_scene.gltf(filepath=OUT, export_format='GLB', export_image_format='WEBP', export_image_quality=82,
-                          export_draco_mesh_compression_enable=True, export_materials='EXPORT', export_yup=True)
+                          export_draco_mesh_compression_enable=True, export_materials='EXPORT', export_yup=True,
+                          export_normals=False)  # drawn unlit on the site: normals are dead weight
 bpy.ops.wm.save_as_mainfile(filepath=os.path.join(HERE, 'room_baked.blend'))
 print('EXPORTED', OUT, os.path.getsize(OUT))
