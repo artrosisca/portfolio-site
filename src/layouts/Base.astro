@@ -20,6 +20,11 @@ import '@/styles/global.css';
          once the 3D has loaded. A safety net brings the site back if the intro never mounts. -->
     <script is:inline>
       try {
+        // ?intro plays it again for whoever skipped it before (from the start, lamp still off)
+        if (new URLSearchParams(location.search).has('intro')) {
+          localStorage.removeItem('intro-skipped');
+          sessionStorage.removeItem('intro-seen');
+        }
         if (!localStorage.getItem('intro-skipped') && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
           document.documentElement.dataset.intro = 'on';
           setTimeout(function () {
