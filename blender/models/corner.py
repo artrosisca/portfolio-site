@@ -199,7 +199,8 @@ def pothos_nodes(nt, p, uv, sep, tint):
     nt.links.new(co.outputs[0], nz.inputs['Vector'])
     m = nt.nodes.new('ShaderNodeMapRange'); m.inputs['From Min'].default_value = 0.58; m.inputs['From Max'].default_value = 0.66
     nt.links.new(nz.outputs['Fac'], m.inputs['Value'])
-    c = mix(nt, math_node(nt, 'MULTIPLY', m.outputs[0], 0.75), base, (190, 186, 92))
+    rgb = nt.nodes.new('ShaderNodeSeparateColor'); nt.links.new(tint.outputs['Color'], rgb.inputs[0])
+    c = mix(nt, math_node(nt, 'MULTIPLY', m.outputs[0], rgb.outputs[1]), base, (190, 186, 92))
     # a lighter midrib
     mid = nt.nodes.new('ShaderNodeMapRange'); mid.inputs['From Min'].default_value = 0.025; mid.inputs['From Max'].default_value = 0.0
     nt.links.new(math_node(nt, 'ABSOLUTE', math_node(nt, 'SUBTRACT', sep.outputs['X'], 0.5)), mid.inputs['Value'])
@@ -208,19 +209,22 @@ def pothos_nodes(nt, p, uv, sep, tint):
 
 def heart_leaf(bm, at, axis, normal, size, curl, rng):
     """A heart-shaped leaf with its petiole end at `at`: midrib along `axis`, blade facing
-    `normal`, the two halves raised a little from the midrib and the tip curling down."""
-    axis = axis.normalized(); side = normal.cross(axis).normalized(); normal = axis.cross(side)
-    fold, droop = rng.uniform(0.12, 0.25), curl
+    `normal`, the two halves raised a little from the midrib and the tip curling down. Each one
+    a little different: width, lobes, fold, a roll about its midrib, how much yellow it has."""
+    axis = axis.normalized(); side = normal.cross(axis).normalized()
+    roll = Matrix.Rotation(rng.uniform(-0.5, 0.5), 3, axis); side = roll @ side; normal = axis.cross(side)
+    fold, droop = rng.uniform(0.08, 0.3), curl
+    wide, lobe, bend = rng.uniform(0.82, 1.18), rng.uniform(0.16, 0.32), rng.uniform(-0.08, 0.08)
     def pt(a, b):
-        x0 = -0.26 * abs(b) ** 0.8                              # the lobes reach back past the petiole
+        x0 = -lobe * abs(b) ** 0.8                              # the lobes reach back past the petiole
         x = x0 + (1 - x0) * a
         # widest near the base, tapering to a pointed tip, lobes rounded off
-        hw = 0.44 * math.sqrt(max(0.0, 1 - ((x - 0.18) / 0.82) ** 2)) * (1 - max(0.0, x - 0.5) / 0.5 * 0.3)
-        if x < 0: hw *= math.sqrt(max(0.0, 1 - (x / 0.3) ** 2)) * 0.35 + 0.65
-        y = b * hw
-        z = fold * abs(y) - droop * max(0.0, x) ** 2
+        hw = 0.44 * wide * math.sqrt(max(0.0, 1 - ((x - 0.18) / 0.82) ** 2)) * (1 - max(0.0, x - 0.5) / 0.5 * 0.3)
+        if x < 0: hw *= math.sqrt(max(0.0, 1 - (x / (lobe + 0.04)) ** 2)) * 0.35 + 0.65
+        y = b * hw + bend * x * x                               # the tip swings a little to one side
+        z = fold * abs(b * hw) - droop * max(0.0, x) ** 2
         return at + (axis * x + side * y + normal * z) * size, ((b + 1) / 2, a)
-    sheet(bm, 7, 6, pt, (rng.random(), 0, 0))
+    sheet(bm, 7, 6, pt, (rng.random(), rng.choice((0.15, 0.4, 0.7, 0.9, 1.2)), 0))
 
 def pothos():
     rng = random.Random(5)
@@ -231,72 +235,77 @@ def pothos():
     vine = mat('pothos_vine', srgb((84, 112, 48)), 0.6)
     leaves, stems = bmesh.new(), bmesh.new()
     top = potloc + Vector((0, 0, 0.09))
-    def leaf_on(p, out_dir, size, hanging):
-        """A petiole from the vine, then the leaf: hanging ones point down and face the room."""
-        if hanging:
-            axis = Vector((out_dir.x * rng.uniform(0.2, 0.9), -rng.uniform(0.2, 0.6), -1))
-            normal = Vector((out_dir.x * rng.uniform(0.1, 0.7), -1, rng.uniform(0.2, 0.8)))
-        else:
-            axis = out_dir + Vector((0, 0, rng.uniform(0.1, 0.5)))
-            normal = Vector((0, 0, 1)) + out_dir * 0.2 + Vector((0, -0.3, 0))
-        axis.normalize()
-        stem_end = p + (axis * 0.5 + out_dir * 0.5).normalized() * size * 0.45
-        tube(stems, [p, (p + stem_end) / 2 + Vector((0, 0, 0.004)), stem_end], 0.0018)
-        heart_leaf(leaves, stem_end, axis, normal, size, rng.uniform(0.15, 0.4), rng)
-    # vines: over the shelf's front edge and down the wall, bunched into a full curtain
     rim = potloc.z + 0.095
-    for s in range(13):
-        x0 = potloc.x + rng.uniform(-0.05, 0.1)
-        length = rng.uniform(0.3, 0.85) if s > 3 else rng.uniform(0.1, 0.25)
-        # out of the soil, up over the rim, down the outside of the pot, then over the shelf's edge
-        a = math.atan2(SHELF_FRONT - potloc.y, x0 - potloc.x) + rng.uniform(-0.5, 0.5)
+    U = lambda a, b: rng.uniform(a, b)
+    def leaf_on(p, out_dir, size, hanging):
+        """A petiole from the vine, then the leaf: hanging ones point down and face the room,
+        each turned its own way."""
+        if hanging:
+            axis = Vector((out_dir.x * U(0.0, 1.0) + U(-0.3, 0.3), -U(0.1, 0.8), -1))
+            normal = Vector((out_dir.x * U(-0.2, 0.8) + U(-0.3, 0.3), -1, U(0.0, 0.9)))
+        else:
+            axis = out_dir + Vector((U(-0.3, 0.3), U(-0.3, 0.3), U(0.0, 0.6)))
+            normal = Vector((U(-0.3, 0.3), U(-0.5, 0.0), 1)) + out_dir * 0.3
+        axis.normalize()
+        stem_end = p + (axis * 0.5 + out_dir * 0.5).normalized() * size * U(0.3, 0.7)
+        tube(stems, [p, (p + stem_end) / 2 + Vector((0, 0, U(0.0, 0.008))), stem_end], 0.0018)
+        heart_leaf(leaves, stem_end, axis, normal, size, U(0.1, 0.5), rng)
+    # vines: out of the soil, over the rim, down the outside of the pot, across the shelf and
+    # over its edge, then down the wall wandering as they go: a loose, uneven curtain
+    for s in range(16):
+        x0 = potloc.x + U(-0.06, 0.11)
+        length = U(0.35, 0.9) if s > 4 else U(0.08, 0.3)
+        a = math.atan2(SHELF_FRONT - potloc.y, x0 - potloc.x) + U(-0.9, 0.9)
         out = Vector((math.cos(a), math.sin(a), 0))
-        start = top + Vector((rng.uniform(-0.02, 0.02), rng.uniform(-0.02, 0.02), -0.005))
-        pts = [start, potloc + out * 0.045 + Vector((0, 0, rim - potloc.z + 0.02)),
-               potloc + out * 0.074 + Vector((0, 0, rim - potloc.z + 0.012)),
-               potloc + out * 0.08 + Vector((0, 0, rim - potloc.z - 0.03))]
-        pts.append(Vector((x0 * 0.5 + pts[-1].x * 0.5, SHELF_FRONT + 0.012, SHELF_TOP + 0.006)))
-        pts.append(Vector((x0, SHELF_FRONT - 0.012, SHELF_TOP - 0.012)))
-        n = max(3, int(length / 0.03)); ph = rng.uniform(0, 6); drift = rng.uniform(-0.04, 0.12); amp = rng.uniform(0.01, 0.04)
-        for k in range(1, n + 1):
-            t = k / n
-            pts.append(Vector((x0 + math.sin(t * 4 + ph) * amp + t * t * drift,
-                               SHELF_FRONT - 0.012 + t * 0.08 * (1 + 0.5 * math.sin(ph)), SHELF_TOP - 0.012 - length * t)))
-        tube(stems, pts, 0.0025)
-        # a leaf at each node, alternating sides, smaller towards the tip
+        lift = U(0.0, 0.035)
+        start = top + Vector((U(-0.03, 0.03), U(-0.03, 0.03), -0.005))
+        pts = [start, potloc + out * U(0.03, 0.05) + Vector((U(-0.01, 0.01), U(-0.01, 0.01), rim - potloc.z + 0.012 + lift)),
+               potloc + out * U(0.07, 0.085) + Vector((0, 0, rim - potloc.z + 0.004 + lift * 0.5)),
+               potloc + out * U(0.075, 0.095) + Vector((0, 0, rim - potloc.z - U(0.02, 0.05)))]
+        edge = Vector((x0, SHELF_FRONT - 0.012, SHELF_TOP - 0.012))
+        mid = pts[-1].lerp(edge, 0.5); mid.z = SHELF_TOP + 0.006; mid.x += U(-0.025, 0.025)
+        pts += [mid, edge]
+        p, vel = edge.copy(), Vector((U(-0.004, 0.006), U(0.0, 0.004), -0.03))
+        for k in range(max(2, int(length / 0.03))):
+            vel.x = max(-0.012, min(0.014, vel.x + rng.gauss(0, 0.004)))
+            vel.y = max(-0.003, min(0.006, vel.y + rng.gauss(0, 0.0015)))
+            p = p + vel; p.y = min(p.y, WALL_Y - 0.02)
+            if p.x < potloc.x - 0.07: p.x, vel.x = potloc.x - 0.07, abs(vel.x)  # keep clear of the monitor
+            pts.append(p.copy())
+        tube(stems, pts, U(0.0018, 0.003))
+        # leaves at the nodes, alternating sides, some missing, smaller towards the tip
         for k in range(2, len(pts) - 1):
-            if rng.random() < 0.15: continue
+            if rng.random() < 0.2: continue
             t = k / (len(pts) - 1)
-            side = Vector((1 if k % 2 else -1, 0, 0))
-            size = rng.uniform(0.05, 0.08) * (1 - 0.45 * t)
+            side = Vector((1 if (k + s) % 2 else -1, 0, 0))
+            size = U(0.04, 0.09) * (1 - 0.5 * t)
             leaf_on(pts[k], side if k > 3 else out, size, hanging=k > 4)
-        heart_leaf(leaves, pts[-1], Vector((0, -0.3, -1)), Vector((0, -1, 0.3)), 0.025, 0.2, rng)
+        heart_leaf(leaves, pts[-1], Vector((U(-0.3, 0.3), -0.3, -1)), Vector((0, -1, 0.3)), U(0.015, 0.03), 0.2, rng)
     # a full crown in the pot: leaves arching up and out over the rim
-    for k in range(34):
-        a = k / 26 * 2 * math.pi + rng.uniform(-0.15, 0.15)
+    for k in range(40):
+        a = U(0, 2 * math.pi)
         out = Vector((math.cos(a), math.sin(a), 0))
-        r = rng.uniform(0.0, 0.045)
-        p = top + out * r + Vector((0, 0, rng.uniform(0.0, 0.05)))
-        tip = p + out * rng.uniform(0.02, 0.06) + Vector((0, 0, rng.uniform(0.03, 0.11)))
-        tube(stems, [p - Vector((0, 0, 0.02)), (p + tip) / 2 + Vector((0, 0, 0.01)), tip], 0.002)
-        heart_leaf(leaves, tip, out + Vector((0, 0, rng.uniform(-0.1, 0.5))), Vector((0, 0, 1)) + out * 0.3,
-                   rng.uniform(0.06, 0.085), rng.uniform(0.2, 0.5), rng)
+        p = top + out * U(0.0, 0.05) + Vector((0, 0, U(0.0, 0.05)))
+        tip = p + out * U(0.01, 0.07) + Vector((0, 0, U(0.02, 0.13)))
+        tube(stems, [p - Vector((0, 0, 0.02)), (p + tip) / 2 + Vector((U(-0.01, 0.01), U(-0.01, 0.01), 0.01)), tip], 0.002)
+        heart_leaf(leaves, tip, out + Vector((U(-0.4, 0.4), U(-0.4, 0.4), U(-0.3, 0.7))),
+                   Vector((U(-0.3, 0.3), U(-0.3, 0.3), 1)) + out * U(0.0, 0.6), U(0.045, 0.1), U(0.15, 0.55), rng)
     # and a skirt spilling over the rim all round, so the pot sits inside the plant
-    for k in range(16):
-        a = k / 16 * 2 * math.pi + rng.uniform(-0.2, 0.2)
+    for k in range(26):
+        a = U(0, 2 * math.pi)
         out = Vector((math.cos(a), math.sin(a), 0))
-        p = potloc + out * 0.05 + Vector((0, 0, rim - potloc.z + 0.01))
-        tip = potloc + out * 0.075 + Vector((0, 0, rim - potloc.z + 0.015))
+        p = potloc + out * U(0.04, 0.055) + Vector((0, 0, rim - potloc.z + U(0.0, 0.02)))
+        tip = potloc + out * U(0.07, 0.085) + Vector((0, 0, rim - potloc.z + U(-0.01, 0.02)))
         tube(stems, [p, tip], 0.002)
-        heart_leaf(leaves, tip, out + Vector((0, 0, rng.uniform(-0.9, -0.3))), out + Vector((0, 0, 0.6)),
-                   rng.uniform(0.055, 0.075), rng.uniform(0.2, 0.4), rng)
+        heart_leaf(leaves, tip, out + Vector((U(-0.4, 0.4), U(-0.4, 0.4), U(-1.0, -0.1))),
+                   out + Vector((U(-0.3, 0.3), U(-0.3, 0.3), U(0.3, 0.9))), U(0.045, 0.09), U(0.15, 0.45), rng)
     obj('decor__pothos_leaves', leaves, green)
     obj('decor__pothos_vines', stems, vine)
 
 # --- cork board ------------------------------------------------------------------------------
 
 def cork_board():
-    c = Vector((1.38, WALL_Y - 0.012, 1.28)); W, H = 0.46, 0.32  # over the record player
+    c = Vector((1.38, WALL_Y - 0.012, 1.25)); W, H = 0.62, 0.43  # over the record player
     obj('art__cork_frame', box((W + 0.03, 0.02, H + 0.03), 0.004), mat('cork_frame', srgb((120, 78, 46)), 0.6), Matrix.Translation(c))
     cork = bpy.data.materials.new('cork'); cork.use_nodes = True; nt = cork.node_tree; p = nt.nodes['Principled BSDF']
     nz = nt.nodes.new('ShaderNodeTexNoise'); nz.inputs['Scale'].default_value = 900; nz.inputs['Detail'].default_value = 4
@@ -307,8 +316,8 @@ def cork_board():
     obj('art__cork', box((W, 0.004, H)), cork, Matrix.Translation(c + Vector((0, -0.011, 0))))
     face = c.y - 0.0135
     pin = mat('pin', srgb((230, 60, 40)), 0.3)
-    items = [('cork_tcc.png', -0.16, 0.08, 0.075, 0.08), ('cork_pr.png', -0.06, 0.09, 0.075, -0.06), ('cork_cafe.png', -0.15, -0.06, 0.075, -0.1),
-             ('cork_dormir.png', -0.05, -0.07, 0.075, 0.05), ('cork_contrib.png', 0.12, 0.02, 0.17, -0.03)]
+    items = [('cork_tcc.png', -0.215, 0.105, 0.105, 0.08), ('cork_pr.png', -0.085, 0.12, 0.105, -0.06), ('cork_cafe.png', -0.2, -0.085, 0.105, -0.1),
+             ('cork_dormir.png', -0.065, -0.095, 0.105, 0.05), ('cork_contrib.png', 0.16, 0.025, 0.23, -0.03)]
     for img, x, z, size, rot in items:
         w, h = (size, size) if 'contrib' not in img else (size, size * 0.62)
         bm = bmesh.new(); uv = bm.loops.layers.uv.new('UVMap')
