@@ -50,7 +50,7 @@ def beam(name, a, b, w, h, m, taper=1.0):
     return o
 
 def place(o, loc, rot=None):
-    o.matrix_world = Matrix.Translation(loc) @ (rot.to_4x4() if rot else Matrix.Identity(4))
+    o.matrix_world = Matrix.Translation(Vector(loc)) @ (rot.to_4x4() if rot else Matrix.Identity(4))
     return o
 
 # --- monitor arm --------------------------------------------------------------------------
@@ -67,32 +67,74 @@ def monitor_arm():
     pts = [bezel.matrix_world @ Vector(c) for c in bezel.bound_box]
     back = max(p.y for p in pts); mid = sum(pts, Vector()) / 8
 
-    black = mat('arm_black', (0.012, 0.012, 0.014), 0.42, 0.35)
-    steel = mat('arm_steel', (0.5, 0.5, 0.52), 0.3, 1.0)
+    black = mat('arm_black', (0.018, 0.018, 0.02), 0.38, 0.5)        # powder-coated aluminium
+    caps = mat('arm_caps', (0.008, 0.008, 0.009), 0.22)              # glossier plastic joint caps
+    steel = mat('arm_steel', (0.6, 0.6, 0.62), 0.28, 1.0)
+    rubber = mat('arm_cable', (0.01, 0.01, 0.011), 0.6)
     part = 'monitor__arm'
-    # pole behind the monitor's left half; both links stay mostly hidden behind the screen,
-    # like a real arm: from the front you see the pole, from the side the arm folding up
-    bx, by = mid.x - 0.14, DESK_BACK - 0.06
-    top = DESK_Y + 0.13
-    # clamp: plate on the desk, jaw behind the edge, screw under it
-    place(obj(part + '_plate', rbox((0.07, 0.07, 0.012), 0.004), black), (bx, by, DESK_Y + 0.006))
-    place(obj(part + '_jaw', rbox((0.045, 0.012, 0.075), 0.003), black), (bx, DESK_BACK + 0.007, DESK_Y - 0.03))
-    place(obj(part + '_jaw2', rbox((0.045, 0.06, 0.01), 0.003), black), (bx, DESK_BACK - 0.02, DESK_Y - 0.072))
-    place(obj(part + '_pole', cyl(0.015, top - DESK_Y), black), (bx, by, (top + DESK_Y) / 2))
-    place(obj(part + '_j0', cyl(0.02, 0.04), black), (bx, by, top))
-    # lower link rises steeply to the elbow, the gas spring comes back down to the head
-    elbow = Vector((bx - 0.06, by - 0.05, DESK_Y + 0.36))
-    beam(part + '_low', (bx, by, top), elbow, 0.026, 0.032, black)
-    place(obj(part + '_j1', cyl(0.019, 0.045), black), elbow)
-    head = Vector((mid.x, back + 0.07, mid.z - 0.03))
-    beam(part + '_spring', elbow, head, 0.03, 0.044, black, taper=0.85)
-    beam(part + '_spring_hl', elbow + Vector((0, -0.016, 0.02)), head + Vector((0, -0.016, 0.017)), 0.004, 0.003, steel)
-    place(obj(part + '_j2', cyl(0.017, 0.045), black), head)
-    # swivel + tilt + VESA
-    tilt = Vector((mid.x, back + 0.03, mid.z))
-    beam(part + '_neck', head + Vector((0, 0, 0.02)), tilt, 0.026, 0.026, black)
-    place(obj(part + '_tilt', cyl(0.016, 0.07), black), tilt, Matrix.Rotation(math.pi / 2, 3, 'Y'))
-    place(obj(part + '_vesa', rbox((0.1, 0.008, 0.1), 0.004), black), (mid.x, back + 0.005, mid.z))
+    # an Ergotron-style arm: clamp and pole behind the monitor's left half, a level link out to the
+    # elbow, then the gas-spring link rising forward to the swivel and tilt head on the VESA plate
+    bx, by = mid.x - 0.2, DESK_BACK - 0.05
+    top = DESK_Y + 0.21
+    place(obj(part + '_plate', rbox((0.08, 0.08, 0.01), 0.004), black), (bx, by, DESK_Y + 0.005))
+    place(obj(part + '_jaw', rbox((0.05, 0.012, 0.08), 0.003), black), (bx, DESK_BACK + 0.008, DESK_Y - 0.032))
+    place(obj(part + '_jaw2', rbox((0.05, 0.07, 0.012), 0.003), black), (bx, DESK_BACK - 0.024, DESK_Y - 0.072))
+    place(obj(part + '_collar', cyl(0.024, 0.028), caps), (bx, by, DESK_Y + 0.024))
+    place(obj(part + '_pole', cyl(0.016, top - DESK_Y - 0.03), black), (bx, by, (top + DESK_Y) / 2 + 0.01))
+    place(obj(part + '_stop', cyl(0.019, 0.014), caps), (bx, by, top - 0.035))
+    # level link: a joint housing over the pole, the bar, a housing at the elbow
+    elbow = Vector((mid.x + 0.03, by - 0.03, top))
+    place(obj(part + '_j0', rbox((0.046, 0.046, 0.046), 0.02, 4), caps), (bx, by, top))
+    beam(part + '_low', (bx, by, top), elbow, 0.036, 0.03, black)
+    place(obj(part + '_j1', rbox((0.046, 0.046, 0.05), 0.02, 4), caps), elbow + Vector((0, 0, 0.004)))
+    # gas-spring link: pivots on a horizontal knuckle at the elbow, tapering towards the head
+    head = Vector((mid.x, back + 0.06, mid.z - 0.04))
+    k0 = elbow + Vector((0, 0, 0.034)); d = (head - k0).normalized()
+    across = d.cross(Vector((0, 0, 1))).normalized()
+    knuckle = Vector((0, 0, 1)).rotation_difference(across).to_matrix()
+    place(obj(part + '_k0', cyl(0.02, 0.05), caps), k0, knuckle)
+    beam(part + '_spring', k0, head, 0.04, 0.034, black, taper=0.82)
+    # the channel cover on top of it, and the spring's tension screw at the elbow end
+    beam(part + '_cover', k0 + Vector((0, 0, 0.017)) + d * 0.03, head + Vector((0, 0, 0.013)) - d * 0.03, 0.022, 0.004, caps, taper=0.82)
+    place(obj(part + '_screw', cyl(0.005, 0.006, 16), steel), k0 - d * 0.024 + Vector((0, 0, 0.01)),
+          Vector((0, 0, 1)).rotation_difference(-d).to_matrix())
+    place(obj(part + '_k1', cyl(0.017, 0.044), caps), head, knuckle)
+    # swivel down into the tilt block and the VESA plate on the monitor's back
+    tilt = Vector((mid.x, back + 0.028, mid.z))
+    place(obj(part + '_swivel', cyl(0.015, 0.05), black), (head + tilt) / 2 + Vector((0, 0, -0.005)),
+          Vector((0, 0, 1)).rotation_difference(tilt - head).to_matrix())
+    place(obj(part + '_tilt', rbox((0.07, 0.03, 0.04), 0.008, 3), caps), tilt)
+    place(obj(part + '_vesa', rbox((0.105, 0.008, 0.105), 0.006), black), (mid.x, back + 0.005, mid.z))
+    for sx in (-1, 1):
+        for sz in (-1, 1):
+            place(obj(part + '_bolt', cyl(0.0035, 0.004, 12), steel), (mid.x + sx * 0.04, back + 0.01, mid.z + sz * 0.04),
+                  Matrix.Rotation(math.pi / 2, 3, 'X'))
+    # the monitor's cable, clipped under both links and down the pole
+    under = Vector((0, 0, -0.024))
+    path = [Vector((mid.x + 0.02, back + 0.012, mid.z - 0.06)), head + under + d * 0.02, (k0 + head) / 2 + under * 1.1,
+            k0 + under - d * 0.01, elbow + under * 0.8, (elbow + Vector((bx, by, top))) / 2 + under * 0.9,
+            Vector((bx + 0.012, by + 0.02, top - 0.04)), Vector((bx + 0.014, by + 0.022, DESK_Y + 0.05)),
+            Vector((bx + 0.02, DESK_BACK + 0.004, DESK_Y + 0.004)), Vector((bx + 0.025, DESK_BACK + 0.012, DESK_Y - 0.12))]
+    cable(part + '_cable', path, 0.0035, rubber)
+
+def cable(name, pts, r, m):
+    """A cable through the points, smoothed into a curve."""
+    pts = [Vector(p) for p in pts]
+    fine = []
+    for i in range(len(pts) - 1):  # Catmull-Rom between the control points
+        p0, p1, p2, p3 = pts[max(i - 1, 0)], pts[i], pts[i + 1], pts[min(i + 2, len(pts) - 1)]
+        for k in range(8):
+            t = k / 8
+            fine.append(0.5 * (2 * p1 + (p2 - p0) * t + (2 * p0 - 5 * p1 + 4 * p2 - p3) * t * t + (3 * p1 - p0 - 3 * p2 + p3) * t ** 3))
+    fine.append(pts[-1])
+    bm = bmesh.new(); rings = []
+    for i, p in enumerate(fine):
+        tng = (fine[min(i + 1, len(fine) - 1)] - fine[max(i - 1, 0)]).normalized()
+        a = tng.orthogonal().normalized(); b = tng.cross(a)
+        rings.append([bm.verts.new(p + (a * math.cos(t) + b * math.sin(t)) * r) for t in [2 * math.pi * j / 8 for j in range(8)]])
+    for ra, rb in zip(rings, rings[1:]):
+        for j in range(8): bm.faces.new((ra[j], ra[(j + 1) % 8], rb[(j + 1) % 8], rb[j]))
+    return obj(name, bm, m)
 
 # --- notebook -----------------------------------------------------------------------------
 
@@ -249,6 +291,10 @@ def notes():
             n = o.data.materials[0].node_tree.nodes
             t = next(x for x in n if x.type == 'TEX_IMAGE')
             t.image = bpy.data.images.load(os.path.join(HERE, 'textures', img), check_existing=True)
+            uv = o.data.uv_layers.active.data  # the site's quad maps them upside down
+            if not o.get('uv_fixed'):
+                for l in uv: l.uv.y = 1 - l.uv.y
+                o['uv_fixed'] = 1
 
 def rug():
     """Arthur's burgundy kilim in front of the desk, with fringes on the short ends."""

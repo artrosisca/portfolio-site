@@ -367,10 +367,17 @@ def record_corner():
     obj('records__tt_plinth', box((0.45, 0.35, 0.07), 0.006), mat('tt_plinth', srgb((30, 28, 30)), 0.35, 0.2), Matrix.Translation(tt + Vector((0, 0, 0.035))))
     platter = bmesh.new(); bmesh.ops.create_cone(platter, cap_ends=True, segments=64, radius1=0.15, radius2=0.15, depth=0.014)
     obj('records__tt_platter', platter, mat('tt_metal', srgb((160, 160, 166)), 0.3, 1.0), Matrix.Translation(tt + Vector((-0.06, 0, 0.077))))
-    rec = bmesh.new(); bmesh.ops.create_cone(rec, cap_ends=True, segments=64, radius1=0.15, radius2=0.15, depth=0.002)
-    obj('records__tt_record', rec, mat('tt_vinyl', (0.01, 0.01, 0.012), 0.2), Matrix.Translation(tt + Vector((-0.06, 0, 0.085))))
-    lab = bmesh.new(); bmesh.ops.create_cone(lab, cap_ends=True, segments=32, radius1=0.045, radius2=0.045, depth=0.0024)
-    obj('records__tt_label', lab, mat('tt_label', srgb((232, 120, 50)), 0.6), Matrix.Translation(tt + Vector((-0.06, 0, 0.0855))))
+    # the record: grooves, sheen and Elis & Tom's label printed on its top (art.py)
+    rec = bmesh.new(); uv = rec.loops.layers.uv.new('UVMap'); n = 96
+    centre_v = rec.verts.new((0, 0, 0.001))
+    rim = [rec.verts.new((0.15 * math.cos(2 * math.pi * i / n), 0.15 * math.sin(2 * math.pi * i / n), 0.001)) for i in range(n)]
+    low = [rec.verts.new((v.co.x, v.co.y, -0.001)) for v in rim]
+    for i in range(n):
+        f = rec.faces.new((centre_v, rim[i], rim[(i + 1) % n]))
+        for l in f.loops: l[uv].uv = (l.vert.co.x / 0.3 + 0.5, l.vert.co.y / 0.3 + 0.5)
+        rec.faces.new((rim[(i + 1) % n], rim[i], low[i], low[(i + 1) % n]))
+    vinyl = mat('tt_vinyl', (1, 1, 1), 0.3, image='vinyl.png')
+    obj('records__tt_record', rec, vinyl, Matrix.Translation(tt + Vector((-0.06, 0, 0.085))) @ Matrix.Rotation(0.6, 4, 'Z'), smooth=False)
     arm = mat('tt_arm', srgb((200, 200, 205)), 0.25, 1.0)
     pivot = tt + Vector((0.15, 0.11, 0.09))
     obj('records__tt_pivot', lathe([(0, 0), (0.018, 0), (0.018, 0.025), (0, 0.025)], 20), arm, Matrix.Translation(pivot - Vector((0, 0, 0.02))))
@@ -379,14 +386,6 @@ def record_corner():
     o = obj('records__tt_arm', box((L, 0.006, 0.006)), arm)
     o.matrix_world = Matrix.Translation((a + b) / 2) @ (b - a).to_track_quat('X', 'Z').to_matrix().to_4x4()
     obj('records__tt_head', box((0.03, 0.016, 0.01), 0.002), black, Matrix.Translation(b + Vector((0, 0, -0.004))))
-
-def move_guitar():
-    """Beside the cabinet, at the far end, leaning near the wall."""
-    g = [o for o in bpy.data.objects if o.type == 'MESH' and o.name.startswith('guitar__')]
-    pts = [o.matrix_world @ Vector(c) for o in g for c in o.bound_box]
-    mid = Vector((sum(p.x for p in pts) / len(pts), sum(p.y for p in pts) / len(pts), 0))
-    M = Matrix.Translation((1.98, 0.52, 0)) @ Matrix.Rotation(0.5, 4, 'Z') @ Matrix.Translation(-mid)
-    for o in g: o.matrix_world = M @ o.matrix_world
 
 # --- the warm LED strip behind the desk --------------------------------------------------------
 
@@ -408,4 +407,5 @@ def shelf_wash(light):
     w.rotation_euler = Vector((0, 0.55, -1)).normalized().to_track_quat('-Z', 'Y').to_euler()
 
 def build(light):
-    snake_plant(); pothos(); cork_board(); record_corner(); move_guitar(); led_strip(light); shelf_wash(light)
+    import guitar
+    snake_plant(); pothos(); cork_board(); record_corner(); guitar.build(); led_strip(light); shelf_wash(light)

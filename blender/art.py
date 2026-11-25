@@ -118,6 +118,90 @@ def copacabana():
 
 POSTERS = {'perola_negra': perola_negra, 'cartola': cartola, 'construcao': construcao, 'elis': elis, 'copacabana': copacabana}
 
+# --- the acoustic guitar's top and the record on the turntable --------------------------------
+import guitar_shape as G  # noqa: E402
+
+def guitar_top():
+    """Spruce top as models/guitar.py maps it: x across the body, z up from its bottom end.
+    Honey grain, a soft burst at the edges, cream binding, rosette, sound hole, tortoise guard."""
+    PX = 2000; W, H = int(0.4 * PX), int(G.BODY_L * PX)
+    to = lambda x, z: ((x + 0.2) * PX, (G.BODY_L - z) * PX)
+    img = Image.new('RGB', (W, H), (218, 172, 108)); d = ImageDraw.Draw(img)
+    rnd = random.Random(7)
+    x = 0
+    while x < W:  # grain: fine, slightly wavy, uneven lines
+        c = rnd.choice([(196, 148, 88), (204, 158, 96), (230, 186, 122), (188, 140, 82)])
+        wdt = rnd.choice([1, 1, 2, 2, 3]); ph = rnd.uniform(0, 6)
+        d.line([(x + 2.5 * math.sin(y / 140 + ph), y) for y in range(0, H + 20, 20)], fill=c, width=wdt)
+        x += rnd.uniform(3, 9)
+    img = img.filter(ImageFilter.GaussianBlur(0.6)); d = ImageDraw.Draw(img)
+    shape = [to(x, z) for x, z in G.outline(200)]
+    # a light burst: darker towards the edge
+    mask = Image.new('L', (W, H), 0); ImageDraw.Draw(mask).polygon(shape, fill=255)
+    inner = mask.filter(ImageFilter.GaussianBlur(70)).point(lambda v: 255 - v)
+    img.paste((110, 64, 30), (0, 0), inner.point(lambda v: min(255, int(v * 1.3))))
+    d = ImageDraw.Draw(img)
+    # pickguard on the treble side, below the hole (viewer's right)
+    hx, hz = to(0, G.HOLE_Z); r = G.HOLE_R * PX
+    guard = [(hx + r * 0.55 + 150 * math.cos(t) * (1 - 0.25 * math.sin(t)), hz + 30 + 120 * math.sin(t)) for t in [i / 40 * 2 * math.pi for i in range(41)]]
+    gimg = Image.new('RGB', (W, H), (52, 24, 14)); gd = ImageDraw.Draw(gimg)
+    for _ in range(900):  # tortoiseshell mottling
+        cx, cy = rnd.uniform(0, W), rnd.uniform(0, H); rr = rnd.uniform(3, 14)
+        gd.ellipse((cx - rr, cy - rr * 0.6, cx + rr, cy + rr * 0.6), fill=rnd.choice([(120, 50, 20), (150, 70, 26), (30, 12, 8), (90, 36, 16)]))
+    gimg = gimg.filter(ImageFilter.GaussianBlur(3))
+    gm = Image.new('L', (W, H), 0); ImageDraw.Draw(gm).polygon(guard, fill=255)
+    img.paste(gimg, (0, 0), gm)
+    # rosette: cream and black rings around a band of shell
+    for rr, c, wdt in ((r + 32, (24, 18, 14), 3), (r + 28, (236, 224, 196), 3), (r + 22, (40, 120, 110), 7), (r + 16, (236, 224, 196), 3),
+                       (r + 12, (24, 18, 14), 3), (r + 7, (236, 224, 196), 2)):
+        d.ellipse((hx - rr, hz - rr, hx + rr, hz + rr), outline=c, width=wdt)
+    for i in range(60):  # flecks of abalone in the shell band
+        t = i / 60 * 2 * math.pi; rr = r + 22
+        d.ellipse((hx + rr * math.cos(t) - 3, hz + rr * math.sin(t) - 3, hx + rr * math.cos(t) + 3, hz + rr * math.sin(t) + 3),
+                  fill=rnd.choice([(80, 170, 150), (170, 110, 190), (90, 140, 200), (230, 150, 90)]))
+    d.ellipse((hx - r, hz - r, hx + r, hz + r), fill=(14, 10, 8))
+    # binding round the edge, with a black purfling line just inside
+    from PIL import ImageChops
+    body = mask.filter(ImageFilter.MinFilter(17)); purfl = body.filter(ImageFilter.MinFilter(5))
+    img.paste((236, 226, 200), (0, 0), ImageChops.subtract(mask, body))
+    img.paste((30, 20, 14), (0, 0), ImageChops.subtract(body, purfl))
+    return grain(img, 6)
+
+def vinyl():
+    """The record seen from above: fine grooves, gaps between the tracks, the dull sheen vinyl has
+    along a line through the centre, and a label."""
+    img = Image.new('RGB', (S, S), (16, 16, 18)); d = ImageDraw.Draw(img)
+    c = S / 2; R = S / 2 - 2
+    rnd = random.Random(4)
+    gaps = [0.52, 0.6, 0.69, 0.79, 0.88]
+    rr = R
+    while rr > R * 0.37:
+        f = rr / R
+        if f > 0.985 or any(abs(f - g) < 0.006 for g in gaps): v = 10  # lead-in and the smooth bands between songs
+        else: v = 20 + rnd.randint(-4, 5)
+        d.ellipse((c - rr, c - rr, c + rr, c + rr), outline=(v, v, v + 2), width=2)
+        rr -= 1.6
+    # the sheen: two opposite fans of light across the grooves
+    sheen = Image.new('L', (S, S), 0); sd = ImageDraw.Draw(sheen)
+    for a0 in (-28, 152):
+        sd.pieslice((0, 0, S, S), a0 - 9, a0 + 9, fill=70)
+        sd.pieslice((0, 0, S, S), a0 - 3, a0 + 3, fill=120)
+    sheen = sheen.filter(ImageFilter.GaussianBlur(22))
+    hole = Image.new('L', (S, S), 0); ImageDraw.Draw(hole).ellipse((c - R * 0.37, c - R * 0.37, c + R * 0.37, c + R * 0.37), fill=255)
+    sheen.paste(0, (0, 0), hole)
+    img.paste((120, 118, 124), (0, 0), sheen)
+    d = ImageDraw.Draw(img)
+    # the label: Elis on the persimmon of the room
+    lr = R * 0.33
+    d.ellipse((c - lr, c - lr, c + lr, c + lr), fill=(232, 108, 54))
+    d.ellipse((c - lr + 10, c - lr + 10, c + lr - 10, c + lr - 10), outline=(250, 200, 170), width=3)
+    centred(d, c - 118, 'ELIS REGINA', F('bold', 26), (40, 22, 16), spacing=5)
+    centred(d, c - 70, 'Elis & Tom', F('bodoni_i', 50), (40, 22, 16))
+    centred(d, c + 50, 'lado A  ·  33⅓', F('garamond', 30), (70, 36, 22))
+    centred(d, c + 92, 'Águas de Março', F('garamond_i', 34), (70, 36, 22))
+    d.ellipse((c - 9, c - 9, c + 9, c + 9), fill=(10, 10, 12))  # spindle hole
+    return img
+
 # --- book spines ------------------------------------------------------------------------------
 from books import BOOKS  # shared with models/wall_shelf.py
 
@@ -286,4 +370,6 @@ if __name__ == '__main__':
                        ('cafe', 'mais\ncafé', (255, 190, 160)), ('dormir', 'dormir\n> 6h', (159, 211, 255))):
         postit(text, c).save(os.path.join(OUT, f'cork_{k}.png'))
     contrib_card().save(os.path.join(OUT, 'cork_contrib.png'))
+    guitar_top().save(os.path.join(OUT, 'guitar_top.png'))
+    vinyl().save(os.path.join(OUT, 'vinyl.png'))
     print('art done')
