@@ -37,14 +37,14 @@ export function Scene({ progress, lamp, quality, active, onReady, baked = false 
         gl.setClearColor(C.ink, 1);
         // only hides the far edges of the room; the desk area stays clear
         scene.fog = new THREE.Fog(C.ink, 4.5, 11);
-        // two frames later the scene is on screen: the loader can go
-        requestAnimationFrame(() => requestAnimationFrame(() => onReady?.()));
+        // two frames later the scene is on screen: the loader can go (the baked room waits for its file)
+        if (!baked) requestAnimationFrame(() => requestAnimationFrame(() => onReady?.()));
       }}
     >
 
       {baked ? (
         <Suspense fallback={null}>
-          <BakedRoom lamp={lamp} />
+          <BakedRoom lamp={lamp} onLoaded={onReady} />
           <Monitor progress={progress} screenOnly />
           <Steam position={CUP_TOP} />
           <Dust lamp={lamp} count={quality === 'low' ? 60 : 160} from={BAKED_HEAD} to={BAKED_TARGET} />

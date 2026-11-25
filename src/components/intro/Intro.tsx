@@ -12,8 +12,9 @@ import { Reveal } from '@/components/site/Reveal';
 
 type Phase = 'scroll' | 'boot' | 'done';
 const SEEN_KEY = 'intro-seen';
-// TEMP (comparison): ?baked renders the Blender-baked room instead of the live-lit one
-const BAKED = typeof location !== 'undefined' && new URLSearchParams(location.search).has('baked');
+// the room is the Blender-baked one; ?live (and ?export, which sends the live scene to Blender)
+// shows the code-built, live-lit room it starts from
+const LIVE = typeof location !== 'undefined' && ['live', 'export'].some((k) => new URLSearchParams(location.search).has(k));
 const SKIP_KEY = 'intro-skipped'; // localStorage: whoever skipped once goes straight to the site
 const getLenis = () => (window as Window & { __lenis?: Lenis }).__lenis;
 
@@ -211,7 +212,7 @@ export default function Intro() {
       <div className="sticky top-0 h-svh w-full overflow-hidden bg-ink">
         {quality && (
           <div className="absolute inset-0" style={{ visibility: sceneActive ? 'visible' : 'hidden' }}>
-            <Scene progress={smooth} lamp={lamp} quality={quality} active={sceneActive} onReady={onReady} baked={BAKED} />
+            <Scene progress={smooth} lamp={lamp} quality={quality} active={sceneActive} onReady={onReady} baked={!LIVE} />
           </div>
         )}
 
