@@ -130,8 +130,7 @@ function fetchBlock(logo: boolean): Line[] {
   return Array.from({ length: n }, (_, i): Line => [...logoLine(LOGO[i] ?? ''), ...(INFO[i - 1] ?? [])]);
 }
 
-const CPS = 40; // a quick typist
-const CMD_CD = 'cd GIT/portfolio-site';
+const CPS = 60; // a fast typist: the boot is a flourish, not a wait
 const CMD_DEV = 'npm run dev -- --open';
 const CWD = '~/GIT/portfolio-site';
 const BRANCH = 'main';
@@ -151,37 +150,30 @@ const OUT: Line[] = [
 export const PRE = { type: 0.7, out: 1.2 };
 
 /** Typing pace and command lengths, so sound can follow each keystroke. */
-export const TYPING = { cps: CPS, cd: CMD_CD.length, dev: CMD_DEV.length };
+export const TYPING = { cps: CPS, dev: CMD_DEV.length };
 
 /** Boot sequence timeline, seconds at normal speed. */
 export const SEQ = (() => {
-  const cd0 = 0.3;
-  const cd1 = cd0 + CMD_CD.length / CPS;
-  const cdEnter = cd1 + 0.2;
-  const dev0 = cdEnter + 0.25;
+  const dev0 = 0.25;
   const dev1 = dev0 + CMD_DEV.length / CPS;
-  const devEnter = dev1 + 0.2;
-  const outStep = 0.05;
+  const devEnter = dev1 + 0.15;
+  const outStep = 0.04;
   const outEnd = devEnter + OUT.length * outStep;
-  const ff = outEnd + 0.25; // firefox window appears
-  const loaded = ff + 0.7;
-  const full = loaded + 0.35; // the window grows straight into fullscreen
-  const fullDur = 0.7;
-  return { cd0, cd1, cdEnter, dev0, dev1, devEnter, outStep, outEnd, ff, loaded, full, fullDur, end: full + fullDur + 0.15 };
+  const ff = outEnd + 0.2; // firefox window appears
+  const loaded = ff + 0.5;
+  const full = loaded + 0.25; // the window grows straight into fullscreen
+  const fullDur = 0.6;
+  return { dev0, dev1, devEnter, outStep, outEnd, ff, loaded, full, fullDur, end: full + fullDur + 0.15 };
 })();
 
 export function termLines(logo: boolean, pre: number, seq: number): { lines: Line[]; cursor: boolean } {
   const lines: Line[] = [];
   const typed = (s: string, t0: number, t: number) => s.slice(0, Math.max(0, Math.floor((t - t0) * CPS)));
-  lines.push(...prompt('~', null, typed('fastfetch', PRE.type, pre)));
+  // kitty opens straight in the project, so the boot is a single command
+  lines.push(...prompt(CWD, BRANCH, typed('fastfetch', PRE.type, pre)));
   if (pre < PRE.out) return { lines, cursor: true };
   lines.push(...fetchBlock(logo), []);
-  if (seq < SEQ.cdEnter) {
-    lines.push(...prompt('~', null, seq > 0 ? typed(CMD_CD, SEQ.cd0, seq) : ''));
-    return { lines, cursor: true };
-  }
-  lines.push(...prompt('~', null, CMD_CD), []);
-  lines.push(...prompt(CWD, BRANCH, typed(CMD_DEV, SEQ.dev0, seq)));
+  lines.push(...prompt(CWD, BRANCH, seq > 0 ? typed(CMD_DEV, SEQ.dev0, seq) : ''));
   if (seq < SEQ.devEnter) return { lines, cursor: true };
   const n = Math.min(OUT.length, Math.floor((seq - SEQ.devEnter) / SEQ.outStep) + 1);
   lines.push(...OUT.slice(0, n));

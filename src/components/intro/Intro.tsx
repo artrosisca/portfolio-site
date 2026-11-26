@@ -21,11 +21,11 @@ const getLenis = () => (window as Window & { __lenis?: Lenis }).__lenis;
 /** Lamp power over time after the click: on, off, on, off, then it warms up. */
 function lampFlicker(s: number) {
   if (s < 0) return 0;
-  if (s < 0.06) return 1;
-  if (s < 0.16) return 0.08;
-  if (s < 0.24) return 0.75;
-  if (s < 0.36) return 0.04;
-  if (s < 0.9) return 0.4 + 0.6 * ((s - 0.36) / 0.54) ** 0.6;
+  if (s < 0.05) return 1;
+  if (s < 0.12) return 0.08;
+  if (s < 0.18) return 0.75;
+  if (s < 0.26) return 0.04;
+  if (s < 0.55) return 0.4 + 0.6 * ((s - 0.26) / 0.29) ** 0.6;
   return 1;
 }
 
@@ -33,9 +33,8 @@ function lampFlicker(s: number) {
 function bootSounds(a: number, b: number) {
   const crossed = (x: number) => a < x && b >= x;
   const typed = (t0: number, len: number, t: number) => Math.min(len, Math.max(0, Math.floor((t - t0) * TYPING.cps)));
-  if (typed(SEQ.cd0, TYPING.cd, b) > typed(SEQ.cd0, TYPING.cd, a)) sound.play('key');
   if (typed(SEQ.dev0, TYPING.dev, b) > typed(SEQ.dev0, TYPING.dev, a)) sound.play('key');
-  if (crossed(SEQ.cdEnter) || crossed(SEQ.devEnter)) sound.play('enter');
+  if (crossed(SEQ.devEnter)) sound.play('enter');
   if (crossed(SEQ.full)) sound.ambience(0, 1.5);
 }
 
@@ -108,7 +107,7 @@ export default function Intro() {
       sound.play('switch');
       sound.ambience(0.9, 2);
       setLit(true);
-    }, 700);
+    }, 300);
     return () => window.clearTimeout(id);
   }, [ready]);
 
@@ -215,7 +214,7 @@ export default function Intro() {
   const sceneActive = !desktopOn || seqT < 0.45;
 
   return (
-    <section ref={section} className="relative h-[220vh]" aria-label="Introdução">
+    <section ref={section} className="relative h-[160vh]" aria-label="Introdução">
       <div className="sticky top-0 h-svh w-full overflow-hidden bg-ink">
         {quality && (
           <div className="absolute inset-0" style={{ visibility: sceneActive ? 'visible' : 'hidden' }}>
